@@ -14,6 +14,7 @@ export const AppProvider = ({ children }) => {
   const [alert, dispatchAlert] = useReducer(alertReducer, alertState)
 
   const openAlert = (action) => {
+    console.log(action)
     return new Reducer(alert, dispatchAlert).dispatch({
       ...action,
       type: actionType.OPEN,

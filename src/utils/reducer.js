@@ -1,4 +1,4 @@
-import { actionType } from 'config/state'
+import { actionType } from '../config/state'
 
 class Reducer {
   _state
