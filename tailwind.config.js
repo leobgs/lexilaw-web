@@ -55,6 +55,14 @@ module.exports = {
       error: { base: '#DB0707', lighter: '#CF1C1C' },
       success: '#06B73A',
       screen: '#F8F7F6',
+      green: {
+        900: '#004225',
+      },
+      gray: {
+        50: '#FDFDFD',
+        100: '#DEDEDE',
+        400: '#A8A8A8',
+      }
     },
     fontFamily: {
       bold: 'Inter Bold',
