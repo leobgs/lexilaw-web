@@ -1,13 +1,20 @@
 import bg_register_login from './bg_register_login.png'
+import lexilaw_logo from './lexilaw-logo.png'
 import ic_eye from './ic_eye.png'
 import ic_eye_strike from './ic_eye_strike.png'
-import ic_vector_right from './ic_vector_right.png'
-
+import chevron_right from './chevron-right.png'
+import google from './google.png'
+import apple from './apple.png'
+import email_outline from './email-outline.png'
 const images = {
   bg_register_login,
+  lexilaw_logo,
   ic_eye,
   ic_eye_strike,
-  ic_vector_right,
+  chevron_right,
+  google,
+  apple,
+  email_outline,
 }
 
 export default images
