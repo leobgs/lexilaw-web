@@ -10,6 +10,7 @@ export const Button = ({
   disabled,
   isLoading,
   iconRight,
+  iconLeft,
   onClick,
 }) => {
   const handleOnClick = (e) => {
@@ -20,7 +21,7 @@ export const Button = ({
   return (
     <button
       className={clsx(
-        'flex items-center justify-center w-fit h-[3rem] font-semi-bold rounded-md py-3 px-4 transition duration-150 ease-in-out',
+        ' flex items-center justify-center w-fit h-[3rem] font-semi-bold py-3 px-4 transition duration-150 ease-in-out',
         className,
         disabled ? 'disabled' : ''
       )}
@@ -37,6 +38,13 @@ export const Button = ({
               alt=''
             />
           )}
+            {iconLeft && (
+              <img
+                className={clsx(`w-6 h-6 ${label ? 'ml-2' : ''}`, iconClassName)}
+                src={iconLeft}
+                alt=''
+              />
+            )}
           {label}
           {iconRight && (
             <img

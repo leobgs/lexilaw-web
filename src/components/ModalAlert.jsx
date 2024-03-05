@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import renderMessageError from '../utils/renderMessageError'
 import { Spinner } from './Spinner'
 
+
 export const ModalAlert = () => {
   const { alert, closeAlert } = useGlobalContext()
 
@@ -37,6 +38,12 @@ export const ModalAlert = () => {
         </div>
       ) : (
         <div>
+            {alert.image && (
+              <div className=''>
+                <img src={alert.image} alt="" />
+              </div>
+            )}
+
           {alert.title && (
             <div className='font-semi-bold text-sm mb-2 text-center'>
               {alert.title}
@@ -44,9 +51,8 @@ export const ModalAlert = () => {
           )}
 
           <div
-            className={`my-2 text-center mx-4 ${
-              alert.messages ? 'border-t border-t-neutral-20 pt-2' : ''
-            }`}
+              className={`my-2 text-center mx-4 ${alert.messages ? 'border-t border-t-neutral-20 pt-2' : ''
+                }`}
           >
             <div className='!text-base font-semi-bold'>
               {renderMessageError(alert.messages, true, 'text-base')}
