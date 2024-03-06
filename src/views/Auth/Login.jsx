@@ -9,7 +9,96 @@ import { useGlobalContext } from 'hooks/context'
 import './Login.scss';
 
 export const Login = () => {
-  const { openAlert } = useGlobalContext()
+  // const { openAlert } = useGlobalContext()
+
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+
+  const handleToggle = (isVisible) => {
+    const elements = [
+      { selector: '.card', action: isVisible ? 'remove' : 'add' },
+      { selector: '.togglelanguage', action: isVisible ? 'remove' : 'add' },
+      { selector: '.navBar', action: isVisible ? 'remove' : 'add' },
+      { selector: '.logo', action: isVisible ? 'add' : 'remove' },
+      { selector: '.desc', action: isVisible ? 'add' : 'remove' }
+    ];
+
+    elements.forEach(({ selector, action }) => {
+      const element = document.querySelector(selector);
+      if (element) {
+        element.classList[action]('hidden');
+      }
+    });
+  };
+
+
+  const handleSignEmail = () => {
+    handleToggle(true);
+  };
+
+  const handleBackLogin = () => {
+    handleToggle(false);
+  };
+
+  const onSubmit = () => {
+    console.log(form.email);
+    console.log(form.password);
+  };
+
+  const handleChangeForm = (e) => {
+    console.log(e);
+    // if (!e) return;
+    const { name, value } = e;
+
+    if (name) {
+      setForm({ ...form, [name]: value });
+      setError('');
+    }
+  };
+
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+
+  const handleToggle = (isVisible) => {
+    const elements = [
+      { selector: '.card', action: isVisible ? 'remove' : 'add' },
+      { selector: '.togglelanguage', action: isVisible ? 'remove' : 'add' },
+      { selector: '.navBar', action: isVisible ? 'remove' : 'add' },
+      { selector: '.logo', action: isVisible ? 'add' : 'remove' },
+      { selector: '.desc', action: isVisible ? 'add' : 'remove' }
+    ];
+
+    elements.forEach(({ selector, action }) => {
+      const element = document.querySelector(selector);
+      if (element) {
+        element.classList[action]('hidden');
+      }
+    });
+  };
+
+
+  const handleSignEmail = () => {
+    handleToggle(true);
+  };
+
+  const handleBackLogin = () => {
+    handleToggle(false);
+  };
+
+  const onSubmit = () => {
+    openAlert({ title: 'Halo lagi,', messages: 'Prima Kusumo', icon: images.ai_profile_thumbnail })
+  };
+
+  const handleChangeForm = (e) => {
+    console.log(e);
+    // if (!e) return;
+    const { name, value } = e;
+
+    if (name) {
+      setForm({ ...form, [name]: value });
+      setError('');
+    }
+  };
 
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
