@@ -1,7 +1,5 @@
 import images from 'assets/images'
-import { Button } from 'components/Button/Button'
-import { Input } from 'components/Input'
-import { InputPIN } from 'components/InputPIN'
+import { Spinner, Button, Input, InputPIN, InputSelect } from 'components'
 import { useGlobalContext } from 'hooks/context'
 import { useState } from 'react'
 
@@ -31,8 +29,13 @@ export const Components = () => {
       <p>Typograph Inter</p>
       <p className='font-futura font-bold'>Typograph Futura</p>
 
+      <Spinner className={'mt-4'} />
+      <InputSelect
+        options={[{ label: 'Jakarta', value: 1 }]}
+        className={'my-2'}
+      />
       <Button
-        className={'btn-primary'}
+        className={'btn-outline my-4'}
         onClick={() => openAlert({ messages: 'Aloha mate!' })}
         label={'Click Me'}
       />
@@ -71,7 +74,7 @@ export const Components = () => {
             'btn-secondary !rounded-3xl mt-4 w-1/2 items-center flex justify-between lg:w-1/6 xl:w-1/5'
           }
           iconRight={images.ic_vector_right}
-          iconClassName={'w-2 h-3'}
+          iconClassName={'!w-2 !h-3'}
           disabled={!form.description || !form.pin || !form.text}
         />
       </form>

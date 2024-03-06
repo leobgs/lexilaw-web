@@ -1,3 +1,7 @@
 export { Spinner } from './Spinner'
 export { Modal } from './Modal'
 export { ModalAlert } from './ModalAlert'
+export { InputSelect } from './InputSelect'
+export { Button } from './Button/Button'
+export { Input } from './Input'
+export { InputPIN } from './InputPIN'
