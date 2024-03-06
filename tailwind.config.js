@@ -42,6 +42,9 @@ module.exports = {
         darker: '#070505',
         pure: '#000000',
       },
+      dark: {
+        50: '#2E2C2B'
+      },
       blue: { sky: '#8DC3DE' },
       purple: { base: '#783B82' },
       neutral: {
@@ -62,6 +65,9 @@ module.exports = {
         50: '#FDFDFD',
         100: '#DEDEDE',
         400: '#A8A8A8',
+      },
+      yellow: {
+        50: '#E0DBD1'
       }
     },
     fontFamily: {

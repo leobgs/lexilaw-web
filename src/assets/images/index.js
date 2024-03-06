@@ -7,6 +7,7 @@ import chevron_left from './chevron-left.png'
 import google from './google.png'
 import apple from './apple.png'
 import email_outline from './email-outline.png'
+import ai_profile_thumbnail from './ai-profile-thumbnail.png'
 const images = {
   bg_register_login,
   lexilaw_logo,
@@ -17,6 +18,7 @@ const images = {
   google,
   apple,
   email_outline,
+  ai_profile_thumbnail
 }
 
 export default images
