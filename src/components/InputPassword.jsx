@@ -19,9 +19,9 @@ export const InputPassword = ({
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
-        if (/^\d{0,6}$/.test(e.target.value)) {
+        // if (/^\d{0,6}$/.test(e.target.value)) {
             onChange({ name: name, value: value });
-        }
+        // }
     };
 
     const toggleShowPassword = () => {
