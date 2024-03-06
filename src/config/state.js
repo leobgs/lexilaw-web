@@ -23,6 +23,7 @@ export const alertState = {
   isOpen: false,
   title: null,
   messages: '',
+  icon: '',
   isConfirm: false,
   showBtnClose: true,
   btnCloseText: 'Tutup',

@@ -4,11 +4,12 @@ import { InputPassword } from 'components/InputPassword'
 import { Input } from 'components/Input'
 import { Toggle } from 'components/Toggle/Toggle'
 import React, { useState } from 'react';
+import { useGlobalContext } from 'hooks/context'
 
 import './Login.scss';
 
 export const Login = () => {
-  // const { openAlert } = useGlobalContext()
+  const { openAlert } = useGlobalContext()
 
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -40,8 +41,7 @@ export const Login = () => {
   };
 
   const onSubmit = () => {
-    console.log(form.email);
-    console.log(form.password);
+    openAlert({ title: 'Halo lagi,', messages: 'Prima Kusumo', icon: images.ai_profile_thumbnail })
   };
 
   const handleChangeForm = (e) => {
@@ -57,12 +57,12 @@ export const Login = () => {
 
 
   return (
-    <div className='bg-contain bg-center h-screen bg_auth flex items-center	flex-col'>
-      <img
+    <div className='bg-contain bg-center  h-screen bg_auth flex items-center	flex-col relative'>
+      {/* <img
         src={images.bg_register_login}
         alt='register login'
-        className='absolute bottom-0 right-0 h-5/6 w-full'
-      />
+        className='absolute bottom-0 h-5/6 w-full'
+      /> */}
 
 
       <div className="navBar border-b-2 border-green-900 hidden md:!hidden w-full">
