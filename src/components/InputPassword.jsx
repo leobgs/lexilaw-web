@@ -20,7 +20,7 @@ export const InputPassword = ({
     const handleOnChange = (e) => {
         const { name, value } = e.target;
         // if (/^\d{0,6}$/.test(e.target.value)) {
-            onChange({ name: name, value: value });
+        onChange({ name: name, value: value });
         // }
     };
 
@@ -56,7 +56,7 @@ export const InputPassword = ({
                 <input
                     className={`!rounded-full border-2 bg-gray-50 !border-gray-100 
                     focus:outline-none focus:ring-none ring-none
-                     w-full rounded-md bg-neutral-0  p-3 ${inputClassName ? inputClassName : ''}`}
+                    w-full rounded-md bg-neutral-0  p-3 ${inputClassName ? inputClassName : ''}`}
                     type={type === 'password' ? s_type : type}
                     minLength={maxLength}
                     placeholder={placeholder}
