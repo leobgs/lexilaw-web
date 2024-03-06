@@ -11,6 +11,7 @@ export const Button = ({
   isLoading,
   iconRight,
   onClick,
+  type,
 }) => {
   const handleOnClick = (e) => {
     if (isLoading || disabled) return
@@ -25,11 +26,14 @@ export const Button = ({
         disabled ? 'disabled' : ''
       )}
       onClick={handleOnClick}
+      type={type}
+      disabled={disabled}
     >
       {isLoading ? (
         <Spinner className='btn-spinner' />
       ) : (
         <>
+          {iconRight && <div />}
           {icon && (
             <img
               className={clsx(`w-6 h-6 ${label ? 'mr-2' : ''}`, iconClassName)}
@@ -37,7 +41,7 @@ export const Button = ({
               alt=''
             />
           )}
-          {label}
+          <div className='w-full'>{label}</div>
           {iconRight && (
             <img
               className={clsx(`w-6 h-6 ${label ? 'ml-2' : ''}`, iconClassName)}
@@ -45,6 +49,7 @@ export const Button = ({
               alt=''
             />
           )}
+          {icon && <div />}
         </>
       )}
     </button>

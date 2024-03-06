@@ -61,6 +61,8 @@ module.exports = {
       medium: 'Inter Medium',
       regular: 'Inter Regular',
       'semi-bold': 'Inter SemiBold',
+      futura: 'Futura Regular',
+      'futura-bold': 'Futura Bold',
     },
     content: {
       width: '100vw',

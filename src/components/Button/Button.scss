@@ -14,7 +14,7 @@
     @apply border-white;
   }
   &.disabled {
-    @apply bg-neutral-20 hover:bg-neutral-20 text-white;
+    @apply bg-gradient-to-t from-neutral-30 to-neutral-30 hover:bg-neutral-20 text-white;
   }
 }
 

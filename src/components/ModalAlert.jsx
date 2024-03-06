@@ -18,7 +18,7 @@ export const ModalAlert = () => {
 
   return (
     <Modal
-      dialogClassName={alert.showLoading ? 'z-50 w-fit' : 'p-8 w-1/3'}
+      dialogClassName={alert.showLoading ? 'z-50 w-fit' : 'p-8 w-full lg:w-1/3'}
       contentClassName={
         alert.showLoading
           ? 'bg-white p-4 rounded-3xl'
