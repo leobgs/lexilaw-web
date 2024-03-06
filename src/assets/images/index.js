@@ -3,6 +3,7 @@ import lexilaw_logo from './lexilaw-logo.png'
 import ic_eye from './ic_eye.png'
 import ic_eye_strike from './ic_eye_strike.png'
 import chevron_right from './chevron-right.png'
+import chevron_left from './chevron-left.png'
 import google from './google.png'
 import apple from './apple.png'
 import email_outline from './email-outline.png'
@@ -12,6 +13,7 @@ const images = {
   ic_eye,
   ic_eye_strike,
   chevron_right,
+  chevron_left,
   google,
   apple,
   email_outline,
