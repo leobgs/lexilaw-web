@@ -9,7 +9,7 @@ import { useGlobalContext } from 'hooks/context'
 import './Login.scss';
 
 export const Login = () => {
-  // const { openAlert } = useGlobalContext()
+  const { openAlert } = useGlobalContext()
 
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -40,9 +40,8 @@ export const Login = () => {
     handleToggle(false);
   };
 
-  const onSubmit = () => {
-    console.log(form.email);
-    console.log(form.password);
+  const onSubmit = () => { 
+    openAlert({ title: 'Halo lagi,', messages: 'Prima Kusumo', icon: images.ai_profile_thumbnail })
   };
 
   const handleChangeForm = (e) => {
