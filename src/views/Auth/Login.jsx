@@ -4,14 +4,7 @@ import { InputPassword } from 'components/InputPassword'
 import { Input } from 'components/Input'
 import { Toggle } from 'components/Toggle/Toggle'
 import React, { useState } from 'react';
-import { Button } from 'components/Button/Button'
-import { InputPassword } from 'components/InputPassword'
-import { Input } from 'components/Input'
-import { Toggle } from 'components/Toggle/Toggle'
-import React, { useState } from 'react';
 import { useGlobalContext } from 'hooks/context'
-
-import './Login.scss';
 
 import './Login.scss';
 
@@ -51,95 +44,7 @@ export const Login = () => {
     openAlert({ title: 'Halo lagi,', messages: 'Prima Kusumo', icon: images.ai_profile_thumbnail })
   };
 
-  const handleChangeForm = (e) => {
-    // if (!e) return;
-    const { name, value } = e;
-
-    if (name) {
-      setForm({ ...form, [name]: value });
-      setError('');
-    }
-  };
-
-  const [form, setForm] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
-
-  const handleToggle = (isVisible) => {
-    const elements = [
-      { selector: '.card', action: isVisible ? 'remove' : 'add' },
-      { selector: '.togglelanguage', action: isVisible ? 'remove' : 'add' },
-      { selector: '.navBar', action: isVisible ? 'remove' : 'add' },
-      { selector: '.logo', action: isVisible ? 'add' : 'remove' },
-      { selector: '.desc', action: isVisible ? 'add' : 'remove' }
-    ];
-
-    elements.forEach(({ selector, action }) => {
-      const element = document.querySelector(selector);
-      if (element) {
-        element.classList[action]('hidden');
-      }
-    });
-  };
-
-
-  const handleSignEmail = () => {
-    handleToggle(true);
-  };
-
-  const handleBackLogin = () => {
-    handleToggle(false);
-  };
-
-  const onSubmit = () => {
-    openAlert({ title: 'Halo lagi,', messages: 'Prima Kusumo', icon: images.ai_profile_thumbnail })
-  };
-
-  const handleChangeForm = (e) => {
-    console.log(e);
-    // if (!e) return;
-    const { name, value } = e;
-
-    if (name) {
-      setForm({ ...form, [name]: value });
-      setError('');
-    }
-  };
-
-  const [form, setForm] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
-
-  const handleToggle = (isVisible) => {
-    const elements = [
-      { selector: '.card', action: isVisible ? 'remove' : 'add' },
-      { selector: '.togglelanguage', action: isVisible ? 'remove' : 'add' },
-      { selector: '.navBar', action: isVisible ? 'remove' : 'add' },
-      { selector: '.logo', action: isVisible ? 'add' : 'remove' },
-      { selector: '.desc', action: isVisible ? 'add' : 'remove' }
-    ];
-
-    elements.forEach(({ selector, action }) => {
-      const element = document.querySelector(selector);
-      if (element) {
-        element.classList[action]('hidden');
-      }
-    });
-  };
-
-
-  const handleSignEmail = () => {
-    handleToggle(true);
-  };
-
-  const handleBackLogin = () => {
-    handleToggle(false);
-  };
-
-  const onSubmit = () => {
-    openAlert({ title: 'Halo lagi,', messages: 'Prima Kusumo', icon: images.ai_profile_thumbnail })
-  };
-
-  const handleChangeForm = (e) => {
-    console.log(e);
+  const handleChangeForm = (e) => { 
     // if (!e) return;
     const { name, value } = e;
 
@@ -174,8 +79,8 @@ export const Login = () => {
         <img src={images.lexilaw_logo} alt="" className='logo md:!block pb-[2rem] mx-auto md:mx-0 w-[120px] md:w-[160px] lg:w-[200px] md:ms-[-20px] lg:ms-0 lg:ms-[-30px]' />
         <div className="grid md:grid-cols-2 md:gap-5 xl:gap-12 2xl:gap-32">
           <div className='desc flex md:!flex flex-col justify-center'>
-            <h1 className='font-futura font-bold text-5xl	md:text-7xl text-white text-center md:text-start'>Legal Cepat<br /> &  Simple</h1>
-            <p className='pt-[0.5rem] text-white text-center md:text-start font-regular'>
+            <h1 className='font-bold text-5xl	 md:text-7xl text-white text-center md:text-start'>Legal Cepat<br /> &  Simple</h1>
+            <p className='pt-[0.5rem] text-white text-center md:text-start font-light'>
               Cari solusi cepat dan mudah menggunakan Lexi AI, ditenagai oleh teknologi terkini memungkinkan kamu untuk mendapatkan bantuan hukum tanpa kendala biaya dan akses legal!
             </p>
 
@@ -258,7 +163,6 @@ export const Login = () => {
 
         </div>
       </div>
-
 
     </div>
   )
