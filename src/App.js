@@ -65,10 +65,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<AuthLayout />}>
+        <Route path='' element={<Login />} />
           <Route path='login' element={<Login />}/>
           <Route path='register' element={<Register />}/>
         </Route>
-        <Route path='/register' element={<AuthLayout />} />
         <Route path='/components' element={<Components />} />
         <Route element={<PrivateRoute />}></Route>
       </Routes>
