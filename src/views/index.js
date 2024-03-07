@@ -1,3 +1,3 @@
 export { Login } from './Auth/Login'
-export { Splashscreen } from './Auth/Splashscreen'
+export { Main } from './Main'
 export { Components } from './Components'

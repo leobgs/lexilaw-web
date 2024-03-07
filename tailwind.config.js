@@ -30,11 +30,11 @@ module.exports = {
       },
       primary: {
         light: '#FDFDFD',
-        base: '#FFFFFF',
+        base: '#F8F7F6',
         darker: '#F8F8F8',
       },
       black: {
-        lightest: '#232323',
+        lightest: '#2e2e2e',
         lighter: '#919191',
         light: '#5E5E5E',
         base: '#646464',
@@ -45,9 +45,9 @@ module.exports = {
       blue: { sky: '#8DC3DE' },
       purple: { base: '#783B82' },
       neutral: {
-        10: '#F9F9F9',
+        10: '#E0DBD1',
         20: '#E6E6E6',
-        30: '#B3B3B3',
+        30: '#E8E5E5',
         40: '#808080',
         50: '#F1F1F1',
       },

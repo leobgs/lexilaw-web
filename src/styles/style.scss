@@ -6,6 +6,7 @@
 @layer base {
   html {
     font-family: 'Inter Regular';
+    font-size: 14px;
   }
 
   input[type='password'] {
@@ -61,4 +62,8 @@ body {
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+.h-calculate {
+  height: calc(100% - 48px);
 }

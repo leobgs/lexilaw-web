@@ -13,7 +13,6 @@ export const ModalAlert = () => {
         closeAlert({ isConfirm: false, showLoading: false })
       }
     }
-    console.log(alert, 'alert')
   }, [alert])
 
   return (
