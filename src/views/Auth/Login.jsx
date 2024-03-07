@@ -40,12 +40,11 @@ export const Login = () => {
     handleToggle(false);
   };
 
-  const onSubmit = () => { 
+  const onSubmit = () => {
     openAlert({ title: 'Halo lagi,', messages: 'Prima Kusumo', icon: images.ai_profile_thumbnail })
   };
 
   const handleChangeForm = (e) => {
-    console.log(e);
     // if (!e) return;
     const { name, value } = e;
 
@@ -168,8 +167,8 @@ export const Login = () => {
         <img src={images.lexilaw_logo} alt="" className='logo md:!block pb-[2rem] mx-auto md:mx-0 w-[120px] md:w-[160px] lg:w-[200px] md:ms-[-20px] lg:ms-0 lg:ms-[-30px]' />
         <div className="grid md:grid-cols-2 md:gap-5 xl:gap-12 2xl:gap-32">
           <div className='desc flex md:!flex flex-col justify-center'>
-            <h1 className='text-5xl	 md:text-7xl text-white text-center md:text-start font-bold'>Legal Cepat<br /> &  Simple</h1>
-            <p className='pt-[0.5rem] text-white text-center md:text-start font-light'>
+            <h1 className='font-futura font-bold text-5xl	md:text-7xl text-white text-center md:text-start'>Legal Cepat<br /> &  Simple</h1>
+            <p className='pt-[0.5rem] text-white text-center md:text-start font-regular'>
               Cari solusi cepat dan mudah menggunakan Lexi AI, ditenagai oleh teknologi terkini memungkinkan kamu untuk mendapatkan bantuan hukum tanpa kendala biaya dan akses legal!
             </p>
 
@@ -226,14 +225,14 @@ export const Login = () => {
                 label={'MASUK DENGAN GOOLGE'}
                 iconLeft={images.google}
                 iconClassName={'w-[20px] h-[20px] me-2'}
-                className={'bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'}
+                className={'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'}
               />
 
               <Button
                 label={'MASUK DENGAN APPLE ID'}
                 iconLeft={images.apple}
                 iconClassName={'w-[20px] h-[20px] me-2'}
-                className={'bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'}
+                className={'whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'}
               />
 
               <Button

@@ -10,8 +10,7 @@ export const Button = ({
   disabled,
   isLoading,
   iconRight,
-  iconLeft,
-  iconLeft,
+  iconLeft, 
   onClick,
   type,
 }) => {
