@@ -12,6 +12,8 @@ import {
 import { isLogin } from 'utils/auth'
 import { Login, Components } from 'views'
 import { ModalAlert } from 'components'
+import AuthLayout from 'views/Auth/layouts/AuthLayout'
+import Register from 'views/Auth/register/Register'
 
 const storage = new LocalStorage()
 const PrivateRoute = ({ wrapperContent = true }) => {
@@ -62,7 +64,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Login />} />
+        <Route path='/' element={<AuthLayout />}>
+          <Route path='login' element={<Login />}/>
+          <Route path='register' element={<Register />}/>
+        </Route>
+        <Route path='/register' element={<AuthLayout />} />
         <Route path='/components' element={<Components />} />
         <Route element={<PrivateRoute />}></Route>
       </Routes>
