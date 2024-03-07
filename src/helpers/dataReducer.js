@@ -9,6 +9,7 @@ export const alertReducer = (state, action) => {
         isOpen: true,
         title: action.title,
         messages: action.messages,
+        icon: action.icon,
         isConfirm: action.isConfirm ?? false,
         showFooter: action.showFooter ?? true,
         showBtnClose: action.showBtnClose ?? true,

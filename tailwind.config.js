@@ -42,6 +42,9 @@ module.exports = {
         darker: '#070505',
         pure: '#000000',
       },
+      dark: {
+        50: '#2E2C2B'
+      },
       blue: { sky: '#8DC3DE' },
       purple: { base: '#783B82' },
       neutral: {
@@ -55,6 +58,17 @@ module.exports = {
       error: { base: '#DB0707', lighter: '#CF1C1C' },
       success: '#06B73A',
       screen: '#F8F7F6',
+      green: {
+        900: '#004225',
+      },
+      gray: {
+        50: '#FDFDFD',
+        100: '#DEDEDE',
+        400: '#A8A8A8',
+      },
+      yellow: {
+        50: '#E0DBD1'
+      }
     },
     fontFamily: {
       bold: 'Inter Bold',
