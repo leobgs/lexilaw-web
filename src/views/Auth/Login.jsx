@@ -59,6 +59,8 @@ export const Login = () => {
   return (
     <div className='bg-contain bg-center  h-screen bg_auth flex items-center	flex-col relative'>
       {/* <img
+    <div className='bg-contain bg-center  h-screen bg_auth flex items-center	flex-col relative'>
+      {/* <img
         src={images.bg_register_login}
         alt='register login'
         className='absolute bottom-0 h-5/6 w-full'
