@@ -10,7 +10,8 @@ export const Button = ({
   disabled,
   isLoading,
   iconRight,
-  iconLeft, 
+  iconLeft,
+  iconLeft,
   onClick,
   type,
 }) => {
@@ -41,16 +42,6 @@ export const Button = ({
               className={clsx(`w-6 h-6 ${label ? 'mr-2' : ''}`, iconClassName)}
               src={icon}
               alt=''
-            />
-          )}
-          {iconLeft && (
-            <img
-              className={clsx(`w-6 h-6 ${label ? 'ml-2' : ''}`, iconClassName)}
-              src={iconLeft}
-              alt=''
-            />
-          )}
-          alt=''
             />
           )}
           {iconLeft && (

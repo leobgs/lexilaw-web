@@ -4,7 +4,14 @@ import { InputPassword } from 'components/InputPassword'
 import { Input } from 'components/Input'
 import { Toggle } from 'components/Toggle/Toggle'
 import React, { useState } from 'react';
+import { Button } from 'components/Button/Button'
+import { InputPassword } from 'components/InputPassword'
+import { Input } from 'components/Input'
+import { Toggle } from 'components/Toggle/Toggle'
+import React, { useState } from 'react';
 import { useGlobalContext } from 'hooks/context'
+
+import './Login.scss';
 
 import './Login.scss';
 
@@ -251,6 +258,7 @@ export const Login = () => {
 
         </div>
       </div>
+
 
     </div>
   )

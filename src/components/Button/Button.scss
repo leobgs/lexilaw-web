@@ -68,37 +68,3 @@
 .bg-outline-transparent {
   border: 2px solid #9c9c9c;
 }
-
-.btn-secondary-hover {
-  background: #a8a8a8;
-  color: rgba(255, 255, 255, 0.7);
-  border: 2px transparent;
-  &:hover,
-  &:focus {
-    background: linear-gradient(180deg, rgba(4, 78, 239, 1) 0%, rgba(0, 40, 128, 1) 100%);
-    color: #ffffff;
-    border: 2px solid #5c72a1;
-    box-shadow: 0 0.5rem 1rem rgba(30, 27, 220, 0.3) !important;
-  }
-}
-
-.bg-outline-transparent {
-  border: 2px solid #9c9c9c;
-}
-
-.btn-secondary-hover {
-  background: #a8a8a8;
-  color: rgba(255, 255, 255, 0.7);
-  border: 2px transparent;
-  &:hover,
-  &:focus {
-    background: linear-gradient(180deg, rgba(4, 78, 239, 1) 0%, rgba(0, 40, 128, 1) 100%);
-    color: #ffffff;
-    border: 2px solid #5c72a1;
-    box-shadow: 0 0.5rem 1rem rgba(30, 27, 220, 0.3) !important;
-  }
-}
-
-.bg-outline-transparent {
-  border: 2px solid #9c9c9c;
-}

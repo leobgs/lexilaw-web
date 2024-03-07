@@ -5,6 +5,7 @@ import renderMessageError from '../utils/renderMessageError'
 import { Spinner } from './Spinner'
 
 
+
 export const ModalAlert = () => {
   const { alert, closeAlert } = useGlobalContext()
 
@@ -20,10 +21,13 @@ export const ModalAlert = () => {
   return (
     <Modal
       dialogClassName={alert.showLoading ? 'z-50 w-fit' : 'p-8 md:w-1/2 xl:w-1/3'}
+      dialogClassName={alert.showLoading ? 'z-50 w-fit' : 'p-8 md:w-1/2 xl:w-1/3'}
       contentClassName={
         alert.showLoading
           ? 'bg-yellow-50 p-4 rounded-3xl'
           : 'bg-yellow-50 rounded-3xl p-[2rem]'
+            ? 'bg-yellow-50 p-4 rounded-3xl'
+            : 'bg-yellow-50 rounded-3xl p-[2rem]'
       }
       className={alert.showLoading ? '!z-[66]' : ''}
       show={alert.isOpen}
@@ -47,20 +51,30 @@ export const ModalAlert = () => {
             />
           )}
 
+
+          {alert.icon && (
+            <img
+              className='w-[120px] h-[120px] mx-auto'
+              src={alert.icon}
+              alt=''
+            />
+          )}
+
           {alert.title && (
             <div className='font-bold text-dark-50 text-2xl text-center'>
-              {alert.title}
-            </div>
+              <div className='font-bold text-dark-50 text-2xl text-center'>
+                {alert.title}
+              </div>
           )}
 
 
-          {alert.messages && (
-            <div className='font-bold text-dark-50 text-2xl text-center'>
-              {alert.messages}
-            </div>
-          )}
+              {alert.messages && (
+                <div className='font-bold text-dark-50 text-2xl text-center'>
+                  {alert.messages}
+                </div>
+              )}
 
-          {/* <div
+              {/* <div
             className={`my-2 text-center text-dark-50 text-xl	 mx-4 ${alert.messages ? ' ' : ''
               }`}
           >
@@ -70,8 +84,8 @@ export const ModalAlert = () => {
           </div> */}
 
 
-        </div>
-      )}
-    </Modal>
-  )
-}
+            </div>
+          )}
+        </Modal>
+      )
+      }
