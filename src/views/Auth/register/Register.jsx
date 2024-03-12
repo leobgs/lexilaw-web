@@ -4,10 +4,11 @@ import { useGlobalContext } from "hooks/context";
 import { Button, Input } from "components";
 import { InputPassword } from "components/InputPassword";
 import images from "assets/images";
+import InputImage from "components/InputImage";
 
 export default function Register() {
   const { openAlert } = useGlobalContext();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ email: "", password: "" , image: null});
   const [error, setError] = useState("");
 
   const handleChangeForm = (e) => {
@@ -17,6 +18,10 @@ export default function Register() {
       setError("");
     }
   };
+
+  const handleImageChange = (newImage) => {
+    setForm({ ...form, image: newImage });
+  }
 
   return (
     <>
@@ -63,6 +68,12 @@ export default function Register() {
               error={error}
             />
           </div>
+
+          <InputImage
+           name="image"
+           image={form.image}
+           onImageSelect={handleImageChange}
+          />
 
           <Input
             name="firstName"

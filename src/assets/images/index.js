@@ -8,6 +8,8 @@ import google from './google.png'
 import apple from './apple.png'
 import email_outline from './email-outline.png'
 import ai_profile_thumbnail from './ai-profile-thumbnail.png'
+import ic_upload from './ic_upload.png'
+import ic_avatar_placeholder from './ic_avatar_placeholder.png'
 const images = {
   bg_register_login,
   lexilaw_logo,
@@ -18,7 +20,9 @@ const images = {
   google,
   apple,
   email_outline,
-  ai_profile_thumbnail
+  ai_profile_thumbnail,
+  ic_upload,
+  ic_avatar_placeholder
 }
 
 export default images
