@@ -1,6 +1,5 @@
 import { useState } from "react";
 import AuthCard from "components/Card/AuthCard";
-import { useGlobalContext } from "hooks/context";
 import { Button, Input } from "components";
 import { InputPassword } from "components/InputPassword";
 import images from "assets/images";
@@ -21,7 +20,6 @@ const citiesDummy = [
 ];
 
 export default function Register() {
-  const { openAlert } = useGlobalContext();
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
