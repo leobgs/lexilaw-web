@@ -1,6 +1,6 @@
 import { actionType, alertState } from 'config/state'
 import { alertReducer } from 'helpers/dataReducer'
-import React, { useContext, useReducer } from 'react'
+import React, { useContext, useReducer, useState } from 'react'
 import Reducer from 'utils/reducer'
 
 export const AppContext = React.createContext({
