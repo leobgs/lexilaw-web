@@ -8,7 +8,15 @@ import InputImage from "components/InputImage";
 
 export default function Register() {
   const { openAlert } = useGlobalContext();
-  const [form, setForm] = useState({ email: "", password: "" , image: null});
+  const [form, setForm] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    password_confirm: "",
+    image: null,
+    company_name: "",
+  });
   const [error, setError] = useState("");
 
   const handleChangeForm = (e) => {
@@ -21,24 +29,36 @@ export default function Register() {
 
   const handleImageChange = (newImage) => {
     setForm({ ...form, image: newImage });
-  }
+  };
 
   return (
     <>
       <AuthCard className>
         <div className="grid grid-cols-1 gap-y-4 h-fit">
-          <Input
-            name="firstName"
-            value={form.email}
-            onChange={handleChangeForm}
-            className="w-full rounded-full"
-            inputClass="!border-secondary-logo focus:outline-secondary-logo"
-            rowed
-            placeholder="Nama depan"
-          />
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            <Input
+              name="first_name"
+              value={form.email}
+              onChange={handleChangeForm}
+              className="w-full rounded-full"
+              inputClass="!border-secondary-logo focus:outline-secondary-logo"
+              rowed
+              placeholder="Nama depan"
+            />
+
+            <Input
+              name="last_name"
+              value={form.email}
+              onChange={handleChangeForm}
+              className="w-full rounded-full"
+              inputClass="!border-secondary-logo focus:outline-secondary-logo"
+              rowed
+              placeholder="Nama belakang"
+            />
+          </div>
 
           <Input
-            name="firstName"
+            name="email"
             value={form.email}
             onChange={handleChangeForm}
             className="w-full rounded-full"
@@ -59,7 +79,7 @@ export default function Register() {
             />
 
             <InputPassword
-              name="password"
+              name="password_confirm"
               className="w-full"
               inputClassName="!border-secondary-logo focus:outline-secondary-logo"
               placeholder="Konfirmasi kata sandi"
@@ -70,19 +90,19 @@ export default function Register() {
           </div>
 
           <InputImage
-           name="image"
-           image={form.image}
-           onImageSelect={handleImageChange}
+            name="image"
+            image={form.image}
+            onImageSelect={handleImageChange}
           />
 
           <Input
-            name="firstName"
+            name="company_name"
             value={form.email}
             onChange={handleChangeForm}
             className="w-full rounded-full"
             inputClass="!border-secondary-logo focus:outline-secondary-logo"
             rowed
-            placeholder="Nama perusahaan "
+            placeholder="Nama perusahaan (opsional)"
           />
 
           <Button
@@ -98,10 +118,7 @@ export default function Register() {
 
           <p className="text-center font-medium">
             Sudah punya Akun?
-            <a
-              className="font-bold text-gray-900 underline ms-1"
-              href="/login"
-            >
+            <a className="font-bold text-gray-900 underline ms-1" href="/login">
               Login
             </a>
           </p>

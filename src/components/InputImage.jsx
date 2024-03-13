@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import images from "assets/images";
 import { Button } from "components";
 import clsx from "clsx";
@@ -7,18 +7,34 @@ export default function InputImage({
   className,
   name,
   image,
-  error,
   onImageSelect,
 }) {
   const fileInputRef = useRef(null);
-
+  const [error, setError] = useState("");
   const handleImageSelect = (event) => {
     const file = event.target.files[0];
+    
     if (file) {
+      if (file.size > 5 * 1024 * 1024) { // Max size: 5MB
+        setError("File size exceeds the limit of 5MB.");
+        return;
+      }
+  
       const reader = new FileReader();
       reader.onload = (e) => {
-        onImageSelect(e.target.result);
+        const image = new Image();
+        image.src = e.target.result;
+  
+        image.onload = () => {
+          if (image.width < 200 || image.height < 200) {
+            setError("Image dimensions must be at least 200px x 200px.");
+            return;
+          }
+          setError("");
+          onImageSelect(e.target.result);
+        };
       };
+  
       reader.readAsDataURL(file);
     }
   };
@@ -66,7 +82,6 @@ export default function InputImage({
 
       {error && (
         <div className="flex items-center mt-1 ml-1">
-          <img className="w-3 h-3" src={images.ic_invalid} alt="" />
           <div className="text-error-base text-xs ml-1">{error}</div>
         </div>
       )}
@@ -83,7 +98,7 @@ function UploadButton({ onClick, className }) {
         iconRight={images.ic_upload}
         iconClassName={"object-scale-down w-4 h-4"}
         className={
-          "h-8 w-[83px] rounded-full bg-[#DCE7FF] sm:font-bold md:font-regular text-base md:text-xs ring-1 ring-[#032E84]"
+          "h-8 md:h-7 w-[83px] rounded-full bg-[#DCE7FF] sm:font-bold md:font-regular text-base md:text-xs ring-1 ring-[#032E84]"
         }
       />
     </div>
