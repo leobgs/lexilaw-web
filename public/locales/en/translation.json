@@ -1,4 +1,6 @@
 {
+  "tagline": "Law Made Simple",
+  "sub_tagline": "Uncover solutions seamlessly with our AI-powered assistance, complemented by insights from our team of seasoned legal professionals. Register now for a seamless legal experience!",
   "auth": {
     "register": {
       "firstName": "First name",
@@ -11,7 +13,14 @@
       "image_picker_hint": "Use file max 5mb, min 200px x 200px",
       "submit_button": "Create New Account",
       "already_have_account": "Already have an account?"
-    }
+    },
+    "login": {
+      "not_have_account": "Don’t have an account? Register?",
+      "register": "Register Now"
+    },
+    "social_google": "CONTINUE WITH GOOGLE",
+    "social_apple": "CONTINUE WITH APPLE ID",
+    "social_email": "CONTINUE WITH EMAIL"
   },
   "common": {
     "login": "Login",

@@ -1,4 +1,6 @@
 {
+  "tagline": "Legal Cepat & Simple",
+  "sub_tagline": "Cari solusi cepat dan mudah menggunakan Lexi AI, ditenagai oleh teknologi terkini memungkinkan kamu untuk mendapatkan bantuan hukum tanpa kendala biaya dan akses legal!",
   "auth": {
     "register": {
       "firstName": "Nama depan",
@@ -14,7 +16,14 @@
       "error_messages": {
         "image_error": ""
       }
-    }
+    },
+    "login": {
+      "not_have_account": "Belum punya Akun?",
+      "register": "Daftar Sekarang"
+    },
+    "social_google": "MASUK DENGAN GOOGLE",
+    "social_apple": "MASUK DENGAN APPLE ID",
+    "social_email": "MASUK DENGAN EMAIL"
   },
   "common": {
     "login": "Login",
