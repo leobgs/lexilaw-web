@@ -127,7 +127,7 @@ export default function Register() {
               className="w-full rounded-full flex-wrap"
               inputClass="!border-secondary-logo focus:outline-secondary-logo"
               rowed
-              placeholder={t('firstName', { keyPrefix: 'register' })}
+              placeholder={t('firstName', { keyPrefix: 'auth.register' })}
               error={error.first_name}
             />
 
@@ -138,7 +138,7 @@ export default function Register() {
               className="w-full rounded-full flex-wrap"
               inputClass="!border-secondary-logo focus:outline-secondary-logo"
               rowed
-              placeholder={t('lastName', { keyPrefix: 'register' })}
+              placeholder={t('lastName', { keyPrefix: 'auth.register' })}
               error={error.last_name}
             />
           </div>
@@ -150,7 +150,7 @@ export default function Register() {
             className="w-full rounded-full flex-wrap"
             inputClass="!border-secondary-logo focus:outline-secondary-logo"
             rowed
-            placeholder={t('email', { keyPrefix: 'register' })}
+            placeholder={t('email', { keyPrefix: 'auth.register' })}
             error={error.email}
           />
 
@@ -159,7 +159,7 @@ export default function Register() {
               name="password"
               className="w-full flex-wrap"
               inputClassName="!border-secondary-logo focus:outline-secondary-logo"
-              placeholder={t('password', { keyPrefix: 'register' })}
+              placeholder={t('password', { keyPrefix: 'auth.register' })}
               value={form.password}
               onChange={handleChangeForm}
               error={error.password}
@@ -169,7 +169,7 @@ export default function Register() {
               name="password_confirm"
               className="w-full flex-wrap"
               inputClassName="!border-secondary-logo focus:outline-secondary-logo"
-              placeholder={t('password_confirm', { keyPrefix: 'register' })}
+              placeholder={t('password_confirm', { keyPrefix: 'auth.register' })}
               value={form.password_confirm}
               onChange={handleChangeForm}
               error={error.password_confirm}
@@ -178,7 +178,7 @@ export default function Register() {
 
           <Dropdown
             options={citiesDummy}
-            placeholder={t('city_dropdown_placeholder', { keyPrefix: 'register' })}
+            placeholder={t('city_dropdown_placeholder', { keyPrefix: 'auth.register' })}
             selectedOption={form.city}
             onSelectedOption={(newValue) => {
               handleCityChange(newValue);
@@ -198,11 +198,11 @@ export default function Register() {
             className="w-full rounded-full flex-wrap"
             inputClass="!border-secondary-logo focus:outline-secondary-logo"
             rowed
-            placeholder={t('firm_name', { keyPrefix: 'register' })}
+            placeholder={t('firm_name', { keyPrefix: 'auth.register' })}
           />
 
           <Button
-            label={t('submit_button', { keyPrefix: 'register' })}
+            label={t('submit_button', { keyPrefix: 'auth.register' })}
             onClick={() => {
               console.log("HIT")
             }}
@@ -215,7 +215,7 @@ export default function Register() {
           />
 
           <p className="text-center font-medium">
-            {t('already_have_account', { keyPrefix: 'register' })}
+            {t('already_have_account', { keyPrefix: 'auth.register' })}
             <a className="font-bold text-gray-900 underline ms-1" href="/login">
               {t('login', { keyPrefix: 'common' })}
             </a>

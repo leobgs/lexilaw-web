@@ -59,7 +59,7 @@ export default function InputImage({ className, name, image, onImageSelect }) {
         />
         <div className="pl-2">
           <h3 className="font-medium text-base md:text-sm">
-            {t("image_picker_hint", { keyPrefix: "register" })}
+            {t("image_picker_hint", { keyPrefix: "auth.register" })}
           </h3>
 
           <input

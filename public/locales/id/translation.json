@@ -1,22 +1,24 @@
 {
+  "auth": {
     "register": {
-        "firstName": "Nama depan",
-        "lastName": "Nama belakang",
-        "email": "Alamat email",
-        "password": "Kata sandi",
-        "password_confirm": "Konfirmasi Kata sandi",
-        "city_dropdown_placeholder": "Pilih kota",
-        "firm_name": "Nama perusahaan  (opsional)",
-        "image_picker_hint": "Gunakan file maks 5mb, min 200px x 200px",
-        "submit_button": "Selanjutnya",
-        "already_have_account": "Sudah punya akun?",
-        "error_messages": {
-            "image_error": ""
-        }
-      },
-      "common": {
-        "login": "Login",
-        "register": "Register",
-        "upload": "Unggah"
+      "firstName": "Nama depan",
+      "lastName": "Nama belakang",
+      "email": "Alamat email",
+      "password": "Kata sandi",
+      "password_confirm": "Konfirmasi Kata sandi",
+      "city_dropdown_placeholder": "Pilih kota",
+      "firm_name": "Nama perusahaan  (opsional)",
+      "image_picker_hint": "Gunakan file maks 5mb, min 200px x 200px",
+      "submit_button": "Selanjutnya",
+      "already_have_account": "Sudah punya akun?",
+      "error_messages": {
+        "image_error": ""
       }
+    }
+  },
+  "common": {
+    "login": "Login",
+    "register": "Register",
+    "upload": "Unggah"
+  }
 }
