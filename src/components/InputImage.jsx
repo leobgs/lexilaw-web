@@ -81,9 +81,9 @@ function UploadButton({ onClick, className }) {
         label={"Unggah"}
         onClick={onClick}
         iconRight={images.ic_upload}
-        iconClassName={"aspect-auto h-[9.92px]"}
+        iconClassName={"object-scale-down w-4 h-4"}
         className={
-          "h-8 w-[83px] rounded-full bg-[#DCE7FF] sm:font-bold md:font-regular text-xs ring-1 ring-[#032E84]"
+          "h-8 w-[83px] rounded-full bg-[#DCE7FF] sm:font-bold md:font-regular text-base md:text-xs ring-1 ring-[#032E84]"
         }
       />
     </div>
