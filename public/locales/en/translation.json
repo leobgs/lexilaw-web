@@ -12,7 +12,14 @@
       "firm_name": "Firm name (opsional)",
       "image_picker_hint": "Use file max 5mb, min 200px x 200px",
       "submit_button": "Create New Account",
-      "already_have_account": "Already have an account?"
+      "already_have_account": "Already have an account?",
+      "otp": {
+        "heading": "Enter OTP",
+        "send_to": "OTP has been sent to email",
+        "placeholder": "Enter 6 digit numbers",
+        "countdown": "Wait {{second}} seconds to",
+        "resend": "Resend"
+      }
     },
     "login": {
       "not_have_account": "Don’t have an account? Register?",
