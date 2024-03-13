@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import images from 'assets/images';
 import clsx from 'clsx';
 import './Toggle.scss'
+import { useTranslation } from 'react-i18next';
 
 export const Toggle = ({
     className
 }) => {
+    const {i18n} = useTranslation()
     const [isEnglish, setIsEnglish] = useState(false);
 
     const handleToggle = () => {
         setIsEnglish(!isEnglish);
     };
+
+    useEffect(() => {
+        if (isEnglish) {
+            i18n.changeLanguage('en');
+        } else {
+            i18n.changeLanguage('id');
+        }
+    }, [isEnglish])
 
     return (
 

@@ -1,0 +1,19 @@
+{
+  "register": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Working email address",
+    "password": "Password",
+    "password_confirm": "Confirm Password",
+    "city_dropdown_placeholder": "Choose one",
+    "firm_name": "Firm name (opsional)",
+    "image_picker_hint": "Use file max 5mb, min 200px x 200px",
+    "submit_button": "Create New Account",
+    "already_have_account": "Already have an account?"
+  },
+  "common": {
+    "login": "Login",
+    "register": "Register",
+    "upload": "Upload"
+  }
+}

@@ -2,29 +2,27 @@ import React, { useRef, useState } from "react";
 import images from "assets/images";
 import { Button } from "components";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
-export default function InputImage({
-  className,
-  name,
-  image,
-  onImageSelect,
-}) {
+export default function InputImage({ className, name, image, onImageSelect }) {
+  const { t } = useTranslation();
   const fileInputRef = useRef(null);
   const [error, setError] = useState("");
   const handleImageSelect = (event) => {
     const file = event.target.files[0];
-    
+
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // Max size: 5MB
+      if (file.size > 5 * 1024 * 1024) {
+        // Max size: 5MB
         setError("File size exceeds the limit of 5MB.");
         return;
       }
-  
+
       const reader = new FileReader();
       reader.onload = (e) => {
         const image = new Image();
         image.src = e.target.result;
-  
+
         image.onload = () => {
           if (image.width < 200 || image.height < 200) {
             setError("Image dimensions must be at least 200px x 200px.");
@@ -34,7 +32,7 @@ export default function InputImage({
           onImageSelect(e.target.result);
         };
       };
-  
+
       reader.readAsDataURL(file);
     }
   };
@@ -45,7 +43,10 @@ export default function InputImage({
 
   return (
     <div
-      className={clsx("text-sm flex flex-wrap items-center justify-stretch", className)}
+      className={clsx(
+        "text-sm flex flex-wrap items-center justify-stretch",
+        className
+      )}
     >
       <div className="flex w-full items-center md:items-start">
         <img
@@ -58,7 +59,7 @@ export default function InputImage({
         />
         <div className="pl-2">
           <h3 className="font-medium text-base md:text-sm">
-            Gunakan file maks 5mb, min 200px x 200px
+            {t("image_picker_hint", { keyPrefix: "register" })}
           </h3>
 
           <input
@@ -90,10 +91,11 @@ export default function InputImage({
 }
 
 function UploadButton({ onClick, className }) {
+  const { t } = useTranslation();
   return (
     <div className={className}>
       <Button
-        label={"Unggah"}
+        label={t("upload", { keyPrefix: "common" })}
         onClick={onClick}
         iconRight={images.ic_upload}
         iconClassName={"object-scale-down w-4 h-4"}

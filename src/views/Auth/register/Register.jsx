@@ -5,6 +5,7 @@ import { InputPassword } from "components/InputPassword";
 import images from "assets/images";
 import InputImage from "components/InputImage";
 import { Dropdown } from "components/Dropdown/Dropdown";
+import { useTranslation } from "react-i18next";
 
 const citiesDummy = [
   "Jakarta",
@@ -20,6 +21,8 @@ const citiesDummy = [
 ];
 
 export default function Register() {
+  const {t} = useTranslation()
+
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -124,7 +127,7 @@ export default function Register() {
               className="w-full rounded-full flex-wrap"
               inputClass="!border-secondary-logo focus:outline-secondary-logo"
               rowed
-              placeholder="Nama depan"
+              placeholder={t('firstName', { keyPrefix: 'register' })}
               error={error.first_name}
             />
 
@@ -135,7 +138,7 @@ export default function Register() {
               className="w-full rounded-full flex-wrap"
               inputClass="!border-secondary-logo focus:outline-secondary-logo"
               rowed
-              placeholder="Nama belakang"
+              placeholder={t('lastName', { keyPrefix: 'register' })}
               error={error.last_name}
             />
           </div>
@@ -147,7 +150,7 @@ export default function Register() {
             className="w-full rounded-full flex-wrap"
             inputClass="!border-secondary-logo focus:outline-secondary-logo"
             rowed
-            placeholder="Alamat email"
+            placeholder={t('email', { keyPrefix: 'register' })}
             error={error.email}
           />
 
@@ -156,7 +159,7 @@ export default function Register() {
               name="password"
               className="w-full flex-wrap"
               inputClassName="!border-secondary-logo focus:outline-secondary-logo"
-              placeholder="Kata sandi"
+              placeholder={t('password', { keyPrefix: 'register' })}
               value={form.password}
               onChange={handleChangeForm}
               error={error.password}
@@ -166,7 +169,7 @@ export default function Register() {
               name="password_confirm"
               className="w-full flex-wrap"
               inputClassName="!border-secondary-logo focus:outline-secondary-logo"
-              placeholder="Konfirmasi kata sandi"
+              placeholder={t('password_confirm', { keyPrefix: 'register' })}
               value={form.password_confirm}
               onChange={handleChangeForm}
               error={error.password_confirm}
@@ -175,7 +178,7 @@ export default function Register() {
 
           <Dropdown
             options={citiesDummy}
-            placeholder={"Pilih Kota"}
+            placeholder={t('city_dropdown_placeholder', { keyPrefix: 'register' })}
             selectedOption={form.city}
             onSelectedOption={(newValue) => {
               handleCityChange(newValue);
@@ -195,11 +198,11 @@ export default function Register() {
             className="w-full rounded-full flex-wrap"
             inputClass="!border-secondary-logo focus:outline-secondary-logo"
             rowed
-            placeholder="Nama perusahaan (opsional)"
+            placeholder={t('firm_name', { keyPrefix: 'register' })}
           />
 
           <Button
-            label={"Selanjutnya"}
+            label={t('submit_button', { keyPrefix: 'register' })}
             onClick={() => {
               console.log("HIT")
             }}
@@ -212,9 +215,9 @@ export default function Register() {
           />
 
           <p className="text-center font-medium">
-            Sudah punya Akun?
+            {t('already_have_account', { keyPrefix: 'register' })}
             <a className="font-bold text-gray-900 underline ms-1" href="/login">
-              Login
+              {t('login', { keyPrefix: 'common' })}
             </a>
           </p>
         </div>
