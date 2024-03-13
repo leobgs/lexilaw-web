@@ -5,6 +5,20 @@ import { Button, Input } from "components";
 import { InputPassword } from "components/InputPassword";
 import images from "assets/images";
 import InputImage from "components/InputImage";
+import { Dropdown } from "components/Dropdown/Dropdown";
+
+const citiesDummy = [
+  "Jakarta",
+  "Surabaya",
+  "Medan",
+  "Bandung",
+  "Makassar",
+  "Semarang",
+  "Samarinda",
+  "Tenggarong",
+  "Yogyakarta",
+  "Denpasar"
+];
 
 export default function Register() {
   const { openAlert } = useGlobalContext();
@@ -14,6 +28,7 @@ export default function Register() {
     email: "",
     password: "",
     password_confirm: "",
+    city: "",
     image: null,
     company_name: "",
   });
@@ -31,6 +46,10 @@ export default function Register() {
     setForm({ ...form, image: newImage });
   };
 
+  const handleCityChange = (newValue) => {
+    setForm({ ...form, city: newValue });
+  };
+
   return (
     <>
       <AuthCard className>
@@ -38,7 +57,7 @@ export default function Register() {
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
             <Input
               name="first_name"
-              value={form.email}
+              value={form.first_name}
               onChange={handleChangeForm}
               className="w-full rounded-full"
               inputClass="!border-secondary-logo focus:outline-secondary-logo"
@@ -48,7 +67,7 @@ export default function Register() {
 
             <Input
               name="last_name"
-              value={form.email}
+              value={form.last_name}
               onChange={handleChangeForm}
               className="w-full rounded-full"
               inputClass="!border-secondary-logo focus:outline-secondary-logo"
@@ -89,6 +108,14 @@ export default function Register() {
             />
           </div>
 
+          <Dropdown 
+          options={citiesDummy}
+          placeholder={"Pilih Kota"}
+          selectedOption={form.city}
+          onSelectedOption= { (newValue) => {
+            handleCityChange(newValue)
+          }}/>
+
           <InputImage
             name="image"
             image={form.image}
@@ -97,7 +124,7 @@ export default function Register() {
 
           <Input
             name="company_name"
-            value={form.email}
+            value={form.company_name}
             onChange={handleChangeForm}
             className="w-full rounded-full"
             inputClass="!border-secondary-logo focus:outline-secondary-logo"
