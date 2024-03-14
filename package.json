@@ -6,6 +6,8 @@
     "node": "20.x"
   },
   "dependencies": {
+    "@capacitor/android": "^5.7.2",
+    "@capacitor/core": "^5.7.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -17,6 +19,7 @@
     "react-router-dom": "^6.22.2",
     "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
+    "react-tooltip": "^5.26.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -44,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@capacitor/cli": "^5.7.2",
     "tailwindcss": "^3.4.1"
   }
 }

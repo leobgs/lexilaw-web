@@ -57,11 +57,12 @@ export const Input = ({
             />
           )}
           <input
-            className={`appearance-none focus:outline-none w-full rounded-md border border-neutral-20 bg-white focus:border-active ${
-              icon ? 'pl-12 pr-3 py-3' : 'p-3'
-            } ${error ? '!border-error' : ''}
-            ${inputClass ? inputClass : ''}
-            `}
+            className={clsx(
+              `appearance-none focus:outline-none w-full rounded-md border border-neutral-20 bg-white focus:border-active ${
+                icon ? 'pl-12 pr-3 py-3' : 'p-3'
+              } ${error ? '!border-error' : ''} `,
+              inputClass
+            )}
             type={type}
             maxLength={maxLength}
             placeholder={placeholder}

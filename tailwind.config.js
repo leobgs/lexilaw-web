@@ -23,6 +23,10 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       white: '#FFFFFF',
+      blue: {
+        sky: '#DCE7FF',
+        dark: '#00153F',
+      },
       secondary: {
         base: '#004225',
         darker: '#DF8271',
@@ -42,7 +46,7 @@ module.exports = {
         darker: '#070505',
         pure: '#000000',
       },
-      blue: { sky: '#8DC3DE' },
+      chat: '#F6F6F6',
       purple: { base: '#783B82' },
       neutral: {
         10: '#E0DBD1',
@@ -50,6 +54,8 @@ module.exports = {
         30: '#E8E5E5',
         40: '#808080',
         50: '#F1F1F1',
+        60: '#F0EDE8',
+        70: '#EFEFEF',
       },
       active: '#178EE9',
       error: { base: '#DB0707', lighter: '#CF1C1C' },

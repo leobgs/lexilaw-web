@@ -10,7 +10,7 @@ import {
   useNavigate,
 } from 'react-router-dom'
 import { isLogin } from 'utils/auth'
-import { Login, Components, Main } from 'views'
+import { Login, Components, Chat } from 'views'
 import { ModalAlert } from 'components'
 
 const storage = new LocalStorage()
@@ -64,7 +64,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Login />} />
         <Route path='/components' element={<Components />} />
-        <Route path='/main' element={<Main />} />
+        <Route path='/main' element={<Chat />} />
         <Route element={<PrivateRoute />}></Route>
       </Routes>
       <ModalAlert />

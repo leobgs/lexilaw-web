@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import 'styles/style.scss'
 import App from './App'
 import { AppProvider } from './hooks/context'
+import 'react-tooltip/dist/react-tooltip.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
