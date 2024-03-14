@@ -1,7 +1,8 @@
-import { actionType, alertState, localesState } from "config/state";
+import { actionType, alertState } from "config/state";
 import { alertReducer } from "helpers/dataReducer";
-import React, { useContext, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import Reducer from "utils/reducer";
+import { localServerData } from "./useLocalServerData";
 
 export const AppContext = React.createContext({
   alert: null,
@@ -10,10 +11,13 @@ export const AppContext = React.createContext({
   closeAlert: (e) => {},
   registerForm: null,
   registerFormReducer: (name, newValue) => {},
+  currentLanguage: null,
+  setLanguage: (e) => {},
 });
 
 export const AppProvider = ({ children }) => {
   const [alert, dispatchAlert] = useReducer(alertReducer, alertState);
+  const [currentLanguage, setLanguage] = useState("id");
 
   const [registerForm, setRegisterForm] = useState({
     first_name: "",
@@ -25,6 +29,18 @@ export const AppProvider = ({ children }) => {
     image: null,
     company_name: "",
   });
+
+  useEffect(() => {
+    const { CURRENT_LANGUAGE } = localServerData()
+    if (CURRENT_LANGUAGE) {
+      setLanguage(CURRENT_LANGUAGE);
+    }
+  }, []);
+
+  useEffect(() => {
+    const { setCurrentLanguage } = localServerData();
+    setCurrentLanguage(currentLanguage);
+  }, [currentLanguage]);
 
   const registerFormReducer = (fieldName, newValue) => {
     return setRegisterForm({
@@ -72,6 +88,8 @@ export const AppProvider = ({ children }) => {
         closeAlert,
         registerForm,
         registerFormReducer,
+        currentLanguage,
+        setLanguage
       }}
     >
       {children}
