@@ -1,14 +1,18 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import 'styles/style.scss'
-import App from './App'
-import { AppProvider } from './hooks/context'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "styles/style.scss";
+import App from "./App";
+import { AppProvider } from "./hooks/context";
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
+import "./i18n";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <AppProvider>
-      <App />
-    </AppProvider>
+    <React.Suspense>
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </React.Suspense>
   </React.StrictMode>
-)
+);

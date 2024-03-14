@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
-import images from 'assets/images';
 import clsx from 'clsx';
 import './Toggle.scss'
+import { useTranslation } from 'react-i18next';
+import { useGlobalContext } from 'hooks/context';
+
 
 export const Toggle = ({
     className
 }) => {
-    const [isEnglish, setIsEnglish] = useState(false);
+    const {currentLanguage, setLanguage} = useGlobalContext()
+    const {i18n} = useTranslation()
+
+    const isEnglish = currentLanguage === "en";
 
     const handleToggle = () => {
-        setIsEnglish(!isEnglish);
+        if (isEnglish) {
+            i18n.changeLanguage('id');
+            setLanguage("id")
+        } else {
+            i18n.changeLanguage('en');
+            setLanguage("en")
+        }
     };
 
     return (

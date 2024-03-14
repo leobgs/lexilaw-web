@@ -32,3 +32,7 @@ export const alertState = {
   autoHide: false,
   btnConfirmTextClass: '',
 }
+
+export const localesState = {
+  UPDATE: 'UPDATE',
+}
