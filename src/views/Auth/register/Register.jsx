@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AuthCard from "components/Card/AuthCard";
-import RegisterOTP from "./RegisterOTP";
 import { Button, Input } from "components";
 import { InputPassword } from "components/InputPassword";
 import images from "assets/images";
 import InputImage from "components/InputImage";
 import { Dropdown } from "components/Dropdown/Dropdown";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "hooks/context";
 
 const citiesDummy = [
@@ -23,19 +23,9 @@ const citiesDummy = [
 ];
 
 export default function Register() {
-  const { openAlert } = useGlobalContext();
   const { t } = useTranslation();
-
-  const [form, setForm] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-    password_confirm: "",
-    city: "",
-    image: null,
-    company_name: "",
-  });
+  const { registerForm, registerFormReducer } = useGlobalContext();
+  const navigate = useNavigate();
   const [error, setError] = useState({
     first_name: "",
     last_name: "",
@@ -44,30 +34,7 @@ export default function Register() {
     password_confirm: "",
   });
 
-  const [otp, setOTP] = useState("");
-  const [openOtp, setOpenOtp] = useState(false);
-  const [isNotValidOtp, setIsNotValidOtp] = useState(false);
-
-  useEffect(() => {
-    setIsNotValidOtp(false);
-    if (otp.length === 6) {
-      if (otp === "123456") {
-        success()
-      } else {
-        setIsNotValidOtp(true);
-      }
-    }
-  }, [otp]);
-
-  const fullName = form.first_name + " " + form.last_name;
-
-  const success = () => {
-    openAlert({
-      title: "Selamat bergabung 👋 ",
-      messages: fullName,
-      icon: images.ai_profile_thumbnail,
-    });
-  };
+  const fullName = registerForm.first_name + " " + registerForm.last_name;
 
   const validateName = (value) => {
     const nameRegex = /^[a-zA-Z\s]*$/;
@@ -85,7 +52,7 @@ export default function Register() {
   };
 
   const validatePasswordMatch = (value) => {
-    return form.password === value;
+    return registerForm.password === value;
   };
 
   const validateInput = (name, value) => {
@@ -116,13 +83,13 @@ export default function Register() {
 
   const isAnyEmptyForm = () => {
     return (
-      form.first_name === null ||
-      form.last_name === null ||
-      form.email === null ||
-      form.password === null ||
-      form.password_confirm === null ||
-      form.city === null ||
-      form.image === null
+      registerForm.first_name === null ||
+      registerForm.last_name === null ||
+      registerForm.email === null ||
+      registerForm.password === null ||
+      registerForm.password_confirm === null ||
+      registerForm.city === null ||
+      registerForm.image === null
     );
   };
 
@@ -130,38 +97,28 @@ export default function Register() {
 
   const handleChangeForm = (e) => {
     const { name, value } = e;
-    setForm({ ...form, [name]: value });
+    registerFormReducer(name, value)
     const errorMessage = validateInput(name, value);
     setError({ ...error, [name]: errorMessage });
   };
 
   const handleImageChange = (newImage) => {
-    setForm({ ...form, image: newImage });
+    registerFormReducer(["image"], newImage)
   };
 
   const handleCityChange = (newValue) => {
-    setForm({ ...form, city: newValue });
+    registerFormReducer(["city"], newValue)
   };
-  const handleOtpChanged = (newValue) => {
-    setOTP(newValue);
-  };
-
+  
   return (
     <>
-      {openOtp ? (
-        <RegisterOTP
-          email={form.email}
-          otp={otp}
-          onOTPChanged={handleOtpChanged}
-          isNotValid={isNotValidOtp}
-        />
-      ) : (
+      (
         <AuthCard className>
           <div className="grid grid-cols-1 gap-y-4 h-fit">
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
               <Input
                 name="first_name"
-                value={form.first_name}
+                value={registerForm.first_name}
                 onChange={handleChangeForm}
                 className="w-full rounded-full flex-wrap"
                 inputClass="!border-secondary-logo focus:outline-secondary-logo"
@@ -172,7 +129,7 @@ export default function Register() {
 
               <Input
                 name="last_name"
-                value={form.last_name}
+                value={registerForm.last_name}
                 onChange={handleChangeForm}
                 className="w-full rounded-full flex-wrap"
                 inputClass="!border-secondary-logo focus:outline-secondary-logo"
@@ -184,7 +141,7 @@ export default function Register() {
 
             <Input
               name="email"
-              value={form.email}
+              value={registerForm.email}
               onChange={handleChangeForm}
               className="w-full rounded-full flex-wrap"
               inputClass="!border-secondary-logo focus:outline-secondary-logo"
@@ -199,7 +156,7 @@ export default function Register() {
                 className="w-full flex-wrap"
                 inputClassName="!border-secondary-logo focus:outline-secondary-logo"
                 placeholder={t("password", { keyPrefix: "auth.register" })}
-                value={form.password}
+                value={registerForm.password}
                 onChange={handleChangeForm}
                 error={error.password}
               />
@@ -211,7 +168,7 @@ export default function Register() {
                 placeholder={t("password_confirm", {
                   keyPrefix: "auth.register",
                 })}
-                value={form.password_confirm}
+                value={registerForm.password_confirm}
                 onChange={handleChangeForm}
                 error={error.password_confirm}
               />
@@ -222,7 +179,7 @@ export default function Register() {
               placeholder={t("city_dropdown_placeholder", {
                 keyPrefix: "auth.register",
               })}
-              selectedOption={form.city}
+              selectedOption={registerForm.city}
               onSelectedOption={(newValue) => {
                 handleCityChange(newValue);
               }}
@@ -230,13 +187,13 @@ export default function Register() {
 
             <InputImage
               name="image"
-              image={form.image}
+              image={registerForm.image}
               onImageSelect={handleImageChange}
             />
 
             <Input
               name="company_name"
-              value={form.company_name}
+              value={registerForm.company_name}
               onChange={handleChangeForm}
               className="w-full rounded-full flex-wrap"
               inputClass="!border-secondary-logo focus:outline-secondary-logo"
@@ -247,7 +204,7 @@ export default function Register() {
             <Button
               label={t("submit_button", { keyPrefix: "auth.register" })}
               onClick={() => {
-                setOpenOtp(!openOtp);
+                navigate('/register/otp', {state: {email: registerForm.email, fullName: fullName}});
               }}
               iconRight={images.chevron_right}
               iconClassName={"absolute right-4"}
@@ -269,7 +226,7 @@ export default function Register() {
             </p>
           </div>
         </AuthCard>
-      )}
+      )
     </>
   );
 }

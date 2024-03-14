@@ -1,9 +1,41 @@
+import images from "assets/images";
 import AuthCard from "components/Card/AuthCard";
 import InputOTP from "components/InputOTP";
+import { useGlobalContext } from "hooks/context";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
-const RegisterOTP = ({ email, otp, onOTPChanged, isNotValid }) => {
+const RegisterOTP = () => {
+  const location = useLocation();
+  const { fullName, email } = location.state;
+  const { openAlert } = useGlobalContext();
   const { t } = useTranslation();
+  const [otp, setOTP] = useState("");
+  const [isNotValidOtp, setIsNotValidOtp] = useState(false);
+
+  useEffect(() => {
+    setIsNotValidOtp(false);
+    if (otp.length === 6) {
+      if (otp === "123456") {
+        success();
+      } else {
+        setIsNotValidOtp(true);
+      }
+    }
+  }, [otp]);
+
+  const success = () => {
+    openAlert({
+      title: "Selamat bergabung 👋 ",
+      messages: fullName,
+      icon: images.ai_profile_thumbnail,
+    });
+  };
+
+  const handleOtpChanged = (newValue) => {
+    setOTP(newValue);
+  };
   return (
     <AuthCard>
       <div className="grid grid-cols-1 gap-y-4 h-fit">
@@ -19,8 +51,8 @@ const RegisterOTP = ({ email, otp, onOTPChanged, isNotValid }) => {
         <InputOTP
           placeholder={t("placeholder", { keyPrefix: "auth.register.otp" })}
           value={otp}
-          isNotValid={isNotValid}
-          onValueChanged={onOTPChanged}
+          isNotValid={isNotValidOtp}
+          onValueChanged={handleOtpChanged}
         />
 
         <p className="text-base font-regular tracking-wide text-gray-700">

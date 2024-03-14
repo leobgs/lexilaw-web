@@ -14,6 +14,7 @@ import { Login, Components } from "views";
 import { ModalAlert } from "components";
 import AuthLayout from "views/Auth/layouts/AuthLayout";
 import Register from "views/Auth/register/Register";
+import RegisterOTP from "views/Auth/register/RegisterOTP";
 
 const storage = new LocalStorage();
 const PrivateRoute = ({ wrapperContent = true }) => {
@@ -64,10 +65,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<AuthLayout />} >
-          <Route path="" element={<Login />} />
+        <Route path="/" element={<AuthLayout />}>
+          <Route index element={<Login />} />
           <Route path="login" Component={Login} />
           <Route path="register" Component={Register} />
+          <Route path="register/otp" Component={RegisterOTP} />
         </Route>
         <Route path="/components" element={<Components />} />
         <Route element={<PrivateRoute />}></Route>
