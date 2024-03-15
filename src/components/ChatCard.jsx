@@ -42,8 +42,10 @@ export const ChatCard = ({ item }) => {
 
         {item.file && (
           <>
-            <p className='text-xs mt-2 mb-0.5 text-neutral-40 ml-2'>Attached</p>
-            <div className='w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center'>
+            <p className='text-xs mt-2 mb-0.5 text-neutral-40 ml-2 hidden md:inline-block'>
+              Attached
+            </p>
+            <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
               {item.content_type === 'IMAGE' ? (
                 <img
                   src={item.images}

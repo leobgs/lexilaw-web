@@ -26,6 +26,7 @@ import ic_change_style_lang from './ic_change_style_lang.png'
 import ic_copy from './ic_copy.png'
 import ic_redo from './ic_redo.png'
 import ic_pdf_thumbnail from './ic_pdf_thumbnail.png'
+import ic_send from './ic_send.png'
 
 const images = {
   bg_register_login,
@@ -56,6 +57,7 @@ const images = {
   ic_copy,
   ic_redo,
   ic_pdf_thumbnail,
+  ic_send,
 }
 
 export default images

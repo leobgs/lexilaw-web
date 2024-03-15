@@ -21,18 +21,9 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
     e.preventDefault()
     if (e.keyCode === 13) {
       if (e.shiftKey) {
-        console.log('how rows', rows)
         setRows(rows)
       } else {
-        if (form.text) {
-          onChange(form)
-        }
-        setRows(1)
-        setDisplayImage(null)
-        setForm({
-          text: '',
-          file: null,
-        })
+        onSubmit()
       }
     } else if (e.keyCode === 8) {
       if (!form.text) {
@@ -44,7 +35,6 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
   const handleChat = (e) => {
     const prevRows = e.target.rows
     const currentRows = ~~(e.target.scrollHeight / 18)
-    console.log(currentRows, e.target.scrollHeight)
 
     if (currentRows === prevRows) {
       e.target.rows = currentRows
@@ -84,6 +74,18 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
     setDisplayImage(null)
   }
 
+  const onSubmit = () => {
+    if (form.text) {
+      onChange(form)
+    }
+    setRows(1)
+    setDisplayImage(null)
+    setForm({
+      text: '',
+      file: null,
+    })
+  }
+
   return (
     <>
       <div
@@ -94,7 +96,7 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
       >
         {displayImage && (
           <div className='flex top-0 mx-2 mb-4'>
-            <div className='w-1/3 bg-white rounded-l-xl rounded-br-xl border border-neutral-60 flex items-center shadow-md'>
+            <div className='w-full md:w-1/3 bg-white rounded-l-xl rounded-br-xl border border-neutral-60 flex items-center shadow-md'>
               {form.content_type === 'IMAGE' ? (
                 <img
                   src={displayImage}
@@ -149,11 +151,17 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
               autoFocus
               onChange={handleChat}
               onKeyUp={handleKeyDown}
-              placeholder='tanyakan ke Lexi'
+              placeholder='Tanyakan ke Lexi'
               rows={rows}
               value={form.text}
               style={{ resize: 'none' }}
             />
+          </div>
+          <div
+            onClick={() => onSubmit()}
+            className='md:hidden bg-blue-dark px-2 py-1.5 rounded-3xl'
+          >
+            <img src={images.ic_send} alt='kirim' />
           </div>
         </div>
       </div>
