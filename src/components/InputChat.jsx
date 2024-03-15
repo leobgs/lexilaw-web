@@ -1,9 +1,11 @@
 import images from 'assets/images'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
+import { byteConversion } from 'utils/byteConversion'
 
 export const InputChat = ({ onChange, className, onDisplayImage }) => {
   const [displayImage, setDisplayImage] = useState()
+  let maxRows = 4
   const [form, setForm] = useState({
     text: '',
     file: null,
@@ -16,26 +18,45 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
   }, [displayImage])
 
   const handleKeyDown = (e) => {
-    if (e.keyCode === 13 || e.key === 'Enter') {
-      e.preventDefault()
-      onChange(form)
-      setForm({
-        text: '',
-        file: null,
-      })
-      setDisplayImage(null)
-    }
-
-    if (e.key === 'Enter' && e.shiftKey) {
-      e.preventDefault()
-      setForm({ ...form, text: form.text + '\n' })
+    e.preventDefault()
+    if (e.keyCode === 13) {
+      if (e.shiftKey) {
+        console.log('how rows', rows)
+        setRows(rows)
+      } else {
+        if (form.text) {
+          onChange(form)
+        }
+        setRows(1)
+        setDisplayImage(null)
+        setForm({
+          text: '',
+          file: null,
+        })
+      }
+    } else if (e.keyCode === 8) {
+      if (!form.text) {
+        setRows(1)
+      }
     }
   }
 
   const handleChat = (e) => {
+    const prevRows = e.target.rows
+    const currentRows = ~~(e.target.scrollHeight / 18)
+    console.log(currentRows, e.target.scrollHeight)
+
+    if (currentRows === prevRows) {
+      e.target.rows = currentRows
+    }
+
+    if (currentRows >= maxRows) {
+      e.target.rows = maxRows
+      e.target.scrollTop = e.target.scrollHeight
+    }
+
+    setRows(currentRows < maxRows ? currentRows : maxRows)
     setForm({ ...form, text: e.target?.value })
-    const newRows = Math.ceil(e.target.scrollHeight / 14)
-    setRows(newRows <= 5 ? 1 : newRows)
   }
 
   const changeHandler = (e) => {
@@ -65,40 +86,47 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
 
   return (
     <>
-      {displayImage && (
-        <div className='flex top-0 mx-2 mb-4'>
-          {form.content_type === 'IMAGE' ? (
-            <img
-              src={displayImage}
-              alt=''
-              className='w-12 h-12 aspect-auto ml-4 mt-4 rounded-sm shadow'
-            />
-          ) : (
-            <div className='ml-4 mt-4 border border-neutral-10 rounded px-2'>
-              <p className='text-sm font-semi-bold'>{form.caption}</p>
-            </div>
-          )}
-
-          <img
-            src={images.ic_close_black}
-            alt='hapus gambar'
-            className={`${
-              form.content_type === 'IMAGE'
-                ? '-right-6 -ml-4 mt-4 z-10 opacity-75'
-                : ' -ml-4'
-            } w-8 h-8 `}
-            onClick={handleDeleteImageDetail}
-          />
-        </div>
-      )}
-
       <div
         className={clsx(
           'border border-neutral-30 py-2 rounded-3xl bg-neutral-30 bg-opacity-35 pr-4',
           className
         )}
       >
-        <div className='gap-1 flex items-center justify-between'>
+        {displayImage && (
+          <div className='flex top-0 mx-2 mb-4'>
+            <div className='w-1/3 bg-white rounded-l-xl rounded-br-xl border border-neutral-60 flex items-center shadow-md'>
+              {form.content_type === 'IMAGE' ? (
+                <img
+                  src={displayImage}
+                  alt='displayed file'
+                  className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
+                />
+              ) : (
+                <img
+                  src={images.ic_pdf_thumbnail}
+                  alt='displayed pdf'
+                  className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
+                />
+              )}
+              <div className='text-xs'>
+                <p className='text-sm font-semi-bold text-secondary-base line-clamp-2'>
+                  {form.caption}
+                </p>
+                <p className='text-neutral-40'>
+                  {byteConversion(form.file?.size)}
+                </p>
+              </div>
+            </div>
+
+            <img
+              src={images.ic_close_black}
+              alt='hapus gambar'
+              className='-right-0 top-0 -ml-4 -mt-2 z-10 opacity-75 w-8 h-8'
+              onClick={handleDeleteImageDetail}
+            />
+          </div>
+        )}
+        <div className='gap-1 flex items-center justify-between '>
           <label htmlFor='file' className='w-1/12 ml-4 md:ml-0'>
             <div className='w-full flex justify-center'>
               <div className='bg-neutral-20 py-1 md:p-2 rounded-full'>
@@ -106,7 +134,7 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
               </div>
             </div>
             <input
-              accept='image/*'
+              accept='image/*, application/pdf'
               type='file'
               name='file'
               onChange={changeHandler}
@@ -120,7 +148,7 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
               className='max-h-20 w-full focus:outline-none bg-neutral-30 bg-opacity-0 text-base'
               autoFocus
               onChange={handleChat}
-              onKeyDown={handleKeyDown}
+              onKeyUp={handleKeyDown}
               placeholder='tanyakan ke Lexi'
               rows={rows}
               value={form.text}

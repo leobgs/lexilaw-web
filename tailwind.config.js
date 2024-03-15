@@ -31,6 +31,8 @@ module.exports = {
         base: '#004225',
         darker: '#DF8271',
         light: '#F4D7D2',
+        lighter: '#ACDBC6',
+        lightest: '#CAF2E2',
       },
       primary: {
         light: '#FDFDFD',

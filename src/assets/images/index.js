@@ -25,6 +25,7 @@ import ic_profile_lexi from './ic_profile_lexi.png'
 import ic_change_style_lang from './ic_change_style_lang.png'
 import ic_copy from './ic_copy.png'
 import ic_redo from './ic_redo.png'
+import ic_pdf_thumbnail from './ic_pdf_thumbnail.png'
 
 const images = {
   bg_register_login,
@@ -54,6 +55,7 @@ const images = {
   ic_change_style_lang,
   ic_copy,
   ic_redo,
+  ic_pdf_thumbnail,
 }
 
 export default images

@@ -50,14 +50,14 @@ export const NavComponent = ({ item, onClickColection, onEdit, onDelete }) => {
 
   const onDeleteClick = () => {
     setShow1st(false)
-    onDelete(item.text)
+    onDelete(item.id)
   }
 
   return (
     <div
       className={`h-9 py-2 md:mr-4 md:-mx-2 rounded-lg flex justify-between items-center ${
         item.isActive ? 'bg-blue-dark text-white shadow' : ''
-      } ${isEdit ? 'mb-1' : ' px-2'} `}
+      } ${isEdit ? 'mb-1 px-[1px]' : ' px-2'} `}
     >
       {isEdit ? (
         <input
@@ -77,7 +77,7 @@ export const NavComponent = ({ item, onClickColection, onEdit, onDelete }) => {
             className='line-clamp-1 w-full'
             onClick={() => onClickColection()}
           >
-            {item.text}
+            {item.title}
           </div>
           {item.isActive && (
             <div className=''>
@@ -113,7 +113,7 @@ export const NavComponent = ({ item, onClickColection, onEdit, onDelete }) => {
           onClick={() => {
             setShow1st(false)
             setShowModal(true)
-            setText(item.text)
+            setText(item.title)
           }}
         >
           Ganti Nama
@@ -123,7 +123,7 @@ export const NavComponent = ({ item, onClickColection, onEdit, onDelete }) => {
           onClick={() => {
             setShow1st(false)
             setEdit(true)
-            setText(item.text)
+            setText(item.title)
           }}
         >
           Ganti Nama

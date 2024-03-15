@@ -12,6 +12,7 @@ import {
 import { isLogin } from 'utils/auth'
 import { Login, Components, Chat } from 'views'
 import { ModalAlert } from 'components'
+import { ToastContainer } from 'react-toastify'
 
 const storage = new LocalStorage()
 const PrivateRoute = ({ wrapperContent = true }) => {
@@ -68,6 +69,7 @@ function App() {
         <Route element={<PrivateRoute />}></Route>
       </Routes>
       <ModalAlert />
+      <ToastContainer />
     </BrowserRouter>
   )
 }

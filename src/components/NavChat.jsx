@@ -1,6 +1,5 @@
 import images from 'assets/images'
-import { useState } from 'react'
-import { KOLEKSI_CHAT } from 'utils/dummy'
+import { useEffect, useState } from 'react'
 import { Input } from './Input'
 import { NavComponent } from './NavComponent'
 
@@ -10,10 +9,34 @@ export const NavChat = ({
   onClickColection,
   onEdit,
   onDelete,
+  headerText,
+  onExpand,
 }) => {
   const [search, setSearch] = useState('')
   const [showNav, setShowNav] = useState(false)
   const [showSearchNav, setShowSearchNav] = useState(false)
+
+  useEffect(() => {
+    dataLatest.forEach((category) => {
+      category?.data.forEach((item) => {
+        const lowerSearchString = search?.toLowerCase()
+
+        const lowerTitle = item.title?.toLowerCase()
+        const lowerLabel = item.label ? item.label?.toLowerCase() : ''
+
+        if (
+          lowerTitle?.includes(lowerSearchString) ||
+          lowerLabel?.includes(lowerSearchString)
+        ) {
+          item.isHeadlight = true
+        } else {
+          item.isHeadlight = false
+        }
+      })
+    })
+
+    console.log(dataLatest)
+  }, [search])
 
   return (
     <nav className='pb-4 md:w-3/12 md:pt-4 lg:pt-4'>
@@ -30,8 +53,8 @@ export const NavChat = ({
           onClick={() => setShowNav(!showNav)}
         />
         <div className='flex w-full justify-between items-center'>
-          <div className='font-futura-bolds font-bold text-xl'>
-            Obrolan Baru
+          <div className='font-futura-bolds font-bold text-xl line-clamp-1'>
+            {headerText}
           </div>
           <div className='bg-neutral-20 px-3 py-2 rounded-full'>
             <img src={images.ic_attachment_upload} alt='upload' className='' />
@@ -62,57 +85,119 @@ export const NavChat = ({
           </div>
         </div>
 
-        {KOLEKSI_CHAT.length !== 0 && (
-          <div className='flex justify-between items-end mr-2 my-4'>
-            <div className='text-neutral-40'>Koleksi</div>
-            <img src={images.ic_menu_down} alt='dropdown' className='h-6' />
-          </div>
-        )}
+        {dataLatest?.map((item, index) => {
+          if (item.type === 'koleksi') {
+            return (
+              <div key={index}>
+                {item.data.length !== 0 && (
+                  <div className='flex justify-between items-end mr-2 my-4'>
+                    <div className='text-neutral-40'>Koleksi</div>
+                    <img
+                      src={images.ic_menu_down}
+                      alt='dropdown'
+                      className='h-6'
+                    />
+                  </div>
+                )}
 
-        {KOLEKSI_CHAT?.map((item, index) => (
-          <div
-            key={index}
-            className='flex justify-start gap-2 items-center text-base text-neutral-40 mb-2'
-          >
-            <img
-              src={images.ic_folder_colection}
-              alt='ic_folder_colection'
-              className='h-7 w-7'
-            />
-            {item.label}
-          </div>
-        ))}
+                {item.data?.map((items, indx) => (
+                  <div key={indx}>
+                    <div
+                      className={`flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 mr-4 py-1 ${
+                        items.isExpand
+                          ? 'bg-blue-sky rounded-2xl pl-2 -ml-2'
+                          : ''
+                      }`}
+                      onClick={() => onExpand(items.id)}
+                    >
+                      <img
+                        src={
+                          items.isExpand
+                            ? images.ic_folder_colection_active
+                            : images.ic_folder_colection
+                        }
+                        alt='ic_folder_colection'
+                        className='h-7 w-7'
+                      />
+                      <div>{items.label}</div>
+                    </div>
 
-        {dataLatest.length !== 0 && (
-          <div className='text-neutral-40 mt-4'>Terkini</div>
-        )}
+                    {items.isExpand &&
+                      items.childs?.map((itms) => (
+                        <div
+                          className='border-l-2 border-blue-sky ml-3.5 pl-2 pb-2 text-neutral-40 last:mb-4'
+                          onClick={() => {
+                            onClickColection(itms.title)
+                            setShowNav(false)
+                          }}
+                        >
+                          {itms.title}
+                        </div>
+                      ))}
+                  </div>
+                ))}
+              </div>
+            )
+          } else if (item.type === 'terkini') {
+            return (
+              <div
+                key={item.id}
+                className={`${item.data.length !== 0 ? 'my-4' : ''}`}
+              >
+                {item.data.length !== 0 && (
+                  <div className='text-neutral-40 mt-4'>Terkini</div>
+                )}
 
-        {dataLatest.length !== 0 ? (
-          dataLatest?.map((item, index) => (
-            <NavComponent
-              item={{ ...item, id: index }}
-              key={index}
-              onClickColection={() => onClickColection(item.text)}
-              onEdit={(e) => onEdit(e)}
-              onDelete={(e) => {
-                onDelete(e)
-              }}
-            />
-          ))
-        ) : (
-          <div className='mt-20 flex-col justify-center hidden md:flex'>
-            <img
-              src={images.ic_chat_bubbles}
-              alt='chat bubbles'
-              className='w-24 h-20 mx-auto'
-            />
-            <div className='mx-auto mt-2 text-center md:w-4/5'>
-              Kamu belum memiliki topik apapun,{' '}
-              <span className='font-semi-bold'>Mulai Obrolan Baru!</span>
-            </div>
-          </div>
-        )}
+                {item.data.length !== 0 &&
+                  item.data?.map((item, index) => (
+                    <NavComponent
+                      item={item}
+                      key={index}
+                      onClickColection={() => onClickColection(item.title)}
+                      onEdit={(e) => onEdit(e)}
+                      onDelete={(e) => {
+                        onDelete(e)
+                      }}
+                    />
+                  ))}
+              </div>
+            )
+          } else if (item.type === 'riwayat') {
+            return (
+              <div key={item.id}>
+                {item.data.length !== 0 && (
+                  <div className='text-neutral-40 mt-4'>Obrolan Lampau</div>
+                )}
+
+                {item.data.length !== 0 &&
+                  item.data?.map((item, index) => (
+                    <NavComponent
+                      item={item}
+                      key={index}
+                      onClickColection={() => onClickColection(item.title)}
+                      onEdit={(e) => onEdit(e)}
+                      onDelete={(e) => {
+                        onDelete(e)
+                      }}
+                    />
+                  ))}
+              </div>
+            )
+          }
+        })}
       </div>
+
+      {/* <div className='mt-20 flex-col justify-center hidden md:flex'>
+        <img
+          src={images.ic_chat_bubbles}
+          alt='chat bubbles'
+          className='w-24 h-20 mx-auto'
+        />
+        <div className='mx-auto mt-2 text-center md:w-4/5'>
+          Kamu belum memiliki topik apapun,{' '}
+          <span className='font-semi-bold'>Mulai Obrolan Baru!</span>
+        </div>
+      </div> */}
 
       {showNav && (
         <div className='md:hidden h-full w-full absolute -mt-14 flex'>
@@ -156,60 +241,114 @@ export const NavChat = ({
                 </div>
               )}
 
-              {KOLEKSI_CHAT.length !== 0 && (
-                <div className='flex justify-between items-end mr-2 my-4'>
-                  <div className='text-neutral-40'>Koleksi</div>
-                  <img
-                    src={images.ic_menu_down}
-                    alt='dropdown'
-                    className='h-6'
-                  />
-                </div>
-              )}
+              {dataLatest?.map((item, index) => {
+                if (item.type === 'koleksi') {
+                  return (
+                    <div key={index}>
+                      {item.data.length !== 0 && (
+                        <div className='flex justify-between items-end mr-2 my-4'>
+                          <div className='text-neutral-40'>Koleksi</div>
+                          <img
+                            src={images.ic_menu_down}
+                            alt='dropdown'
+                            className='h-6'
+                          />
+                        </div>
+                      )}
 
-              {KOLEKSI_CHAT?.map((item, index) => (
-                <div
-                  key={index}
-                  className='flex justify-start gap-2 items-center text-base text-neutral-40 mb-2'
-                >
-                  <img
-                    src={images.ic_folder_colection}
-                    alt='ic_folder_colection'
-                    className='h-7 w-7'
-                  />
-                  {item.label}
-                </div>
-              ))}
+                      {item.data?.map((items, indx) => (
+                        <div key={indx}>
+                          <div
+                            className={`flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 mr-4 py-1 ${
+                              items.isExpand
+                                ? 'bg-blue-sky rounded-2xl pl-2 -ml-2'
+                                : ''
+                            }`}
+                            onClick={() => onExpand(items.id)}
+                          >
+                            <img
+                              src={
+                                items.isExpand
+                                  ? images.ic_folder_colection_active
+                                  : images.ic_folder_colection
+                              }
+                              alt='ic_folder_colection'
+                              className='h-7 w-7'
+                            />
+                            <div>{items.label}</div>
+                          </div>
 
-              {dataLatest.length !== 0 && (
-                <div className='text-neutral-40 mt-4'>Terkini</div>
-              )}
+                          {items.isExpand &&
+                            items.childs?.map((itms) => (
+                              <div
+                                className='border-l-2 border-blue-sky ml-3.5 pl-2 pb-2 text-neutral-40 last:mb-4'
+                                onClick={() => {
+                                  onClickColection(itms.title)
+                                  setShowNav(false)
+                                }}
+                              >
+                                {itms.title}
+                              </div>
+                            ))}
+                        </div>
+                      ))}
+                    </div>
+                  )
+                } else if (item.type === 'terkini') {
+                  return (
+                    <div
+                      key={item.id}
+                      className={`${item.data.length !== 0 ? 'my-4' : ''}`}
+                    >
+                      {item.data.length !== 0 && (
+                        <div className='text-neutral-40 mt-4'>Terkini</div>
+                      )}
 
-              {dataLatest.length !== 0 ? (
-                dataLatest?.map((item, index) => (
-                  <NavComponent
-                    item={{ ...item, id: index }}
-                    key={index}
-                    onClickColection={() => onClickColection(item.text)}
-                    onEdit={(e) => onEdit(e)}
-                    onDelete={(e) => {
-                      onDelete(e)
-                    }}
-                  />
-                ))
-              ) : (
-                <div className='mt-20 flex-col justify-center hidden md:flex'>
-                  <img
-                    src={images.ic_chat_bubbles}
-                    alt='chat bubbles'
-                    className='w-24 h-20 mx-auto'
-                  />
-                  <div className='mx-auto mt-2 text-center md:w-4/5'>
-                    Kamu belum memiliki topik apapun,{' '}
-                    <span className='font-semi-bold'>Mulai Obrolan Baru!</span>
-                  </div>
-                </div>
-              )}
+                      {item.data.length !== 0 &&
+                        item.data?.map((item, index) => (
+                          <NavComponent
+                            item={item}
+                            key={index}
+                            onClickColection={() => {
+                              onClickColection(item.title)
+                              setShowNav(false)
+                            }}
+                            onEdit={(e) => onEdit(e)}
+                            onDelete={(e) => {
+                              onDelete(e)
+                            }}
+                          />
+                        ))}
+                    </div>
+                  )
+                } else if (item.type === 'riwayat') {
+                  return (
+                    <div key={item.id}>
+                      {item.data.length !== 0 && (
+                        <div className='text-neutral-40 mt-4'>
+                          Obrolan Lampau
+                        </div>
+                      )}
+
+                      {item.data.length !== 0 &&
+                        item.data?.map((item, index) => (
+                          <NavComponent
+                            item={item}
+                            key={index}
+                            onClickColection={() => {
+                              onClickColection(item.title)
+                              setShowNav(false)
+                            }}
+                            onEdit={(e) => onEdit(e)}
+                            onDelete={(e) => {
+                              onDelete(e)
+                            }}
+                          />
+                        ))}
+                    </div>
+                  )
+                }
+              })}
             </div>
 
             <div className='h-[8%] -mx-2 bg-white flex items-center px-2 justify-between top-shadow'>
