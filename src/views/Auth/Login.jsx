@@ -34,7 +34,6 @@ export const Login = () => {
     })
     storage.setItem(StorageKey.IS_LOGIN, true)
 
-    // Lakukan logika login jika email valid
     openAlert({
       title: 'Halo lagi,',
       messages: 'Prima Kusumo',
