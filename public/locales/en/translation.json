@@ -13,6 +13,10 @@
       "image_picker_hint": "Use file max 5mb, min 200px x 200px",
       "submit_button": "Create New Account",
       "already_have_account": "Already have an account?",
+      "forgot_password": "Forgot password ?",
+      "registration": "Registration",
+      "dont_have_an_account_yet": "Don't have an account yet?",
+      "login_using_registered_email": "Login Using Registered Email",
       "otp": {
         "heading": "Enter OTP",
         "send_to": "OTP has been sent to email",

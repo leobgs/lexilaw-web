@@ -4,10 +4,12 @@ import { InputPassword } from "components/InputPassword";
 import { Input } from "components/Input";
 import React, { useState } from "react";
 import { useGlobalContext } from "hooks/context";
-import "./Login.scss";
 import AuthCard from "components/Card/AuthCard";
+import { useTranslation } from "react-i18next";
 
 export const Login = () => {
+  const { t } = useTranslation();
+
   const { openAlert } = useGlobalContext();
 
   const [form, setForm] = useState({ email: "", password: "" });
@@ -33,7 +35,7 @@ export const Login = () => {
   return (
     <AuthCard>
       <h2 className="mb-[1rem] text-green-900 text-2xl font-semibold text-center">
-        Login Menggunakan Email Terdaftar
+        {t("login_using_registered_email", { keyPrefix: "auth.register" })}
       </h2>
 
       <Input
@@ -41,20 +43,24 @@ export const Login = () => {
         value={form.email}
         onChange={handleChangeForm}
         className="w-full rounded-full"
-        inputClass="!border-secondary-logo focus:outline-secondary-logo"
+        inputClass="!border-secondary-logo focus:outline-secondary-logo font-medium"
         rowed
-        placeholder="Alamat email"
+        placeholder={t("email", { keyPrefix: "auth.register" })}
       />
 
       <InputPassword
         name="password"
-        className="w-full mt-[1.5rem]"
-        inputClassName="!border-secondary-logo focus:outline-secondary-logo"
-        placeholder="Kata sandi"
+        className="w-full mt-[1.5rem] mb-[4px]"
+        inputClassName="!border-secondary-logo focus:outline-secondary-logo font-medium"
+        placeholder={t("password", { keyPrefix: "auth.register" })}
         value={form.password}
         onChange={handleChangeForm}
         error={error}
       />
+
+      <a className="font-bold text-gray-900 ms-[16px]" href="">
+        {t("forgot_password", { keyPrefix: "auth.register" })}
+      </a>
 
       <Button
         // onClick={() => openAlert({ title: 'Halo Dek,', messages: 'Prima Kusumo', image: images.apple })}
@@ -69,9 +75,9 @@ export const Login = () => {
       />
 
       <p className="text-center font-medium">
-        Belum punya Akun?
+        {t("dont_have_an_account_yet", { keyPrefix: "auth.register" })}
         <a className="font-bold text-gray-900 underline ms-1" href="/register">
-          Registrasi
+          {t("registration", { keyPrefix: "auth.register" })}
         </a>
       </p>
     </AuthCard>

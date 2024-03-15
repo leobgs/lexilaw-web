@@ -4,6 +4,7 @@ import images from "assets/images";
 import { Button } from "components/Button/Button";
 import { Toggle } from "components/Toggle/Toggle";
 import { useTranslation } from "react-i18next";
+import "../Login.scss";
 
 export default function AuthLayout() {
   const { t } = useTranslation();
@@ -36,7 +37,7 @@ export default function AuthLayout() {
   };
 
   return (
-    <div className="bg-contain bg-center  h-screen bg_auth flex items-center flex-col relative">
+    <div className="bg-contain bg-center h-screen bg_auth flex items-center flex-col relative">
       {isOnMobileSize && isOnAuthPage && (
         <div className="navBar border-b-2 border-green-900 md: w-full">
           <Button
@@ -54,7 +55,7 @@ export default function AuthLayout() {
           <img
             src={images.lexilaw_logo}
             alt=""
-            className="logo md:!block pb-[2rem] mx-auto md:mx-0 w-[120px] md:w-[160px] lg:w-[200px] md:ms-[-20px] lg:ms-0 lg:ms-[-30px]"
+            className="logo md:!block pb-[2rem] mx-auto md:mx-0 w-[120px] md:w-[160px] lg:w-[200px] md:ms-[-20px] lg:ms-0"
           />
         )}
 
