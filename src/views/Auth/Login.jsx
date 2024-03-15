@@ -10,7 +10,6 @@ import { NavLink } from 'react-router-dom';
 
 export const Login = () => {
   const { t } = useTranslation();
-
   const { openAlert } = useGlobalContext();
 
   const [form, setForm] = useState({ email: "", password: "" });
@@ -21,6 +20,19 @@ export const Login = () => {
     return regex.test(email);
   };
 
+  const handleChangeForm = (e) => {
+    const { name, value } = e;
+
+    if (name === "email") {
+      if (!validateEmail(value)) {
+        setError("Invalid email format");
+      } else {
+        setError("");
+      }
+    }
+
+    setForm({ ...form, [name]: value });
+  };
 
   const onSubmit = () => {
     if (!validateEmail(form.email)) {
@@ -28,7 +40,6 @@ export const Login = () => {
       return;
     }
 
-    // Lakukan logika login jika email valid
     openAlert({
       title: "Halo lagi,",
       messages: "Prima Kusumo",
@@ -36,15 +47,6 @@ export const Login = () => {
     });
   };
 
-  const handleChangeForm = (e) => {
-    // if (!e) return;
-    const { name, value } = e;
-
-    if (name) {
-      setForm({ ...form, [name]: value });
-      setError("");
-    }
-  };
 
   return (
     <AuthCard>
