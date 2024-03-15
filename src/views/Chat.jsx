@@ -106,6 +106,8 @@ export const Chat = () => {
     dataMessage?.map((item) => {
       if (item.type === 'terkini') {
         item.data = dataTerkini.data
+      } else {
+        item.data?.map((itm) => (itm.isActive = false))
       }
     })
     setMessage([...dataMessage])

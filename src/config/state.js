@@ -23,6 +23,7 @@ export const alertState = {
   isOpen: false,
   title: null,
   messages: '',
+  icon: '',
   isConfirm: false,
   showBtnClose: true,
   btnCloseText: 'Tutup',
@@ -30,4 +31,8 @@ export const alertState = {
   showLoading: false,
   autoHide: false,
   btnConfirmTextClass: '',
+}
+
+export const localesState = {
+  UPDATE: 'UPDATE',
 }

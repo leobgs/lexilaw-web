@@ -69,8 +69,9 @@ export const NavChat = ({
             value={search}
             name='search'
             className='w-10/12'
-            inputClass='!rounded-full'
             placeholder={'Cari'}
+            rowed
+            iconClassName='!w-6'
             icon={images.ic_search}
           />
           <div

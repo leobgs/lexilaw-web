@@ -1,7 +1,6 @@
 import bg_register_login from './bg_register_login.png'
 import logo_lexilaw from './logo_lexilaw.png'
 
-import ic_eye from './ic_eye.png'
 import ic_eye_strike from './ic_eye_strike.png'
 import ic_vector_right from './ic_vector_right.png'
 import ic_chat_bubbles from './ic_chat_bubbles.png'
@@ -27,6 +26,19 @@ import ic_copy from './ic_copy.png'
 import ic_redo from './ic_redo.png'
 import ic_pdf_thumbnail from './ic_pdf_thumbnail.png'
 import ic_send from './ic_send.png'
+
+import lexilaw_logo from './lexilaw-logo.png'
+import ic_eye from './ic_eye.png'
+import chevron_right from './chevron-right.png'
+import chevron_left from './chevron-left.png'
+import google from './google.png'
+import apple from './apple.png'
+import email_outline from './email-outline.png'
+import ai_profile_thumbnail from './ai-profile-thumbnail.png'
+import ic_upload from './ic_upload.png'
+import ic_avatar_placeholder from './ic_avatar_placeholder.png'
+import ic_chevron_down from './ic_chevron_down.png'
+import ic_close_red from './ic_close_red.png'
 
 const images = {
   bg_register_login,
@@ -58,6 +70,21 @@ const images = {
   ic_redo,
   ic_pdf_thumbnail,
   ic_send,
+
+  bg_register_login,
+  lexilaw_logo,
+  ic_eye,
+  ic_eye_strike,
+  chevron_right,
+  chevron_left,
+  google,
+  apple,
+  email_outline,
+  ai_profile_thumbnail,
+  ic_upload,
+  ic_avatar_placeholder,
+  ic_chevron_down,
+  ic_close_red,
 }
 
 export default images

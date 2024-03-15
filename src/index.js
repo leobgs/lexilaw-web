@@ -5,12 +5,15 @@ import App from './App'
 import { AppProvider } from './hooks/context'
 import 'react-tooltip/dist/react-tooltip.css'
 import 'react-toastify/dist/ReactToastify.css'
+import './i18n'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <AppProvider>
-      <App />
-    </AppProvider>
+    <React.Suspense>
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </React.Suspense>
   </React.StrictMode>
 )
