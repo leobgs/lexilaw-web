@@ -94,7 +94,7 @@ export const Input = ({
 
         {error && (
           <div className='flex items-center mt-1 ml-1'>
-            <img className='w-3 h-3' src={images.ic_invalid} alt='' />
+          {/* <img className='w-3 h-3' src={images.ic_invalid} alt='' /> */}
             <div className='text-error-base text-xs ml-1'>{error}</div>
           </div>
         )}
