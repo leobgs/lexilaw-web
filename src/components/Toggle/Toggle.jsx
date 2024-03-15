@@ -3,7 +3,7 @@ import './Toggle.scss'
 import { useTranslation } from 'react-i18next'
 import { useGlobalContext } from 'hooks/context'
 
-export const Toggle = ({ className }) => {
+export const Toggle = ({ className, labelClassName }) => {
   const { currentLanguage, setLanguage } = useGlobalContext()
   const { i18n } = useTranslation()
 
@@ -21,7 +21,7 @@ export const Toggle = ({ className }) => {
 
   return (
     // <div className="my-4 flex justify-end align-center"
-    <div className={clsx(' my-4 flex justify-end align-center', className)}>
+    <div className={clsx('my-4 flex justify-end align-center', className)}>
       <p className='text-white font-light me-2'>
         {isEnglish ? 'English (EN)' : 'Indonesia (ID)'}
       </p>
@@ -35,7 +35,10 @@ export const Toggle = ({ className }) => {
         />
         <label
           htmlFor='check1'
-          className='toggle-label block w-[53px] h-6 rounded-full transition-color duration-150 ease-out'
+          className={clsx(
+            'toggle-label block w-[53px] h-6 rounded-full transition-color duration-150 ease-out',
+            labelClassName
+          )}
         />
       </div>
     </div>

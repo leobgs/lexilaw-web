@@ -1,8 +1,13 @@
 import images from 'assets/images'
-import { InputChat, NavChat, QuestionCard } from 'components'
+import { InputChat, NavChat, QuestionCard, Tooltips } from 'components'
 import { AutoScrollingDiv } from 'components/AutoScrollDiv'
 import { ChatCard } from 'components/ChatCard'
+import { Toggle } from 'components/Toggle/Toggle'
+import { StorageKey } from 'config/storage'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { LocalStorage } from 'utils'
 import {
   DEFAULT_QUESTION,
   KOLEKSI_CHAT,
@@ -11,6 +16,9 @@ import {
 } from 'utils/dummy'
 
 export const Chat = () => {
+  const { t } = useTranslation()
+  const storage = new LocalStorage()
+  const navigate = useNavigate()
   const [isDisplayImage, setDisplayImage] = useState()
   const [isHeader, setIsHeader] = useState(true)
   const [dataMessage, setMessage] = useState([
@@ -173,6 +181,12 @@ export const Chat = () => {
     setMessage([...dataMessage])
   }
 
+  const doLogout = () => {
+    storage.remove(StorageKey.ACCESS_TOKEN)
+    storage.remove(StorageKey.IS_LOGIN)
+    navigate('/auth')
+  }
+
   return (
     <div className='pt-4 bg-primary-base h-screen md:p-4'>
       <div className='h-calculate md:flex md:justify-between md:mt-12'>
@@ -192,7 +206,78 @@ export const Chat = () => {
               <img src={images.ic_obrolan} alt='obrolan' />
               <div className='font-futura-bolds font-bold'>{headerText}</div>
             </div>
-            <img src={images.ic_thumbnail_profile} alt='profile' />
+
+            <img
+              src={images.ic_thumbnail_profile}
+              alt='profile'
+              data-tooltip-id='profile-tooltip'
+            />
+            <Tooltips
+              idToolTips='profile-tooltip'
+              tooltipEffect='solid'
+              tooltipPlace='bottom-end'
+              className='bg-secondary-base hidden md:inline-block'
+              children={
+                <div className='text-neutral-40 -mx-4'>
+                  <div className='bg-blue-dark w-full h-2 -mt-2 rounded-t-md' />
+                  <div className='px-4 my-2 text-xxs'>
+                    {t('main_menu', {
+                      keyPrefix: 'chat.profile_menu',
+                    })}
+                  </div>
+                  <div className='border-b border-b-neutral-20 text-xs font-semi-bold'>
+                    <div className='px-4 mb-1 text-black-darker'>
+                      {t('my_account', {
+                        keyPrefix: 'chat.profile_option',
+                      })}
+                    </div>
+                    <div className='flex justify-between items-center  mb-2'>
+                      <div className='px-4 text-black-darker'>
+                        {t('my_lawyer', {
+                          keyPrefix: 'chat.profile_option',
+                        })}
+                      </div>
+                      <div className='py-0.5 px-1.5 bg-error-lighter text-xs mr-2 rounded-full text-white flex items-center justify-center'>
+                        1
+                      </div>
+                    </div>
+                  </div>
+                  <div className='px-4 mb-2 mt-2 text-xxs'>
+                    {t('connected', {
+                      keyPrefix: 'chat.profile_menu',
+                    })}
+                  </div>
+                  <div className='px-4 mb-1 text-black-darker text-xs font-semi-bold border-b border-b-neutral-20 pb-2'>
+                    {t('wa_activation', {
+                      keyPrefix: 'chat.profile_option',
+                    })}
+                  </div>
+
+                  <div className='px-4 my-2 text-xxs'>
+                    {t('configure', {
+                      keyPrefix: 'chat.profile_menu',
+                    })}
+                  </div>
+                  <div className='mb-1 flex justify-center ml-4 items-start'>
+                    <div className='px-4 text-black-darker text-xs font-semi-bold'>
+                      {t('menu_language', {
+                        keyPrefix: 'chat.profile_option',
+                      })}
+                    </div>
+                    <div className='mr-4'>
+                      <Toggle labelClassName='!w-[50px]' className='!my-0' />
+                    </div>
+                  </div>
+
+                  <div
+                    className='font-semi-bold text-error-base px-6 bg-error-lighter bg-opacity-10 -mx-1 py-2 -mb-2.5 rounded-b-lg text-xs'
+                    onClick={doLogout}
+                  >
+                    Logout
+                  </div>
+                </div>
+              }
+            />
           </div>
           <div
             className={`flex h-[96%] md:h-[92%] xl:h-[92%] flex-col select-text`}

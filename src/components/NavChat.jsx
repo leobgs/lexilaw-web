@@ -2,6 +2,11 @@ import images from 'assets/images'
 import { useEffect, useState } from 'react'
 import { Input } from './Input'
 import { NavComponent } from './NavComponent'
+import { useTranslation } from 'react-i18next'
+import { Toggle } from './Toggle/Toggle'
+import { LocalStorage } from 'utils'
+import { StorageKey } from 'config/storage'
+import { useNavigate } from 'react-router-dom'
 
 export const NavChat = ({
   onHeaderClick,
@@ -12,18 +17,26 @@ export const NavChat = ({
   headerText,
   onExpand,
 }) => {
+  const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [showNav, setShowNav] = useState(false)
   const [showSearchNav, setShowSearchNav] = useState(false)
+  const [showSetting, setShowSetting] = useState(false)
+  const storage = new LocalStorage()
+  const navigate = useNavigate()
+
+  const doLogout = () => {
+    storage.remove(StorageKey.ACCESS_TOKEN)
+    storage.remove(StorageKey.IS_LOGIN)
+    navigate('/auth')
+  }
 
   useEffect(() => {
     dataLatest.forEach((category) => {
       category?.data.forEach((item) => {
         const lowerSearchString = search?.toLowerCase()
-
         const lowerTitle = item.title?.toLowerCase()
         const lowerLabel = item.label ? item.label?.toLowerCase() : ''
-
         if (
           lowerTitle?.includes(lowerSearchString) ||
           lowerLabel?.includes(lowerSearchString)
@@ -34,8 +47,6 @@ export const NavChat = ({
         }
       })
     })
-
-    console.log(dataLatest)
   }, [search])
 
   return (
@@ -355,7 +366,11 @@ export const NavChat = ({
             <div className='h-[8%] -mx-2 bg-white flex items-center px-2 justify-between top-shadow'>
               <div className='font-semi-bold'>Prima Kusumo</div>
               <div>
-                <img src={images.ic_thumbnail_profile} alt='profile' />
+                <img
+                  src={images.ic_thumbnail_profile}
+                  alt='profile'
+                  onClick={() => setShowSetting(true)}
+                />
               </div>
             </div>
           </div>
@@ -364,6 +379,78 @@ export const NavChat = ({
             className='bg-black-lightest bg-opacity-70 w-1/4 h-full'
             onClick={() => setShowNav(false)}
           />
+        </div>
+      )}
+
+      {showSetting && (
+        <div className='md:hidden absolute w-full h-full bg-white -mt-14 p-4 pt-8'>
+          <div className='flex justify-start gap-4 items-center shadow-md -mx-4 px-4 pb-4'>
+            <img
+              src={images.ic_chevron_left}
+              alt='back'
+              onClick={() => setShowSetting(false)}
+              className='h-6'
+            />
+            <div className='text-xl font-semi-bold'>Setting</div>
+          </div>
+
+          <div className='text-neutral-40 mt-8'>
+            <div className='px-4 my-2'>
+              {t('main_menu', {
+                keyPrefix: 'chat.profile_menu',
+              })}
+            </div>
+            <div className='border-b border-b-neutral-20 text-base font-semi-bold'>
+              <div className='px-4 mb-2 text-black-darker'>
+                {t('my_account', {
+                  keyPrefix: 'chat.profile_option',
+                })}
+              </div>
+              <div className='flex justify-between items-center mb-2'>
+                <div className='px-4 text-black-darker'>
+                  {t('my_lawyer', {
+                    keyPrefix: 'chat.profile_option',
+                  })}
+                </div>
+                <div className='py-0.5 px-2.5 bg-error-lighter text-base mr-2 rounded-full text-white flex items-center justify-center'>
+                  1
+                </div>
+              </div>
+            </div>
+            <div className='px-4 mb-2 mt-2'>
+              {t('connected', {
+                keyPrefix: 'chat.profile_menu',
+              })}
+            </div>
+            <div className='px-4 mb-1 text-black-darker text-base font-semi-bold border-b border-b-neutral-20 pb-2'>
+              {t('wa_activation', {
+                keyPrefix: 'chat.profile_option',
+              })}
+            </div>
+
+            <div className='px-4 my-2'>
+              {t('configure', {
+                keyPrefix: 'chat.profile_menu',
+              })}
+            </div>
+            <div className='mb-1 flex justify-between items-start'>
+              <div className='px-4 text-black-darker text-base font-semi-bold'>
+                {t('menu_language', {
+                  keyPrefix: 'chat.profile_option',
+                })}
+              </div>
+              <div className=''>
+                <Toggle labelClassName='!w-[50px]' className='!my-0' />
+              </div>
+            </div>
+
+            <div
+              className='font-semi-bold text-error-base px-6 bg-neutral-60 -mx-1 py-2 text-center rounded-lg text-base mt-8'
+              onClick={doLogout}
+            >
+              Logout
+            </div>
+          </div>
         </div>
       )}
     </nav>

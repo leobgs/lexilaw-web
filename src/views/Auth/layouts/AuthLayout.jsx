@@ -62,7 +62,7 @@ export default function AuthLayout() {
         <div className='grid md:grid-cols-2 md:gap-5 xl:gap-12 2xl:gap-32'>
           {((!isOnAuthPage && isOnMobileSize) || !isOnMobileSize) && (
             <div className='desc flex md:!flex flex-col justify-center'>
-              <h1 className='font-bold text-5xl	 md:text-7xl text-white text-center md:text-start'>
+              <h1 className='font-bold text-5xl	 md:text-7xl text-white text-center md:text-start font-futuras'>
                 {t('tagline')}
               </h1>
               <p className='pt-[0.5rem] text-white text-center md:text-start font-light'>

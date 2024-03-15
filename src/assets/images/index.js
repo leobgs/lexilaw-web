@@ -26,7 +26,7 @@ import ic_copy from './ic_copy.png'
 import ic_redo from './ic_redo.png'
 import ic_pdf_thumbnail from './ic_pdf_thumbnail.png'
 import ic_send from './ic_send.png'
-
+import ic_chevron_left from './ic_chevron_left.png'
 import lexilaw_logo from './lexilaw-logo.png'
 import ic_eye from './ic_eye.png'
 import chevron_right from './chevron-right.png'
@@ -85,6 +85,7 @@ const images = {
   ic_avatar_placeholder,
   ic_chevron_down,
   ic_close_red,
+  ic_chevron_left,
 }
 
 export default images
