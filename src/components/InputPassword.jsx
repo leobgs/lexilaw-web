@@ -48,15 +48,15 @@ export const InputPassword = ({
             {label && <div className='font-semi-bold text-neutral-30 mb-2 '>{label}</div>}
             <div className='relative'>
                 <img
-                    className='absolute translate-y-1/2 right-4 w-[22px] h-[18px] top-[7px]'
+                    className='absolute translate-y-1/2 right-4 w-[22px] h-[18px] top-2'
                     src={isPINVisible ? images.ic_eye : images.ic_eye_strike}
                     alt=''
                     onClick={toggleShowPassword}
                 />
                 <input
-                    className={`!rounded-full border-2 bg-gray-50 !border-gray-100 
+                    className={`rounded-full border-2 bg-gray-50 !border-gray-100 
                     focus:outline-none focus:ring-none ring-none
-                    w-full rounded-md bg-neutral-0  p-3 ${inputClassName ? inputClassName : ''}`}
+                    w-full bg-neutral-0  p-3 ${inputClassName ? inputClassName : ''}`}
                     type={type === 'password' ? s_type : type}
                     minLength={maxLength}
                     placeholder={placeholder}

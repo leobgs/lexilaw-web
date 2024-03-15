@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { useGlobalContext } from "hooks/context";
 import AuthCard from "components/Card/AuthCard";
 import { useTranslation } from "react-i18next";
+import { NavLink } from 'react-router-dom';
 
 export const Login = () => {
   const { t } = useTranslation();
@@ -14,7 +15,20 @@ export const Login = () => {
 
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+
   const onSubmit = () => {
+    if (!validateEmail(form.email)) {
+      setError("Invalid email format");
+      return;
+    }
+
+    // Lakukan logika login jika email valid
     openAlert({
       title: "Halo lagi,",
       messages: "Prima Kusumo",
@@ -42,10 +56,11 @@ export const Login = () => {
         name="email"
         value={form.email}
         onChange={handleChangeForm}
-        className="w-full rounded-full"
+        className="w-full rounded-full flex flex-col !items-start"
         inputClass="!border-secondary-logo focus:outline-secondary-logo font-medium"
         rowed
         placeholder={t("email", { keyPrefix: "auth.register" })}
+        error={error}
       />
 
       <InputPassword
@@ -55,12 +70,11 @@ export const Login = () => {
         placeholder={t("password", { keyPrefix: "auth.register" })}
         value={form.password}
         onChange={handleChangeForm}
-        error={error}
       />
 
-      <a className="font-bold text-gray-900 ms-[16px]" href="">
+      <NavLink className="font-bold text-gray-900 ms-[16px]" to="#" onClick={() => console.log('Tautan diklik!')}>
         {t("forgot_password", { keyPrefix: "auth.register" })}
-      </a>
+      </NavLink>
 
       <Button
         // onClick={() => openAlert({ title: 'Halo Dek,', messages: 'Prima Kusumo', image: images.apple })}
@@ -68,7 +82,7 @@ export const Login = () => {
         onClick={onSubmit}
         iconRight={images.chevron_right}
         iconClassName={"absolute right-4"}
-        disabled={!form.password || !form.email}
+        disabled={!form.password || !form.email || !validateEmail(form.email)}
         className={
           "btn-secondary-hover w-full mt-[2rem] mb-[1rem] rounded-full font-medium relative"
         }
@@ -76,9 +90,9 @@ export const Login = () => {
 
       <p className="text-center font-medium">
         {t("dont_have_an_account_yet", { keyPrefix: "auth.register" })}
-        <a className="font-bold text-gray-900 underline ms-1" href="/register">
+        <NavLink className="font-bold text-gray-900 underline ms-1" to="/register">
           {t("registration", { keyPrefix: "auth.register" })}
-        </a>
+        </NavLink>
       </p>
     </AuthCard>
   );
