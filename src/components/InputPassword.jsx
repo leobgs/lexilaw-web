@@ -8,7 +8,7 @@ export const InputPassword = ({
     placeholder,
     name,
     value,
-    maxLength = 6,
+    maxLength = 8,
     inputClassName,
     error,
     onChange,

@@ -168,6 +168,7 @@ export default function Register() {
                 placeholder={t("password_confirm", {
                   keyPrefix: "auth.register",
                 })}
+                maxLength={8}
                 value={registerForm.password_confirm}
                 onChange={handleChangeForm}
                 error={error.password_confirm}
