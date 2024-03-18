@@ -185,12 +185,6 @@ export default function Register() {
               }}
             />
 
-            <InputImage
-              name="image"
-              image={registerForm.image}
-              onImageSelect={handleImageChange}
-            />
-
             <Input
               name="company_name"
               value={registerForm.company_name}
@@ -201,6 +195,12 @@ export default function Register() {
               placeholder={t("firm_name", { keyPrefix: "auth.register" })}
             />
 
+            <InputImage
+              name="image"
+              image={registerForm.image}
+              onImageSelect={handleImageChange}
+            />
+
             <Button
               label={t("submit_button", { keyPrefix: "auth.register" })}
               onClick={() => {
@@ -208,8 +208,7 @@ export default function Register() {
               }}
               iconRight={images.chevron_right}
               iconClassName={"absolute right-4"}
-              // disabled={!isValidForm}
-              disabled={false}
+              disabled={!isValidForm}
               className={
                 "btn-secondary-hover w-full mt-1 rounded-full font-medium relative"
               }
