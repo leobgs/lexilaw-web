@@ -13,7 +13,8 @@ export default function AuthLayout() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const isOnLogin = location.pathname === "/login";
   const isOnRegister = location.pathname === "/register";
-  const isOnAuthPage = isOnRegister || isOnLogin;
+  const isOnOtp = location.pathname === "/register/otp";
+  const isOnAuthPage = isOnRegister || isOnLogin || isOnOtp;
   const isOnMobileSize = windowWidth <= 768;
 
   useEffect(() => {
@@ -80,42 +81,44 @@ export default function AuthLayout() {
               </>
             ) : null}
 
-            <div className="grid lg:grid-cols-2 lg:gap-5 px-3">
-              <Button
-                label={t("social_google", { keyPrefix: "auth" })}
-                iconLeft={images.google}
-                iconClassName={"w-[20px] h-[20px] me-2"}
-                className={
-                  "whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
-                }
-              />
+            {!isOnOtp ? (
+              <div className="grid lg:grid-cols-2 lg:gap-5 px-3">
+                <Button
+                  label={t("social_google", { keyPrefix: "auth" })}
+                  iconLeft={images.google}
+                  iconClassName={"w-[20px] h-[20px] me-2"}
+                  className={
+                    "whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
+                  }
+                />
 
-              <Button
-                label={t("social_apple", { keyPrefix: "auth" })}
-                iconLeft={images.apple}
-                iconClassName={"w-[20px] h-[20px] me-2"}
-                className={
-                  "whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
-                }
-              />
+                <Button
+                  label={t("social_apple", { keyPrefix: "auth" })}
+                  iconLeft={images.apple}
+                  iconClassName={"w-[20px] h-[20px] me-2"}
+                  className={
+                    "whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
+                  }
+                />
 
-              <Button
-                label={t("social_email", { keyPrefix: "auth" })}
-                iconLeft={images.email_outline}
-                iconClassName={"w-[20px] h-[20px] me-2"}
-                onClick={handleSignEmail}
-                className={
-                  "md:hidden bg-outline bg-white text-green-900 w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
-                }
-              />
+                <Button
+                  label={t("social_email", { keyPrefix: "auth" })}
+                  iconLeft={images.email_outline}
+                  iconClassName={"w-[20px] h-[20px] me-2"}
+                  onClick={handleSignEmail}
+                  className={
+                    "md:hidden bg-outline bg-white text-green-900 w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
+                  }
+                />
 
-              <p className="text-center text-gray-400 font-medium md:hidden">
-                {t("not_have_account", { keyPrefix: "auth.login" })}
-                <a className="font-bold text-white underline ms-1" href="">
-                  {t("register", { keyPrefix: "auth.login" })}
-                </a>
-              </p>
-            </div>
+                <p className="text-center text-gray-400 font-medium md:hidden">
+                  {t("not_have_account", { keyPrefix: "auth.login" })}
+                  <a className="font-bold text-white underline ms-1" href="">
+                    {t("register", { keyPrefix: "auth.login" })}
+                  </a>
+                </p>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
