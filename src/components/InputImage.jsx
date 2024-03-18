@@ -72,20 +72,30 @@ export default function InputImage({ className, name, image, onImageSelect }) {
           />
 
           <div className="hidden md:block">
-            <UploadButton onClick={handleClick} className="pt-2" />
+            {error ? (
+              <InvalidButton
+                onClick={() => {
+                  setError("");
+                }}
+              />
+            ) : (
+              <UploadButton onClick={handleClick} className="pt-2" />
+            )}
           </div>
         </div>
       </div>
 
       <div className="block md:hidden">
-        <UploadButton onClick={handleClick} className="pt-2" />
+        {error ? (
+          <InvalidButton
+            onClick={() => {
+              setError("");
+            }}
+          />
+        ) : (
+          <UploadButton onClick={handleClick} className="pt-2" />
+        )}
       </div>
-
-      {error && (
-        <div className="flex items-center mt-1 ml-1">
-          <div className="text-error-base text-xs ml-1">{error}</div>
-        </div>
-      )}
     </div>
   );
 }
@@ -106,3 +116,26 @@ function UploadButton({ onClick, className }) {
     </div>
   );
 }
+
+const InvalidButton = ({ onClick, className }) => {
+  const { t } = useTranslation();
+  return (
+    <>
+      <div className="h-8 md:h-7w-full flex  items-center pt-2">
+        <div
+          className="flex items-center rounded-md px-2 py-1 bg-[#FFF5DB] ring-2 ring-[#FF9D0B]"
+          onClick={onClick}
+        >
+          <p className="inline font-regular text-sm text-[#DB0000]">
+            {t("image_error", { keyPrefix: "auth.register.error_messages" })}
+          </p>
+          <img
+            className="inline size-[13px]"
+            src={images.ic_close_red}
+            alt="close"
+          />
+        </div>
+      </div>
+    </>
+  );
+};
