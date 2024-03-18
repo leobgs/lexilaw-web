@@ -83,13 +83,13 @@ export default function Register() {
 
   const isAnyEmptyForm = () => {
     return (
-      registerForm.first_name === null ||
-      registerForm.last_name === null ||
-      registerForm.email === null ||
-      registerForm.password === null ||
-      registerForm.password_confirm === null ||
-      registerForm.city === null ||
-      registerForm.image === null
+      registerForm.first_name === null || registerForm.first_name === "" ||
+      registerForm.last_name === null || registerForm.last_name === "" ||
+      registerForm.email === null || registerForm.email === "" ||
+      registerForm.password === null || registerForm.password === "" ||
+      registerForm.password_confirm === null ||  registerForm.password_confirm === "" ||
+      registerForm.city === null || registerForm.city === "" ||
+      registerForm.image === null || registerForm.image === ""
     );
   };
 
