@@ -19,14 +19,14 @@ const InputOTP = ({
   return (
     <div
       className={clsx(
-        "relative h-[72px] border-b-2 border-dark-50",
-        isNotValid ? "border-[#FF7878]" : ""
+        "relative h-[72px] border-b-2",
+        isNotValid ? "border-[#FF7878]" : "border-dark-50"
       )}
     >
       {isNotValid && (
         <div className="absolute w-full h-full flex flex-row-reverse items-center">
           <div
-            className="flex items-center rounded px-2 py-1 bg-[#FFF5DB] ring-1 ring-[#FF9D0B]"
+            className="flex items-center rounded-md px-2 py-1 bg-[#FFF5DB] ring-2 ring-[#FF9D0B]"
             onClick={() => {
               onValueChanged("");
             }}
@@ -46,10 +46,12 @@ const InputOTP = ({
       <input
         className={clsx(
           "w-full h-full bg-transparent border-none focus:outline-none focus:ring-none ring-none",
-          value
-            ? "text-[32px] text-dark-50 font-bold"
-            : "text-xl text-[#9F9F9F] font-regular",
-          isNotValid ? "text-[#DB0000]" : ""
+          value ? "text-[32px] font-bold" : "text-xl font-regular",
+          isNotValid
+            ? "text-[#DB0000]"
+            : value
+            ? "text-dark-50"
+            : "text-[#9F9F9F]"
         )}
         type={"number"}
         placeholder={placeholder}
