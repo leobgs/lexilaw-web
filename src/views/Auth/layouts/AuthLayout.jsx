@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import images from "assets/images";
 import { Button } from "components/Button/Button";
 import { Toggle } from "components/Toggle/Toggle";
@@ -113,9 +113,12 @@ export default function AuthLayout() {
 
                 <p className="text-center text-gray-400 font-medium md:hidden">
                   {t("not_have_account", { keyPrefix: "auth.login" })}
-                  <a className="font-bold text-white underline ms-1" href="">
+                  <NavLink
+                    className="font-bold text-white underline ms-1"
+                    to="/register"
+                  >
                     {t("register", { keyPrefix: "auth.login" })}
-                  </a>
+                  </NavLink>
                 </p>
               </div>
             ) : null}
