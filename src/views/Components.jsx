@@ -1,5 +1,6 @@
 import images from 'assets/images'
 import { Spinner, Button, Input, InputPIN, InputSelect } from 'components'
+import { Switch } from 'components'
 import { useGlobalContext } from 'hooks/context'
 import { useState } from 'react'
 
@@ -7,6 +8,7 @@ export const Components = () => {
   const { openAlert } = useGlobalContext()
   const [form, setForm] = useState({ pin: '', email: '', description: '' })
   const [error, setError] = useState({ pin: '', email: '', description: '' })
+  const [isActive, setActive] = useState(false)
 
   const handleChangeForm = (e) => {
     setForm({
@@ -27,7 +29,7 @@ export const Components = () => {
   return (
     <div className='p-4 bg-primary-base'>
       <p>Typograph Inter</p>
-      <p className='font-futura-bold text-2xl font-bold'>Typograph Futura</p>
+      <p className='font-futura-bolds text-2xl font-bold'>Typograph Futura</p>
 
       <Spinner className={'mt-4'} />
       <InputSelect

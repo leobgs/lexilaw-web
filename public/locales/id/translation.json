@@ -40,5 +40,19 @@
     "login": "Login",
     "register": "Register",
     "upload": "Unggah"
+  },
+  "chat": {
+    "placeholder_input": "Tanyakan ke Lexi",
+    "profile_option": {
+      "my_account": "Akun Saya",
+      "my_lawyer": "Pengacara Saya",
+      "wa_activation": "Aktivasi WhatsApp",
+      "menu_language": "Bahasa Menu"
+    },
+    "profile_menu": {
+      "main_menu": "Menu Utama",
+      "connected": "Hubungkan",
+      "configure": "Konfigurasi"
+    }
   }
 }

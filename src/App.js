@@ -1,82 +1,77 @@
-import { LocalStorage } from "utils/LocalStorage";
-import { useGlobalContext } from "./hooks/context";
 import {
   BrowserRouter,
   Navigate,
   Outlet,
   Route,
   Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-import { isLogin } from "utils/auth";
-import { Login, Components } from "views";
-import { ModalAlert } from "components";
-import AuthLayout from "views/Auth/layouts/AuthLayout";
-import Register from "views/Auth/register/Register";
-import RegisterOTP from "views/Auth/register/RegisterOTP";
+} from 'react-router-dom'
+import { isLogin } from 'utils/auth'
+import { Login, Components, Chat, NotFound } from 'views'
+import { ModalAlert } from 'components'
+import { ToastContainer } from 'react-toastify'
+import AuthLayout from 'views/Auth/layouts/AuthLayout'
+import Register from 'views/Auth/register/Register'
+import RegisterOTP from 'views/Auth/register/RegisterOTP'
 
-const storage = new LocalStorage();
 const PrivateRoute = ({ wrapperContent = true }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { clearOverview } = useGlobalContext();
-
-  const handleClearStorge = () => {
-    storage.clear();
-    clearOverview();
-    setTimeout(() => {
-      navigate("/");
-    }, 100);
-  };
-
   if (!isLogin()) {
-    return <Navigate to="/" replace />;
+    return <Navigate to='/auth' replace />
   }
 
   return wrapperContent ? (
-    <div className={"content"} id="content">
+    <div className={'content'} id='content'>
       <Outlet />
     </div>
   ) : (
-    <div className="content_nowrap" id="content_nowrap">
+    <div className='content_nowrap' id='content_nowrap'>
       <Outlet />
     </div>
-  );
-};
+  )
+}
 
 const ProtectedRoute = ({ wrapperContent = true }) => {
   if (isLogin()) {
-    return <Navigate to="/order/overview" replace />;
+    return <Navigate to='/' replace />
   }
 
+  console.log(isLogin())
+
   return wrapperContent ? (
-    <div className="content" id="content">
+    <div className='content' id='content'>
       <Outlet />
     </div>
   ) : (
-    <div className="content_nowrap" id="content_nowrap">
+    <div className='content_nowrap' id='content_nowrap'>
       <Outlet />
     </div>
-  );
-};
+  )
+}
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<AuthLayout />}>
-          <Route index element={<Login />} />
-          <Route path="login" Component={Login} />
-          <Route path="register" Component={Register} />
-          <Route path="register/otp" Component={RegisterOTP} />
+        <Route element={<ProtectedRoute wrapperContent={false} />}>
+          <Route path='/auth' element={<AuthLayout />}>
+            <Route index element={<Login />} />
+            <Route path='login' Component={Login} />
+            <Route path='register' Component={Register} />
+            <Route path='register/otp' Component={RegisterOTP} />
+          </Route>
         </Route>
-        <Route path="/components" element={<Components />} />
-        <Route element={<PrivateRoute />}></Route>
+
+        <Route element={<PrivateRoute />}>
+          <Route path='/' element={<Chat />} />
+        </Route>
+
+        <Route path='/components' element={<Components />} />
+        <Route path='/404' element={<NotFound />} />
+        <Route path='*' element={<Navigate to='/404' />} />
       </Routes>
       <ModalAlert />
+      <ToastContainer />
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App
