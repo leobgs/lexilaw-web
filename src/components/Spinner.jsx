@@ -1,12 +1,16 @@
-import clsx from 'clsx'
+import clsx from "clsx";
 
-export const Spinner = ({ className }) => {
+export const Spinner = ({ className, innerClassName }) => {
   return (
     <div
       className={clsx(
-        'w-6 h-6 rounded-full animate-spin border-x-2 border-solid border-neutral-20 border-t-transparent',
+        "flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-tr from-secondary-base to-neutral-20 animate-spin",
         className
       )}
-    ></div>
-  )
-}
+    >
+      <div
+        className={clsx("h-8 w-8 rounded-full bg-white", innerClassName)}
+      ></div>
+    </div>
+  );
+};
