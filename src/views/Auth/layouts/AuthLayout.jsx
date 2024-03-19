@@ -5,6 +5,7 @@ import { Button } from "components/Button/Button";
 import { Toggle } from "components/Toggle/Toggle";
 import { useTranslation } from "react-i18next";
 import "../Login.scss";
+import { AppleSignInButton } from "components/Button/AppleSiginInButton";
 
 export default function AuthLayout() {
   const { t } = useTranslation();
@@ -92,13 +93,13 @@ export default function AuthLayout() {
                   }
                 />
 
-                <Button
-                  label={t("social_apple", { keyPrefix: "auth" })}
-                  iconLeft={images.apple}
-                  iconClassName={"w-[20px] h-[20px] me-2"}
+                <AppleSignInButton
                   className={
                     "whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
                   }
+                  callback={(response) => {
+                    console.log(response);
+                  }}
                 />
 
                 <Button
