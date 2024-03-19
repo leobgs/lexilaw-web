@@ -6,16 +6,15 @@ import { env } from "utils";
 
 export const AppleSignInButton = ({ className, callback }) => {
   const { t } = useTranslation();
-
+  
   return (
-    
     <AppleLogin
-      clientId={env("REACT_APP_APPLE_CLIENT_ID", "APPLE_CLIENT_ID")}
-      redirectURI={env("REACT_APP_APPLE_REDIRECT_URL", "APPLE_REDIRECT_URL")}
+      clientId={env('REACT_APP_APPLE_CLIENT_ID','REACT_APP_APPLE_CLIENT_ID')}
+      redirectURI={env('REACT_APP_APPLE_REDIRECT_URL','REACT_APP_APPLE_REDIRECT_URL')}
       usePopup={false}
       callback={callback}
       scope="email name"
-      responseMode="query"
+      responseMode="form_post"
       responseType="code"
       render={(renderProps) => (
         <Button
