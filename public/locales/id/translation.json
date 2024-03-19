@@ -34,7 +34,10 @@
     },
     "social_google": "MASUK DENGAN GOOGLE",
     "social_apple": "MASUK DENGAN APPLE ID",
-    "social_email": "MASUK DENGAN EMAIL"
+    "social_email": "MASUK DENGAN EMAIL",
+    "login_navbar_title": "Login",
+    "register_navbar_title": "Daftar Sekarang",
+    "otp_navbar_title": "Verifikasi"
   },
   "common": {
     "login": "Login",

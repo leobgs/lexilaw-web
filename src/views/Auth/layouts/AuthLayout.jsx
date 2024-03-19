@@ -10,18 +10,20 @@ export default function AuthLayout() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+  const [navTitle, setNavTitle] = useState("");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const isOnLogin = location.pathname === "/login";
-  const isOnRegister = location.pathname === "/register";
+  const isOnRegister = location.pathname === "/register"; 
   const isOnOtp = location.pathname === "/register/otp";
   const isOnAuthPage = isOnRegister || isOnLogin || isOnOtp;
   const isOnMobileSize = windowWidth <= 768;
 
   useEffect(() => {
+    handleNavTitle()
+
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -37,12 +39,22 @@ export default function AuthLayout() {
     navigate(-1);
   };
 
+  const handleNavTitle = () => {
+    if (isOnLogin) {
+      setNavTitle(t("auth.login_navbar_title"));
+    } else if (isOnRegister) {
+      setNavTitle(t("auth.register_navbar_title"));
+    } else {
+      setNavTitle(t("auth.otp_navbar_title"));
+    }
+  }
+  
   return (
     <div className="bg-contain bg-center h-screen bg_auth flex items-center flex-col relative">
       {isOnMobileSize && isOnAuthPage && (
         <div className="navBar border-b-2 border-green-900 md: w-full">
           <Button
-            label={isOnLogin ? "Login" : "Daftar Sekarang"}
+            label={navTitle}
             iconLeft={images.chevron_left}
             iconClassName={"w-[20px] h-[20px] me-2"}
             onClick={handleBackLogin}
