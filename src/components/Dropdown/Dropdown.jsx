@@ -27,7 +27,7 @@ export const Dropdown = ({
   );
 
   return (
-    <div className="relative inline-block text-left z-50">
+    <div className="relative inline-block text-left z-30">
       <button
         className={clsx(
           "flex items-center justify-between w-full h-[3rem] py-3 px-4 rounded-[100px] font-semi-bold text-base bg-primary-light ring-gray-100 ring-1 transition duration-150 ease-in-out",
