@@ -1,3 +1,4 @@
 export { Login } from './Auth/Login'
-export { Splashscreen } from './Auth/Splashscreen'
+export { Chat } from './Chat'
 export { Components } from './Components'
+export { NotFound } from './Auth/NotFound'

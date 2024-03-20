@@ -34,7 +34,7 @@ export const AppProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const { CURRENT_LANGUAGE } = localServerData()
+    const { CURRENT_LANGUAGE } = localServerData();
     if (CURRENT_LANGUAGE) {
       setLanguage(CURRENT_LANGUAGE);
     }
@@ -53,7 +53,6 @@ export const AppProvider = ({ children }) => {
   };
 
   const openAlert = (action) => {
-    console.log(action);
     return new Reducer(alert, dispatchAlert).dispatch({
       ...action,
       type: actionType.OPEN,
@@ -109,7 +108,7 @@ export const AppProvider = ({ children }) => {
         showAuthLoader,
         closeAuthLoader,
 
-        setLanguage
+        setLanguage,
       }}
     >
       {children}

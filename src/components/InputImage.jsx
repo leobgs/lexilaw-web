@@ -108,7 +108,7 @@ function UploadButton({ onClick, className }) {
         label={t("upload", { keyPrefix: "common" })}
         onClick={onClick}
         iconRight={images.ic_upload}
-        iconClassName={"object-scale-down w-4 h-4"}
+        iconClassName={"object-scale-down w-4 h-4 p-1"}
         className={
           "h-8 md:h-7 w-[83px] rounded-full bg-[#DCE7FF] sm:font-bold md:font-regular text-base md:text-xs ring-1 ring-[#032E84]"
         }

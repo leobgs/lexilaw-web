@@ -11,66 +11,66 @@ import { useGlobalContext } from "hooks/context";
 import clsx from "clsx";
 
 const citiesDummy = [
-  "Jakarta",
-  "Surabaya",
-  "Medan",
-  "Bandung",
-  "Makassar",
-  "Semarang",
-  "Samarinda",
-  "Tenggarong",
-  "Yogyakarta",
-  "Denpasar",
-];
+  'Jakarta',
+  'Surabaya',
+  'Medan',
+  'Bandung',
+  'Makassar',
+  'Semarang',
+  'Samarinda',
+  'Tenggarong',
+  'Yogyakarta',
+  'Denpasar',
+]
 
 export default function Register() {
-  const { t } = useTranslation();
-  const { registerForm, registerFormReducer } = useGlobalContext();
-  const navigate = useNavigate();
+  const { t } = useTranslation()
+  const { registerForm, registerFormReducer } = useGlobalContext()
+  const navigate = useNavigate()
   const [error, setError] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-    password_confirm: "",
-  });
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    password_confirm: '',
+  })
 
-  const fullName = registerForm.first_name + " " + registerForm.last_name;
+  const fullName = registerForm.first_name + ' ' + registerForm.last_name
 
   const validateName = (value) => {
-    const nameRegex = /^[a-zA-Z\s]*$/;
-    return nameRegex.test(value);
-  };
+    const nameRegex = /^[a-zA-Z\s]*$/
+    return nameRegex.test(value)
+  }
 
   const validateEmail = (value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(value);
-  };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(value)
+  }
 
   const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[A-Z]).{8,}$/;
-    return passwordRegex.test(password);
-  };
+    const passwordRegex = /^(?=.*[A-Z]).{8,}$/
+    return passwordRegex.test(password)
+  }
 
   const validatePasswordMatch = (value) => {
-    return registerForm.password === value;
-  };
+    return registerForm.password === value
+  }
 
   const validateInput = (name, value) => {
     switch (name) {
-      case "first_name":
-      case "last_name":
-        return validateName(value) ? "" : "Invalid name format";
-      case "email":
-        return validateEmail(value) ? "" : "Invalid email format";
-      case "password":
-        return validatePassword(value) ? "" : "Invalid password format";
-      case "password_confirm":
-        return validatePasswordMatch(value) ? "" : "Password not match";
+      case 'first_name':
+      case 'last_name':
+        return validateName(value) ? '' : 'Invalid name format'
+      case 'email':
+        return validateEmail(value) ? '' : 'Invalid email format'
+      case 'password':
+        return validatePassword(value) ? '' : 'Invalid password format'
+      case 'password_confirm':
+        return validatePasswordMatch(value) ? '' : 'Password not match'
       default:
-        return "";
+        return ''
     }
-  };
+  }
 
   const isAnyError = () => {
     return !(
@@ -79,8 +79,8 @@ export default function Register() {
       error.email === null ||
       error.password === null ||
       error.password_confirm === null
-    );
-  };
+    )
+  }
 
   const isAnyEmptyForm = () => {
     return (
@@ -101,7 +101,7 @@ export default function Register() {
     );
   };
 
-  const isValidForm = !isAnyEmptyForm() || !isAnyError();
+  const isValidForm = !isAnyEmptyForm() || !isAnyError()
 
   const handleChangeForm = (e) => {
     const { name, value } = e;
@@ -229,7 +229,7 @@ export default function Register() {
         <Button
           label={t("submit_button", { keyPrefix: "auth.register" })}
           onClick={() => {
-            navigate("/register/otp", {
+            navigate("/auth/register/otp", {
               state: { email: registerForm.email, fullName: fullName },
             });
           }}

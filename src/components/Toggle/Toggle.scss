@@ -1,63 +1,62 @@
 .toggle-label {
-    position: relative;
-    background: #f0ede8;
+  position: relative;
+  background: #f0ede8;
 
-    &:before {
-        position: absolute;
-        top: 2px;
-        left: 2px;
+  &:before {
+    position: absolute;
+    top: 2px;
+    left: 2px;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        width: 30px;
-        height: 20px;
+    width: 1.8rem;
+    height: 1.2rem;
 
-        border-radius: 30px;
-        background: #00153f;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: #f0ede8;
-        font-size: 12px;
-        background-size: 40%;
-        content: "ID";
-        transition: transform 0.15s cubic-bezier(0, 0, 0.2, 1);
+    border-radius: 30px;
+    background: #00153f;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #f0ede8;
+    font-size: 12px;
+    background-size: 40%;
+    content: 'ID';
+    transition: transform 0.15s cubic-bezier(0, 0, 0.2, 1);
 
-        transform: translateX(0);
+    transform: translateX(0);
 
-        box-shadow:
-            0 4px 6px -1px rgba(0, 0, 0, 0.1),
-            0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    }
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
 }
 
 .toggle-checkbox:checked + .toggle-label:before {
-    transform: translateX(21px);
-    content: "EN";
-    color: #f0ede8;
+  transform: translateX(21px);
+  content: 'EN';
+  color: #f0ede8;
 }
 
 .toggle {
-    &.slim {
-        .toggle-label:before {
-            top: -0.15rem;
+  &.slim {
+    .toggle-label:before {
+      top: -0.15rem;
 
-            left: 0;
-        }
-
-        .toggle-checkbox:checked + .toggle-label:before {
-            transform: translateX(1.75rem);
-        }
+      left: 0;
     }
 
-    &.colour {
-        .toggle-label {
-            background-color: #feb2b2;
-        }
-
-        .toggle-checkbox:checked + .toggle-label {
-            background-color: #9ae6b4;
-        }
+    .toggle-checkbox:checked + .toggle-label:before {
+      transform: translateX(1.75rem);
     }
+  }
+
+  &.colour {
+    .toggle-label {
+      background-color: #feb2b2;
+    }
+
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: #9ae6b4;
+    }
+  }
 }

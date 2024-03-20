@@ -25,7 +25,7 @@ export const Modal = ({
   return (
     <>
       <div
-        className={`bg-neutral-30 fixed top-0 left-0 z-[55] w-screen h-screen transition-opacity ease-linear duration-150 ${
+        className={`bg-neutral-20 fixed top-0 left-0 z-[55] w-screen h-screen transition-opacity ease-linear duration-150 ${
           show ? 'opacity-50' : 'opacity-0 z-[-1] hidden'
         } ${className}`}
       />
