@@ -5,22 +5,20 @@ import { Button } from "components/Button/Button";
 import { Toggle } from "components/Toggle/Toggle";
 import { useTranslation } from "react-i18next";
 import "../Login.scss";
+import { Spinner } from "components/Spinner";
 
 export default function AuthLayout() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const [navTitle, setNavTitle] = useState("");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const isOnLogin = location.pathname === "/login";
-  const isOnRegister = location.pathname === "/register"; 
+  const isOnRegister = location.pathname === "/register";
   const isOnOtp = location.pathname === "/register/otp";
   const isOnAuthPage = isOnRegister || isOnLogin || isOnOtp;
   const isOnMobileSize = windowWidth <= 768;
 
   useEffect(() => {
-    handleNavTitle()
-
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
@@ -39,22 +37,20 @@ export default function AuthLayout() {
     navigate(-1);
   };
 
-  const handleNavTitle = () => {
-    if (isOnLogin) {
-      setNavTitle(t("auth.login_navbar_title"));
-    } else if (isOnRegister) {
-      setNavTitle(t("auth.register_navbar_title"));
-    } else {
-      setNavTitle(t("auth.otp_navbar_title"));
-    }
-  }
-  
   return (
     <div className="bg-contain bg-center h-screen bg_auth flex items-center flex-col relative">
+      {true && <AuthLoader />}
+
       {isOnMobileSize && isOnAuthPage && (
         <div className="navBar border-b-2 border-green-900 md: w-full">
           <Button
-            label={navTitle}
+            label={
+              isOnLogin
+                ? t("auth.login_navbar_title")
+                : isOnRegister
+                ? t("auth.register_navbar_title")
+                : t("auth.otp_navbar_title")
+            }
             iconLeft={images.chevron_left}
             iconClassName={"w-[20px] h-[20px] me-2"}
             onClick={handleBackLogin}
@@ -140,3 +136,12 @@ export default function AuthLayout() {
     </div>
   );
 }
+
+const AuthLoader = () => {
+  return (
+    <div className="fixed top-0 left-0 w-full h-full backdrop-brightness-75 flex justify-center items-center z-50">
+      <div className="fixed size-24 rounded-full bg-[#2E2C2B1A]/20 flex items-center justify-center z-49"></div>
+      <Spinner innerClassName="bg-black" />
+    </div>
+  );
+};
