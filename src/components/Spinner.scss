@@ -1,0 +1,11 @@
+.loader {
+  --border-width: 8.89px;
+  --mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - var(--border-width) - 0.5px),
+    #000 calc(100% - var(--border-width) + 0.5px)
+  );
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+  background: conic-gradient(from 180deg at 50% 50%, #FFFFFF 0deg, #035555 360deg);;
+}

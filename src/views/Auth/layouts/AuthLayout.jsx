@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import images from 'assets/images'
-import { Button } from 'components/Button/Button'
-import { Toggle } from 'components/Toggle/Toggle'
-import { useTranslation } from 'react-i18next'
-import '../Login.scss'
+import React, { useEffect, useState } from "react";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import images from "assets/images";
+import { Button } from "components/Button/Button";
+import { Toggle } from "components/Toggle/Toggle";
+import { useTranslation } from "react-i18next";
+import "../Login.scss";
+import { AuthLoader } from "components/AuthLoader";
 
 export default function AuthLayout() {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-  const isOnLogin = location.pathname === '/login'
-  const isOnRegister = location.pathname === '/auth/register'
-  const isOnAuthPage = isOnRegister || isOnLogin
-  const isOnMobileSize = windowWidth <= 768
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const isOnLogin = location.pathname === "/login";
+  const isOnRegister = location.pathname === "/register";
+  const isOnOtp = location.pathname === "/register/otp";
+  const isOnAuthPage = isOnRegister || isOnLogin || isOnOtp;
+  const isOnMobileSize = windowWidth <= 768;
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth)
-    }
-
-    window.addEventListener('resize', handleResize)
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize)
@@ -29,7 +30,7 @@ export default function AuthLayout() {
   }, [])
 
   const handleSignEmail = () => {
-    navigate('/')
+    navigate('/auth')
   }
 
   const handleBackLogin = () => {
@@ -37,11 +38,19 @@ export default function AuthLayout() {
   }
 
   return (
-    <div className='bg-contain bg-center h-screen bg_auth flex items-center flex-col relative'>
+    <div className="bg-contain bg-center h-screen bg_auth flex items-center flex-col relative">
+      <AuthLoader />
+
       {isOnMobileSize && isOnAuthPage && (
         <div className='navBar border-b-2 border-green-900 md: w-full'>
           <Button
-            label={isOnLogin ? 'Login' : 'Daftar Sekarang'}
+            label={
+              isOnLogin
+                ? t("auth.login_navbar_title")
+                : isOnRegister
+                ? t("auth.register_navbar_title")
+                : t("auth.otp_navbar_title")
+            }
             iconLeft={images.chevron_left}
             iconClassName={'w-[20px] h-[20px] me-2'}
             onClick={handleBackLogin}
@@ -79,42 +88,47 @@ export default function AuthLayout() {
               </>
             ) : null}
 
-            <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
-              <Button
-                label={t('social_google', { keyPrefix: 'auth' })}
-                iconLeft={images.google}
-                iconClassName={'w-[20px] h-[20px] me-2'}
-                className={
-                  'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
-                }
-              />
+            {!isOnOtp ? (
+              <div className="grid lg:grid-cols-2 lg:gap-5 px-3">
+                <Button
+                  label={t("social_google", { keyPrefix: "auth" })}
+                  iconLeft={images.google}
+                  iconClassName={"w-[20px] h-[20px] me-2"}
+                  className={
+                    "whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
+                  }
+                />
 
-              <Button
-                label={t('social_apple', { keyPrefix: 'auth' })}
-                iconLeft={images.apple}
-                iconClassName={'w-[20px] h-[20px] me-2'}
-                className={
-                  'whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
-                }
-              />
+                <Button
+                  label={t("social_apple", { keyPrefix: "auth" })}
+                  iconLeft={images.apple}
+                  iconClassName={"w-[20px] h-[20px] me-2"}
+                  className={
+                    "whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
+                  }
+                />
 
-              <Button
-                label={t('social_email', { keyPrefix: 'auth' })}
-                iconLeft={images.email_outline}
-                iconClassName={'w-[20px] h-[20px] me-2'}
-                onClick={handleSignEmail}
-                className={
-                  'md:hidden bg-outline bg-white text-green-900 w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
-                }
-              />
+                <Button
+                  label={t("social_email", { keyPrefix: "auth" })}
+                  iconLeft={images.email_outline}
+                  iconClassName={"w-[20px] h-[20px] me-2"}
+                  onClick={handleSignEmail}
+                  className={
+                    "md:hidden bg-outline bg-white text-green-900 w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
+                  }
+                />
 
-              <p className='text-center text-gray-400 font-medium md:hidden'>
-                {t('not_have_account', { keyPrefix: 'auth.login' })}
-                <a className='font-bold text-white underline ms-1' href=''>
-                  {t('register', { keyPrefix: 'auth.login' })}
-                </a>
-              </p>
-            </div>
+                <p className="text-center text-gray-400 font-medium md:hidden">
+                  {t("not_have_account", { keyPrefix: "auth.login" })}
+                  <NavLink
+                    className="font-bold text-white underline ms-1"
+                    to="/register"
+                  >
+                    {t("register", { keyPrefix: "auth.login" })}
+                  </NavLink>
+                </p>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
