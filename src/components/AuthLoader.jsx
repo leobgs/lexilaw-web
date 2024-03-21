@@ -1,9 +1,8 @@
 import { useGlobalContext } from "hooks/context";
 import { Spinner } from "./Spinner";
-import { useEffect } from "react";
 
 export const AuthLoader = () => {
-  const { authLoader, closeAuthLoader } = useGlobalContext();
+  const { authLoader } = useGlobalContext();
   
   return (
     <>
