@@ -1,12 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "styles/style.scss";
-import App from "./App";
-import { AppProvider } from "./hooks/context";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import 'styles/style.scss'
+import App from './App'
+import { AppProvider } from './hooks/context'
+import 'react-tooltip/dist/react-tooltip.css'
+import 'react-toastify/dist/ReactToastify.css'
+import './i18n'
 
-import "./i18n";
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
     <React.Suspense>
@@ -15,4 +16,4 @@ root.render(
       </AppProvider>
     </React.Suspense>
   </React.StrictMode>
-);
+)

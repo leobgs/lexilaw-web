@@ -34,11 +34,28 @@
     },
     "social_google": "MASUK DENGAN GOOGLE",
     "social_apple": "MASUK DENGAN APPLE ID",
-    "social_email": "MASUK DENGAN EMAIL"
+    "social_email": "MASUK DENGAN EMAIL",
+    "login_navbar_title": "Login",
+    "register_navbar_title": "Daftar Sekarang",
+    "otp_navbar_title": "Verifikasi"
   },
   "common": {
     "login": "Login",
     "register": "Register",
     "upload": "Unggah"
+  },
+  "chat": {
+    "placeholder_input": "Tanyakan ke Lexi",
+    "profile_option": {
+      "my_account": "Akun Saya",
+      "my_lawyer": "Pengacara Saya",
+      "wa_activation": "Aktivasi WhatsApp",
+      "menu_language": "Bahasa Menu"
+    },
+    "profile_menu": {
+      "main_menu": "Menu Utama",
+      "connected": "Hubungkan",
+      "configure": "Konfigurasi"
+    }
   }
 }

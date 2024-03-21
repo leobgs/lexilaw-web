@@ -11,27 +11,39 @@ const RegisterOTP = () => {
   const location = useLocation();
   const { fullName, email } = location.state;
   const { openAlert } = useGlobalContext();
+  const { showAuthLoader, closeAuthLoader } = useGlobalContext();
   const { t } = useTranslation();
   const [otp, setOTP] = useState("");
   const [isNotValidOtp, setIsNotValidOtp] = useState(false);
   const [countdown, setCountdown] = useState(30);
-  const [countdownIntervalId, setCountdownIntervalId] = useState(null);
+  const [loaderCountdown, setLoaderCountdown] = useState(null);
 
   useEffect(() => {
-    const id = setInterval(() => {
-      if (countdown > 0) {
+    let intervalId;
+    if (countdown > 0) {
+      intervalId = setInterval(() => {
         setCountdown((prevSeconds) => prevSeconds - 1);
-      }
-    }, 1000);
-    setCountdownIntervalId(id);
-    return () => clearInterval(id);
+      }, 1000);
+    } else {
+      clearInterval(intervalId);
+    }
+    return () => clearInterval(intervalId);
   }, [countdown]);
 
   useEffect(() => {
-    if (countdown === 0) {
-      clearInterval(countdownIntervalId);
+    let intervalId;
+    if (loaderCountdown > 0) {
+      intervalId = setInterval(() => {
+        setLoaderCountdown((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+    } else if (loaderCountdown == 0) {
+      clearInterval(intervalId);
+      showWelcomePopup();
+      closeAuthLoader();
     }
-  }, [countdown, countdownIntervalId]);
+
+    return () => clearInterval(intervalId);
+  }, [loaderCountdown]);
 
   useEffect(() => {
     setIsNotValidOtp(false);
@@ -45,6 +57,11 @@ const RegisterOTP = () => {
   }, [otp]);
 
   const success = () => {
+    setLoaderCountdown(3);
+    showAuthLoader();
+  };
+
+  const showWelcomePopup = () => {
     openAlert({
       title: "Selamat bergabung 👋 ",
       messages: fullName,

@@ -13,10 +13,13 @@ export const AppContext = React.createContext({
   registerFormReducer: (name, newValue) => {},
   currentLanguage: null,
   setLanguage: (e) => {},
+  showAuthLoader: (e) => {},
+  closeAuthLoader: (e) => {},
 });
 
 export const AppProvider = ({ children }) => {
   const [alert, dispatchAlert] = useReducer(alertReducer, alertState);
+  const [authLoader, dispatchAuthLoader] = useReducer(alertReducer, alertState);
   const [currentLanguage, setLanguage] = useState("id");
 
   const [registerForm, setRegisterForm] = useState({
@@ -31,7 +34,7 @@ export const AppProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const { CURRENT_LANGUAGE } = localServerData()
+    const { CURRENT_LANGUAGE } = localServerData();
     if (CURRENT_LANGUAGE) {
       setLanguage(CURRENT_LANGUAGE);
     }
@@ -50,7 +53,6 @@ export const AppProvider = ({ children }) => {
   };
 
   const openAlert = (action) => {
-    console.log(action);
     return new Reducer(alert, dispatchAlert).dispatch({
       ...action,
       type: actionType.OPEN,
@@ -79,6 +81,19 @@ export const AppProvider = ({ children }) => {
     dispatchAlert({ type: actionType.CLOSE });
   };
 
+  const showAuthLoader = (action) => {
+    console.log(action);
+    return new Reducer(authLoader, dispatchAuthLoader).dispatch({
+      ...action,
+      type: actionType.OPEN,
+    });
+  };
+
+  const closeAuthLoader = (a) => {
+    console.log(a);
+    dispatchAuthLoader({ type: actionType.CLOSE });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -89,7 +104,11 @@ export const AppProvider = ({ children }) => {
         registerForm,
         registerFormReducer,
         currentLanguage,
-        setLanguage
+        authLoader,
+        showAuthLoader,
+        closeAuthLoader,
+
+        setLanguage,
       }}
     >
       {children}

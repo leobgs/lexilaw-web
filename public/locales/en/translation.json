@@ -34,11 +34,28 @@
     },
     "social_google": "CONTINUE WITH GOOGLE",
     "social_apple": "CONTINUE WITH APPLE ID",
-    "social_email": "CONTINUE WITH EMAIL"
+    "social_email": "CONTINUE WITH EMAIL",
+    "login_navbar_title": "Login",
+    "register_navbar_title": "Register Now",
+    "otp_navbar_title": "Verification"
   },
   "common": {
     "login": "Login",
     "register": "Register",
     "upload": "Upload"
+  },
+  "chat": {
+    "placeholder_input": "Ask to Lexi",
+    "profile_option": {
+      "my_account": "My account",
+      "my_lawyer": "My Lawyer",
+      "wa_activation": "WhatsApp Activation",
+      "menu_language": "Language"
+    },
+    "profile_menu": {
+      "main_menu": "Main Menu",
+      "connected": "Connected",
+      "configure": "Configure"
+    }
   }
 }

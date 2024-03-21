@@ -3,7 +3,6 @@ import { actionType } from '../config/state'
 export const alertReducer = (state, action) => {
   switch (action.type) {
     case actionType.OPEN:
-      console.log(action.type)
       return {
         ...state,
         isOpen: true,
