@@ -95,9 +95,7 @@ export default function Register() {
       registerForm.password_confirm === null ||
       registerForm.password_confirm === "" ||
       registerForm.city === null ||
-      registerForm.city === "" ||
-      registerForm.image === null ||
-      registerForm.image === ""
+      registerForm.city === ""
     );
   };
 
