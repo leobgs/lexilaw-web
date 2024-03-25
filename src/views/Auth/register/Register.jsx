@@ -99,7 +99,7 @@ export default function Register() {
     );
   };
 
-  const isValidForm = !isAnyEmptyForm() || !isAnyError()
+  const isValidForm = !isAnyEmptyForm() && !isAnyError()
 
   const handleChangeForm = (e) => {
     const { name, value } = e;
