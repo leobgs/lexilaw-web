@@ -12,9 +12,9 @@ export default function AuthLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const isOnLogin = location.pathname === "/login";
-  const isOnRegister = location.pathname === "/register";
-  const isOnOtp = location.pathname === "/register/otp";
+  const isOnLogin = location.pathname === "/auth";
+  const isOnRegister = location.pathname === "/auth/register";
+  const isOnOtp = location.pathname === "/auth/register/otp";
   const isOnAuthPage = isOnRegister || isOnLogin || isOnOtp;
   const isOnMobileSize = windowWidth <= 768;
 
@@ -122,7 +122,7 @@ export default function AuthLayout() {
                   {t("not_have_account", { keyPrefix: "auth.login" })}
                   <NavLink
                     className="font-bold text-white underline ms-1"
-                    to="/register"
+                    to="/auth/register"
                   >
                     {t("register", { keyPrefix: "auth.login" })}
                   </NavLink>

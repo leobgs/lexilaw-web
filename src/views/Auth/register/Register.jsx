@@ -73,39 +73,34 @@ export default function Register() {
   }
 
   const isAnyError = () => {
-    return !(
-      error.first_name === null ||
-      error.last_name === null ||
-      error.email === null ||
-      error.password === null ||
-      error.password_confirm === null
-    )
+    return (
+      error.first_name !== "" ||
+      error.last_name !== "" ||
+      error.email !== "" ||
+      error.password !== "" ||
+      error.password_confirm !== ""
+    );
   }
 
   const isAnyEmptyForm = () => {
     return (
-      registerForm.first_name === null ||
       registerForm.first_name === "" ||
-      registerForm.last_name === null ||
       registerForm.last_name === "" ||
-      registerForm.email === null ||
       registerForm.email === "" ||
-      registerForm.password === null ||
       registerForm.password === "" ||
-      registerForm.password_confirm === null ||
       registerForm.password_confirm === "" ||
-      registerForm.city === null ||
       registerForm.city === ""
     );
   };
 
-  const isValidForm = !isAnyEmptyForm() && !isAnyError()
+  const isValidForm = (!isAnyEmptyForm() && !isAnyError());
 
   const handleChangeForm = (e) => {
     const { name, value } = e;
     registerFormReducer(name, value);
     const errorMessage = validateInput(name, value);
     setError({ ...error, [name]: errorMessage });
+    console.log(isValidForm);
   };
 
   const handleImageChange = (newImage) => {
