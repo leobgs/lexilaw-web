@@ -72,28 +72,32 @@ export default function Register() {
     }
   }
 
-  const isAnyError = () => {
-    return (
-      error.first_name !== "" ||
-      error.last_name !== "" ||
-      error.email !== "" ||
-      error.password !== "" ||
-      error.password_confirm !== ""
-    );
+  const checkForm = () => {
+    const isAnyError = () => {
+      return (
+        error.first_name !== "" ||
+        error.last_name !== "" ||
+        error.email !== "" ||
+        error.password !== "" ||
+        error.password_confirm !== ""
+      );
+    }
+  
+    const isAnyEmptyForm = () => {
+      return (
+        registerForm.first_name === "" ||
+        registerForm.last_name === "" ||
+        registerForm.email === "" ||
+        registerForm.password === "" ||
+        registerForm.password_confirm === "" ||
+        registerForm.city === ""
+      );
+    };
+
+    return (!isAnyEmptyForm() && !isAnyError());
   }
 
-  const isAnyEmptyForm = () => {
-    return (
-      registerForm.first_name === "" ||
-      registerForm.last_name === "" ||
-      registerForm.email === "" ||
-      registerForm.password === "" ||
-      registerForm.password_confirm === "" ||
-      registerForm.city === ""
-    );
-  };
-
-  const isValidForm = (!isAnyEmptyForm() && !isAnyError());
+  const isValidForm = checkForm()
 
   const handleChangeForm = (e) => {
     const { name, value } = e;
