@@ -9,6 +9,9 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "hooks/context";
 import clsx from "clsx";
+import { useMutation } from "react-query";
+import { getData } from "hooks/useRequest";
+import { API } from "config/api";
 
 const citiesDummy = [
   'Jakarta',
@@ -34,6 +37,13 @@ export default function Register() {
     password: '',
     password_confirm: '',
   })
+
+  const { mutate: registerInput }  = useMutation(
+    (form) => getData(API.REGISTER, form), {
+      onSuccess: (data) => {
+        console.log(data)
+      },
+    })
 
   const fullName = registerForm.first_name + ' ' + registerForm.last_name
 
@@ -226,13 +236,14 @@ export default function Register() {
         <Button
           label={t("submit_button", { keyPrefix: "auth.register" })}
           onClick={() => {
-            navigate("/auth/register/otp", {
-              state: { email: registerForm.email, fullName: fullName },
-            });
+            // navigate("/auth/register/otp", {
+            //   state: { email: registerForm.email, fullName: fullName },
+            // });
+            registerInput(registerForm)
           }}
           iconRight={images.chevron_right}
           iconClassName={"absolute right-4"}
-          disabled={!isValidForm}
+          // disabled={!isValidForm}
           className={
             "btn-secondary-hover w-full mt-1 rounded-full font-medium relative"
           }
