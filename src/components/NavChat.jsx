@@ -81,7 +81,7 @@ export const NavChat = ({
             name='search'
             className='w-10/12'
             placeholder={'Cari'}
-            rowed
+            rowed='w-2/3 mx-auto'
             iconClassName='!w-6'
             icon={images.ic_search}
           />

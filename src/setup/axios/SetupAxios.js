@@ -1,4 +1,5 @@
 import { Storage } from 'utils/LocalStorage'
+import { authKey } from 'config/app'
 
 export default function setupAxios(axios) {
   axios.interceptors.request.use(
