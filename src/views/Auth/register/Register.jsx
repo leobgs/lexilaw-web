@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthCard from "components/Card/AuthCard";
 import { Button, Input } from "components";
 import { InputPassword } from "components/InputPassword";
@@ -9,6 +9,9 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "hooks/context";
 import clsx from "clsx";
+import { useMutation } from "react-query";
+import { getData } from "hooks/useRequest";
+import { API } from "config/api";
 
 const citiesDummy = [
   'Jakarta',
@@ -34,6 +37,13 @@ export default function Register() {
     password: '',
     password_confirm: '',
   })
+
+  const { mutate: registerInput }  = useMutation(
+    (form) => getData(API.REGISTER, form), {
+      onSuccess: (data) => {
+        console.log(data)
+      },
+    })
 
   const fullName = registerForm.first_name + ' ' + registerForm.last_name
 
@@ -72,34 +82,32 @@ export default function Register() {
     }
   }
 
-  const isAnyError = () => {
-    return !(
-      error.first_name === null ||
-      error.last_name === null ||
-      error.email === null ||
-      error.password === null ||
-      error.password_confirm === null
-    )
+  const checkForm = () => {
+    const isAnyError = () => {
+      return (
+        error.first_name !== "" ||
+        error.last_name !== "" ||
+        error.email !== "" ||
+        error.password !== "" ||
+        error.password_confirm !== ""
+      );
+    }
+  
+    const isAnyEmptyForm = () => {
+      return (
+        registerForm.first_name === "" ||
+        registerForm.last_name === "" ||
+        registerForm.email === "" ||
+        registerForm.password === "" ||
+        registerForm.password_confirm === "" ||
+        registerForm.city === ""
+      );
+    };
+
+    return (!isAnyEmptyForm() && !isAnyError());
   }
 
-  const isAnyEmptyForm = () => {
-    return (
-      registerForm.first_name === null ||
-      registerForm.first_name === "" ||
-      registerForm.last_name === null ||
-      registerForm.last_name === "" ||
-      registerForm.email === null ||
-      registerForm.email === "" ||
-      registerForm.password === null ||
-      registerForm.password === "" ||
-      registerForm.password_confirm === null ||
-      registerForm.password_confirm === "" ||
-      registerForm.city === null ||
-      registerForm.city === ""
-    );
-  };
-
-  const isValidForm = !isAnyEmptyForm() && !isAnyError()
+  const isValidForm = checkForm()
 
   const handleChangeForm = (e) => {
     const { name, value } = e;
@@ -115,6 +123,21 @@ export default function Register() {
   const handleCityChange = (newValue) => {
     registerFormReducer(["city"], newValue);
   };
+
+  const onSubmit = () => {
+    const bodyFormData = new FormData()
+    for (const [key, value] of Object.entries(registerForm)) {
+      if(key !== "image") {bodyFormData.append(key, value)}
+    }
+    registerInput({})
+  }
+
+  useEffect(() => {
+    if (registerForm.password_confirm) {
+      const errorMessage = validateInput("password_confirm", registerForm.password_confirm);
+      setError({ ...error, ["password_confirm"]: errorMessage });
+    }
+  }, [registerForm.password, registerForm.password_confirm])
 
   return (
     <AuthCard className>
@@ -227,9 +250,11 @@ export default function Register() {
         <Button
           label={t("submit_button", { keyPrefix: "auth.register" })}
           onClick={() => {
+            if (checkForm()) {
             navigate("/auth/register/otp", {
               state: { email: registerForm.email, fullName: fullName },
             });
+            }
           }}
           iconRight={images.chevron_right}
           iconClassName={"absolute right-4"}

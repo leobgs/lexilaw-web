@@ -85,7 +85,7 @@ const RegisterOTP = () => {
   return (
     <AuthCard>
       <div className="grid grid-cols-1 gap-y-4 h-fit">
-        <h1 className="text-[32px] text-dark-50 font-[futura-bold] tracking-tight">
+        <h1 className="text-[32px] text-dark-50 font-futura-bold tracking-tight">
           {t("heading", { keyPrefix: "auth.register.otp" })}
         </h1>
 
