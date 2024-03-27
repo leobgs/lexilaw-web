@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthCard from "components/Card/AuthCard";
 import { Button, Input } from "components";
 import { InputPassword } from "components/InputPassword";
@@ -114,7 +114,6 @@ export default function Register() {
     registerFormReducer(name, value);
     const errorMessage = validateInput(name, value);
     setError({ ...error, [name]: errorMessage });
-    console.log(isValidForm);
   };
 
   const handleImageChange = (newImage) => {
@@ -124,6 +123,21 @@ export default function Register() {
   const handleCityChange = (newValue) => {
     registerFormReducer(["city"], newValue);
   };
+
+  const onSubmit = () => {
+    const bodyFormData = new FormData()
+    for (const [key, value] of Object.entries(registerForm)) {
+      if(key !== "image") {bodyFormData.append(key, value)}
+    }
+    registerInput({})
+  }
+
+  useEffect(() => {
+    if (registerForm.password_confirm) {
+      const errorMessage = validateInput("password_confirm", registerForm.password_confirm);
+      setError({ ...error, ["password_confirm"]: errorMessage });
+    }
+  }, [registerForm.password, registerForm.password_confirm])
 
   return (
     <AuthCard className>
@@ -236,14 +250,15 @@ export default function Register() {
         <Button
           label={t("submit_button", { keyPrefix: "auth.register" })}
           onClick={() => {
-            // navigate("/auth/register/otp", {
-            //   state: { email: registerForm.email, fullName: fullName },
-            // });
-            registerInput(registerForm)
+            if (checkForm()) {
+            navigate("/auth/register/otp", {
+              state: { email: registerForm.email, fullName: fullName },
+            });
+            }
           }}
           iconRight={images.chevron_right}
           iconClassName={"absolute right-4"}
-          // disabled={!isValidForm}
+          disabled={!isValidForm}
           className={
             "btn-secondary-hover w-full mt-1 rounded-full font-medium relative"
           }
