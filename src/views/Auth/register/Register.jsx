@@ -1,14 +1,17 @@
-import { useState } from "react";
-import AuthCard from "components/Card/AuthCard";
-import { Button, Input } from "components";
-import { InputPassword } from "components/InputPassword";
-import images from "assets/images";
-import InputImage from "components/InputImage";
-import { Dropdown } from "components/Dropdown/Dropdown";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { useGlobalContext } from "hooks/context";
-import clsx from "clsx";
+import { useState } from 'react'
+import AuthCard from 'components/Card/AuthCard'
+import { Button, Input } from 'components'
+import { InputPassword } from 'components/InputPassword'
+import images from 'assets/images'
+import InputImage from 'components/InputImage'
+import { Dropdown } from 'components/Dropdown/Dropdown'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { useGlobalContext } from 'hooks/context'
+import clsx from 'clsx'
+import { API } from 'config/api'
+import { useMutation } from 'react-query'
+import { getData } from 'hooks/useRequest'
 
 const citiesDummy = [
   'Jakarta',
@@ -26,6 +29,7 @@ const citiesDummy = [
 export default function Register() {
   const { t } = useTranslation()
   const { registerForm, registerFormReducer } = useGlobalContext()
+  const [errorText, setErrorText] = useState('')
   const navigate = useNavigate()
   const [error, setError] = useState({
     first_name: '',
@@ -34,6 +38,25 @@ export default function Register() {
     password: '',
     password_confirm: '',
   })
+
+  const { mutate: registerData } = useMutation(
+    (form) => getData(API.REGISTER, form),
+    {
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          navigate('/auth/register/otp', {
+            state: {
+              email: registerForm.email,
+              fullName: fullName,
+              user_uuid: data?.data?.user_uuid,
+            },
+          })
+        } else {
+          setErrorText(data.message)
+        }
+      },
+    }
+  )
 
   const fullName = registerForm.first_name + ' ' + registerForm.last_name
 
@@ -57,6 +80,7 @@ export default function Register() {
   }
 
   const validateInput = (name, value) => {
+    console.log(validatePasswordMatch(value))
     switch (name) {
       case 'first_name':
       case 'last_name':
@@ -64,7 +88,9 @@ export default function Register() {
       case 'email':
         return validateEmail(value) ? '' : 'Invalid email format'
       case 'password':
-        return validatePassword(value) ? '' : 'Invalid password format'
+        return validatePassword(value)
+          ? ''
+          : 'Invalid password format must contain at least 1 upper case characters'
       case 'password_confirm':
         return validatePasswordMatch(value) ? '' : 'Password not match'
       default:
@@ -73,119 +99,124 @@ export default function Register() {
   }
 
   const isAnyError = () => {
-    return !(
+    let errorCheck =
       error.first_name === null ||
-      error.last_name === null ||
       error.email === null ||
       error.password === null ||
-      error.password_confirm === null
-    )
+      error.password_confirm === null ||
+      error.password_confirm !== ''
+    return errorCheck
   }
 
   const isAnyEmptyForm = () => {
-    return (
+    let errorCheck =
       registerForm.first_name === null ||
-      registerForm.first_name === "" ||
-      registerForm.last_name === null ||
-      registerForm.last_name === "" ||
+      registerForm.first_name === '' ||
       registerForm.email === null ||
-      registerForm.email === "" ||
+      registerForm.email === '' ||
       registerForm.password === null ||
-      registerForm.password === "" ||
+      registerForm.password === '' ||
       registerForm.password_confirm === null ||
-      registerForm.password_confirm === "" ||
+      registerForm.password_confirm === '' ||
       registerForm.city === null ||
-      registerForm.city === ""
-    );
-  };
-
-  const isValidForm = !isAnyEmptyForm() && !isAnyError()
+      registerForm.city === ''
+    return errorCheck
+  }
 
   const handleChangeForm = (e) => {
-    const { name, value } = e;
-    registerFormReducer(name, value);
-    const errorMessage = validateInput(name, value);
-    setError({ ...error, [name]: errorMessage });
-  };
+    const { name, value } = e
+    registerFormReducer(name, value)
+    const errorMessage = validateInput(name, value)
+    setError({ ...error, [name]: errorMessage })
+    setErrorText('')
+  }
 
   const handleImageChange = (newImage) => {
-    registerFormReducer(["image"], newImage);
-  };
+    registerFormReducer(['image'], newImage)
+  }
 
   const handleCityChange = (newValue) => {
-    registerFormReducer(["city"], newValue);
-  };
+    registerFormReducer(['city'], newValue)
+  }
+
+  const onSubmit = () => {
+    const bodyFormData = new FormData()
+    for (const [key, value] of Object.entries(registerForm)) {
+      bodyFormData.append(key, value)
+    }
+    registerData(bodyFormData)
+  }
 
   return (
     <AuthCard className>
-      <div className="grid grid-cols-1 gap-y-4 h-fit">
-        <div className="flex flex-wrap xl:flex-nowrap gap-4 align-top items-start">
+      <div className='grid grid-cols-1 gap-y-4 h-fit'>
+        <div className='flex flex-wrap xl:flex-nowrap gap-4 align-top items-start'>
           <Input
-            name="first_name"
+            name='first_name'
             value={registerForm.first_name}
             onChange={handleChangeForm}
-            className="w-full rounded-full flex-wrap"
+            className='w-full rounded-full flex-wrap'
             inputClass={clsx(
-              "!border-secondary-logo focus:outline-secondary-logo text-base",
-              registerForm.first_name === "" ? "font-regular" : " font-medium"
+              '!border-secondary-logo focus:outline-secondary-logo text-base',
+              registerForm.first_name === '' ? 'font-regular' : ' font-medium'
             )}
             rowed
-            placeholder={t("firstName", { keyPrefix: "auth.register" })}
+            placeholder={t('firstName', { keyPrefix: 'auth.register' })}
             error={error.first_name}
           />
 
           <Input
-            name="last_name"
+            name='last_name'
             value={registerForm.last_name}
             onChange={handleChangeForm}
-            className="w-full rounded-full flex-wrap"
+            className='w-full rounded-full flex-wrap'
             inputClass={clsx(
-              "!border-secondary-logo focus:outline-secondary-logo text-base",
-              registerForm.first_name === "" ? "font-regular" : " font-medium"
+              '!border-secondary-logo focus:outline-secondary-logo text-base',
+              registerForm.first_name === '' ? 'font-regular' : ' font-medium'
             )}
             rowed
-            placeholder={t("lastName", { keyPrefix: "auth.register" })}
+            placeholder={t('lastName', { keyPrefix: 'auth.register' })}
             error={error.last_name}
           />
         </div>
 
         <Input
-          name="email"
+          name='email'
           value={registerForm.email}
           onChange={handleChangeForm}
-          className="w-full rounded-full flex-wrap"
+          className='w-full rounded-full flex-wrap'
           inputClass={clsx(
-            "!border-secondary-logo focus:outline-secondary-logo text-base",
-            registerForm.first_name === "" ? "font-regular" : " font-medium"
+            '!border-secondary-logo focus:outline-secondary-logo text-base',
+            registerForm.first_name === '' ? 'font-regular' : ' font-medium'
           )}
           rowed
-          placeholder={t("email", { keyPrefix: "auth.register" })}
+          placeholder={t('email', { keyPrefix: 'auth.register' })}
           error={error.email}
         />
 
-        <div className="flex flex-wrap xl:flex-nowrap gap-4 align-top items-start">
+        <div className='flex flex-wrap xl:flex-nowrap gap-4 align-top items-start'>
           <InputPassword
-            name="password"
-            className="w-full flex-wrap"
+            name='password'
+            className='w-full flex-wrap'
             inputClass={clsx(
-              "!border-secondary-logo focus:outline-secondary-logo text-base",
-              registerForm.first_name === "" ? "font-regular" : " font-medium"
+              '!border-secondary-logo focus:outline-secondary-logo text-base',
+              registerForm.first_name === '' ? 'font-regular' : ' font-medium'
             )}
-            placeholder={t("password", { keyPrefix: "auth.register" })}
+            placeholder={t('password', { keyPrefix: 'auth.register' })}
             value={registerForm.password}
             onChange={handleChangeForm}
             error={error.password}
           />
 
           <InputPassword
-            name="password_confirm"
-            className="w-full flex-wrap"
+            name='password_confirm'
+            className='w-full flex-wrap'
             inputClass={clsx(
-              "!border-secondary-logo focus:outline-secondary-logo text-base",
-              registerForm.first_name === "" ? "font-regular" : " font-medium"
+              '!border-secondary-logo focus:outline-secondary-logo text-base',
+              registerForm.first_name === '' ? 'font-regular' : ' font-medium'
             )}
-            placeholder={t("password_confirm", {
-              keyPrefix: "auth.register",
+            placeholder={t('password_confirm', {
+              keyPrefix: 'auth.register',
             })}
             maxLength={8}
             value={registerForm.password_confirm}
@@ -196,56 +227,58 @@ export default function Register() {
 
         <Dropdown
           options={citiesDummy}
-          placeholder={t("city_dropdown_placeholder", {
-            keyPrefix: "auth.register",
+          placeholder={t('city_dropdown_placeholder', {
+            keyPrefix: 'auth.register',
           })}
           selectedOption={registerForm.city}
           onSelectedOption={(newValue) => {
-            handleCityChange(newValue);
+            handleCityChange(newValue)
           }}
         />
 
         <Input
-          name="company_name"
+          name='company_name'
           value={registerForm.company_name}
           onChange={handleChangeForm}
-          className="w-full rounded-full flex-wrap"
+          className='w-full rounded-full flex-wrap'
           inputClass={clsx(
-            "!border-secondary-logo focus:outline-secondary-logo text-base",
-            registerForm.first_name === "" ? "font-regular" : " font-medium"
+            '!border-secondary-logo focus:outline-secondary-logo text-base',
+            registerForm.first_name === '' ? 'font-regular' : ' font-medium'
           )}
           rowed
-          placeholder={t("firm_name", { keyPrefix: "auth.register" })}
+          placeholder={t('firm_name', { keyPrefix: 'auth.register' })}
         />
 
         <InputImage
-          name="image"
+          name='image'
           image={registerForm.image}
           onImageSelect={handleImageChange}
         />
 
         <Button
-          label={t("submit_button", { keyPrefix: "auth.register" })}
-          onClick={() => {
-            navigate("/auth/register/otp", {
-              state: { email: registerForm.email, fullName: fullName },
-            });
-          }}
+          label={t('submit_button', { keyPrefix: 'auth.register' })}
+          onClick={onSubmit}
           iconRight={images.chevron_right}
-          iconClassName={"absolute right-4"}
-          disabled={!isValidForm}
+          iconClassName={'absolute right-4'}
+          disabled={isAnyEmptyForm() || isAnyError()}
           className={
-            "btn-secondary-hover w-full mt-1 rounded-full font-medium relative"
+            'btn-secondary-hover w-full mt-1 rounded-full font-medium relative'
           }
         />
 
-        <p className="text-center font-medium">
-          {t("already_have_account", { keyPrefix: "auth.register" })}
-          <a className="font-bold text-gray-900 underline ms-1" href="/login">
-            {t("login", { keyPrefix: "common" })}
+        {errorText && (
+          <div className='bg-error-base bg-opacity-20 border-1 border-error-base border rounded-lg w-fit'>
+            <p className='font-semi-bold text-error-base px-2'>{errorText}</p>
+          </div>
+        )}
+
+        <p className='text-center font-medium'>
+          {t('already_have_account', { keyPrefix: 'auth.register' })}
+          <a className='font-bold text-gray-900 underline ms-1' href='/login'>
+            {t('login', { keyPrefix: 'common' })}
           </a>
         </p>
       </div>
     </AuthCard>
-  );
+  )
 }
