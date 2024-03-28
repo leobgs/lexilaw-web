@@ -64,7 +64,7 @@ export const NavChat = ({
           onClick={() => setShowNav(!showNav)}
         />
         <div className='flex w-full justify-between items-center'>
-          <div className='font-futura-bolds font-bold text-xl line-clamp-1'>
+          <div className='font-futura-bold font-bold text-xl line-clamp-1'>
             {headerText}
           </div>
           <div className='bg-neutral-20 px-3 py-2 rounded-full'>

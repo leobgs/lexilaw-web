@@ -204,7 +204,7 @@ export const Chat = () => {
           <div className='hidden justify-between items-center md:border-b md:border-b-neutral-30 md:flex md:pb-4 md:-mx-4 md:px-8'>
             <div className='flex gap-2'>
               <img src={images.ic_obrolan} alt='obrolan' />
-              <div className='font-futura-bolds font-bold'>{headerText}</div>
+              <div className='font-futura-bold'>{headerText}</div>
             </div>
 
             <img

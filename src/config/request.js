@@ -1,9 +1,9 @@
-import { apiURL } from 'config/app'
+import { apiURLQuery } from 'config/app'
 
 const axios = require('axios')
 
 export const request = axios.create({
-  baseURL: apiURL,
+  baseURL: apiURLQuery,
   headers: {
     'Content-Type': 'application/json',
   },
