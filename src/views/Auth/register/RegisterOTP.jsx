@@ -35,7 +35,7 @@ const RegisterOTP = () => {
     if (countdown > 0) {
       intervalId = setInterval(() => {
         setCountdown((prevSeconds) => prevSeconds - 1)
-      }, 10000)
+      }, 1000)
     } else {
       clearInterval(intervalId)
     }

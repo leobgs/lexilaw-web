@@ -90,7 +90,7 @@ export default function Register() {
       case 'password':
         return validatePassword(value)
           ? ''
-          : 'Invalid password format must contain at least 1 upper case characters'
+          : 'Invalid password must contain at least 1 upper case characters and 8 characters minimum'
       case 'password_confirm':
         return validatePasswordMatch(value) ? '' : 'Password not match'
       default:

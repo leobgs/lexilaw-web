@@ -77,11 +77,9 @@ export const Input = ({
             />
           )}
           <input
-            className={`!rounded-full border-2 bg-gray-50 !border-gray-100 
-                    focus:outline-none focus:ring-none ring-none
-                     w-full ${icon ? 'pl-12 pr-3 py-3' : 'p-3'} ${
-              error ? '!border-[#FF7878] !bg-[#FFF5DB] text-[#DB0000]' : ''
-            }
+            className={`!rounded-full border-2 bg-gray-50 !border-gray-100 focus:outline-none focus:ring-none ring-none w-full ${
+              icon ? 'pl-12 pr-3 py-3' : 'p-3'
+            } ${error ? '!border-[#FF7878] !bg-[#FFF5DB] text-[#DB0000]' : ''}
             ${inputClass ? inputClass : ''}
             ${rowed ? 'border bg-white' : 'border-none'}
             ${isDisabled ? 'bg-white opacity-60' : ''}
