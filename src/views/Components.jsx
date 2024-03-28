@@ -29,7 +29,7 @@ export const Components = () => {
   return (
     <div className='p-4 bg-primary-base'>
       <p>Typograph Inter</p>
-      <p className='font-futura-bolds text-2xl font-bold'>Typograph Futura</p>
+      <p className='font-futura-bold text-2xl'>Typograph Futura</p>
 
       <Spinner className={'mt-4'} />
       <InputSelect

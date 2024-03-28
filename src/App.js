@@ -34,8 +34,6 @@ const ProtectedRoute = ({ wrapperContent = true }) => {
     return <Navigate to='/' replace />
   }
 
-  console.log(isLogin())
-
   return wrapperContent ? (
     <div className='content' id='content'>
       <Outlet />
