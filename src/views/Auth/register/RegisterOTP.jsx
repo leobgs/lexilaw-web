@@ -1,82 +1,72 @@
 import images from 'assets/images'
 import clsx from 'clsx'
 import AuthCard from 'components/Card/AuthCard'
+import { CounterDown } from 'components/CounterDown'
 import InputOTP from 'components/InputOTP'
 import { API } from 'config/api'
+import { StorageKey } from 'config/storage'
 import { useGlobalContext } from 'hooks/context'
 import { getData } from 'hooks/useRequest'
+import { notifyError, notifySuccess } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from 'react-query'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { LocalStorage } from 'utils'
 
 const RegisterOTP = () => {
   const location = useLocation()
+  const navigate = useNavigate()
+  const storage = new LocalStorage()
   const { fullName, email, user_uuid } = location.state
   const { openAlert } = useGlobalContext()
-  const { showAuthLoader, closeAuthLoader } = useGlobalContext()
   const { t } = useTranslation()
   const [otp, setOTP] = useState('')
   const [isNotValidOtp, setIsNotValidOtp] = useState(false)
-  const [countdown, setCountdown] = useState(30)
-  const [loaderCountdown, setLoaderCountdown] = useState(null)
+  const [timesUpTimer, setTimesUpTimer] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('Unknown')
 
-  const { mutate: otpPost } = useMutation(
+  const { mutate: otpCeck } = useMutation(
     (form) => getData(API.OTP_CHECK, form),
     {
-      onSuccess: (data) => {
-        console.log(data)
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          storage.setItem(StorageKey.ACCESS_TOKEN, {
+            access_token: data?.data,
+            token_type: 'Bearer',
+          })
+          storage.setItem(StorageKey.IS_LOGIN, true)
+          navigate('/')
+        } else {
+          setIsNotValidOtp(true)
+          setErrorMessage(data?.message)
+        }
+      },
+    }
+  )
+
+  const { mutate: otpResend } = useMutation(
+    (form) => getData(API.OTP_RESEND, form),
+    {
+      onSettled: (data) => {
+        if (data?.status === 'Success') {
+          notifySuccess(data?.message)
+        } else {
+          notifyError(data?.message)
+        }
       },
     }
   )
 
   useEffect(() => {
-    let intervalId
-    if (countdown > 0) {
-      intervalId = setInterval(() => {
-        setCountdown((prevSeconds) => prevSeconds - 1)
-      }, 1000)
-    } else {
-      clearInterval(intervalId)
-    }
-    return () => clearInterval(intervalId)
-  }, [countdown])
-
-  useEffect(() => {
-    let intervalId
-    if (loaderCountdown > 0) {
-      intervalId = setInterval(() => {
-        setLoaderCountdown((prevSeconds) => prevSeconds - 1)
-      }, 1000)
-    } else if (loaderCountdown == 0) {
-      clearInterval(intervalId)
-      showWelcomePopup()
-      closeAuthLoader()
-    }
-
-    return () => clearInterval(intervalId)
-  }, [loaderCountdown])
-
-  useEffect(() => {
     setIsNotValidOtp(false)
     if (otp.length === 6) {
-      otpPost({
+      otpCeck({
         user_uuid,
         otp,
       })
-      console.log('check OTP here', otp, user_uuid)
-      if (otp === '123456') {
-        success()
-      } else {
-        setIsNotValidOtp(true)
-      }
     }
   }, [otp])
-
-  const success = () => {
-    setLoaderCountdown(3)
-    showAuthLoader()
-  }
 
   const showWelcomePopup = () => {
     openAlert({
@@ -88,15 +78,6 @@ const RegisterOTP = () => {
 
   const handleOtpChanged = (newValue) => {
     setOTP(newValue)
-  }
-
-  const formattedSeconds = countdown < 10 ? `0${countdown}` : countdown
-  const isCountdownZero = countdown === 0
-
-  const handleResendOTP = () => {
-    if (countdown === 0) {
-      setCountdown(30)
-    }
   }
 
   return (
@@ -116,23 +97,37 @@ const RegisterOTP = () => {
           value={otp}
           isNotValid={isNotValidOtp}
           onValueChanged={handleOtpChanged}
+          textErr={errorMessage}
         />
 
-        <p className='text-base font-regular tracking-wide text-gray-700'>
-          {t('countdown', {
-            keyPrefix: 'auth.register.otp',
-            second: `${formattedSeconds}`,
-          })}{' '}
+        <div className='text-base font-regular tracking-wide text-gray-700 flex'>
+          <p className='flex'>
+            {t('countdownbefore', {
+              keyPrefix: 'auth.register.otp',
+            })}
+            <CounterDown
+              time={30}
+              timesUp={(e) => {
+                setTimesUpTimer(e)
+              }}
+              format='second'
+              className='mx-1'
+            />
+            {t('countdownafter', {
+              keyPrefix: 'auth.register.otp',
+            })}
+          </p>
+
           <span
             className={clsx(
-              'font-bold underline ms-1',
-              !isCountdownZero ? 'text-[#768196]' : ''
+              'ms-1',
+              timesUpTimer ? 'text-[#768196] underline font-bold' : ''
             )}
-            onClick={handleResendOTP}
+            onClick={!timesUpTimer ? void 0 : () => otpResend({ user_uuid })}
           >
             {t('resend', { keyPrefix: 'auth.register.otp' })}
           </span>
-        </p>
+        </div>
       </div>
     </AuthCard>
   )

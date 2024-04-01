@@ -80,7 +80,6 @@ export default function Register() {
   }
 
   const validateInput = (name, value) => {
-    console.log(validatePasswordMatch(value))
     switch (name) {
       case 'first_name':
       case 'last_name':
