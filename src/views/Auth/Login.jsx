@@ -108,13 +108,12 @@ export const Login = () => {
         error={error.password}
       />
 
-      <NavLink
-        className='font-bold text-gray-900 ms-[16px]'
-        to='#'
+      <div
+        className='font-bold text-gray-900 ms-[16px] cursor-pointer'
         onClick={() => console.log('Tautan diklik!')}
       >
         {t('forgot_password', { keyPrefix: 'auth.register' })}
-      </NavLink>
+      </div>
 
       <Button
         // onClick={() => openAlert({ title: 'Halo Dek,', messages: 'Prima Kusumo', image: images.apple })}
