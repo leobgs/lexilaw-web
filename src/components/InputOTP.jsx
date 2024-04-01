@@ -1,43 +1,45 @@
-import images from "assets/images";
-import clsx from "clsx";
+import images from 'assets/images'
+import clsx from 'clsx'
 
 const InputOTP = ({
   className,
-  name = "otp",
+  name = 'otp',
   placeholder,
+  textErr,
   value,
   isNotValid,
   onValueChanged,
 }) => {
   const handleValueChanged = (e) => {
-    const newValue = e.target.value;
+    const newValue = e.target.value
     if (newValue.length <= 6) {
-      onValueChanged(newValue);
+      onValueChanged(newValue)
     }
-  };
+  }
 
   return (
     <div
       className={clsx(
-        "relative h-[72px] border-b-2",
-        isNotValid ? "border-[#FF7878]" : "border-dark-50"
+        'relative h-[72px] border-b-2',
+        isNotValid ? 'border-[#FF7878]' : 'border-dark-50',
+        className
       )}
     >
       {isNotValid && (
-        <div className="absolute w-full h-full flex flex-row-reverse items-center">
+        <div className='absolute w-full h-full flex flex-row-reverse items-center'>
           <div
-            className="flex items-center rounded-md px-2 py-1 bg-[#FFF5DB] ring-2 ring-[#FF9D0B]"
+            className='flex items-center rounded-md px-2 py-1 bg-[#FFF5DB] ring-2 ring-[#FF9D0B]'
             onClick={() => {
-              onValueChanged("");
+              onValueChanged('')
             }}
           >
-            <p className="inline font-regular text-sm text-[#DB0000]">
-              Invalid
+            <p className='inline font-regular text-sm text-[#DB0000]'>
+              {textErr}
             </p>
             <img
-              className="inline size-[13px]"
+              className='inline size-[13px]'
               src={images.ic_close_red}
-              alt="close"
+              alt='close'
             />
           </div>
         </div>
@@ -45,23 +47,23 @@ const InputOTP = ({
 
       <input
         className={clsx(
-          "w-full h-full bg-transparent border-none focus:outline-none focus:ring-none ring-none",
-          value ? "text-[32px] font-bold" : "text-xl font-regular",
+          'w-full h-full bg-transparent border-none focus:outline-none focus:ring-none ring-none',
+          value ? 'text-[32px] font-bold' : 'text-xl font-regular',
           isNotValid
-            ? "text-[#DB0000]"
+            ? 'text-[#DB0000]'
             : value
-            ? "text-dark-50"
-            : "text-[#9F9F9F]"
+            ? 'text-dark-50'
+            : 'text-[#9F9F9F]'
         )}
-        type={"number"}
+        type={'number'}
         placeholder={placeholder}
         value={value}
         name={name}
         onChange={handleValueChanged}
-        autoComplete="off"
+        autoComplete='off'
       />
     </div>
-  );
-};
+  )
+}
 
-export default InputOTP;
+export default InputOTP

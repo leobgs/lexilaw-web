@@ -2,7 +2,7 @@ import images from 'assets/images'
 import { Button } from 'components/Button/Button'
 import { InputPassword } from 'components/InputPassword'
 import { Input } from 'components/Input'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useGlobalContext } from 'hooks/context'
 import AuthCard from 'components/Card/AuthCard'
 import { useTranslation } from 'react-i18next'
@@ -24,8 +24,7 @@ export const Login = () => {
   const { mutate: loginInput } = useMutation(
     (form) => getData(API.LOGIN, form),
     {
-      onSuccess: (data) => {
-        console.log(data)
+      onSuccess: () => {
         storage.setItem(StorageKey.ACCESS_TOKEN, {
           access_token: 'acess_token_dummy',
           token_type: 'Bearer',
