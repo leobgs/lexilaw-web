@@ -7,7 +7,7 @@ import { API } from 'config/api'
 import { StorageKey } from 'config/storage'
 import { useGlobalContext } from 'hooks/context'
 import { getData } from 'hooks/useRequest'
-import { notifySuccess } from 'hooks/useToas'
+import { notifyError, notifySuccess } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from 'react-query'
@@ -51,6 +51,8 @@ const RegisterOTP = () => {
       onSettled: (data) => {
         if (data?.status === 'Success') {
           notifySuccess(data?.message)
+        } else {
+          notifyError(data?.message)
         }
       },
     }
