@@ -13,10 +13,13 @@ export default function AuthLayout() {
   const navigate = useNavigate()
   const location = useLocation()
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-  const isOnLogin = location.pathname === '/auth'
-  const isOnRegister = location.pathname === '/auth/register'
-  const isOnOtp = location.pathname === '/auth/register/otp'
-  const isOnAuthPage = isOnRegister || isOnLogin || isOnOtp
+
+  const isOnAuthPage =
+    location.pathname === '/auth/register' ||
+    location.pathname === '/auth/login' ||
+    location.pathname === '/auth' ||
+    location.pathname === '/auth/register/otp' ||
+    location.pathname === '/auth/forgot-password'
   const isOnMobileSize = windowWidth <= 768
 
   useEffect(() => {
@@ -38,6 +41,157 @@ export default function AuthLayout() {
     navigate(-1)
   }
 
+  const handleLabelHeader = (pathname) => {
+    switch (pathname) {
+      case '/auth/login':
+        return t('auth.login_navbar_title')
+      case '/auth':
+        return t('auth.login_navbar_title')
+      case '/auth/register':
+        return t('auth.register_navbar_title')
+      case '/auth/forgot-password':
+        return t('auth.change_password')
+      default:
+        return t('auth.otp_navbar_title')
+    }
+  }
+
+  const handleSocialMediaButton = (pathname) => {
+    switch (pathname) {
+      case '/auth/login':
+        return (
+          <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
+            <Button
+              label={t('social_google', { keyPrefix: 'auth' })}
+              iconLeft={images.google}
+              iconClassName={'w-[20px] h-[20px] me-2'}
+              className={
+                'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
+              }
+            />
+
+            <AppleSignInButton
+              className={
+                'whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
+              }
+              callback={(response) => {
+                console.log(response)
+              }}
+            />
+
+            <Button
+              label={t('social_email', { keyPrefix: 'auth' })}
+              iconLeft={images.email_outline}
+              iconClassName={'w-[20px] h-[20px] me-2'}
+              onClick={handleSignEmail}
+              className={
+                'md:hidden bg-outline bg-white text-green-900 w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
+              }
+            />
+
+            <p className='text-center text-gray-400 font-medium md:hidden'>
+              {t('not_have_account', { keyPrefix: 'auth.login' })}
+              <NavLink
+                className='font-bold text-white underline ms-1'
+                to='/auth/register'
+              >
+                {t('register', { keyPrefix: 'auth.login' })}
+              </NavLink>
+            </p>
+          </div>
+        )
+
+      case '/auth':
+        return (
+          <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
+            <Button
+              label={t('social_google', { keyPrefix: 'auth' })}
+              iconLeft={images.google}
+              iconClassName={'w-[20px] h-[20px] me-2'}
+              className={
+                'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
+              }
+            />
+
+            <AppleSignInButton
+              className={
+                'whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
+              }
+              callback={(response) => {
+                console.log(response)
+              }}
+            />
+
+            <Button
+              label={t('social_email', { keyPrefix: 'auth' })}
+              iconLeft={images.email_outline}
+              iconClassName={'w-[20px] h-[20px] me-2'}
+              onClick={handleSignEmail}
+              className={
+                'md:hidden bg-outline bg-white text-green-900 w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
+              }
+            />
+
+            <p className='text-center text-gray-400 font-medium md:hidden'>
+              {t('not_have_account', { keyPrefix: 'auth.login' })}
+              <NavLink
+                className='font-bold text-white underline ms-1'
+                to='/auth/register'
+              >
+                {t('register', { keyPrefix: 'auth.login' })}
+              </NavLink>
+            </p>
+          </div>
+        )
+
+      case '/auth/register':
+        return (
+          <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
+            <Button
+              label={t('social_google', { keyPrefix: 'auth' })}
+              iconLeft={images.google}
+              iconClassName={'w-[20px] h-[20px] me-2'}
+              className={
+                'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
+              }
+            />
+
+            <AppleSignInButton
+              className={
+                'whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
+              }
+              callback={(response) => {
+                console.log(response)
+              }}
+            />
+
+            <Button
+              label={t('social_email', { keyPrefix: 'auth' })}
+              iconLeft={images.email_outline}
+              iconClassName={'w-[20px] h-[20px] me-2'}
+              onClick={handleSignEmail}
+              className={
+                'md:hidden bg-outline bg-white text-green-900 w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
+              }
+            />
+
+            <p className='text-center text-gray-400 font-medium md:hidden'>
+              {t('not_have_account', { keyPrefix: 'auth.login' })}
+              <NavLink
+                className='font-bold text-white underline ms-1'
+                to='/auth/register'
+              >
+                {t('register', { keyPrefix: 'auth.login' })}
+              </NavLink>
+            </p>
+          </div>
+        )
+
+      default:
+        return <></>
+    }
+  }
+
   return (
     <div className='bg-contain bg-center h-screen bg_auth flex items-center flex-col relative'>
       <AuthLoader />
@@ -45,13 +199,7 @@ export default function AuthLayout() {
       {isOnMobileSize && isOnAuthPage && (
         <div className='navBar border-b-2 border-green-900 md: w-full'>
           <Button
-            label={
-              isOnLogin
-                ? t('auth.login_navbar_title')
-                : isOnRegister
-                ? t('auth.register_navbar_title')
-                : t('auth.otp_navbar_title')
-            }
+            label={handleLabelHeader(location.pathname)}
             iconLeft={images.chevron_left}
             iconClassName={'w-[20px] h-[20px] me-2'}
             onClick={handleBackLogin}
@@ -90,47 +238,7 @@ export default function AuthLayout() {
               </>
             ) : null}
 
-            {!isOnOtp ? (
-              <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
-                <Button
-                  label={t('social_google', { keyPrefix: 'auth' })}
-                  iconLeft={images.google}
-                  iconClassName={'w-[20px] h-[20px] me-2'}
-                  className={
-                    'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
-                  }
-                />
-
-                <AppleSignInButton
-                  className={
-                    'whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
-                  }
-                  callback={(response) => {
-                    console.log(response)
-                  }}
-                />
-
-                <Button
-                  label={t('social_email', { keyPrefix: 'auth' })}
-                  iconLeft={images.email_outline}
-                  iconClassName={'w-[20px] h-[20px] me-2'}
-                  onClick={handleSignEmail}
-                  className={
-                    'md:hidden bg-outline bg-white text-green-900 w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
-                  }
-                />
-
-                <p className='text-center text-gray-400 font-medium md:hidden'>
-                  {t('not_have_account', { keyPrefix: 'auth.login' })}
-                  <NavLink
-                    className='font-bold text-white underline ms-1'
-                    to='/auth/register'
-                  >
-                    {t('register', { keyPrefix: 'auth.login' })}
-                  </NavLink>
-                </p>
-              </div>
-            ) : null}
+            {handleSocialMediaButton(location.pathname)}
           </div>
         </div>
       </div>

@@ -38,7 +38,13 @@
     "social_email": "MASUK DENGAN EMAIL",
     "login_navbar_title": "Login",
     "register_navbar_title": "Daftar Sekarang",
-    "otp_navbar_title": "Verifikasi"
+    "otp_navbar_title": "Verifikasi",
+    "change_password": "Atur Ulang Kata Sandi",
+    "forget_password_header": "Masukkan Email Terdaftar",
+    "set_password": {
+      "header": "Cek email kamu",
+      "text": "Tautan telah dikirimkan ke email"
+    }
   },
   "common": {
     "login": "Login",

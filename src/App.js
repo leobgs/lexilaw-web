@@ -6,7 +6,7 @@ import {
   Routes,
 } from 'react-router-dom'
 import { isLogin } from 'utils/auth'
-import { Login, Components, Chat, NotFound } from 'views'
+import { Login, Components, Chat, NotFound, ForgotPassword } from 'views'
 import { ModalAlert } from 'components'
 import { ToastContainer } from 'react-toastify'
 import AuthLayout from 'views/Auth/layouts/AuthLayout'
@@ -55,6 +55,7 @@ function App() {
             <Route path='login' Component={Login} />
             <Route path='register' Component={Register} />
             <Route path='register/otp' Component={RegisterOTP} />
+            <Route path='forgot-password' Component={ForgotPassword} />
           </Route>
         </Route>
 

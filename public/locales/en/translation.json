@@ -38,7 +38,13 @@
     "social_email": "CONTINUE WITH EMAIL",
     "login_navbar_title": "Login",
     "register_navbar_title": "Register Now",
-    "otp_navbar_title": "Verification"
+    "otp_navbar_title": "Verification",
+    "change_password": "Set password",
+    "forget_password_header": "Insert your registered Email",
+    "set_password": {
+      "header": "Check your email",
+      "text": "Link was sented to"
+    }
   },
   "common": {
     "login": "Login",

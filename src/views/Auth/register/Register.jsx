@@ -124,8 +124,8 @@ export default function Register() {
 
   const handleChangeForm = (e) => {
     const { name, value } = e
-    registerFormReducer(name, value)
     const errorMessage = validateInput(name, value)
+    registerFormReducer(name, value)
     setError({ ...error, [name]: errorMessage })
     setErrorText('')
   }
@@ -271,12 +271,15 @@ export default function Register() {
           </div>
         )}
 
-        <p className='text-center font-medium'>
+        <div className='text-center font-medium'>
           {t('already_have_account', { keyPrefix: 'auth.register' })}
-          <a className='font-bold text-gray-900 underline ms-1' href='/login'>
+          <p
+            className='font-bold text-gray-900 underline ms-1'
+            onClick={() => navigate('/auth/login')}
+          >
             {t('login', { keyPrefix: 'common' })}
-          </a>
-        </p>
+          </p>
+        </div>
       </div>
     </AuthCard>
   )
