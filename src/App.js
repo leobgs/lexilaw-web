@@ -6,7 +6,15 @@ import {
   Routes,
 } from 'react-router-dom'
 import { isLogin } from 'utils/auth'
-import { Login, Components, Chat, NotFound } from 'views'
+import {
+  Login,
+  Components,
+  Chat,
+  NotFound,
+  ForgotPassword,
+  ChangePassword,
+  PreChangePassword,
+} from 'views'
 import { ModalAlert } from 'components'
 import { ToastContainer } from 'react-toastify'
 import AuthLayout from 'views/Auth/layouts/AuthLayout'
@@ -54,7 +62,10 @@ function App() {
             <Route index element={<Login />} />
             <Route path='login' Component={Login} />
             <Route path='register' Component={Register} />
-            <Route path='register/otp' Component={RegisterOTP} />
+            <Route path='register/otp' element={<RegisterOTP />} />
+            <Route path='forgot-password' element={<ForgotPassword />} />
+            <Route path='prechanged-password' element={<PreChangePassword />} />
+            <Route path='changed-password' element={<ChangePassword />} />
           </Route>
         </Route>
 

@@ -36,9 +36,26 @@
     "social_google": "MASUK DENGAN GOOGLE",
     "social_apple": "MASUK DENGAN APPLE ID",
     "social_email": "MASUK DENGAN EMAIL",
-    "login_navbar_title": "Login",
-    "register_navbar_title": "Daftar Sekarang",
-    "otp_navbar_title": "Verifikasi"
+    "forget_password_header": "Masukkan Email Terdaftar",
+    "navbar": {
+      "login": "Login",
+      "register": "Daftar Sekarang",
+      "otp": "Verifikasi",
+      "change_password": "Atur Ulang Kata Sandi"
+    },
+    "set_password": {
+      "header": "Cek email kamu",
+      "text": "Tautan telah dikirimkan ke email"
+    },
+    "reset_password": {
+      "header": "Masukkan kata sandi baru",
+      "btn_text": "Tetapkan kata sandi",
+      "pre_change_text": "Permintaan untuk mereset kata sandi telah kami terima. Jika Kamu yang membuat permintaan ini, silakan klik tombol berikut.",
+      "pre_change_btn_text": "Atur Ulang Kata Sandi",
+      "after_change_header": "Kata Sandi Berhasil di Perbaharui",
+      "after_change_text1": "Kamu bisa masuk dengan kata sandi yang baru,",
+      "after_change_text2": "ke Halaman Login"
+    }
   },
   "common": {
     "login": "Login",

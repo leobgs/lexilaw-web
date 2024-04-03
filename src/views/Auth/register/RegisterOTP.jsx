@@ -36,7 +36,7 @@ const RegisterOTP = () => {
             token_type: 'Bearer',
           })
           storage.setItem(StorageKey.IS_LOGIN, true)
-          navigate('/')
+          navigate('/', { replace: true })
         } else {
           setIsNotValidOtp(true)
           setErrorMessage(data?.message)

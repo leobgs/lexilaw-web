@@ -1,6 +1,7 @@
 import bg_register_login from './bg_register_login.png'
 import logo_lexilaw from './logo_lexilaw.png'
 
+import ic_right_vector from './ic_right_vector.png'
 import ic_eye_strike from './ic_eye_strike.png'
 import ic_vector_right from './ic_vector_right.png'
 import ic_chat_bubbles from './ic_chat_bubbles.png'
@@ -44,6 +45,7 @@ const images = {
   bg_register_login,
   logo_lexilaw,
 
+  ic_right_vector,
   ic_eye,
   ic_eye_strike,
   ic_vector_right,
