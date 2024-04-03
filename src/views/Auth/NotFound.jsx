@@ -9,7 +9,7 @@ export const NotFound = () => {
         <div className='font-semi-bold text-5xl'>404</div>
         <div>Not Found tidak dapat menemukan laman yang anda maksud</div>
         <Button
-          onClick={() => navigate('/auth')}
+          onClick={() => navigate('/auth', { replace: true })}
           label='Kembali ke LexiWeb'
           className='mx-auto btn-secondary rounded-3xl mt-4'
         />

@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useGlobalContext } from 'hooks/context'
 import AuthCard from 'components/Card/AuthCard'
 import { useTranslation } from 'react-i18next'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { LocalStorage } from 'utils'
 import { StorageKey } from 'config/storage'
 import { useMutation } from 'react-query'
@@ -16,6 +16,7 @@ import { API } from 'config/api'
 export const Login = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const location = useLocation()
   const { openAlert, closeAlert } = useGlobalContext()
   const storage = new LocalStorage()
   const [form, setForm] = useState({ email: '', password: '' })
@@ -37,7 +38,7 @@ export const Login = () => {
           icon: images.ai_profile_thumbnail,
         })
         let timeOut = setTimeout(() => {
-          navigate('/')
+          navigate('/', { replace: true })
           closeAlert({ isConfirm: false, showLoading: false })
         }, 1200)
         return () => clearTimeout(timeOut)

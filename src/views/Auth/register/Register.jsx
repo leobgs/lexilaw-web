@@ -271,8 +271,8 @@ export default function Register() {
           </div>
         )}
 
-        <div className='text-center font-medium'>
-          {t('already_have_account', { keyPrefix: 'auth.register' })}
+        <div className='text-center font-medium flex justify-center'>
+          <p>{t('already_have_account', { keyPrefix: 'auth.register' })}</p>
           <p
             className='font-bold text-gray-900 underline ms-1'
             onClick={() => navigate('/auth/login')}

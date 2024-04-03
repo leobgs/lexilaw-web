@@ -36,14 +36,25 @@
     "social_google": "CONTINUE WITH GOOGLE",
     "social_apple": "CONTINUE WITH APPLE ID",
     "social_email": "CONTINUE WITH EMAIL",
-    "login_navbar_title": "Login",
-    "register_navbar_title": "Register Now",
-    "otp_navbar_title": "Verification",
-    "change_password": "Set password",
     "forget_password_header": "Insert your registered Email",
+    "navbar": {
+      "login": "Login",
+      "register": "Register Now",
+      "otp": "Verification",
+      "change_password": "Set New Password"
+    },
     "set_password": {
       "header": "Check your email",
       "text": "Link was sented to"
+    },
+    "reset_password": {
+      "header": "Input new password",
+      "btn_text": "Save password",
+      "pre_change_text": "Your password reset request has received. If you want to continue, click this button.",
+      "pre_change_btn_text": "Reset Password",
+      "after_change_header": "Password was successfully changed",
+      "after_change_text1": "You can login with new Password,",
+      "after_change_text2": "to Login Page"
     }
   },
   "common": {

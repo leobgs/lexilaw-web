@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import images from 'assets/images'
 import { Button } from 'components/Button/Button'
@@ -17,9 +17,10 @@ export default function AuthLayout() {
   const isOnAuthPage =
     location.pathname === '/auth/register' ||
     location.pathname === '/auth/login' ||
-    location.pathname === '/auth' ||
     location.pathname === '/auth/register/otp' ||
-    location.pathname === '/auth/forgot-password'
+    location.pathname === '/auth/forgot-password' ||
+    location.pathname === '/auth/changed-password' ||
+    location.pathname === '/auth/prechanged-password'
   const isOnMobileSize = windowWidth <= 768
 
   useEffect(() => {
@@ -34,25 +35,32 @@ export default function AuthLayout() {
   }, [])
 
   const handleSignEmail = () => {
-    navigate('/auth')
+    navigate('/auth/login')
   }
 
   const handleBackLogin = () => {
-    navigate(-1)
+    location.pathname === '/auth/login' ||
+    location.pathname === '/auth/prechanged-password'
+      ? navigate('/auth')
+      : navigate(-1)
   }
 
   const handleLabelHeader = (pathname) => {
     switch (pathname) {
       case '/auth/login':
-        return t('auth.login_navbar_title')
+        return t('login', { keyPrefix: 'auth.navbar' })
       case '/auth':
-        return t('auth.login_navbar_title')
+        return t('login', { keyPrefix: 'auth.navbar' })
       case '/auth/register':
-        return t('auth.register_navbar_title')
+        return t('register', { keyPrefix: 'auth.navbar' })
       case '/auth/forgot-password':
-        return t('auth.change_password')
+        return t('change_password', { keyPrefix: 'auth.navbar' })
+      case '/auth/changed-password':
+        return t('change_password', { keyPrefix: 'auth.navbar' })
+      case '/auth/prechanged-password':
+        return t('change_password', { keyPrefix: 'auth.navbar' })
       default:
-        return t('auth.otp_navbar_title')
+        return t('otp', { keyPrefix: 'auth.navbar' })
     }
   }
 
@@ -203,13 +211,13 @@ export default function AuthLayout() {
             iconLeft={images.chevron_left}
             iconClassName={'w-[20px] h-[20px] me-2'}
             onClick={handleBackLogin}
-            className={' text-white bg-transparent'}
+            className='text-white bg-transparent'
           />
         </div>
       )}
 
       <div className='container mx-auto py-3 relative z-1 px-4 md:px-0 my-auto lg:px-[2rem]'>
-        {((!isOnAuthPage && isOnMobileSize) || !isOnMobileSize) && (
+        {!isOnMobileSize && (
           <img
             src={images.lexilaw_logo}
             alt=''
@@ -218,7 +226,8 @@ export default function AuthLayout() {
         )}
 
         <div className='grid md:grid-cols-2 md:gap-5 xl:gap-12 2xl:gap-32'>
-          {((!isOnAuthPage && isOnMobileSize) || !isOnMobileSize) && (
+          {(!isOnMobileSize ||
+            (isOnMobileSize && location.pathname === '/auth')) && (
             <div className='desc flex md:!flex flex-col justify-center'>
               <h1 className='font-bold text-5xl md:text-7xl text-white text-center md:text-start font-futura-bold'>
                 {t('tagline')}
