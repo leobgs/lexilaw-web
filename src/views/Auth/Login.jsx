@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useGlobalContext } from 'hooks/context'
 import AuthCard from 'components/Card/AuthCard'
 import { useTranslation } from 'react-i18next'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { LocalStorage } from 'utils'
 import { StorageKey } from 'config/storage'
 import { useMutation } from 'react-query'
@@ -16,6 +16,7 @@ import { API } from 'config/api'
 export const Login = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const location = useLocation()
   const { openAlert, closeAlert } = useGlobalContext()
   const storage = new LocalStorage()
   const [errorText, setErrorText] = useState('')
@@ -115,7 +116,7 @@ export const Login = () => {
 
       <div
         className='font-bold text-gray-900 ms-[16px] cursor-pointer'
-        onClick={() => console.log('Tautan diklik!')}
+        onClick={() => navigate('/auth/forgot-password')}
       >
         {t('forgot_password', { keyPrefix: 'auth.register' })}
       </div>
