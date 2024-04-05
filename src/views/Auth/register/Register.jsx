@@ -1,35 +1,23 @@
 import { useState } from 'react'
 import AuthCard from 'components/Card/AuthCard'
-import { Button, Input } from 'components'
+import { Button, Input, InputSelect } from 'components'
 import { InputPassword } from 'components/InputPassword'
 import images from 'assets/images'
 import InputImage from 'components/InputImage'
-import { Dropdown } from 'components/Dropdown/Dropdown'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useGlobalContext } from 'hooks/context'
 import clsx from 'clsx'
 import { API } from 'config/api'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { getData } from 'hooks/useRequest'
-
-const citiesDummy = [
-  'Jakarta',
-  'Surabaya',
-  'Medan',
-  'Bandung',
-  'Makassar',
-  'Semarang',
-  'Samarinda',
-  'Tenggarong',
-  'Yogyakarta',
-  'Denpasar',
-]
 
 export default function Register() {
   const { t } = useTranslation()
   const { registerForm, registerFormReducer } = useGlobalContext()
   const [errorText, setErrorText] = useState('')
+  const [optionCity, setOptionCity] = useState([])
+  const [selectedCity, setSelectedCity] = useState()
   const navigate = useNavigate()
   const [error, setError] = useState({
     first_name: '',
@@ -37,6 +25,21 @@ export default function Register() {
     email: '',
     password: '',
     password_confirm: '',
+  })
+
+  useQuery(['city_list'], () => getData(API.LIST_CITY), {
+    onSettled: (datas) => {
+      if (datas.status === 'Success') {
+        const { data } = datas
+        let tmp = []
+        data?.forEach((item) => {
+          tmp.push({ label: item.name, value: item.id })
+        })
+        setOptionCity([...tmp])
+      } else {
+        setOptionCity([{ label: 'Kota tidak dapat ditemukan', value: 0 }])
+      }
+    },
   })
 
   const { mutate: registerData } = useMutation(
@@ -111,6 +114,8 @@ export default function Register() {
     let errorCheck =
       registerForm.first_name === null ||
       registerForm.first_name === '' ||
+      registerForm.last_name === null ||
+      registerForm.last_name === '' ||
       registerForm.email === null ||
       registerForm.email === '' ||
       registerForm.password === null ||
@@ -119,23 +124,19 @@ export default function Register() {
       registerForm.password_confirm === '' ||
       registerForm.city === null ||
       registerForm.city === ''
-    return errorCheck
   }
+
+  const isValidForm = !isAnyEmptyForm() && !isAnyError()
 
   const handleChangeForm = (e) => {
     const { name, value } = e
     const errorMessage = validateInput(name, value)
     registerFormReducer(name, value)
     setError({ ...error, [name]: errorMessage })
-    setErrorText('')
   }
 
   const handleImageChange = (newImage) => {
     registerFormReducer(['image'], newImage)
-  }
-
-  const handleCityChange = (newValue) => {
-    registerFormReducer(['city'], newValue)
   }
 
   const onSubmit = () => {
@@ -144,6 +145,12 @@ export default function Register() {
       bodyFormData.append(key, value)
     }
     registerData(bodyFormData)
+    setErrorText('')
+  }
+
+  const handleChangeCity = (e) => {
+    setSelectedCity(e)
+    registerFormReducer(['city'], e.value)
   }
 
   return (
@@ -224,15 +231,12 @@ export default function Register() {
           />
         </div>
 
-        <Dropdown
-          options={citiesDummy}
-          placeholder={t('city_dropdown_placeholder', {
-            keyPrefix: 'auth.register',
-          })}
-          selectedOption={registerForm.city}
-          onSelectedOption={(newValue) => {
-            handleCityChange(newValue)
-          }}
+        <InputSelect
+          placeholder='Pilih Kota'
+          onChange={handleChangeCity}
+          options={optionCity}
+          value={selectedCity}
+          isSearchable
         />
 
         <Input
@@ -256,10 +260,14 @@ export default function Register() {
 
         <Button
           label={t('submit_button', { keyPrefix: 'auth.register' })}
-          onClick={onSubmit}
+          onClick={() => {
+            navigate('/auth/register/otp', {
+              state: { email: registerForm.email, fullName: fullName },
+            })
+          }}
           iconRight={images.chevron_right}
           iconClassName={'absolute right-4'}
-          disabled={isAnyEmptyForm() || isAnyError()}
+          disabled={!isValidForm}
           className={
             'btn-secondary-hover w-full mt-1 rounded-full font-medium relative'
           }
