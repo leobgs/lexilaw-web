@@ -18,30 +18,33 @@ export const Login = () => {
   const navigate = useNavigate()
   const { openAlert, closeAlert } = useGlobalContext()
   const storage = new LocalStorage()
+  const [errorText, setErrorText] = useState('')
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState({ email: '', password: '' })
 
   const { mutate: loginInput } = useMutation(
     (form) => getData(API.LOGIN, form),
     {
-      onSuccess: (data) => {
-        console.log(data)
-        storage.setItem(StorageKey.ACCESS_TOKEN, {
-          access_token: 'acess_token_dummy',
-          token_type: 'Bearer',
-        })
-        storage.setItem(StorageKey.IS_LOGIN, true)
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          storage.setItem(StorageKey.ACCESS_TOKEN, {
+            access_token: data?.data,
+            token_type: 'Bearer',
+          })
+          storage.setItem(StorageKey.IS_LOGIN, true)
 
-        openAlert({
-          title: 'Halo lagi,',
-          messages: 'Prima Kusumo',
-          icon: images.ai_profile_thumbnail,
-        })
-        let timeOut = setTimeout(() => {
-          navigate('/')
-          closeAlert({ isConfirm: false, showLoading: false })
-        }, 1200)
-        return () => clearTimeout(timeOut)
+          openAlert({
+            title: data?.message,
+            icon: images.ai_profile_thumbnail,
+          })
+          let timeOut = setTimeout(() => {
+            navigate('/', { replace: true })
+            closeAlert({ isConfirm: false, showLoading: false })
+          }, 1200)
+          return () => clearTimeout(timeOut)
+        } else {
+          setErrorText(data?.message)
+        }
       },
     }
   )
@@ -68,14 +71,15 @@ export const Login = () => {
     const findErrors = validationForm()
     if (Object.values(findErrors).some((err) => err !== '')) {
       setError(findErrors)
-      console.log(findErrors)
     } else {
       loginInput(form)
     }
+    setErrorText('')
   }
 
   const handleChangeForm = (e) => {
     const { name, value } = e
+    setErrorText('')
     if (name) {
       setForm({ ...form, [name]: value })
       setError({ email: '', password: '' })
@@ -118,7 +122,6 @@ export const Login = () => {
       </NavLink>
 
       <Button
-        // onClick={() => openAlert({ title: 'Halo Dek,', messages: 'Prima Kusumo', image: images.apple })}
         label={'Login'}
         onClick={onSubmit}
         iconRight={images.chevron_right}
@@ -128,6 +131,12 @@ export const Login = () => {
           'btn-secondary-hover w-full mt-[2rem] mb-[1rem] rounded-full font-medium relative'
         }
       />
+
+      {errorText && (
+        <div className='bg-error-base bg-opacity-20 border-1 border-error-base border rounded-lg w-fit mb-4'>
+          <p className='font-semi-bold text-error-base px-2'>{errorText}</p>
+        </div>
+      )}
 
       <p className='text-center font-medium'>
         {t('dont_have_an_account_yet', { keyPrefix: 'auth.register' })}

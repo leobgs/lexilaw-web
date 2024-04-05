@@ -47,8 +47,8 @@ const styleReactSelect = {
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     backgroundColor: '#FFFFFF',
-    border: `solid ${state.isFocused ? '#5E5E5E 2px' : '#5E5E5E 1px'}`,
-    borderRadius: '1rem',
+    border: `solid ${state.isFocused ? '#DEDEDE 1px' : '#DEDEDE 2px'}`,
+    borderRadius: '9999px',
     height: '46px',
   }),
   singleValue: (provided) => ({
