@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
-import images from "assets/images";
-import { Button } from "components/Button/Button";
-import { Toggle } from "components/Toggle/Toggle";
-import { useTranslation } from "react-i18next";
-import "../Login.scss";
-import { AppleSignInButton } from "components/Button/AppleSiginInButton";
-import { AuthLoader } from "components/AuthLoader";
+import React, { useEffect, useState } from 'react'
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import images from 'assets/images'
+import { Button } from 'components/Button/Button'
+import { Toggle } from 'components/Toggle/Toggle'
+import { useTranslation } from 'react-i18next'
+import '../Login.scss'
+import { AppleSignInButton } from 'components/Button/AppleSiginInButton'
+import { AuthLoader } from 'components/AuthLoader'
 
 export default function AuthLayout() {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const isOnLogin = location.pathname === "/login";
-  const isOnRegister = location.pathname === "/register";
-  const isOnOtp = location.pathname === "/register/otp";
-  const isOnAuthPage = isOnRegister || isOnLogin || isOnOtp;
-  const isOnMobileSize = windowWidth <= 768;
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const isOnLogin = location.pathname === '/auth'
+  const isOnRegister = location.pathname === '/auth/register'
+  const isOnOtp = location.pathname === '/auth/register/otp'
+  const isOnAuthPage = isOnRegister || isOnLogin || isOnOtp
+  const isOnMobileSize = windowWidth <= 768
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", handleResize);
+      setWindowWidth(window.innerWidth)
+    }
+    window.addEventListener('resize', handleResize)
 
     return () => {
       window.removeEventListener('resize', handleResize)
@@ -39,7 +39,7 @@ export default function AuthLayout() {
   }
 
   return (
-    <div className="bg-contain bg-center h-screen bg_auth flex items-center flex-col relative">
+    <div className='bg-contain bg-center h-screen bg_auth flex items-center flex-col relative'>
       <AuthLoader />
 
       {isOnMobileSize && isOnAuthPage && (
@@ -47,10 +47,10 @@ export default function AuthLayout() {
           <Button
             label={
               isOnLogin
-                ? t("auth.login_navbar_title")
+                ? t('auth.login_navbar_title')
                 : isOnRegister
-                ? t("auth.register_navbar_title")
-                : t("auth.otp_navbar_title")
+                ? t('auth.register_navbar_title')
+                : t('auth.otp_navbar_title')
             }
             iconLeft={images.chevron_left}
             iconClassName={'w-[20px] h-[20px] me-2'}
@@ -72,9 +72,10 @@ export default function AuthLayout() {
         <div className='grid md:grid-cols-2 md:gap-5 xl:gap-12 2xl:gap-32'>
           {((!isOnAuthPage && isOnMobileSize) || !isOnMobileSize) && (
             <div className='desc flex md:!flex flex-col justify-center'>
-              <h1 className='font-bold text-5xl	 md:text-7xl text-white text-center md:text-start font-futuras'>
+              <h1 className='font-bold text-5xl md:text-7xl text-white text-center md:text-start font-futura-bold'>
                 {t('tagline')}
               </h1>
+
               <p className='pt-[0.5rem] text-white text-center md:text-start font-light'>
                 {t('sub_tagline')}
               </p>
@@ -90,42 +91,42 @@ export default function AuthLayout() {
             ) : null}
 
             {!isOnOtp ? (
-              <div className="grid lg:grid-cols-2 lg:gap-5 px-3">
+              <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
                 <Button
-                  label={t("social_google", { keyPrefix: "auth" })}
+                  label={t('social_google', { keyPrefix: 'auth' })}
                   iconLeft={images.google}
-                  iconClassName={"w-[20px] h-[20px] me-2"}
+                  iconClassName={'w-[20px] h-[20px] me-2'}
                   className={
-                    "whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
+                    'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
                   }
                 />
 
                 <AppleSignInButton
                   className={
-                    "whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
+                    'whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
                   }
                   callback={(response) => {
-                    console.log(response);
+                    console.log(response)
                   }}
                 />
 
                 <Button
-                  label={t("social_email", { keyPrefix: "auth" })}
+                  label={t('social_email', { keyPrefix: 'auth' })}
                   iconLeft={images.email_outline}
-                  iconClassName={"w-[20px] h-[20px] me-2"}
+                  iconClassName={'w-[20px] h-[20px] me-2'}
                   onClick={handleSignEmail}
                   className={
-                    "md:hidden bg-outline bg-white text-green-900 w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs"
+                    'md:hidden bg-outline bg-white text-green-900 w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
                   }
                 />
 
-                <p className="text-center text-gray-400 font-medium md:hidden">
-                  {t("not_have_account", { keyPrefix: "auth.login" })}
+                <p className='text-center text-gray-400 font-medium md:hidden'>
+                  {t('not_have_account', { keyPrefix: 'auth.login' })}
                   <NavLink
-                    className="font-bold text-white underline ms-1"
-                    to="/register"
+                    className='font-bold text-white underline ms-1'
+                    to='/auth/register'
                   >
-                    {t("register", { keyPrefix: "auth.login" })}
+                    {t('register', { keyPrefix: 'auth.login' })}
                   </NavLink>
                 </p>
               </div>

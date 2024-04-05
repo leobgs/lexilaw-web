@@ -24,7 +24,8 @@
         "heading": "Masukkan OTP",
         "send_to": "OTP telah dikirimkan ke email",
         "placeholder": "Masukkan 6 digit angka",
-        "countdown": "Tunggu {{second}} detik untuk melakukan",
+        "countdownbefore": "Tunggu",
+        "countdownafter": "detik untuk melakukan",
         "resend": "Kirim Ulang"
       }
     },

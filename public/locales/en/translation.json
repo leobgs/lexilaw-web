@@ -24,7 +24,8 @@
         "heading": "Enter OTP",
         "send_to": "OTP has been sent to email",
         "placeholder": "Enter 6 digit numbers",
-        "countdown": "Wait {{second}} seconds to",
+        "countdownbefore": "Wait",
+        "countdownafter": "seconds to",
         "resend": "Resend"
       }
     },

@@ -2,7 +2,7 @@ import images from 'assets/images'
 import { Button } from 'components/Button/Button'
 import { InputPassword } from 'components/InputPassword'
 import { Input } from 'components/Input'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useGlobalContext } from 'hooks/context'
 import AuthCard from 'components/Card/AuthCard'
 import { useTranslation } from 'react-i18next'
@@ -113,13 +113,12 @@ export const Login = () => {
         error={error.password}
       />
 
-      <NavLink
-        className='font-bold text-gray-900 ms-[16px]'
-        to='#'
+      <div
+        className='font-bold text-gray-900 ms-[16px] cursor-pointer'
         onClick={() => console.log('Tautan diklik!')}
       >
         {t('forgot_password', { keyPrefix: 'auth.register' })}
-      </NavLink>
+      </div>
 
       <Button
         label={'Login'}

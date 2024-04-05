@@ -12,19 +12,6 @@ import { API } from 'config/api'
 import { useMutation, useQuery } from 'react-query'
 import { getData } from 'hooks/useRequest'
 
-const citiesDummy = [
-  'Jakarta',
-  'Surabaya',
-  'Medan',
-  'Bandung',
-  'Makassar',
-  'Semarang',
-  'Samarinda',
-  'Tenggarong',
-  'Yogyakarta',
-  'Denpasar',
-]
-
 export default function Register() {
   const { t } = useTranslation()
   const { registerForm, registerFormReducer } = useGlobalContext()
@@ -103,7 +90,9 @@ export default function Register() {
       case 'email':
         return validateEmail(value) ? '' : 'Invalid email format'
       case 'password':
-        return validatePassword(value) ? '' : 'Invalid password format'
+        return validatePassword(value)
+          ? ''
+          : 'Invalid password must contain at least 1 upper case characters and 8 characters minimum'
       case 'password_confirm':
         return validatePasswordMatch(value) ? '' : 'Password not match'
       default:
@@ -112,17 +101,17 @@ export default function Register() {
   }
 
   const isAnyError = () => {
-    return !(
+    let errorCheck =
       error.first_name === null ||
-      error.last_name === null ||
       error.email === null ||
       error.password === null ||
-      error.password_confirm === null
-    )
+      error.password_confirm === null ||
+      error.password_confirm !== ''
+    return errorCheck
   }
 
   const isAnyEmptyForm = () => {
-    return (
+    let errorCheck =
       registerForm.first_name === null ||
       registerForm.first_name === '' ||
       registerForm.last_name === null ||
@@ -135,7 +124,6 @@ export default function Register() {
       registerForm.password_confirm === '' ||
       registerForm.city === null ||
       registerForm.city === ''
-    )
   }
 
   const isValidForm = !isAnyEmptyForm() && !isAnyError()

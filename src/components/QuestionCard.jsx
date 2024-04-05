@@ -8,7 +8,7 @@ export const QuestionCard = ({ data, onClick, className }) => {
         className
       )}
     >
-      <div className='font-futura-bolds font-bold text-xl text-center text-secondary-base mb-6 md:text-start'>
+      <div className='font-futura-bold font-bold text-xl text-center text-secondary-base mb-6 md:text-start'>
         Ingin menanyakan apa?
       </div>
 
