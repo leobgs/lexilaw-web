@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'id.lexi.technoparter.com',
+  appId: 'client.id.lexi.technoparter.com',
   appName: 'lexi-app',
   webDir: 'build',
   server: {
