@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import '../Login.scss'
 import { AppleSignInButton } from 'components/Button/AppleSiginInButton'
 import { AuthLoader } from 'components/AuthLoader'
+import { GoogleSignInButton } from 'components/Button/GoogleSignInButton'
 
 export default function AuthLayout() {
   const { t } = useTranslation()
@@ -69,13 +70,14 @@ export default function AuthLayout() {
       case '/auth/login':
         return (
           <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
-            <Button
-              label={t('social_google', { keyPrefix: 'auth' })}
-              iconLeft={images.google}
-              iconClassName={'w-[20px] h-[20px] me-2'}
+
+            <GoogleSignInButton
               className={
                 'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
               }
+              callback={(response) => {
+                console.log(response)
+              }}
             />
 
             <AppleSignInButton
@@ -111,14 +113,14 @@ export default function AuthLayout() {
 
       case '/auth':
         return (
-          <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
-            <Button
-              label={t('social_google', { keyPrefix: 'auth' })}
-              iconLeft={images.google}
-              iconClassName={'w-[20px] h-[20px] me-2'}
+          <div className='grid lg:grid-cols-2 lg:gap-5 px-3'> 
+            <GoogleSignInButton
               className={
                 'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
               }
+              callback={(response) => {
+                console.log(response)
+              }}
             />
 
             <AppleSignInButton
@@ -155,6 +157,15 @@ export default function AuthLayout() {
       case '/auth/register':
         return (
           <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
+            <GoogleSignInButton
+              className={
+                'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
+              }
+              callback={(response) => {
+                console.log(response)
+              }}
+            />
+
             <Button
               label={t('social_google', { keyPrefix: 'auth' })}
               iconLeft={images.google}

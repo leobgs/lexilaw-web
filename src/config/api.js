@@ -4,6 +4,7 @@ export const API = {
   OTP_CHECK: '/user/app/v1.0.0/otp/check',
   OTP_RESEND: '/user/app/v1.0.0/otp/resend',
   APPLE_LOGIN: '/user/app/v1.0.0/user/apple/validate-token',
+  GOOGLE_LOGIN: '/user/app/v1.0.0/user/google/validate-token',
 
   LIST_CITY: '/user/app/v1.0.0/city?search=',
 }
