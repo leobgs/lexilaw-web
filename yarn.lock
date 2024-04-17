@@ -1201,6 +1201,11 @@
   dependencies:
     tslib "^2.1.0"
 
+"@capacitor/device@^5.0.7":
+  version "5.0.7"
+  resolved "https://registry.npmjs.org/@capacitor/device/-/device-5.0.7.tgz"
+  integrity sha512-sTYzGktRVK6giQCsoFtw+IGkEPGmFvIwi0pfFej5TRND1UHidkNZSpgMFBbjCYPbwsqXTcR3boYPcmxvl5iuJg==
+
 "@csstools/normalize.css@*":
   version "12.1.1"
   resolved "https://registry.npmjs.org/@csstools/normalize.css/-/normalize.css-12.1.1.tgz"

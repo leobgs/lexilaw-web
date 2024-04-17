@@ -17,3 +17,7 @@ export const clientSecret = env('REACT_APP_CLIENT_CREDENTIAL_SECRET', '')
 export const passwordID = env('REACT_APP_CLIENT_PASSWORD_ID', 2)
 
 export const passwordSecret = env('REACT_APP_CLIENT_PASSWORD_SECRET', '')
+
+export const appleClientId = env('REACT_APP_APPLE_CLIENT_ID', '')
+
+export const redirectURL = env('REACT_APP_APPLE_REDIRECT_URL', '')

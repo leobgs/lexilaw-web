@@ -10,15 +10,15 @@ export const Button = ({
   disabled,
   isLoading,
   iconRight,
-  iconLeft, 
-  onClick,
+  iconLeft,
+  onClick = () => {},
   type,
 }) => {
   const handleOnClick = (e) => {
     if (isLoading || disabled) return
-    e.stopPropagation()
-    onClick()
+    e?.stopPropagation()
   }
+
   return (
     <button
       className={clsx(
@@ -27,7 +27,10 @@ export const Button = ({
         className,
         disabled ? 'disabled' : ''
       )}
-      onClick={handleOnClick}
+      onClick={(e) => {
+        handleOnClick(e)
+        onClick()
+      }}
       type={type}
       disabled={disabled}
     >
