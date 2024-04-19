@@ -4,7 +4,12 @@ import { InputPassword } from 'components/InputPassword'
 import { Button } from 'components'
 import images from 'assets/images'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useMutation } from 'react-query'
+import { putData } from 'hooks/useRequest'
+import { API } from 'config/api'
+import { notifyError } from 'hooks/useToas'
+import axios from 'axios'
 
 export const ChangePassword = () => {
   const { t } = useTranslation()
@@ -12,6 +17,21 @@ export const ChangePassword = () => {
   const [form, setForm] = useState({ password: '', confirm_password: '' })
   const [error, setError] = useState({ password: '', confirm_password: '' })
   const [isSuccess, setSuccess] = useState(false)
+  const location = useLocation()
+  const uuid = location.state
+
+  const { mutate: changePassword } = useMutation(
+    (form) => putData(`${API.RESET_PASSWORD}/${uuid}`, form),
+    {
+      onSettled: (data) => {
+        if (data?.status === 'Success') {
+          setSuccess(true)
+        } else {
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
 
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[A-Z]).{8,}$/
@@ -39,9 +59,7 @@ export const ChangePassword = () => {
   }
 
   const onSubmit = () => {
-    console.log(form)
-    setSuccess(true)
-    // navigate('/auth/login')
+    changePassword({ password: form.confirm_password })
   }
 
   return (

@@ -1,0 +1,8 @@
+{
+  "appId": "id.lexi.technopartner.com",
+  "appName": "Lexi-web-app",
+  "webDir": "build",
+  "server": {
+    "androidScheme": "https"
+  }
+}

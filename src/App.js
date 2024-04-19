@@ -64,7 +64,10 @@ function App() {
             <Route path='register' Component={Register} />
             <Route path='register/otp' element={<RegisterOTP />} />
             <Route path='forgot-password' element={<ForgotPassword />} />
-            <Route path='prechanged-password' element={<PreChangePassword />} />
+            <Route
+              path='prechanged-password/:uuid'
+              element={<PreChangePassword />}
+            />
             <Route path='changed-password' element={<ChangePassword />} />
           </Route>
         </Route>

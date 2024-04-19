@@ -3,9 +3,13 @@ import { InputChat, NavChat, QuestionCard, Tooltips } from 'components'
 import { AutoScrollingDiv } from 'components/AutoScrollDiv'
 import { ChatCard } from 'components/ChatCard'
 import { Toggle } from 'components/Toggle/Toggle'
+import { API } from 'config/api'
 import { StorageKey } from 'config/storage'
+import { deleteData } from 'hooks/useRequest'
+import { notifyError } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { LocalStorage } from 'utils'
 import {
@@ -28,6 +32,18 @@ export const Chat = () => {
   ])
   const [renderedMessage, setRenderedMessage] = useState(null)
   const [headerText, setHeaderText] = useState('Obrolan Baru')
+
+  const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
+    onSettled: (data) => {
+      if (data?.status === 'Success') {
+        storage.remove(StorageKey.ACCESS_TOKEN)
+        storage.remove(StorageKey.IS_LOGIN)
+        navigate('/auth')
+      } else {
+        notifyError(data?.message)
+      }
+    },
+  })
 
   useEffect(() => {
     let activeData = null

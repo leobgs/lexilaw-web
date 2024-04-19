@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react'
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import {
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom'
 import images from 'assets/images'
 import { Button } from 'components/Button/Button'
 import { Toggle } from 'components/Toggle/Toggle'
@@ -14,6 +20,7 @@ export default function AuthLayout() {
   const navigate = useNavigate()
   const location = useLocation()
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const { uuid } = useParams()
 
   const isOnAuthPage =
     location.pathname === '/auth/register' ||
@@ -21,7 +28,8 @@ export default function AuthLayout() {
     location.pathname === '/auth/register/otp' ||
     location.pathname === '/auth/forgot-password' ||
     location.pathname === '/auth/changed-password' ||
-    location.pathname === '/auth/prechanged-password'
+    location.pathname === `/auth/prechanged-password/${uuid}`
+
   const isOnMobileSize = windowWidth <= 768
 
   useEffect(() => {
@@ -70,7 +78,6 @@ export default function AuthLayout() {
       case '/auth/login':
         return (
           <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
-
             <GoogleSignInButton
               className={
                 'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
@@ -113,7 +120,7 @@ export default function AuthLayout() {
 
       case '/auth':
         return (
-          <div className='grid lg:grid-cols-2 lg:gap-5 px-3'> 
+          <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
             <GoogleSignInButton
               className={
                 'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
