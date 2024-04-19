@@ -41,7 +41,7 @@ export const Login = () => {
           let timeOut = setTimeout(() => {
             navigate('/', { replace: true })
             closeAlert({ isConfirm: false, showLoading: false })
-          }, 1200)
+          }, 200)
           return () => clearTimeout(timeOut)
         } else {
           setErrorText(data?.message)
