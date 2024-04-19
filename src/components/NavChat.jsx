@@ -59,12 +59,6 @@ export const NavChat = ({
     })
   }, [search])
 
-  const doLogout = () => {
-    storage.remove(StorageKey.ACCESS_TOKEN)
-    storage.remove(StorageKey.IS_LOGIN)
-    navigate('/auth')
-  }
-
   return (
     <nav className='pb-4 md:w-3/12 md:pt-4 lg:pt-4'>
       <img
@@ -464,7 +458,7 @@ export const NavChat = ({
 
             <div
               className='font-semi-bold text-error-base px-6 bg-neutral-60 -mx-1 py-2 text-center rounded-lg text-base mt-8'
-              onClick={doLogout}
+              onClick={onLogout}
             >
               Logout
             </div>

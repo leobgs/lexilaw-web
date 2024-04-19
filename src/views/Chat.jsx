@@ -197,12 +197,6 @@ export const Chat = () => {
     setMessage([...dataMessage])
   }
 
-  const doLogout = () => {
-    storage.remove(StorageKey.ACCESS_TOKEN)
-    storage.remove(StorageKey.IS_LOGIN)
-    navigate('/auth')
-  }
-
   return (
     <div className='pt-4 bg-primary-base h-screen md:p-4'>
       <div className='h-calculate md:flex md:justify-between md:mt-12'>
@@ -287,7 +281,7 @@ export const Chat = () => {
 
                   <div
                     className='font-semi-bold text-error-base px-6 bg-error-lighter bg-opacity-10 -mx-1 py-2 -mb-2.5 rounded-b-lg text-xs'
-                    onClick={doLogout}
+                    onClick={onLogout}
                   >
                     Logout
                   </div>
