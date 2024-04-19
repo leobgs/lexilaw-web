@@ -108,7 +108,9 @@ export const ChangePassword = () => {
             onClick={onSubmit}
             iconRight={images.chevron_right}
             iconClassName='absolute right-4'
-            disabled={!form.confirm_password}
+            disabled={
+              !form.confirm_password || form.confirm_password !== form.password
+            }
             className='btn-secondary-hover w-full rounded-full font-medium relative mt-6'
           />
         </>
