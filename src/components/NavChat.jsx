@@ -7,6 +7,10 @@ import { Toggle } from './Toggle/Toggle'
 import { LocalStorage } from 'utils'
 import { StorageKey } from 'config/storage'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from 'react-query'
+import { API } from 'config/api'
+import { notifyError } from 'hooks/useToas'
+import { deleteData } from 'hooks/useRequest'
 
 export const NavChat = ({
   onHeaderClick,
@@ -25,11 +29,17 @@ export const NavChat = ({
   const storage = new LocalStorage()
   const navigate = useNavigate()
 
-  const doLogout = () => {
-    storage.remove(StorageKey.ACCESS_TOKEN)
-    storage.remove(StorageKey.IS_LOGIN)
-    navigate('/auth')
-  }
+  const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
+    onSettled: (data) => {
+      if (data?.status === 'Success') {
+        storage.remove(StorageKey.ACCESS_TOKEN)
+        storage.remove(StorageKey.IS_LOGIN)
+        navigate('/auth')
+      } else {
+        notifyError(data?.message)
+      }
+    },
+  })
 
   useEffect(() => {
     dataLatest.forEach((category) => {
@@ -48,6 +58,12 @@ export const NavChat = ({
       })
     })
   }, [search])
+
+  const doLogout = () => {
+    storage.remove(StorageKey.ACCESS_TOKEN)
+    storage.remove(StorageKey.IS_LOGIN)
+    navigate('/auth')
+  }
 
   return (
     <nav className='pb-4 md:w-3/12 md:pt-4 lg:pt-4'>

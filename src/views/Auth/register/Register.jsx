@@ -124,6 +124,7 @@ export default function Register() {
       registerForm.password_confirm === '' ||
       registerForm.city === null ||
       registerForm.city === ''
+    return errorCheck
   }
 
   const isValidForm = !isAnyEmptyForm() && !isAnyError()
@@ -260,11 +261,7 @@ export default function Register() {
 
         <Button
           label={t('submit_button', { keyPrefix: 'auth.register' })}
-          onClick={() => {
-            navigate('/auth/register/otp', {
-              state: { email: registerForm.email, fullName: fullName },
-            })
-          }}
+          onClick={onSubmit}
           iconRight={images.chevron_right}
           iconClassName={'absolute right-4'}
           disabled={!isValidForm}

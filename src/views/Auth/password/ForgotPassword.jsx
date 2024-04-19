@@ -5,6 +5,10 @@ import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 import images from 'assets/images'
 import { CounterDown } from 'components/CounterDown'
+import { API } from 'config/api'
+import { getData } from 'hooks/useRequest'
+import { useMutation } from 'react-query'
+import { notifyError } from 'hooks/useToas'
 
 export const ForgotPassword = () => {
   const { t } = useTranslation()
@@ -12,6 +16,19 @@ export const ForgotPassword = () => {
   const [error, setError] = useState('')
   const [showCheckCard, setCheckCard] = useState(false)
   const [timesUpTimer, setTimesUpTimer] = useState(false)
+
+  const { mutate: emailCheck } = useMutation(
+    (form) => getData(API.RESET_PASSWORD_CHECK_EMAIL, form),
+    {
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          setCheckCard(true)
+        } else {
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
 
   const validateEmail = (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -26,8 +43,8 @@ export const ForgotPassword = () => {
   }
 
   const onSubmit = () => {
-    console.log(email)
-    setCheckCard(true)
+    emailCheck({ email })
+    // setCheckCard(true)
   }
 
   return (

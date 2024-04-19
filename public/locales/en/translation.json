@@ -51,6 +51,8 @@
       "header": "Input new password",
       "btn_text": "Save password",
       "pre_change_text": "Your password reset request has received. If you want to continue, click this button.",
+      "pre_change_text_fail": "Your password reset request can not be processed.",
+      "pre_change_text_finish": "Your password reset has been successfully changed.",
       "pre_change_btn_text": "Reset Password",
       "after_change_header": "Password was successfully changed",
       "after_change_text1": "You can login with new Password,",

@@ -51,6 +51,8 @@
       "header": "Masukkan kata sandi baru",
       "btn_text": "Tetapkan kata sandi",
       "pre_change_text": "Permintaan untuk mereset kata sandi telah kami terima. Jika Kamu yang membuat permintaan ini, silakan klik tombol berikut.",
+      "pre_change_text_fail": "Permintaan reset kata sandi anda tidak dapat diproses.",
+      "pre_change_text_finish": "Anda sudah berhasil mereset kata sandi",
       "pre_change_btn_text": "Atur Ulang Kata Sandi",
       "after_change_header": "Kata Sandi Berhasil di Perbaharui",
       "after_change_text1": "Kamu bisa masuk dengan kata sandi yang baru,",
