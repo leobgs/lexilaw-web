@@ -19,7 +19,7 @@ const RegisterOTP = () => {
   const navigate = useNavigate()
   const storage = new LocalStorage()
   const { fullName, email, user_uuid } = location.state
-  const { openAlert } = useGlobalContext()
+  const { openAlert, closeAlert } = useGlobalContext()
   const { t } = useTranslation()
   const [otp, setOTP] = useState('')
   const [isNotValidOtp, setIsNotValidOtp] = useState(false)
@@ -36,7 +36,16 @@ const RegisterOTP = () => {
             token_type: 'Bearer',
           })
           storage.setItem(StorageKey.IS_LOGIN, true)
-          navigate('/', { replace: true })
+
+          openAlert({
+            title: data?.message,
+            icon: images.ai_profile_thumbnail,
+          })
+          let timeOut = setTimeout(() => {
+            navigate('/', { replace: true })
+            closeAlert({ isConfirm: false, showLoading: false })
+          }, 500)
+          return () => clearTimeout(timeOut)
         } else {
           setIsNotValidOtp(true)
           setErrorMessage(data?.message)
