@@ -147,7 +147,7 @@ export const NavChat = ({
                     {items.isExpand &&
                       items.childs?.map((itms) => (
                         <div
-                          className='border-l-2 border-blue-sky ml-3.5 pl-2 pb-2 text-neutral-40 last:mb-4'
+                          className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4'
                           onClick={() => {
                             onClickColection(itms.title)
                             setShowNav(false)
@@ -305,7 +305,7 @@ export const NavChat = ({
                           {items.isExpand &&
                             items.childs?.map((itms) => (
                               <div
-                                className='border-l-2 border-blue-sky ml-3.5 pl-2 pb-2 text-neutral-40 last:mb-4'
+                                className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4'
                                 onClick={() => {
                                   onClickColection(itms.title)
                                   setShowNav(false)
