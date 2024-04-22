@@ -9,7 +9,7 @@
 }
 
 .btn-secondary {
-  @apply bg-gradient-to-t from-[#002880] to-[#044eef] hover:bg-black-light text-white;
+  @apply bg-gradient-to-t from-[#00153F] to-[#044EEF] hover:bg-black-light text-white;
   .btn-spinner {
     @apply border-white;
   }
@@ -52,17 +52,21 @@
   }
 }
 
-.btn-secondary-hover { 
+.btn-secondary-hover {
   &.disabled {
     background: #a8a8a8;
     color: rgba(255, 255, 255, 0.7);
     border: 2px transparent;
     box-shadow: unset;
-  } 
-  background: linear-gradient(180deg, rgba(4, 78, 239, 1) 0%, rgba(0, 40, 128, 1) 100%);
+  }
+  background: linear-gradient(
+    0deg,
+    rgba(0, 21, 63, 1) 0%,
+    rgba(0, 40, 128, 1) 100%
+  );
   color: #ffffff;
   border: 2px solid #5c72a1;
-  box-shadow: 0 0.5rem 1rem rgba(30, 27, 220, 0.3) ; 
+  box-shadow: 0 0.2rem 1rem rgba(30, 27, 220, 0.3);
 }
 
 .bg-outline-transparent {
