@@ -72,7 +72,7 @@ export const ChatCard = ({ item }) => {
         )}
 
         {item.from === 'Lexi' && (
-          <div className='border-t border-neutral-70 -mx-4 -ml-20 px-4 md:border-t-0 md:mx-0'>
+          <div className='border-t border-neutral-70 -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2'>
             <div className='my-4 justify-between flex'>
               <div className='bg-blue-sky rounded-2xl py-1 px-2 w-fit border border-blue-dark flex items-center gap-2'>
                 <img

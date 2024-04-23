@@ -7,6 +7,7 @@ export const DEFAULT_QUESTION = [
   { text: 'UU soal HAM', value: 6 },
   { text: 'UU 39 1999 intinya apa', value: 7 },
   { text: 'Pokok dari TKDN', value: 8 },
+  { text: 'Apakah ada aturan menggunakan lampu strobo', value: 9 },
 ]
 
 export const KOLEKSI_CHAT = [

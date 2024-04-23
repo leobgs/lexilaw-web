@@ -12,23 +12,21 @@ export const QuestionCard = ({ data, onClick, className }) => {
         Ingin menanyakan apa?
       </div>
 
-      <div>
-        <div className='md:grid md:grid-cols-2 md:gap-2'>
-          {data?.map((item, index) => (
-            <div
-              key={index}
-              className='text-black-lightest px-6 py-5 bg-neutral-20 rounded-xl border border-neutral-10 mb-2'
-              onClick={() =>
-                onClick({
-                  text: item.text,
-                  file: null,
-                })
-              }
-            >
-              {item.text}
-            </div>
-          ))}
-        </div>
+      <div className='md:grid md:grid-cols-2 md:gap-2 md:h-60 h-96 overflow-y-scroll'>
+        {data?.map((item, index) => (
+          <div
+            key={index}
+            className='text-black-lightest px-6 py-5 bg-neutral-20 rounded-xl border border-neutral-10 mb-2'
+            onClick={() =>
+              onClick({
+                text: item.text,
+                file: null,
+              })
+            }
+          >
+            {item.text}
+          </div>
+        ))}
       </div>
     </div>
   )
