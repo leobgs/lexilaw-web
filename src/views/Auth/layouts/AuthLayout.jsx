@@ -173,15 +173,6 @@ export default function AuthLayout() {
               }}
             />
 
-            <Button
-              label={t('social_google', { keyPrefix: 'auth' })}
-              iconLeft={images.google}
-              iconClassName={'w-[20px] h-[20px] me-2'}
-              className={
-                'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
-              }
-            />
-
             <AppleSignInButton
               className={
                 'whitespace-nowrap bg-outline-transparent text-white w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'

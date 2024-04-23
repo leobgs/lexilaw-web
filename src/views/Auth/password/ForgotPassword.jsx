@@ -93,7 +93,7 @@ export const ForgotPassword = () => {
         </>
       ) : (
         <>
-          <div className='mb-4 text-center text-xl font-futura-bold'>
+          <div className='mb-4 text-center text-xl font-futura-bold text-secondary-base'>
             {t('auth.forget_password_header')}
           </div>
 
@@ -117,7 +117,7 @@ export const ForgotPassword = () => {
             iconClassName={'absolute right-4'}
             disabled={!email || error}
             className={
-              'btn-secondary-hover w-full rounded-full font-medium relative mt-8'
+              'btn-secondary-hover w-full rounded-full font-medium relative mt-12 !font-regular'
             }
           />
         </>
