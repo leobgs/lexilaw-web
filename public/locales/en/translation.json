@@ -12,6 +12,7 @@
       "firm_name": "Firm name (opsional)",
       "image_picker_hint": "Use file max 5mb, min 200px x 200px",
       "submit_button": "Reset Password",
+      "register_button": "Selanjutnya",
       "already_have_account": "Already have an account?",
       "forgot_password": "Forgot password ?",
       "registration": "Registration",
