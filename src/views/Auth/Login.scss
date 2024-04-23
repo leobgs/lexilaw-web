@@ -1,7 +1,7 @@
 body {
     background: #001a0f;
 }
-.bg_auth { 
+.bg_auth {
     &::before {
         content: "";
         background-image: url("/../src/assets/images/bg_register_login.png");
@@ -17,4 +17,4 @@ body {
 }
 .card {
     background: #eceded;
-}
+} 

@@ -9,17 +9,18 @@ import { isLogin } from 'utils/auth'
 import {
   Login,
   Components,
-  Chat,
+  Chat, 
   NotFound,
   ForgotPassword,
   ChangePassword,
   PreChangePassword,
+  Account,
 } from 'views'
 import { ModalAlert } from 'components'
 import { ToastContainer } from 'react-toastify'
 import AuthLayout from 'views/Auth/layouts/AuthLayout'
 import Register from 'views/Auth/register/Register'
-import RegisterOTP from 'views/Auth/register/RegisterOTP'
+import RegisterOTP from 'views/Auth/register/RegisterOTP' 
 
 const PrivateRoute = ({ wrapperContent = true }) => {
   if (!isLogin()) {
@@ -74,6 +75,7 @@ function App() {
 
         <Route element={<PrivateRoute />}>
           <Route path='/' element={<Chat />} />
+          <Route path='/account' element={<Account />} />
         </Route>
 
         <Route path='/components' element={<Components />} />
