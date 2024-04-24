@@ -12,17 +12,17 @@ export const CounterDown = ({
   format = 'hour',
   timesUp = (e) => e,
 }) => {
-  const [timer, setTimer] = useState(time)
+  const [timer, setTimer] = useState()
   const [alreadyReminder, setReminder] = useState(false)
 
   useEffect(() => {
     if (time === 0) {
       timesUp(true)
-    } else {
+    } else if (time > 0) {
       setTimer(time)
       timesUp(false)
     }
-  }, [time])
+  }, [])
 
   useInterval(
     () => {
