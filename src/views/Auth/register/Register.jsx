@@ -260,7 +260,7 @@ export default function Register() {
         />
 
         <Button
-          label={t('submit_button', { keyPrefix: 'auth.register' })}
+          label={t('register_button', { keyPrefix: 'auth.register' })}
           onClick={onSubmit}
           iconRight={images.chevron_right}
           iconClassName={'absolute right-4'}

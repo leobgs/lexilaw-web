@@ -22,6 +22,7 @@ const RegisterOTP = () => {
   const { openAlert, closeAlert } = useGlobalContext()
   const { t } = useTranslation()
   const [otp, setOTP] = useState('')
+  const [otpTime, setOtpTime] = useState(30)
   const [isNotValidOtp, setIsNotValidOtp] = useState(false)
   const [timesUpTimer, setTimesUpTimer] = useState(false)
   const [errorMessage, setErrorMessage] = useState('Unknown')
@@ -60,6 +61,8 @@ const RegisterOTP = () => {
       onSettled: (data) => {
         if (data?.status === 'Success') {
           notifySuccess(data?.message)
+          setTimesUpTimer(false)
+          setOtpTime(30)
         } else {
           notifyError(data?.message)
         }
@@ -110,22 +113,28 @@ const RegisterOTP = () => {
         />
 
         <div className='text-base font-regular tracking-wide text-gray-700 flex'>
-          <p className='flex'>
+          <div className='flex'>
             {t('countdownbefore', {
               keyPrefix: 'auth.register.otp',
             })}
-            <CounterDown
-              time={30}
-              timesUp={(e) => {
-                setTimesUpTimer(e)
-              }}
-              format='second'
-              className='mx-1'
-            />
+
+            {!timesUpTimer ? (
+              <CounterDown
+                time={otpTime}
+                timesUp={(e) => {
+                  setTimesUpTimer(e)
+                }}
+                format='second'
+                className='mx-1'
+              />
+            ) : (
+              ' 00 '
+            )}
+
             {t('countdownafter', {
               keyPrefix: 'auth.register.otp',
             })}
-          </p>
+          </div>
 
           <span
             className={clsx(
