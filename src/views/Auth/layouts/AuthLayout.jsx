@@ -242,7 +242,7 @@ export default function AuthLayout() {
                 {t('tagline')}
               </h1>
 
-              <p className='pt-[0.5rem] text-white text-center md:text-start font-light'>
+              <p className='pt-[0.5rem] text-white text-center md:text-start font-light text-sm'>
                 {t('sub_tagline')}
               </p>
             </div>

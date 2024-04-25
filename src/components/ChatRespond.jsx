@@ -1,0 +1,98 @@
+import images from 'assets/images'
+import { copyToClipboard } from 'utils'
+import { LAWYER_DATA } from 'utils/dummy'
+import { Button } from './Button/Button'
+import { useState } from 'react'
+import { Modal } from './Modal'
+import { LawyerRecommendation } from './LawyerRecommendation'
+
+export const ChatRespond = ({ item }) => {
+  const [showLawyerRecommendation, setLawyerRecommendation] = useState(false)
+
+  const renderMessage = (type) => {
+    switch (type) {
+      case 'recommendation':
+        return (
+          <div className='mx-4 -ml-10 px-4 md:border-t-0 md:-mx-4 mt-2'>
+            <div
+              className='bg-[#EFEDE8] p-4 rounded-lg md:w-2/3 flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md'
+              onClick={() => setLawyerRecommendation(true)}
+            >
+              <div className='flex items-center'>
+                <img
+                  src={LAWYER_DATA[0].image_url}
+                  alt='lawyer'
+                  className='h-9 w-9 rounded-full'
+                />
+                <div className='ml-3'>
+                  <div className='flex items-center'>
+                    <div className='text-secondary-base font-semi-bold'>
+                      {LAWYER_DATA[0].first_name} {LAWYER_DATA[0].last_name}
+                    </div>
+                    <div className='ml-3 font-semi-bold text-neutral-40 hidden md:inline-block'>
+                      +{LAWYER_DATA?.length} more
+                    </div>
+                  </div>
+                  <div className='text-sm text-neutral-40'>
+                    {LAWYER_DATA[0].city}
+                  </div>
+                  <div className='font-semi-bold text-neutral-40 md:hidden'>
+                    +{LAWYER_DATA?.length} more
+                  </div>
+                </div>
+              </div>
+              <img src={images.ic_arrow_cornering} alt='' />
+            </div>
+            <div className='mb-2 mt-4 flex flex-col md:flex-row gap-2'>
+              <Button
+                onClick={() => console.log('pemesanan')}
+                className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
+                iconLeft={images.ic_arrow_cornering}
+                iconClassName='!h-4 !w-4 !-ml-1'
+                label='Lakukan Pemesanan'
+              />
+              <Button
+                onClick={() => setLawyerRecommendation(true)}
+                className='border-blue-dark border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem]'
+                iconLeft={images.ic_arrow_cornering}
+                iconClassName='!h-4 !w-4 !-ml-1'
+                label='Opsi Lain'
+              />
+            </div>
+            <LawyerRecommendation
+              isShow={showLawyerRecommendation}
+              onHide={() => setLawyerRecommendation(false)}
+            />
+          </div>
+        )
+
+      default:
+        return (
+          <div className='border-t border-neutral-70 -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2'>
+            <div className='my-4 justify-between flex'>
+              <Button
+                onClick={() => copyToClipboard(item.text)}
+                className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
+                iconLeft={images.ic_change_style_lang}
+                iconClassName='!h-4 !w-3'
+                label='Gunakan bahasa santai, dong'
+              />
+              <div className='flex justify-between items-center'>
+                <div
+                  className='hidden md:inline-block bg-neutral-50 p-2 rounded-full'
+                  onClick={() => copyToClipboard(item.text)}
+                >
+                  <img src={images.ic_copy} alt='copy' className='h-4 w-4' />
+                </div>
+                <div className='bg-neutral-50 p-2 rounded-full'>
+                  <img src={images.ic_redo} alt='redo' className='h-4 w-4' />
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+    }
+  }
+
+  return <>{renderMessage(item.type)}</>
+}

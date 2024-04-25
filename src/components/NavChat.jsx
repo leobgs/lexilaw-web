@@ -113,7 +113,7 @@ export const NavChat = ({
               <div key={index}>
                 {item.data.length !== 0 && (
                   <div className='flex justify-between items-end mr-2 my-4'>
-                    <div className='text-neutral-40'>Koleksi</div>
+                    <div className='text-neutral-40 text-sm'>Koleksi</div>
                     <img
                       src={images.ic_menu_down}
                       alt='dropdown'
@@ -125,7 +125,7 @@ export const NavChat = ({
                 {item.data?.map((items, indx) => (
                   <div key={indx}>
                     <div
-                      className={`flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 mr-4 py-1 ${
+                      className={`flex justify-start gap-2 items-center text-sm text-neutral-40 mb-2 mr-4 py-1 ${
                         items.isExpand
                           ? 'bg-blue-sky rounded-2xl pl-2 -ml-2'
                           : ''
@@ -147,7 +147,7 @@ export const NavChat = ({
                     {items.isExpand &&
                       items.childs?.map((itms) => (
                         <div
-                          className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4'
+                          className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4 text-sm'
                           onClick={() => {
                             onClickColection(itms.title)
                             setShowNav(false)
@@ -188,7 +188,9 @@ export const NavChat = ({
             return (
               <div key={item.id}>
                 {item.data.length !== 0 && (
-                  <div className='text-neutral-40 mt-4'>Obrolan Lampau</div>
+                  <div className='text-neutral-40 mt-4 text-sm'>
+                    Obrolan Lampau
+                  </div>
                 )}
 
                 {item.data.length !== 0 &&
@@ -283,7 +285,7 @@ export const NavChat = ({
                       {item.data?.map((items, indx) => (
                         <div key={indx}>
                           <div
-                            className={`flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 mr-4 py-1 ${
+                            className={`flex justify-start gap-2 items-center text-sm text-neutral-40 mb-2 mr-4 py-1 ${
                               items.isExpand
                                 ? 'bg-blue-sky rounded-2xl pl-2 -ml-2'
                                 : ''
@@ -305,7 +307,7 @@ export const NavChat = ({
                           {items.isExpand &&
                             items.childs?.map((itms) => (
                               <div
-                                className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4'
+                                className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4 text-sm'
                                 onClick={() => {
                                   onClickColection(itms.title)
                                   setShowNav(false)
