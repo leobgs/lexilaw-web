@@ -23,6 +23,8 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
     })
     setDataLawyer([...dataLawyer])
   }
+
+  console.log(selectedLawyer, window.innerWidth)
   return (
     <Modal
       show={isShow}
@@ -62,23 +64,23 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
           ))}
         </div>
 
-        {selectedLawyer && (
+        {selectedLawyer && window.innerWidth > 768 && (
           <div
-            className={`w-1/3 bg-blue-dark rounded-xl h-[95%] -mt-4 pb-6 hidden bg-selected-lawyer relative md:flex md:justify-between md:flex-col overflow-y-auto`}
+            className={`w-1/3 bg-blue-dark rounded-xl h-[95%] -mt-4 pb-6 hidden bg-selected-lawyer relative md:flex md:justify-between md:flex-col overflow-y-auto overflow-x-hidden`}
           >
             <div>
               <img
-                src={selectedLawyer.image_url}
-                alt={`lawyer-${selectedLawyer.first_name}`}
+                src={selectedLawyer?.image_url}
+                alt={`lawyer-${selectedLawyer?.first_name}`}
                 className='rounded-full mx-auto w-24 h-24'
               />
               <div className='text-center text-2xl font-semi-bold mb-2 mt-4 md:mx-4 lg:mx-0 text-white'>
-                {selectedLawyer.first_name} {selectedLawyer.last_name}
+                {selectedLawyer?.first_name} {selectedLawyer?.last_name}
               </div>
               <div className='text-center text-xs mb-2 mt-4 mx-4 text-opacity-60 text-white'>
-                {selectedLawyer.description}
+                {selectedLawyer?.description}
               </div>
-              <div className='mt-8 grid grid-cols-4 mx-4 gap-2'>
+              <div className='mt-8 grid grid-cols-4 mx-4 gap-2 mb-8'>
                 {selectedLawyer?.lawyer_filed.map((item) => (
                   <div className='bg-white rounded-2xl py-1 px-2 text-center col-span-2'>
                     {item}
@@ -98,6 +100,54 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
             </div>
           </div>
         )}
+
+        <Modal
+          show={
+            selectedLawyer && window.innerWidth < 768
+              ? true
+              : selectedLawyer && window.innerWidth > 768 && false
+          }
+          onHide={() => setSelectedLawyer(null)}
+          contentClassName='bg-blue-dark px-4 py-8 md:!w-5/6 md:!h-5/6 md:rounded-xl lg:!w-3/4 rounded-t-2xl'
+          classNameBox='!top-[25%]'
+        >
+          <div>
+            <img
+              src={images.ic_close_white}
+              alt='close'
+              className='float-end'
+              onClick={() => setSelectedLawyer(null)}
+            />
+            <img
+              src={selectedLawyer?.image_url}
+              alt={`lawyer-${selectedLawyer?.first_name}`}
+              className='rounded-full mx-auto w-24 h-24'
+            />
+            <div className='text-center text-2xl font-semi-bold mb-2 mt-4 md:mx-4 lg:mx-0 text-white'>
+              {selectedLawyer?.first_name} {selectedLawyer?.last_name}
+            </div>
+            <div className='text-center text-xs mb-2 mt-4 mx-4 text-opacity-60 text-white'>
+              {selectedLawyer?.description}
+            </div>
+            <div className='mt-8 grid grid-cols-4 mx-4 gap-2 mb-8'>
+              {selectedLawyer?.lawyer_filed.map((item) => (
+                <div className='bg-white rounded-2xl py-1 px-2 text-center col-span-2'>
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className='mx-4'>
+            <Button
+              onClick={() => console.log('pesan sekarang')}
+              label='Pesan Pengacara'
+              iconRight={images.ic_briefcase}
+              className={
+                'btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8'
+              }
+            />
+          </div>
+        </Modal>
       </div>
     </Modal>
   )
