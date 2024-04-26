@@ -43,6 +43,7 @@ import ic_close_red from './ic_close_red.png'
 import ic_arrow_cornering from './ic_arrow_cornering.png'
 import ic_close from './ic_close.png'
 import ic_blink from './ic_blink.png'
+import ic_briefcase from './ic_briefcase.png'
 
 const images = {
   bg_register_login,
@@ -94,6 +95,7 @@ const images = {
   ic_chevron_left,
   ic_arrow_cornering,
   ic_blink,
+  ic_briefcase,
 }
 
 export default images
