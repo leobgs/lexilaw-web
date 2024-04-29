@@ -46,6 +46,9 @@ import ic_blink from './ic_blink.png'
 import ic_briefcase from './ic_briefcase.png'
 import ic_close_white from './ic_close_white.png'
 import ic_back from './ic_back.png'
+import bg_lawyer_recommendation from './bg_lawyer_recommendation.png'
+import bg_lawyerbottom from './bg_lawyerbottom.png'
+import bg_lawyertop from './bg_lawyertop.png'
 
 const images = {
   bg_register_login,
@@ -100,6 +103,9 @@ const images = {
   ic_briefcase,
   ic_close_white,
   ic_back,
+  bg_lawyer_recommendation,
+  bg_lawyerbottom,
+  bg_lawyertop,
 }
 
 export default images
