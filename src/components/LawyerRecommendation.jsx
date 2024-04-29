@@ -4,10 +4,12 @@ import { LAWYER_DATA } from 'utils/dummy'
 import { LawyerCard } from './LawyerCard'
 import { useEffect, useState } from 'react'
 import { Button } from './Button/Button'
+import { useWidthSize } from 'hooks/useWidthSize'
 
 export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
   const [dataLawyer, setDataLawyer] = useState()
   const [selectedLawyer, setSelectedLawyer] = useState()
+  const currWidth = useWidthSize()
 
   useEffect(() => {
     setDataLawyer(LAWYER_DATA)
@@ -24,7 +26,6 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
     setDataLawyer([...dataLawyer])
   }
 
-  console.log(selectedLawyer, window.innerWidth)
   return (
     <Modal
       show={isShow}
@@ -64,7 +65,7 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
           ))}
         </div>
 
-        {selectedLawyer && window.innerWidth > 768 && (
+        {selectedLawyer && currWidth > 768 && (
           <div
             className={`w-1/3 bg-blue-dark rounded-xl h-[95%] -mt-4 pb-6 hidden bg-selected-lawyer relative md:flex md:justify-between md:flex-col overflow-y-auto overflow-x-hidden`}
           >
@@ -103,9 +104,9 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
 
         <Modal
           show={
-            selectedLawyer && window.innerWidth < 768
+            selectedLawyer && currWidth < 768
               ? true
-              : selectedLawyer && window.innerWidth > 768 && false
+              : selectedLawyer && currWidth > 768 && false
           }
           onHide={() => setSelectedLawyer(null)}
           contentClassName='bg-blue-dark px-4 py-8 md:!w-5/6 md:!h-5/6 md:rounded-xl lg:!w-3/4 rounded-t-2xl'
