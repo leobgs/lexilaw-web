@@ -16,7 +16,7 @@ export const QuestionCard = ({ data, onClick, className }) => {
         {data?.map((item, index) => (
           <div
             key={index}
-            className='text-black-lightest px-6 py-5 bg-neutral-20 rounded-xl border border-neutral-10 mb-2'
+            className='text-black-lightest px-6 py-5 bg-neutral-20 rounded-xl border border-neutral-10 mb-2 text-sm'
             onClick={() =>
               onClick({
                 text: item.text,

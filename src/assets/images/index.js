@@ -40,6 +40,12 @@ import ic_upload from './ic_upload.png'
 import ic_avatar_placeholder from './ic_avatar_placeholder.png'
 import ic_chevron_down from './ic_chevron_down.png'
 import ic_close_red from './ic_close_red.png'
+import ic_arrow_cornering from './ic_arrow_cornering.png'
+import ic_close from './ic_close.png'
+import ic_blink from './ic_blink.png'
+import ic_briefcase from './ic_briefcase.png'
+import ic_close_white from './ic_close_white.png'
+import ic_back from './ic_back.png'
 
 const images = {
   bg_register_login,
@@ -72,6 +78,7 @@ const images = {
   ic_redo,
   ic_pdf_thumbnail,
   ic_send,
+  ic_close,
 
   bg_register_login,
   lexilaw_logo,
@@ -88,6 +95,11 @@ const images = {
   ic_chevron_down,
   ic_close_red,
   ic_chevron_left,
+  ic_arrow_cornering,
+  ic_blink,
+  ic_briefcase,
+  ic_close_white,
+  ic_back,
 }
 
 export default images

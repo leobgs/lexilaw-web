@@ -276,7 +276,7 @@ export default function Register() {
           </div>
         )}
 
-        <div className='text-center font-medium flex justify-center'>
+        <div className='text-center font-medium flex justify-center text-sm'>
           <p>{t('already_have_account', { keyPrefix: 'auth.register' })}</p>
           <p
             className='font-bold text-gray-900 underline ms-1'
