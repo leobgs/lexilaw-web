@@ -25,6 +25,7 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
     })
     setDataLawyer([...dataLawyer])
   }
+  console.log(selectedLawyer && currWidth > 768, currWidth)
 
   return (
     <Modal
@@ -47,7 +48,13 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
       </div>
 
       <div className='h-[86%] flex justify-between text-sm my-2 gap-4'>
-        <div className='h-full w-full overflow-auto mt-8 gap-2 overflow-x-hidden md:grid md:grid-cols-2 md:grid-rows-3 md:gap-4 md:w-2/3 md:h-[90%] lg:gap-2'>
+        <div
+          className={`h-full w-full overflow-auto mt-8 gap-2 overflow-x-hidden md:grid ${
+            !selectedLawyer
+              ? 'md:grid-cols-3 md:w-full'
+              : 'md:grid-cols-2 md:w-2/3'
+          } md:grid-rows-3 md:gap-4 md:h-[90%] lg:gap-2`}
+        >
           {dataLawyer?.map((item, index) => (
             <LawyerCard
               onClick={() => {
