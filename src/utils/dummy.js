@@ -127,7 +127,7 @@ export const RIWAYAT_OROLAN = [
     id: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
     chat: [
       {
-        text: 'Bagaimana cara melihat semua feature?',
+        text: 'Bagaimana cara melihat rekomendasi lawyer?',
         file: null,
         id: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
         type: '',

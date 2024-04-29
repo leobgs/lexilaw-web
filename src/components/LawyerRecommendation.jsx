@@ -25,7 +25,6 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
     })
     setDataLawyer([...dataLawyer])
   }
-  console.log(selectedLawyer && currWidth > 768, currWidth)
 
   return (
     <Modal
@@ -35,11 +34,22 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
       className='bg-neutral-40'
     >
       <div>
-        <div className='flex justify-between items-center mx-2 py-4'>
+        <div className='flex justify-start gap-4 md:gap-0 md:justify-between items-center mx-2 py-4'>
+          <img
+            src={images.ic_back}
+            alt='back'
+            className='md:hidden'
+            onClick={() => onHide()}
+          />
           <div className='text-xl font-futura-bold'>Opsi Lain</div>
-          <img src={images.ic_close} alt='close' onClick={() => onHide()} />
+          <img
+            src={images.ic_close}
+            alt='close'
+            onClick={() => onHide()}
+            className='hidden md:inline-block'
+          />
         </div>
-        <div className='bg-gradient-to-b from-[#FBEFD8] from-10% to-white to-100% -mx-4 px-8 py-2 text-sm border-b border-t border-b-[#F2F2F2] border-t-[#F2F2F2] flex items-center gap-4'>
+        <div className='bg-gradient-to-b from-[#FBEFD8] from-10% to-white to-100% -mx-4 px-8 py-2 text-sm border-b border-t border-b-[#F2F2F2] border-t-[#F2F2F2] items-center gap-4 hidden md:flex'>
           <img src={images.ic_blink} alt='blink' />
           <div className='text-sm'>
             Berdasarkan kebutuhanmu, berikut pengacara rekomendasi Saya
@@ -118,8 +128,9 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
           onHide={() => setSelectedLawyer(null)}
           contentClassName='bg-blue-dark px-4 py-8 md:!w-5/6 md:!h-5/6 md:rounded-xl lg:!w-3/4 rounded-t-2xl'
           classNameBox='!top-[25%]'
+          className=''
         >
-          <div>
+          <div className='h-full'>
             <img
               src={images.ic_close_white}
               alt='close'
@@ -151,7 +162,7 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
               label='Pesan Pengacara'
               iconRight={images.ic_briefcase}
               className={
-                'btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8'
+                'btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8 mb-8'
               }
             />
           </div>
