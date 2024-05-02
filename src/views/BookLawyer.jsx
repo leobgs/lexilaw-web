@@ -143,23 +143,36 @@ export const BookLawyer = () => {
 const HeaderLawyerCard = ({ data }) => {
   return (
     <div className='rounded-2xl bg-neutral-60 p-4 flex justify-between w-full items-center'>
-      <div className='flex gap-2 items-center'>
+      <div className='flex gap-2 items-center md:flex-col md:items-start md:border-r-2 md:border-neutral-10 md:pr-14'>
         <img
           src={data?.image_url}
           alt={data?.first_name}
-          className='rounded-full h-10 w-10'
+          className='rounded-full h-10 w-10 md:w-12 md:h-12'
         />
         <div>
-          <div className='font-semi-bold text-secondary-base'>
+          <div className='font-semi-bold text-secondary-base md:text-black-dark'>
             {data?.first_name} {data?.last_name}
           </div>
           <div className='text-xs text-neutral-40'>{data?.city}</div>
         </div>
       </div>
+      <div className='hidden md:flex md:flex-col w-3/4 text-sm pl-4'>
+        <div>{data?.description}</div>
+        <div className={`flex mt-4 gap-2`}>
+          {data?.lawyer_filed?.map((item, index) => (
+            <div
+              className='bg-[#D9D9D9] rounded-2xl py-1 px-2 text-center text-neutral-40'
+              key={index}
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      </div>
       <img
         src={images.ic_arrow_cornering}
-        alt='arrorw'
-        className='h-2.5 w-2.5'
+        alt='arrow'
+        className='h-2.5 w-2.5 md:hidden'
       />
     </div>
   )
