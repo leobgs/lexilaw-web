@@ -40,6 +40,7 @@ import ic_upload from './ic_upload.png'
 import ic_avatar_placeholder from './ic_avatar_placeholder.png'
 import ic_chevron_down from './ic_chevron_down.png'
 import ic_close_red from './ic_close_red.png'
+import ic_tick from './ic_tick.png'
 
 const images = {
   bg_register_login,
@@ -88,6 +89,7 @@ const images = {
   ic_chevron_down,
   ic_close_red,
   ic_chevron_left,
+  ic_tick,
 }
 
 export default images

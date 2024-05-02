@@ -10,7 +10,7 @@ import { notifyError } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from 'react-query'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { LocalStorage } from 'utils'
 import {
   DEFAULT_QUESTION,
@@ -236,11 +236,11 @@ export const Chat = () => {
                     })}
                   </div>
                   <div className='border-b border-b-neutral-20 text-xs font-semi-bold'>
-                    <div className='px-4 mb-1 text-black-darker'>
+                    <NavLink to='account' className='px-4 mb-1 text-black-darker'>
                       {t('my_account', {
                         keyPrefix: 'chat.profile_option',
                       })}
-                    </div>
+                    </NavLink>
                     <div className='flex justify-between items-center  mb-2'>
                       <div className='px-4 text-black-darker'>
                         {t('my_lawyer', {

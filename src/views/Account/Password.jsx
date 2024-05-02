@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Button, Input, InputSelect, InputPassword } from 'components'
+import { Button, InputPassword } from 'components'
+import { useGlobalContext } from 'hooks/context'
+import images from 'assets/images'
+
 export const Password = () => {
     const { t } = useTranslation()
     const [isOpen, setIsOpen] = useState(false);
@@ -12,28 +15,21 @@ export const Password = () => {
     const [errorText, setErrorText] = useState('')
     const [form, setForm] = useState({ old_password: '', new_password: '' })
     const [error, setError] = useState({ old_password: '', new_password: '' })
+    const { openAlert, closeAlert } = useGlobalContext()
 
     const validationForm = () => {
         const newError = { ...error }
 
-        // if (!validateName(form.old_password)) {
-        //     newError.old_password = 'Format Nama Tidak sesuai'
-        // } else if (!validateName(form.new_password)) {
-        //     newError.new_password = 'Format Nama Tidak sesuai'
-        // }
-
         if (form.new_password.length < 7) {
-            newError.new_password = 'Minimal Password 8 karakter'
+            newError.new_password = t('min_password')
         } else if (!form.new_password) {
-            newError.new_password = 'Password tidak boleh kosong'
+            newError.new_password = t('password_empty')
         } else if (!form.old_password) {
-            newError.old_password = 'Password tidak boleh kosong'
+            newError.old_password = t('password_empty')
         }
 
         return newError
     }
-
-
 
     const onSubmit = () => {
         const findErrors = validationForm()
@@ -41,6 +37,11 @@ export const Password = () => {
             setError(findErrors)
         } else {
             console.log(form);
+            openAlert({
+                title: t('message_password_success', { keyPrefix: 'my_account' }),
+                icon: images.ic_tick,
+            })
+            setForm(prevForm => ({ ...prevForm, new_password: '', old_password: '' }));
             setIsOpen(!isOpen);
         }
         setErrorText('')
@@ -54,8 +55,6 @@ export const Password = () => {
             setError({ old_password: '', new_password: '' })
         }
     }
-
-
 
 
     return (

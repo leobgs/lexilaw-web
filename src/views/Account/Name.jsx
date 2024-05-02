@@ -1,20 +1,23 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button, Input } from 'components'
+import { useGlobalContext } from 'hooks/context'
+import images from 'assets/images'
 
 export const Name = () => {
     const { t } = useTranslation()
     const [errorText, setErrorText] = useState('')
     const [form, setForm] = useState({ first_name: '', last_name: '' })
     const [error, setError] = useState({ first_name: '', last_name: '' })
+    const { openAlert, closeAlert } = useGlobalContext()
 
     const validationForm = () => {
         const newError = { ...error }
 
         if (!validateName(form.first_name)) {
-            newError.first_name = 'Format Nama Tidak sesuai'
+            newError.first_name = t('incorrect_name_format')
         } else if (!validateName(form.last_name)) {
-            newError.last_name = 'Format Nama Tidak sesuai'
+            newError.last_name = t('incorrect_name_format')
         }
         return newError
     }
@@ -30,6 +33,10 @@ export const Name = () => {
             setError(findErrors)
         } else {
             console.log(form);
+            openAlert({
+                title: t('message_name_success', { keyPrefix: 'my_account' }),
+                icon: images.ic_tick,
+            })
         }
         setErrorText('')
     }
