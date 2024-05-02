@@ -74,11 +74,6 @@ body {
   box-shadow: 0px -3px 6px -1px rgba(0, 0, 0, 0.15);
 }
 
-.bg-selected-lawyer {
-  &::before {
-    content: url('../assets/images/bg_selected_lawyer.png');
-    background-position: center;
-    background-size: auto;
-    background-repeat: no-repeat;
-  }
+.content_nowrap {
+  @apply md:h-screen md:pt-20 md:p-4 pb-4 h-full bg-screen pt-16;
 }

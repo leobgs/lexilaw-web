@@ -39,12 +39,10 @@ export const ForgotPassword = () => {
     setEmail(e.value)
     const errorMessage = validateEmail(e.value) ? '' : 'Invalid email format'
     setError(errorMessage)
-    console.log(e.value)
   }
 
   const onSubmit = () => {
     emailCheck({ email })
-    // setCheckCard(true)
   }
 
   return (

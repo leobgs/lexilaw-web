@@ -14,6 +14,7 @@ import {
   ForgotPassword,
   ChangePassword,
   PreChangePassword,
+  BookLawyer,
 } from 'views'
 import { ModalAlert } from 'components'
 import { ToastContainer } from 'react-toastify'
@@ -57,7 +58,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<ProtectedRoute wrapperContent={false} />}>
+        <Route element={<ProtectedRoute />}>
           <Route path='/auth' element={<AuthLayout />}>
             <Route index element={<Login />} />
             <Route path='login' Component={Login} />
@@ -72,8 +73,14 @@ function App() {
           </Route>
         </Route>
 
+        {/* page without header component */}
         <Route element={<PrivateRoute />}>
           <Route path='/' element={<Chat />} />
+        </Route>
+
+        {/* with header component */}
+        <Route element={<PrivateRoute wrapperContent={false} />}>
+          <Route path='/book-lawyer' element={<BookLawyer />} />
         </Route>
 
         <Route path='/components' element={<Components />} />

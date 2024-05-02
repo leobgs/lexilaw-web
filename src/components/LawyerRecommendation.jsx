@@ -5,15 +5,26 @@ import { LawyerCard } from './LawyerCard'
 import { useEffect, useState } from 'react'
 import { Button } from './Button/Button'
 import { useWidthSize } from 'hooks/useWidthSize'
+import './LawyerRecommendation.scss'
+import { useNavigate } from 'react-router-dom'
 
 export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
+  const navigate = useNavigate()
   const [dataLawyer, setDataLawyer] = useState()
-  const [selectedLawyer, setSelectedLawyer] = useState()
+  const [selectedLawyer, setSelectedLawyer] = useState(null)
   const currWidth = useWidthSize()
 
   useEffect(() => {
-    setDataLawyer(LAWYER_DATA)
+    resetDataLawyer()
   }, [])
+
+  const resetDataLawyer = () => {
+    LAWYER_DATA?.forEach((item) => {
+      item.isActive = false
+    })
+    setDataLawyer(LAWYER_DATA)
+    setSelectedLawyer(null)
+  }
 
   const handleSelectLawyer = (id) => {
     dataLawyer?.forEach((item) => {
@@ -29,7 +40,10 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
   return (
     <Modal
       show={isShow}
-      onHide={() => onHide()}
+      onHide={() => {
+        onHide()
+        resetDataLawyer()
+      }}
       contentClassName='bg-white h-full px-4 md:!w-5/6 md:!h-5/6 md:rounded-xl lg:!w-3/4'
       className='bg-neutral-40'
     >
@@ -39,13 +53,19 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
             src={images.ic_back}
             alt='back'
             className='md:hidden'
-            onClick={() => onHide()}
+            onClick={() => {
+              onHide()
+              resetDataLawyer()
+            }}
           />
           <div className='text-xl font-futura-bold'>Opsi Lain</div>
           <img
             src={images.ic_close}
             alt='close'
-            onClick={() => onHide()}
+            onClick={() => {
+              onHide()
+              resetDataLawyer()
+            }}
             className='hidden md:inline-block'
           />
         </div>
@@ -58,13 +78,7 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
       </div>
 
       <div className='h-[86%] flex justify-between text-sm my-2 gap-4'>
-        <div
-          className={`h-full w-full overflow-auto mt-8 gap-2 overflow-x-hidden md:grid ${
-            !selectedLawyer
-              ? 'md:grid-cols-3 md:w-full'
-              : 'md:grid-cols-2 md:w-2/3'
-          } md:grid-rows-3 md:gap-4 md:h-[90%] lg:gap-2`}
-        >
+        <div className='h-full w-full overflow-auto mt-8 gap-2 overflow-x-hidden md:grid md:grid-cols-2 md:w-2/3 md:grid-rows-3 md:gap-4 md:h-[90%] lg:gap-2'>
           {dataLawyer?.map((item, index) => (
             <LawyerCard
               onClick={() => {
@@ -82,7 +96,7 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
           ))}
         </div>
 
-        {selectedLawyer && currWidth > 768 && (
+        {selectedLawyer && currWidth > 768 ? (
           <div
             className={`w-1/3 bg-blue-dark rounded-xl h-[95%] -mt-4 pb-6 hidden bg-selected-lawyer relative md:flex md:justify-between md:flex-col overflow-y-auto overflow-x-hidden`}
           >
@@ -90,7 +104,7 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
               <img
                 src={selectedLawyer?.image_url}
                 alt={`lawyer-${selectedLawyer?.first_name}`}
-                className='rounded-full mx-auto w-24 h-24'
+                className='rounded-full mx-auto w-24 h-24 mt-28'
               />
               <div className='text-center text-2xl font-semi-bold mb-2 mt-4 md:mx-4 lg:mx-0 text-white'>
                 {selectedLawyer?.first_name} {selectedLawyer?.last_name}
@@ -99,8 +113,11 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
                 {selectedLawyer?.description}
               </div>
               <div className='mt-8 grid grid-cols-4 mx-4 gap-2 mb-8'>
-                {selectedLawyer?.lawyer_filed.map((item) => (
-                  <div className='bg-white rounded-2xl py-1 px-2 text-center col-span-2'>
+                {selectedLawyer?.lawyer_filed.map((item, index) => (
+                  <div
+                    className='bg-white rounded-2xl py-1 px-2 text-center col-span-2'
+                    key={index}
+                  >
                     {item}
                   </div>
                 ))}
@@ -108,7 +125,9 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
             </div>
             <div className='mx-4'>
               <Button
-                onClick={() => console.log('pesan sekarang')}
+                onClick={() =>
+                  navigate('/book-lawyer', { state: selectedLawyer.uuid })
+                }
                 label='Pesan Pengacara'
                 iconRight={images.ic_briefcase}
                 className={
@@ -116,6 +135,20 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
                 }
               />
             </div>
+          </div>
+        ) : (
+          <div className='bg-blue-sky w-1/3 rounded-xl h-[95%] relative hidden md:inline-block bg-unselected -mt-4'>
+            <div className='relative top-1/4 h-[95%] pt-20 -mt-28'>
+              <img
+                src={images.bg_lawyer_recommendation}
+                alt='lawyer recommen'
+                className='mx-auto'
+              />
+              <div className='text-center text-2xl mt-4 mx-4'>
+                Silahkan Pilih Opsi pengacara
+              </div>
+            </div>
+            <div className='h-40 relative top-0 rounded-b-xl bg-gradient-white' />
           </div>
         )}
 
@@ -125,7 +158,10 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
               ? true
               : selectedLawyer && currWidth > 768 && false
           }
-          onHide={() => setSelectedLawyer(null)}
+          onHide={() => {
+            setSelectedLawyer(null)
+            resetDataLawyer()
+          }}
           contentClassName='bg-blue-dark px-4 py-8 md:!w-5/6 md:!h-5/6 md:rounded-xl lg:!w-3/4 rounded-t-2xl'
           classNameBox='!top-[25%]'
           className=''
@@ -135,7 +171,10 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
               src={images.ic_close_white}
               alt='close'
               className='float-end'
-              onClick={() => setSelectedLawyer(null)}
+              onClick={() => {
+                setSelectedLawyer(null)
+                resetDataLawyer()
+              }}
             />
             <img
               src={selectedLawyer?.image_url}
@@ -149,16 +188,22 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
               {selectedLawyer?.description}
             </div>
             <div className='mt-8 grid grid-cols-4 mx-4 gap-2 mb-8'>
-              {selectedLawyer?.lawyer_filed.map((item) => (
-                <div className='bg-white rounded-2xl py-1 px-2 text-center col-span-2'>
+              {selectedLawyer?.lawyer_filed.map((item, index) => (
+                <div
+                  className='bg-white rounded-2xl py-1 px-2 text-center col-span-2'
+                  key={index}
+                >
                   {item}
                 </div>
               ))}
             </div>
           </div>
+
           <div className='mx-4'>
             <Button
-              onClick={() => console.log('pesan sekarang')}
+              onClick={() =>
+                navigate('/book-lawyer', { state: selectedLawyer.uuid })
+              }
               label='Pesan Pengacara'
               iconRight={images.ic_briefcase}
               className={
