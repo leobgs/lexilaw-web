@@ -208,7 +208,13 @@ export const LAWYER_DATA = [
     image_url: 'https://picsum.photos/id/453/200/200',
     description:
       'Advokat Hukum | Hukum Perdata | Berkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian SengketaBerkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian Sengketa',
-    lawyer_filed: ['Hukum Pertanahan', 'Hukum Perceraian', 'Hukum Perdata'],
+    lawyer_filed: [
+      'Hukum Pertanahan',
+      'Hukum Perceraian',
+      'Hukum Perdata',
+      'Hukum transaksi elektronik',
+      'Hukum pernikahan',
+    ],
     city: 'Tangerang',
     experince: 5,
     min_price: 10000000,

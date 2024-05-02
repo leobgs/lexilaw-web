@@ -1,5 +1,6 @@
 import images from 'assets/images'
-import { Button, Header, PriceItem } from 'components'
+import { Button, Header, Modal, PriceItem } from 'components'
+import { useWidthSize } from 'hooks/useWidthSize'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { renderLabel } from 'utils'
@@ -141,8 +142,17 @@ export const BookLawyer = () => {
 }
 
 const HeaderLawyerCard = ({ data }) => {
+  const [showModa, setShowModa] = useState(false)
+  const currWidth = useWidthSize()
+
+  useEffect(() => {
+    if (currWidth > 768) {
+      setShowModa(false)
+    }
+  }, [currWidth])
+
   return (
-    <div className='rounded-2xl bg-neutral-60 p-4 flex justify-between w-full items-center'>
+    <div className='rounded-2xl bg-neutral-60 p-4 flex md:justify-start justify-between w-full items-center relative'>
       <div className='flex gap-2 items-center md:flex-col md:items-start md:border-r-2 md:border-neutral-10 md:pr-14'>
         <img
           src={data?.image_url}
@@ -156,7 +166,8 @@ const HeaderLawyerCard = ({ data }) => {
           <div className='text-xs text-neutral-40'>{data?.city}</div>
         </div>
       </div>
-      <div className='hidden md:flex md:flex-col w-3/4 text-sm pl-4'>
+
+      <div className='hidden md:flex md:flex-col md:w-9/12 text-sm pl-4'>
         <div>{data?.description}</div>
         <div className={`flex mt-4 gap-2`}>
           {data?.lawyer_filed?.map((item, index) => (
@@ -169,11 +180,80 @@ const HeaderLawyerCard = ({ data }) => {
           ))}
         </div>
       </div>
+
+      <div className='w-2/12' />
+
+      <div className='bg-dark-50 rounded-bl-lg rounded-tr-md text-white top-0 absolute right-0 py-4 px-2 hidden md:inline-block'>
+        <div className='flex items-center gap-1'>
+          <div className='flex'>
+            <div className='text-3xl'>{data?.experince}</div>
+            <div>+</div>
+          </div>
+          <div className='text-xs font-light'>
+            <div>YEARS</div>
+            <div>EXP</div>
+          </div>
+        </div>
+      </div>
+
       <img
         src={images.ic_arrow_cornering}
         alt='arrow'
         className='h-2.5 w-2.5 md:hidden'
+        onClick={() => setShowModa(true)}
       />
+
+      <Modal
+        show={showModa}
+        onHide={() => setShowModa(false)}
+        contentClassName='mx-4'
+        className='!bg-neutral-40'
+      >
+        <div className=' px-4 py-8 rounded-xl bg-neutral-60'>
+          <div className='flex justify-between'>
+            <div className='flex gap-2 items-center md:flex-col md:items-start md:border-r-2 md:border-neutral-10 md:pr-14'>
+              <img
+                src={data?.image_url}
+                alt={data?.first_name}
+                className='rounded-full h-10 w-10 md:w-12 md:h-12'
+              />
+              <div>
+                <div className='font-semi-bold text-secondary-base md:text-black-dark'>
+                  {data?.first_name} {data?.last_name}
+                </div>
+                <div className='text-xs text-neutral-40'>{data?.city}</div>
+              </div>
+            </div>
+
+            <div className='bg-dark-50 rounded-bl-lg rounded-tr-xl text-white py-4 px-2 -mr-4 -mt-8'>
+              <div className='flex items-center gap-1'>
+                <div className='flex'>
+                  <div className='text-3xl'>{data?.experince}</div>
+                  <div>+</div>
+                </div>
+                <div className='text-xs font-light'>
+                  <div>YEARS</div>
+                  <div>EXP</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className='text-sm mt-8'>
+            <div>{data?.description}</div>
+            <div className='grid grid-cols-2 mt-4 gap-2'>
+              {data?.lawyer_filed?.map((item, index) => (
+                <div
+                  className='bg-[#D9D9D9] rounded-lg py-1 px-2 text-center text-neutral-40 my-auto'
+                  key={index}
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }
