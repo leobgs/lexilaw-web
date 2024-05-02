@@ -6,8 +6,10 @@ import { useEffect, useState } from 'react'
 import { Button } from './Button/Button'
 import { useWidthSize } from 'hooks/useWidthSize'
 import './LawyerRecommendation.scss'
+import { useNavigate } from 'react-router-dom'
 
 export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
+  const navigate = useNavigate()
   const [dataLawyer, setDataLawyer] = useState()
   const [selectedLawyer, setSelectedLawyer] = useState(null)
   const currWidth = useWidthSize()
@@ -123,7 +125,9 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
             </div>
             <div className='mx-4'>
               <Button
-                onClick={() => console.log('pesan sekarang')}
+                onClick={() =>
+                  navigate('/book-lawyer', { state: selectedLawyer.uuid })
+                }
                 label='Pesan Pengacara'
                 iconRight={images.ic_briefcase}
                 className={
@@ -133,7 +137,7 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
             </div>
           </div>
         ) : (
-          <div className='bg-blue-sky w-1/3 rounded-xl h-[95%] relative hidden md:inline-block bg-unselected'>
+          <div className='bg-blue-sky w-1/3 rounded-xl h-[95%] relative hidden md:inline-block bg-unselected -mt-4'>
             <div className='relative top-1/4 h-[95%] pt-20 -mt-28'>
               <img
                 src={images.bg_lawyer_recommendation}
@@ -197,7 +201,9 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
 
           <div className='mx-4'>
             <Button
-              onClick={() => console.log('pesan sekarang')}
+              onClick={() =>
+                navigate('/book-lawyer', { state: selectedLawyer.uuid })
+              }
               label='Pesan Pengacara'
               iconRight={images.ic_briefcase}
               className={
