@@ -263,10 +263,17 @@ export const Chat = () => {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
-                  <div className='px-4 mb-1 text-black-darker text-sm border-b border-b-neutral-20 pb-2'>
-                    {t('wa_activation', {
-                      keyPrefix: 'chat.profile_option',
-                    })}
+                  <div className='flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2'>
+                    <div className='px-4 text-black-darker text-sm'>
+                      {t('wa_activation', {
+                        keyPrefix: 'chat.profile_option',
+                      })}
+                    </div>
+                    <img
+                      src={images.ic_arrow_cornering}
+                      alt='arrow'
+                      className='h-2.5 w-2.5'
+                    />
                   </div>
 
                   <div className='px-4 my-2 text-xxs'>

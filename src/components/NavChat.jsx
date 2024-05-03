@@ -148,7 +148,7 @@ export const NavChat = ({
                       items.childs?.map((itms) => (
                         <div
                           key={itms.id}
-                          className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4 text-sm'
+                          className='border-l-2 border-blue-sky ml-3.5 pl-5 pb-2 text-neutral-40 last:mb-4 text-sm'
                           onClick={() => {
                             onClickColection(itms.title)
                             setShowNav(false)
@@ -438,10 +438,17 @@ export const NavChat = ({
                 keyPrefix: 'chat.profile_menu',
               })}
             </div>
-            <div className='px-4 mb-1 text-black-darker text-base font-semi-bold border-b border-b-neutral-20 pb-2'>
-              {t('wa_activation', {
-                keyPrefix: 'chat.profile_option',
-              })}
+            <div className='flex justify-between items-center border-b border-b-neutral-20'>
+              <div className='px-4 mb-1 text-black-darker text-base font-semi-bold pb-2'>
+                {t('wa_activation', {
+                  keyPrefix: 'chat.profile_option',
+                })}
+              </div>
+              <img
+                src={images.ic_arrow_cornering}
+                alt='arrow'
+                className='h-2.5 w-2.5 md:hidden'
+              />
             </div>
 
             <div className='px-4 my-2'>
