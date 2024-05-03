@@ -77,3 +77,10 @@ body {
 .content_nowrap {
   @apply md:h-screen md:pt-20 md:p-4 pb-4 h-full bg-screen pt-16;
 }
+
+.bg-selected-lawyer {
+  background-image: url('../assets/images/bg_selected_lawyer.png');
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
