@@ -156,7 +156,7 @@ const HeaderLawyerCard = ({ data }) => {
 
   return (
     <div className='rounded-2xl bg-neutral-60 p-4 flex md:justify-start justify-between w-full items-center relative'>
-      <div className='flex gap-2 items-center md:flex-col md:items-start md:border-r-2 md:border-neutral-10 md:pr-14'>
+      <div className='flex gap-2 items-center md:flex-col md:items-start md:border-r-2 md:border-neutral-10 md:pr-14 md:ml-4'>
         <img
           src={data?.image_url}
           alt={data?.first_name}
