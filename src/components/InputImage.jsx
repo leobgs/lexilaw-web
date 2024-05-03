@@ -16,24 +16,24 @@ export default function InputImage({ className, name, image, onImageSelect }) {
         // Max size: 5MB
         setError('File size exceeds the limit of 5MB.')
         return
-      }
+      } else {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          const image = new Image()
+          image.src = e.target.result
 
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const image = new Image()
-        image.src = e.target.result
-
-        image.onload = () => {
-          if (image.width < 200 || image.height < 200) {
-            setError('Image dimensions must be at least 200px x 200px.')
-            onImageSelect(null)
-          } else {
-            setError('')
-            onImageSelect(e.target.result)
+          image.onload = () => {
+            if (image.width < 200 || image.height < 200) {
+              setError('Image dimensions must be at least 200px x 200px.')
+              onImageSelect(null)
+            } else {
+              setError('')
+              onImageSelect(e.target.result)
+            }
           }
         }
+        reader.readAsDataURL(file)
       }
-      reader.readAsDataURL(file)
     }
   }
 
