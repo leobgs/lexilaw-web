@@ -321,4 +321,61 @@ export const LAWYER_DATA = [
       ],
     },
   },
+  {
+    uuid: '1s16913f-33ht-4d97-b339-fe5ythh44059',
+    first_name: 'Irwan',
+    last_name: '',
+    image_url: 'https://picsum.photos/id/409/200/200',
+    description:
+      'Hukum Adat Advokat Perdata | Membela Keadilan dengan Hukum | Ahli dalam Kasus Perdata | Berkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian Sengketa | #LawyerLife 🏛️⚖️"',
+    lawyer_filed: ['Hukum Adat'],
+    city: 'Bekasi',
+    experince: 2,
+    min_price: 10000000,
+    max_price: 20000000,
+    total_price: 20540000,
+    service_price: [
+      {
+        id: 1,
+        service_name: 'Opini Hukum',
+        price: 500000,
+      },
+      {
+        id: 2,
+        service_name: 'Legal Memorandum',
+        price: 1000000,
+      },
+      {
+        id: 3,
+        service_name: 'Document Hukum : Perjanjian',
+        price: 1900000,
+      },
+      {
+        id: 4,
+        service_name: 'Document Hukum : Kontrak',
+        price: 1400000,
+      },
+    ],
+    service_summary: {
+      jasa_pajak: [
+        {
+          id: 0,
+          name: 'Rate Jasa',
+          price: 18500000,
+        },
+        {
+          id: 1,
+          name: 'Biaya PPN (11%)',
+          price: 2100000,
+        },
+      ],
+      transaction_price: [
+        {
+          id: 1,
+          name: 'Biaya Platform',
+          price: 50000,
+        },
+      ],
+    },
+  },
 ]

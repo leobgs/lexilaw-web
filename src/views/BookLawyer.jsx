@@ -81,16 +81,19 @@ export const BookLawyer = () => {
             <PriceItem
               data={{
                 id: 1,
-                service_name: 'Total Jasa',
+                service_name: 'Total',
                 price: 18500000,
               }}
+              classNameText='text-opacity-50'
             />
           </div>
         </div>
 
-        <div className='md:bg-blue-dark md:text-white md:rounded-2xl md:h-fit'>
+        <div className='md:bg-blue-dark md:text-white md:rounded-2xl md:h-fit bg-selected-lawyer'>
           <div className='mt-4 pt-8 border-t border-t-neutral-30 mx-4 md:mt-0 md:border-none'>
-            <div className='font-futura inline-block md:hidden'>Rangkuman</div>
+            <div className='font-futura md:text-xl md:mb-8 md:-mt-4'>
+              Rangkuman
+            </div>
             <div className=''>
               <div className='font-futura-bold text-sm my-2'>Jasa + Pajak</div>
               {dataLawyer?.service_summary?.jasa_pajak?.map((item) =>
@@ -153,7 +156,7 @@ const HeaderLawyerCard = ({ data }) => {
 
   return (
     <div className='rounded-2xl bg-neutral-60 p-4 flex md:justify-start justify-between w-full items-center relative'>
-      <div className='flex gap-2 items-center md:flex-col md:items-start md:border-r-2 md:border-neutral-10 md:pr-14'>
+      <div className='flex gap-2 items-center md:flex-col md:items-start md:border-r-2 md:border-neutral-10 md:pr-14 md:ml-4'>
         <img
           src={data?.image_url}
           alt={data?.first_name}
@@ -169,10 +172,10 @@ const HeaderLawyerCard = ({ data }) => {
 
       <div className='hidden md:flex md:flex-col md:w-9/12 text-sm pl-4'>
         <div>{data?.description}</div>
-        <div className={`flex mt-4 gap-2`}>
+        <div className={`grid grid-cols-3 mt-4 gap-2`}>
           {data?.lawyer_filed?.map((item, index) => (
             <div
-              className='bg-[#D9D9D9] rounded-2xl py-1 px-2 text-center text-neutral-40'
+              className='bg-[#D9D9D9] rounded-2xl py-1 px-2 text-center text-neutral-40 my-auto line-clamp-1'
               key={index}
             >
               {item}
