@@ -11,7 +11,7 @@ export const PaymentMethodModal = ({ dataLawyer, isShow, onHide = () => {} }) =>
   const { t } = useTranslation();
   const [paymentMethods, setPaymentMethods] = useState(PAYMENT_METHOD);
 
-  const onSelectPaymentMethod = (id) => {
+  const handleOnSelectPaymentMethod = (id) => {
     const updatedPaymentMethods = paymentMethods.map((method) =>
       method.id === id ? { ...method, isSelected: true } : { ...method, isSelected: false }
     );
@@ -45,7 +45,7 @@ export const PaymentMethodModal = ({ dataLawyer, isShow, onHide = () => {} }) =>
 
       <PaymentMethodsList
         paymentMethods={paymentMethods}
-        onSelect={onSelectPaymentMethod}
+        onSelect={handleOnSelectPaymentMethod}
       />
 
       <div className=" flex border-t border-[#EEEEEE]">
