@@ -1,6 +1,7 @@
 import images from "assets/images";
 import { Button, Header, Modal, PriceItem } from "components";
 import { PaymentMethodModal } from "components/PaymentMethodModal";
+import { PaymentSuccessModal } from "components/PaymentSuccessModal";
 import { useWidthSize } from "hooks/useWidthSize";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -14,6 +15,8 @@ export const BookLawyer = () => {
   const [dataLawyer, setDataLawyer] = useState([]);
   const [isEdit, setEdit] = useState(false);
   const [isShowPaymentMethodModal, setPaymentMethodModal] = useState(false);
+  const [isShowPaymentSuccessModal, setIsShowPaymentSuccessModal] =
+    useState(false);
 
   useEffect(() => {
     setDataLawyer(LAWYER_DATA.find((item) => item.uuid === state));
@@ -43,9 +46,17 @@ export const BookLawyer = () => {
         isShow={isShowPaymentMethodModal}
         onHide={() => {
           setPaymentMethodModal(!isShowPaymentMethodModal);
+          setIsShowPaymentSuccessModal(!isShowPaymentSuccessModal);
         }}
       />
-
+      <PaymentSuccessModal
+        isActive={isShowPaymentSuccessModal}
+        lawyerName={`${dataLawyer.first_name} ${dataLawyer.last_name}`}
+        onNavigate={() => {
+          setIsShowPaymentSuccessModal(false)
+          navigate("/", { replace: true });
+        }}
+      />
       <Header label="Pesan Pengacara" onBackClick={() => navigate(-1)} />
       <div className="m-4 md:flex md:gap-4 md:justify-end">
         <div className="md:w-3/5">
