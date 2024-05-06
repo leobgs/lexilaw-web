@@ -37,6 +37,8 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
     setDataLawyer([...dataLawyer])
   }
 
+  console.log(selectedLawyer?.lawyer_filed?.length)
+
   return (
     <Modal
       show={isShow}
@@ -115,7 +117,13 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
               <div className='mt-8 grid grid-cols-4 mx-4 gap-2 mb-8'>
                 {selectedLawyer?.lawyer_filed.map((item, index) => (
                   <div
-                    className='bg-white rounded-2xl py-1 px-2 text-center col-span-2'
+                    className={`bg-white rounded-2xl py-1 px-2 text-center my-auto ${
+                      selectedLawyer?.lawyer_filed?.length === 1
+                        ? 'col-span-4'
+                        : selectedLawyer?.lawyer_filed?.length % 2 == 0
+                        ? 'col-span-2'
+                        : 'col-span-2 last:col-start-2'
+                    }`}
                     key={index}
                   >
                     {item}
@@ -190,7 +198,13 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
             <div className='mt-8 grid grid-cols-4 mx-4 gap-2 mb-8'>
               {selectedLawyer?.lawyer_filed.map((item, index) => (
                 <div
-                  className='bg-white rounded-2xl py-1 px-2 text-center col-span-2'
+                  className={`bg-white rounded-2xl py-1 px-2 text-center my-auto ${
+                    selectedLawyer?.lawyer_filed?.length === 1
+                      ? 'col-span-4'
+                      : selectedLawyer?.lawyer_filed?.length % 2 == 0
+                      ? 'col-span-2'
+                      : 'col-span-2 last:col-start-2'
+                  }`}
                   key={index}
                 >
                   {item}
