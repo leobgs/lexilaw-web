@@ -6,11 +6,11 @@ import { Toggle } from 'components/Toggle/Toggle'
 import { API } from 'config/api'
 import { StorageKey } from 'config/storage'
 import { useGlobalContext } from 'hooks/context'
-import { deleteData } from 'hooks/useRequest'
+import { deleteData, getData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { LocalStorage } from 'utils'
 import {
@@ -34,6 +34,25 @@ export const Chat = () => {
   ])
   const [renderedMessage, setRenderedMessage] = useState(null)
   const [headerText, setHeaderText] = useState('Obrolan Baru')
+
+  useQuery(['newest_thread'], () => getData(API.THREAD_LIST), {
+    onSettled: (datas) => {
+      if (datas?.status === 'Success') {
+        const { data } = datas
+        dataMessage?.map((item) => {
+          if (item.type === 'terkini') {
+            setMessage([
+              { type: 'koleksi', data: KOLEKSI_CHAT },
+              { type: 'terkini', data: [...data, ...OROLAN_TERKINI] },
+              { type: 'riwayat', data: [...RIWAYAT_OROLAN] },
+            ])
+          }
+        })
+      } else {
+        console.log('error', datas)
+      }
+    },
+  })
 
   const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
     onSettled: (data) => {
@@ -140,6 +159,7 @@ export const Chat = () => {
   }
 
   const onClickColection = (e) => {
+    console.log(e, 'on click col')
     dataMessage?.map((item) => {
       item.data?.map((itm) => {
         if (!itm.value) {

@@ -7,10 +7,10 @@ import { Toggle } from './Toggle/Toggle'
 import { LocalStorage } from 'utils'
 import { StorageKey } from 'config/storage'
 import { useNavigate } from 'react-router-dom'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation } from 'react-query'
 import { API } from 'config/api'
 import { notifyError } from 'hooks/useToas'
-import { deleteData, getData } from 'hooks/useRequest'
+import { deleteData } from 'hooks/useRequest'
 
 export const NavChat = ({
   onHeaderClick,
@@ -26,26 +26,8 @@ export const NavChat = ({
   const [showNav, setShowNav] = useState(false)
   const [showSearchNav, setShowSearchNav] = useState(false)
   const [showSetting, setShowSetting] = useState(false)
-  const [dataTerkini, setDataTerkini] = useState([])
   const storage = new LocalStorage()
   const navigate = useNavigate()
-
-  useQuery(['newest_thread'], () => getData(API.THREAD_LIST), {
-    onSettled: (datas) => {
-      if (datas?.status === 'Success') {
-        const { data } = datas
-        let tmp = []
-        dataLatest?.map((item) => {
-          if (item.type === 'terkini') {
-            tmp = item.data
-          }
-        })
-        setDataTerkini([...data, ...tmp])
-      } else {
-        console.log('error', datas)
-      }
-    },
-  })
 
   const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
     onSettled: (data) => {
@@ -185,12 +167,12 @@ export const NavChat = ({
                 key={index}
                 className={`${item.data.length !== 0 ? 'my-4' : ''}`}
               >
-                {dataTerkini !== 0 && (
+                {item.data.length !== 0 && (
                   <div className='text-neutral-40 mt-4'>Terkini</div>
                 )}
 
-                {dataTerkini !== 0 &&
-                  dataTerkini?.map((item) => (
+                {item.data.length !== 0 &&
+                  item.data?.map((item) => (
                     <NavComponent
                       item={item}
                       key={item.id}
@@ -230,7 +212,18 @@ export const NavChat = ({
         })}
       </div>
 
-      {/* Mobile view */}
+      {/* <div className='mt-20 flex-col justify-center hidden md:flex'>
+        <img
+          src={images.ic_chat_bubbles}
+          alt='chat bubbles'
+          className='w-24 h-20 mx-auto'
+        />
+        <div className='mx-auto mt-2 text-center md:w-4/5'>
+          Kamu belum memiliki topik apapun,{' '}
+          <span className='font-semi-bold'>Mulai Obrolan Baru!</span>
+        </div>
+      </div> */}
+
       {showNav && (
         <div className='md:hidden h-full w-full absolute -mt-14 flex'>
           <div className='bg-neutral-50 w-3/4 h-full px-2 pt-4'>
@@ -335,12 +328,12 @@ export const NavChat = ({
                       key={index}
                       className={`${item.data.length !== 0 ? 'my-4' : ''}`}
                     >
-                      {dataTerkini !== 0 && (
+                      {item.data.length !== 0 && (
                         <div className='text-neutral-40 mt-4'>Terkini</div>
                       )}
 
-                      {dataTerkini !== 0 &&
-                        dataTerkini?.map((item, indexs) => (
+                      {item.data.length !== 0 &&
+                        item.data?.map((item, indexs) => (
                           <NavComponent
                             item={item}
                             key={indexs}
