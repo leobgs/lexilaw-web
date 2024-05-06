@@ -3,7 +3,11 @@ import { Modal } from "./Modal";
 import images from "assets/images";
 import { Button } from "./Button/Button";
 
-export const PaymentSuccessModal = ({ isActive, lawyerName = "", onNavigate = () => {} }) => {
+export const PaymentSuccessModal = ({
+  isActive,
+  lawyerName = "",
+  onNavigate = () => {},
+}) => {
   const [isSecondForm, setIsSecondForm] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(3);
   const [isCountdownActive, setIsCountdownActive] = useState(false);
@@ -12,17 +16,19 @@ export const PaymentSuccessModal = ({ isActive, lawyerName = "", onNavigate = ()
   const isOnMobileSize = windowWidth <= 768;
 
   useEffect(() => {
-    startTimer();
+    if (isActive) {
+      startTimer();
 
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", handleResize);
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+      window.addEventListener("resize", handleResize);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, [isActive]);
 
   useEffect(() => {
     let intervalId;
