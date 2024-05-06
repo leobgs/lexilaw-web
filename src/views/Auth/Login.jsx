@@ -41,7 +41,7 @@ export const Login = () => {
           let timeOut = setTimeout(() => {
             navigate('/', { replace: true })
             closeAlert({ isConfirm: false, showLoading: false })
-          }, 200)
+          }, 500)
           return () => clearTimeout(timeOut)
         } else {
           setErrorText(data?.message)
@@ -89,7 +89,7 @@ export const Login = () => {
 
   return (
     <AuthCard>
-      <h2 className='mb-[1rem] text-green-900 text-2xl font-semibold text-center'>
+      <h2 className='mb-[1rem] text-green-900 text-xl font-semi-bold text-center'>
         {t('login_using_registered_email', { keyPrefix: 'auth.register' })}
       </h2>
 
@@ -115,7 +115,7 @@ export const Login = () => {
       />
 
       <div
-        className='font-bold text-gray-900 ms-[16px] cursor-pointer'
+        className='font-bold text-gray-900 ms-[16px] cursor-pointer text-sm'
         onClick={() => navigate('/auth/forgot-password')}
       >
         {t('forgot_password', { keyPrefix: 'auth.register' })}
@@ -138,7 +138,7 @@ export const Login = () => {
         </div>
       )}
 
-      <p className='text-center font-medium'>
+      <p className='text-center font-medium text-sm'>
         {t('dont_have_an_account_yet', { keyPrefix: 'auth.register' })}
         <NavLink
           className='font-bold text-gray-900 underline ms-1'

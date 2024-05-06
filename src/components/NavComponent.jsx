@@ -55,7 +55,7 @@ export const NavComponent = ({ item, onClickColection, onEdit, onDelete }) => {
 
   return (
     <div
-      className={`h-9 py-2 md:mr-4 md:-mx-2 rounded-lg flex justify-between items-center ${
+      className={`h-9 py-2 md:mr-4 md:-mx-2 rounded-lg flex justify-between items-center text-sm ${
         item.isActive ? 'bg-blue-dark text-white shadow' : ''
       } ${isEdit ? 'mb-1 px-[1px]' : ' px-2'} `}
     >

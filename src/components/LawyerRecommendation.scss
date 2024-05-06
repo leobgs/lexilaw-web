@@ -1,0 +1,22 @@
+.bg-selected-lawyer {
+  background-image: url('../assets/images/bg_selected_lawyer.png');
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.bg-unselected {
+  background-image: url('../assets/images/bg_lawyertop.png'),
+    url('../assets/images/bg_lawyerbottom.png');
+  background-position: left top, right bottom;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100% 40%, 100%;
+}
+
+.bg-gradient-white {
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+}

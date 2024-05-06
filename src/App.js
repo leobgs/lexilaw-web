@@ -9,18 +9,19 @@ import { isLogin } from 'utils/auth'
 import {
   Login,
   Components,
-  Chat, 
+  Chat,
   NotFound,
   ForgotPassword,
   ChangePassword,
   PreChangePassword,
+  BookLawyer,
   Account,
 } from 'views'
 import { ModalAlert } from 'components'
 import { ToastContainer } from 'react-toastify'
 import AuthLayout from 'views/Auth/layouts/AuthLayout'
 import Register from 'views/Auth/register/Register'
-import RegisterOTP from 'views/Auth/register/RegisterOTP' 
+import RegisterOTP from 'views/Auth/register/RegisterOTP'
 
 const PrivateRoute = ({ wrapperContent = true }) => {
   if (!isLogin()) {
@@ -58,7 +59,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<ProtectedRoute wrapperContent={false} />}>
+        <Route element={<ProtectedRoute />}>
           <Route path='/auth' element={<AuthLayout />}>
             <Route index element={<Login />} />
             <Route path='login' Component={Login} />
@@ -73,9 +74,15 @@ function App() {
           </Route>
         </Route>
 
+        {/* page without header component */}
         <Route element={<PrivateRoute />}>
           <Route path='/' element={<Chat />} />
           <Route path='/account' element={<Account />} />
+        </Route>
+
+        {/* with header component */}
+        <Route element={<PrivateRoute wrapperContent={false} />}>
+          <Route path='/book-lawyer' element={<BookLawyer />} />
         </Route>
 
         <Route path='/components' element={<Components />} />

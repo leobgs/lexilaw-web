@@ -147,7 +147,7 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
 
           <div className='w-full text-xs flex justify-center'>
             <textarea
-              className='max-h-20 w-full focus:outline-none bg-neutral-30 bg-opacity-0 text-base'
+              className='max-h-20 w-full focus:outline-none bg-neutral-30 bg-opacity-0 text-sm'
               autoFocus
               onChange={handleChat}
               onKeyUp={handleKeyDown}

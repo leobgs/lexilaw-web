@@ -5,6 +5,7 @@ import { ChatCard } from 'components/ChatCard'
 import { Toggle } from 'components/Toggle/Toggle'
 import { API } from 'config/api'
 import { StorageKey } from 'config/storage'
+import { useGlobalContext } from 'hooks/context'
 import { deleteData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
@@ -23,6 +24,7 @@ export const Chat = () => {
   const { t } = useTranslation()
   const storage = new LocalStorage()
   const navigate = useNavigate()
+  const { currentLanguage } = useGlobalContext()
   const [isDisplayImage, setDisplayImage] = useState()
   const [isHeader, setIsHeader] = useState(true)
   const [dataMessage, setMessage] = useState([
@@ -217,11 +219,15 @@ export const Chat = () => {
               <div className='font-futura-bold'>{headerText}</div>
             </div>
 
-            <img
-              src={images.ic_thumbnail_profile}
-              alt='profile'
-              data-tooltip-id='profile-tooltip'
-            />
+            <div className='flex items-center gap-2'>
+              <p className='font-bold'>Prima Kusumo</p>
+              <img
+                src={images.ic_thumbnail_profile}
+                alt='profile'
+                data-tooltip-id='profile-tooltip'
+              />
+            </div>
+
             <Tooltips
               idToolTips='profile-tooltip'
               tooltipEffect='solid'
@@ -247,7 +253,7 @@ export const Chat = () => {
                           keyPrefix: 'chat.profile_option',
                         })}
                       </div>
-                      <div className='py-0.5 px-1.5 bg-error-lighter text-xs mr-2 rounded-full text-white flex items-center justify-center'>
+                      <div className='py-1 px-2 bg-error-lighter text-xs mr-2 rounded-full text-white flex items-center justify-center'>
                         1
                       </div>
                     </div>
@@ -257,10 +263,17 @@ export const Chat = () => {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
-                  <div className='px-4 mb-1 text-black-darker text-xs font-semi-bold border-b border-b-neutral-20 pb-2'>
-                    {t('wa_activation', {
-                      keyPrefix: 'chat.profile_option',
-                    })}
+                  <div className='flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2'>
+                    <div className='px-4 text-black-darker text-sm'>
+                      {t('wa_activation', {
+                        keyPrefix: 'chat.profile_option',
+                      })}
+                    </div>
+                    <img
+                      src={images.ic_arrow_cornering}
+                      alt='arrow'
+                      className='h-2.5 w-2.5'
+                    />
                   </div>
 
                   <div className='px-4 my-2 text-xxs'>
@@ -268,19 +281,24 @@ export const Chat = () => {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
-                  <div className='mb-1 flex justify-center ml-4 items-start'>
-                    <div className='px-4 text-black-darker text-xs font-semi-bold'>
+                  <div className='mb-4 flex justify-center ml-4 items-start'>
+                    <div className='text-black-darker text-sm w-full'>
                       {t('menu_language', {
                         keyPrefix: 'chat.profile_option',
-                      })}
+                      })}{' '}
+                      {currentLanguage === 'id' ? '(ID)' : '(EN)'}
                     </div>
-                    <div className='mr-4'>
-                      <Toggle labelClassName='!w-[50px]' className='!my-0' />
+                    <div className='mr-1'>
+                      <Toggle
+                        labelClassName='!w-[50px]'
+                        className='!my-0'
+                        hideText={true}
+                      />
                     </div>
                   </div>
 
                   <div
-                    className='font-semi-bold text-error-base px-6 bg-error-lighter bg-opacity-10 -mx-1 py-2 -mb-2.5 rounded-b-lg text-xs'
+                    className='font-semi-bold text-error-base px-6 bg-error-lighter bg-opacity-10 -mx-1 py-2 -mb-2.5 rounded-b-lg text-sm'
                     onClick={onLogout}
                   >
                     Logout
@@ -302,9 +320,8 @@ export const Chat = () => {
                   <QuestionCard
                     data={DEFAULT_QUESTION}
                     onClick={(e) => handleAddChat(e)}
-                    className={`md:absolute ${
-                      isDisplayImage ? 'md:top-[20%]' : 'md:top-1/4'
-                    }`}
+                    className={`md:absolute ${isDisplayImage ? 'md:top-[20%]' : 'md:top-1/4'
+                      }`}
                   />
                 )
               }

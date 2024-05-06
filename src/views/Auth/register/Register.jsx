@@ -78,10 +78,6 @@ export default function Register() {
     return passwordRegex.test(password)
   }
 
-  const validatePasswordMatch = (value) => {
-    return registerForm.password === value
-  }
-
   const validateInput = (name, value) => {
     switch (name) {
       case 'first_name':
@@ -89,12 +85,6 @@ export default function Register() {
         return validateName(value) ? '' : 'Invalid name format'
       case 'email':
         return validateEmail(value) ? '' : 'Invalid email format'
-      case 'password':
-        return validatePassword(value)
-          ? ''
-          : 'Invalid password must contain at least 1 upper case characters and 8 characters minimum'
-      case 'password_confirm':
-        return validatePasswordMatch(value) ? '' : 'Password not match'
       default:
         return ''
     }
@@ -127,13 +117,73 @@ export default function Register() {
     return errorCheck
   }
 
+  const validatePasswordMatch = (e) => {
+    const { name, value } = e
+    if (name === 'password') {
+      if (registerForm.password_confirm) {
+        if (value !== registerForm.password_confirm) {
+          if (validatePassword(value)) {
+            setError({ ...error, password: '' })
+          } else {
+            setError({
+              ...error,
+              password_confirm: `Password didn't match`,
+              password:
+                'Invalid password must contain at least 1 upper case characters and 8 characters minimumsss',
+            })
+          }
+        } else {
+          setError({
+            ...error,
+            password_confirm: '',
+          })
+        }
+      } else {
+        return validatePassword(value)
+          ? setError({ ...error, password: '' })
+          : setError({
+              ...error,
+              password:
+                'Invalid password must contain at least 1 upper case characters and 8 characters minimumsss',
+            })
+      }
+    } else if (name === 'password_confirm') {
+      if (registerForm.password) {
+        if (validatePassword(value)) {
+          setError({ ...error, password_confirm: '' })
+        } else if (value !== registerForm.password) {
+          setError({ ...error, password_confirm: `Password didn't match` })
+        } else if (value === registerForm.password) {
+          setError({ ...error, password_confirm: '' })
+        } else {
+          setError({
+            ...error,
+            password_confirm:
+              'Invalid password must contain at least 1 upper case characters and 8 characters minimum',
+          })
+        }
+      } else {
+        setError({
+          ...error,
+          password_confirm: 'Input password first',
+        })
+      }
+    }
+  }
+
   const isValidForm = !isAnyEmptyForm() && !isAnyError()
 
   const handleChangeForm = (e) => {
     const { name, value } = e
-    const errorMessage = validateInput(name, value)
-    registerFormReducer(name, value)
-    setError({ ...error, [name]: errorMessage })
+
+    if (name === 'password_confirm' || name === 'password') {
+      validatePasswordMatch(e)
+      registerFormReducer(name, value)
+    } else {
+      const errorMessage = validateInput(name, value)
+      registerFormReducer(name, value)
+      setError({ ...error, [name]: errorMessage })
+    }
   }
 
   const handleImageChange = (newImage) => {
@@ -201,7 +251,7 @@ export default function Register() {
           error={error.email}
         />
 
-        <div className='flex flex-wrap xl:flex-nowrap gap-4 align-top items-start'>
+        <div className='flex flex-wrap md:flex-nowrap gap-4 align-top items-start'>
           <InputPassword
             name='password'
             className='w-full flex-wrap'
@@ -213,6 +263,7 @@ export default function Register() {
             value={registerForm.password}
             onChange={handleChangeForm}
             error={error.password}
+            maxLength={8}
           />
 
           <InputPassword
@@ -260,7 +311,7 @@ export default function Register() {
         />
 
         <Button
-          label={t('submit_button', { keyPrefix: 'auth.register' })}
+          label={t('register_button', { keyPrefix: 'auth.register' })}
           onClick={onSubmit}
           iconRight={images.chevron_right}
           iconClassName={'absolute right-4'}
@@ -276,7 +327,7 @@ export default function Register() {
           </div>
         )}
 
-        <div className='text-center font-medium flex justify-center'>
+        <div className='text-center font-medium flex justify-center text-sm'>
           <p>{t('already_have_account', { keyPrefix: 'auth.register' })}</p>
           <p
             className='font-bold text-gray-900 underline ms-1'

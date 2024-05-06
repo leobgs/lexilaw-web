@@ -113,7 +113,7 @@ export const NavChat = ({
               <div key={index}>
                 {item.data.length !== 0 && (
                   <div className='flex justify-between items-end mr-2 my-4'>
-                    <div className='text-neutral-40'>Koleksi</div>
+                    <div className='text-neutral-40 text-sm'>Koleksi</div>
                     <img
                       src={images.ic_menu_down}
                       alt='dropdown'
@@ -122,10 +122,10 @@ export const NavChat = ({
                   </div>
                 )}
 
-                {item.data?.map((items, indx) => (
-                  <div key={indx}>
+                {item.data?.map((items) => (
+                  <div key={items.id}>
                     <div
-                      className={`flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 mr-4 py-1 ${
+                      className={`flex justify-start gap-2 items-center text-sm text-neutral-40 mb-2 mr-4 py-1 ${
                         items.isExpand
                           ? 'bg-blue-sky rounded-2xl pl-2 -ml-2'
                           : ''
@@ -147,7 +147,8 @@ export const NavChat = ({
                     {items.isExpand &&
                       items.childs?.map((itms) => (
                         <div
-                          className='border-l-2 border-blue-sky ml-3.5 pl-2 pb-2 text-neutral-40 last:mb-4'
+                          key={itms.id}
+                          className='border-l-2 border-blue-sky ml-3.5 pl-5 pb-2 text-neutral-40 last:mb-4 text-sm'
                           onClick={() => {
                             onClickColection(itms.title)
                             setShowNav(false)
@@ -163,7 +164,7 @@ export const NavChat = ({
           } else if (item.type === 'terkini') {
             return (
               <div
-                key={item.id}
+                key={index}
                 className={`${item.data.length !== 0 ? 'my-4' : ''}`}
               >
                 {item.data.length !== 0 && (
@@ -171,10 +172,10 @@ export const NavChat = ({
                 )}
 
                 {item.data.length !== 0 &&
-                  item.data?.map((item, index) => (
+                  item.data?.map((item) => (
                     <NavComponent
                       item={item}
-                      key={index}
+                      key={item.id}
                       onClickColection={() => onClickColection(item.title)}
                       onEdit={(e) => onEdit(e)}
                       onDelete={(e) => {
@@ -186,16 +187,18 @@ export const NavChat = ({
             )
           } else if (item.type === 'riwayat') {
             return (
-              <div key={item.id}>
+              <div key={index}>
                 {item.data.length !== 0 && (
-                  <div className='text-neutral-40 mt-4'>Obrolan Lampau</div>
+                  <div className='text-neutral-40 mt-4 text-sm'>
+                    Obrolan Lampau
+                  </div>
                 )}
 
                 {item.data.length !== 0 &&
-                  item.data?.map((item, index) => (
+                  item.data?.map((item) => (
                     <NavComponent
                       item={item}
-                      key={index}
+                      key={item.id}
                       onClickColection={() => onClickColection(item.title)}
                       onEdit={(e) => onEdit(e)}
                       onDelete={(e) => {
@@ -280,10 +283,10 @@ export const NavChat = ({
                         </div>
                       )}
 
-                      {item.data?.map((items, indx) => (
-                        <div key={indx}>
+                      {item.data?.map((items) => (
+                        <div key={items.id}>
                           <div
-                            className={`flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 mr-4 py-1 ${
+                            className={`flex justify-start gap-2 items-center text-sm text-neutral-40 mb-2 mr-4 py-1 ${
                               items.isExpand
                                 ? 'bg-blue-sky rounded-2xl pl-2 -ml-2'
                                 : ''
@@ -303,9 +306,10 @@ export const NavChat = ({
                           </div>
 
                           {items.isExpand &&
-                            items.childs?.map((itms) => (
+                            items.childs?.map((itms, indexes) => (
                               <div
-                                className='border-l-2 border-blue-sky ml-3.5 pl-2 pb-2 text-neutral-40 last:mb-4'
+                                key={indexes}
+                                className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4 text-sm'
                                 onClick={() => {
                                   onClickColection(itms.title)
                                   setShowNav(false)
@@ -321,7 +325,7 @@ export const NavChat = ({
                 } else if (item.type === 'terkini') {
                   return (
                     <div
-                      key={item.id}
+                      key={index}
                       className={`${item.data.length !== 0 ? 'my-4' : ''}`}
                     >
                       {item.data.length !== 0 && (
@@ -329,10 +333,10 @@ export const NavChat = ({
                       )}
 
                       {item.data.length !== 0 &&
-                        item.data?.map((item, index) => (
+                        item.data?.map((item, indexs) => (
                           <NavComponent
                             item={item}
-                            key={index}
+                            key={indexs}
                             onClickColection={() => {
                               onClickColection(item.title)
                               setShowNav(false)
@@ -347,7 +351,7 @@ export const NavChat = ({
                   )
                 } else if (item.type === 'riwayat') {
                   return (
-                    <div key={item.id}>
+                    <div key={index}>
                       {item.data.length !== 0 && (
                         <div className='text-neutral-40 mt-4'>
                           Obrolan Lampau
@@ -355,10 +359,10 @@ export const NavChat = ({
                       )}
 
                       {item.data.length !== 0 &&
-                        item.data?.map((item, index) => (
+                        item.data?.map((item, idxs) => (
                           <NavComponent
                             item={item}
-                            key={index}
+                            key={idxs}
                             onClickColection={() => {
                               onClickColection(item.title)
                               setShowNav(false)
@@ -434,10 +438,17 @@ export const NavChat = ({
                 keyPrefix: 'chat.profile_menu',
               })}
             </div>
-            <div className='px-4 mb-1 text-black-darker text-base font-semi-bold border-b border-b-neutral-20 pb-2'>
-              {t('wa_activation', {
-                keyPrefix: 'chat.profile_option',
-              })}
+            <div className='flex justify-between items-center border-b border-b-neutral-20'>
+              <div className='px-4 mb-1 text-black-darker text-base font-semi-bold pb-2'>
+                {t('wa_activation', {
+                  keyPrefix: 'chat.profile_option',
+                })}
+              </div>
+              <img
+                src={images.ic_arrow_cornering}
+                alt='arrow'
+                className='h-2.5 w-2.5 md:hidden'
+              />
             </div>
 
             <div className='px-4 my-2'>

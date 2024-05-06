@@ -9,7 +9,6 @@ import { useMutation } from 'react-query'
 import { putData } from 'hooks/useRequest'
 import { API } from 'config/api'
 import { notifyError } from 'hooks/useToas'
-import axios from 'axios'
 
 export const ChangePassword = () => {
   const { t } = useTranslation()
