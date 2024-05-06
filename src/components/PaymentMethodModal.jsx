@@ -6,16 +6,27 @@ import clsx from "clsx";
 import { PAYMENT_METHOD } from "utils/dummy";
 import { useState } from "react";
 import { numberSeparator } from "utils/numberSeparator";
+import { useGlobalContext } from "hooks/context";
 
-export const PaymentMethodModal = ({ dataLawyer, isShow, onHide = () => {} }) => {
+export const PaymentMethodModal = ({
+  dataLawyer,
+  isShow,
+  onHide = () => {},
+}) => {
   const { t } = useTranslation();
   const [paymentMethods, setPaymentMethods] = useState(PAYMENT_METHOD);
+  const [isAnyPaymentSelected, setIsAnyPaymentSelected] = useState(false);
 
   const handleOnSelectPaymentMethod = (id) => {
     const updatedPaymentMethods = paymentMethods.map((method) =>
-      method.id === id ? { ...method, isSelected: true } : { ...method, isSelected: false }
+      method.id === id
+        ? { ...method, isSelected: true }
+        : { ...method, isSelected: false }
     );
-  
+    const anyPaymentSelected = updatedPaymentMethods.some(
+      (method) => method.isSelected
+    );
+    setIsAnyPaymentSelected(anyPaymentSelected);
     setPaymentMethods(updatedPaymentMethods);
   };
 
@@ -32,6 +43,7 @@ export const PaymentMethodModal = ({ dataLawyer, isShow, onHide = () => {} }) =>
           src={images.ic_close}
           alt="close"
           onClick={() => {
+            handleOnSelectPaymentMethod(-1);
             onHide();
           }}
           className="inline-block"
@@ -40,7 +52,9 @@ export const PaymentMethodModal = ({ dataLawyer, isShow, onHide = () => {} }) =>
 
       <div className="bg-[#D6D6D6] flex justify-between items-center p-6 border-y border-[#EEEEEE]">
         <div className="text-lg font-regular">Pembayaran Tagihan</div>
-        <div className="text-lg font-bold md:font-semi-bold">{numberSeparator(dataLawyer?.total_price, "Rp", ",")}</div>
+        <div className="text-lg font-bold md:font-semi-bold">
+          {numberSeparator(dataLawyer?.total_price, "Rp", ",")}
+        </div>
       </div>
 
       <PaymentMethodsList
@@ -52,11 +66,13 @@ export const PaymentMethodModal = ({ dataLawyer, isShow, onHide = () => {} }) =>
         <Button
           label={"Bayar Sekarang"}
           onClick={() => {
-            onHide()
+            onHide();
           }}
-          className={
-            "w-full mx-8 my-[18px] bg-gradient-to-r from-[#1D1D1D] to-[#403E3E] font-bold text-[#E9E9E9] text-base rounded-md"
-          }
+          className={clsx(
+            "w-full mx-8 my-[18px] bg-gradient-to-r from-[#1D1D1D] to-[#403E3E] font-bold text-[#E9E9E9] text-base rounded-md transition",
+            isAnyPaymentSelected ? `` : `opacity-50`
+          )}
+          disabled={!isAnyPaymentSelected}
         />
       </div>
     </Modal>
@@ -72,7 +88,7 @@ const PaymentMethodsList = ({ paymentMethods, onSelect = (id) => {} }) => {
           data={method}
           onSelect={() => {
             onSelect(method.id);
-            console.log(method.id)
+            console.log(method.id);
           }}
         />
       ))}
@@ -89,7 +105,7 @@ export const PaymentMethodCell = ({ data, onSelect = () => {} }) => {
         data.isSelected ? `border-black` : `border-transparent`,
         data.isSelected ? `text-black` : `text-[#424242]`
       )}
-      onClick = {onSelect}
+      onClick={onSelect}
     >
       <p className="font-bold text">{data.name}</p>
 
