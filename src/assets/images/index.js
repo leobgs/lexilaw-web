@@ -52,6 +52,7 @@ import bg_lawyertop from './bg_lawyertop.png'
 import ic_edit from './ic_edit.png'
 import ic_delete from './ic_delete.png'
 import ic_check from './ic_check.png'
+import ic_tick from './ic_tick.png'
 
 const images = {
   bg_register_login,
@@ -112,6 +113,7 @@ const images = {
   ic_edit,
   ic_delete,
   ic_check,
+  ic_tick,
 }
 
 export default images
