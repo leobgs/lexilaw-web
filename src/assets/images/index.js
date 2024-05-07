@@ -54,6 +54,7 @@ import ic_delete from "./ic_delete.png";
 import ic_check from "./ic_check.png";
 import ic_check_green from "./ic_check_green.png";
 import ic_message_bubble_outline_white from "./ic_message_bubble_outline_white.png";
+import ic_tick from "./ic_tick.png";
 
 const images = {
   bg_register_login,
@@ -116,6 +117,7 @@ const images = {
   ic_delete,
   ic_check,
   ic_message_bubble_outline_white,
+  ic_tick,
 };
 
 export default images;
