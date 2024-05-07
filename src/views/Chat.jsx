@@ -11,7 +11,7 @@ import { notifyError } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery } from 'react-query'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { LocalStorage } from 'utils'
 import {
   DEFAULT_QUESTION,
@@ -264,13 +264,16 @@ export const Chat = () => {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
-                  <div className='border-b border-b-neutral-20 text-sm'>
-                    <div className='px-4 mb-1 text-black-darker'>
+                  <div className='border-b border-b-neutral-20 text-xs font-semi-bold'>
+                    <NavLink
+                      to='account'
+                      className='px-4 mb-1 text-black-darker'
+                    >
                       {t('my_account', {
                         keyPrefix: 'chat.profile_option',
                       })}
-                    </div>
-                    <div className='flex justify-between items-center mb-2'>
+                    </NavLink>
+                    <div className='flex justify-between items-center  mb-2'>
                       <div className='px-4 text-black-darker'>
                         {t('my_lawyer', {
                           keyPrefix: 'chat.profile_option',
