@@ -37,8 +37,6 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
     setDataLawyer([...dataLawyer])
   }
 
-  console.log(selectedLawyer?.lawyer_filed?.length)
-
   return (
     <Modal
       show={isShow}
