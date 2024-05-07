@@ -74,7 +74,7 @@ export default function Register() {
   }
 
   const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[A-Z]).{8,}$/
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/
     return passwordRegex.test(password)
   }
 
@@ -123,13 +123,20 @@ export default function Register() {
       if (registerForm.password_confirm) {
         if (value !== registerForm.password_confirm) {
           if (validatePassword(value)) {
-            setError({ ...error, password: '' })
+            if (value !== registerForm.password_confirm) {
+              setError({
+                ...error,
+                password: '',
+                password_confirm: `Password didn't match`,
+              })
+            } else {
+              setError({ ...error, password: '' })
+            }
           } else {
             setError({
               ...error,
-              password_confirm: `Password didn't match`,
               password:
-                'Invalid password must contain at least 1 upper case characters and 8 characters minimumsss',
+                'Invalid password must contain at least an upper case characters, a number and 8 characters minimum',
             })
           }
         } else {
@@ -144,23 +151,23 @@ export default function Register() {
           : setError({
               ...error,
               password:
-                'Invalid password must contain at least 1 upper case characters and 8 characters minimumsss',
+                'Invalid password must contain at least an upper case characters, a number and 8 characters minimum',
             })
       }
     } else if (name === 'password_confirm') {
       if (registerForm.password) {
-        if (validatePassword(value)) {
-          setError({ ...error, password_confirm: '' })
-        } else if (value !== registerForm.password) {
+        if (value !== registerForm.password) {
           setError({ ...error, password_confirm: `Password didn't match` })
         } else if (value === registerForm.password) {
-          setError({ ...error, password_confirm: '' })
-        } else {
-          setError({
-            ...error,
-            password_confirm:
-              'Invalid password must contain at least 1 upper case characters and 8 characters minimum',
-          })
+          if (validatePassword(value)) {
+            setError({ ...error, password_confirm: '' })
+          } else {
+            setError({
+              ...error,
+              password_confirm:
+                'Invalid password must contain at least an upper case characters, a number and 8 characters minimum',
+            })
+          }
         }
       } else {
         setError({
