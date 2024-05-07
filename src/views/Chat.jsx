@@ -43,7 +43,10 @@ export const Chat = () => {
           if (item.type === 'terkini') {
             setMessage([
               { type: 'koleksi', data: KOLEKSI_CHAT },
-              { type: 'terkini', data: [...data, ...OROLAN_TERKINI] },
+              {
+                type: 'terkini',
+                data: data ? [...data, ...OROLAN_TERKINI] : [...OROLAN_TERKINI],
+              },
               { type: 'riwayat', data: [...RIWAYAT_OROLAN] },
             ])
           }
@@ -318,7 +321,7 @@ export const Chat = () => {
                   </div>
 
                   <div
-                    className='font-semi-bold text-error-base px-6 bg-error-lighter bg-opacity-10 -mx-1 py-2 -mb-2.5 rounded-b-lg text-sm'
+                    className='font-semi-bold text-error-base px-6 bg-error-lighter bg-opacity-10 py-2 -mb-2.5 rounded-b-lg text-sm'
                     onClick={onLogout}
                   >
                     Logout
