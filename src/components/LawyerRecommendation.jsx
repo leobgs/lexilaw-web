@@ -87,10 +87,10 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
               }}
               key={index}
               data={item}
-              className={`shadow-sm mb-4 ${
+              className={`mb-4 ${
                 item.isActive
-                  ? 'border-2 border-secondary-base'
-                  : 'border-2 border-white'
+                  ? 'border-4 border-secondary-base shadow-sm rounded-tr-xl'
+                  : 'border-4 border-white'
               }`}
             />
           ))}
