@@ -105,17 +105,29 @@ export const Chat = () => {
       ]
       setIsHeader(false)
     } else if (dataTerkini?.data?.length !== 0 && !isHeader) {
+      console.log(dataTerkini?.data)
       dataTerkini?.data?.map((item) => {
         if (item.isActive) {
-          return (item.chat = [
-            ...item.chat,
-            {
-              ...e,
-              id:
-                Math.floor(Math.random() * (99999999 - 10000000 + 1)) +
-                10000000,
-            },
-          ])
+          if (item.chat) {
+            return (item.chat = [
+              ...item?.chat,
+              {
+                ...e,
+                id:
+                  Math.floor(Math.random() * (99999999 - 10000000 + 1)) +
+                  10000000,
+              },
+            ])
+          } else {
+            item.chat = [
+              {
+                ...e,
+                id:
+                  Math.floor(Math.random() * (99999999 - 10000000 + 1)) +
+                  10000000,
+              },
+            ]
+          }
         }
       })
     } else if (dataTerkini?.data?.length !== 0 && isHeader) {
@@ -162,7 +174,6 @@ export const Chat = () => {
   }
 
   const onClickColection = (e) => {
-    console.log(e, 'on click col')
     dataMessage?.map((item) => {
       item.data?.map((itm) => {
         if (!itm.value) {
@@ -255,7 +266,7 @@ export const Chat = () => {
               idToolTips='profile-tooltip'
               tooltipEffect='solid'
               tooltipPlace='bottom-end'
-              className='bg-secondary-base hidden md:inline-block'
+              className='bg-secondary-base hidden md:inline-block z-50'
               children={
                 <div className='text-neutral-40 -mx-4'>
                   <div className='bg-blue-dark w-full h-2 -mt-2 rounded-t-md' />
