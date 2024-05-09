@@ -135,6 +135,7 @@ export default function Register() {
           } else {
             setError({
               ...error,
+              password_confirm: `Password didn't match`,
               password:
                 'Invalid password must contain at least an upper case characters, a number and 8 characters minimum',
             })
@@ -150,6 +151,7 @@ export default function Register() {
           ? setError({ ...error, password: '' })
           : setError({
               ...error,
+              password_confirm: `Password didn't match`,
               password:
                 'Invalid password must contain at least an upper case characters, a number and 8 characters minimum',
             })
