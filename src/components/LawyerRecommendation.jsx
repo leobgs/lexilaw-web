@@ -193,7 +193,7 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
             <div className='text-center text-xs mb-2 mt-4 mx-4 text-opacity-60 text-white'>
               {selectedLawyer?.description}
             </div>
-            <div className='mt-8 grid grid-cols-4 mx-4 gap-2 mb-8 h-full'>
+            <div className='mt-8 grid grid-cols-4 mx-4 gap-2 mb-8'>
               {selectedLawyer?.lawyer_filed.map((item, index) => (
                 <div
                   className={`bg-white rounded-2xl py-1 px-2 text-center my-auto ${
