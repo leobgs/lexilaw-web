@@ -98,7 +98,9 @@
     "firm_name_optional": "Company name (Optional)",
     "firm_name": "Company Name",
     "message_name_success": "Name changed successfully",
-    "message_password_success": "Password changed successfully"
+    "message_password_success": "Password changed successfully",
+    "message_password_wrong": "The password you entered is incorrect. Please try again.",
+    "message_new_password_must_not_same": "The new password must not be the same as the old password."
   },
   "incorrect_name_format": "Incorrect Name Format",
   "min_password": "Minimum password is 8 characters",

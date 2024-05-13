@@ -34,6 +34,12 @@ export const Password = () => {
 
     newError.new_password = validatePassword(form.new_password);
     newError.old_password = validatePassword(form.old_password);
+
+    if (form.new_password === form.old_password) {
+      newError.new_password = t("message_new_password_must_not_same", {
+        keyPrefix: "my_account",
+      });
+    }
     return newError;
   };
 
@@ -77,7 +83,12 @@ export const Password = () => {
           setIsOpen(!isOpen);
         } else {
           setErrorText(data.message);
-          setError({ ...error, old_password: data.message });
+          setError({
+            ...error,
+            old_password: t("message_password_wrong", {
+              keyPrefix: "my_account",
+            }),
+          });
         }
       },
     }
