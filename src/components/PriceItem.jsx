@@ -25,7 +25,7 @@ export const PriceItem = ({
             />
           </div>
         )}
-        <div className={clsx('text-[#666666] w-full', classNameText)}>
+        <div className={clsx('text-[#2E2C2B] w-full', classNameText)}>
           {data?.service_name}
         </div>
       </div>

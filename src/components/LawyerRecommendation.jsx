@@ -143,7 +143,7 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
             </div>
           </div>
         ) : (
-          <div className='bg-blue-sky w-1/3 rounded-xl h-[95%] relative hidden md:inline-block bg-unselected -mt-4'>
+          <div className='bg-blue-sky w-1/3 rounded-xl relative hidden bg-unselected -mt-4 md:inline-block xl:h-[90%] lg:h-[85%]'>
             <div className='relative top-1/4 h-[95%] pt-20 -mt-28'>
               <img
                 src={images.bg_lawyer_recommendation}
@@ -168,8 +168,8 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
             setSelectedLawyer(null)
             resetDataLawyer()
           }}
-          contentClassName='bg-blue-dark px-4 py-8 md:!w-5/6 md:!h-5/6 md:rounded-xl lg:!w-3/4 rounded-t-2xl'
-          classNameBox='!top-[25%]'
+          contentClassName='bg-blue-dark px-4 py-8 md:!w-5/6 md:!h-5/6 md:rounded-xl lg:!w-3/4 rounded-t-2xl absolute !bottom-0'
+          classNameBox=''
           className=''
         >
           <div className='h-full'>
@@ -193,7 +193,7 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
             <div className='text-center text-xs mb-2 mt-4 mx-4 text-opacity-60 text-white'>
               {selectedLawyer?.description}
             </div>
-            <div className='mt-8 grid grid-cols-4 mx-4 gap-2 mb-8'>
+            <div className='mt-8 grid grid-cols-4 mx-4 gap-2 mb-8 h-full'>
               {selectedLawyer?.lawyer_filed.map((item, index) => (
                 <div
                   className={`bg-white rounded-2xl py-1 px-2 text-center my-auto ${
@@ -219,7 +219,7 @@ export const LawyerRecommendation = ({ isShow, onHide = () => {} }) => {
               label='Pesan Pengacara'
               iconRight={images.ic_briefcase}
               className={
-                'btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8 mb-8'
+                'btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8'
               }
             />
           </div>
