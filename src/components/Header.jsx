@@ -10,7 +10,7 @@ export const Header = ({
   return (
     <div
       className={clsx(
-        `flex gap-4 items-center py-4 px-4 top-0 bg-white w-full ml-0 md:-ml-4 fixed ${
+        `flex gap-4 items-center py-4 px-4 top-0 bg-white w-full ml-0 md:-ml-4 fixed z-50 ${
           rightIcon ? 'justify-between' : 'justify-start'
         }`,
         className

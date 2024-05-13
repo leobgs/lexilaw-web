@@ -121,7 +121,7 @@ export const BookLawyer = () => {
                 renderLabel({
                   text: item.name,
                   value: item.price,
-                  className: 'md:text-sm',
+                  className: 'md:text-sm text-[#B8B8B8]',
                 })
               )}
             </div>
@@ -134,32 +134,31 @@ export const BookLawyer = () => {
                 renderLabel({
                   text: item.name,
                   value: item.price,
-                  className: 'md:text-sm',
+                  className: 'md:text-sm text-[#B8B8B8]',
                 })
               )}
             </div>
 
             <div className='flex justify-between my-8 items-center'>
               <div className='font-futura-bold text-sm'>Total Tagihan</div>
-              <div className='font-futura-bold text-lg'>
+              <div className='font-futura-bold text-sm'>
                 {numberSeparator(dataLawyer?.total_price, 'Rp')}
               </div>
             </div>
           </div>
 
           <div className='border-t border-t-neutral-30 md:border-t-blue-sky md:border-opacity-15 py-4 mb-6 md:px-4'>
-            <Button
+            <div
+              className='btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8 py-2.5'
               onClick={() => {
                 setPaymentMethodModal(!isShowPaymentMethodModal)
               }}
-              label={`BAYAR | ${numberSeparator(
-                dataLawyer?.total_price,
-                'Rp'
-              )}`}
-              className={
-                'btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8'
-              }
-            />
+            >
+              <span className='pr-1 border-r border-r-neutral-40'>BAYAR</span>
+              <span className='pl-1'>
+                {numberSeparator(dataLawyer?.total_price, 'Rp')}
+              </span>
+            </div>
           </div>
         </div>
       </div>

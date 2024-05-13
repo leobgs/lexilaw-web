@@ -105,7 +105,6 @@ export const Chat = () => {
       ]
       setIsHeader(false)
     } else if (dataTerkini?.data?.length !== 0 && !isHeader) {
-      console.log(dataTerkini?.data)
       dataTerkini?.data?.map((item) => {
         if (item.isActive) {
           if (item.chat) {
