@@ -19,7 +19,7 @@ export const Name = ({ userData }) => {
             setFirstName(userData.first_name || '');
             setLastName(userData.last_name || '');
         }
-    }, [userData]); 
+    }, [userData]);
 
     const validationForm = () => {
         const newError = { ...error }
@@ -69,8 +69,8 @@ export const Name = ({ userData }) => {
                     <Input
                         name='text'
                         className='w-full mt-[.5rem] mb-[4px]'
-                        inputClass='font-medium !text-red-100 text-base	'
-                        value={firstName}
+                        inputClass='font-medium !text-neutral-700 text-base	'
+                        placeholder="Prima"
                         rowed="w-full"
                         isDisabled={true}
                     />
@@ -79,8 +79,8 @@ export const Name = ({ userData }) => {
                     <Input
                         name='text'
                         className='w-full mb-[4px] md:mt-auto'
-                        inputClass='font-medium !text-neutral-500 text-base'
-                        value={lastName}
+                        inputClass='font-medium !text-neutral-700 text-base	'
+                        placeholder="Kusumo"
                         rowed="w-full "
                         isDisabled={true}
                     />
