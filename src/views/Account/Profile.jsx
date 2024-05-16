@@ -64,6 +64,7 @@ export const Profile = ({ userData }) => {
 
     const handleImageChange = (newImage) => {
         registerFormReducer(['image'], newImage)
+        setImageUrl(newImage);
     }
 
     return (
