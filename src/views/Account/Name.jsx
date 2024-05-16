@@ -1,15 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button, Input } from 'components'
 import { useGlobalContext } from 'hooks/context'
 import images from 'assets/images'
 
-export const Name = () => {
+export const Name = ({ userData }) => {
     const { t } = useTranslation()
     const [errorText, setErrorText] = useState('')
     const [form, setForm] = useState({ first_name: '', last_name: '' })
     const [error, setError] = useState({ first_name: '', last_name: '' })
     const { openAlert, closeAlert } = useGlobalContext()
+
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+
+    useEffect(() => {
+        if (userData) {
+            setFirstName(userData.first_name || '');
+            setLastName(userData.last_name || '');
+        }
+    }, [userData]); 
 
     const validationForm = () => {
         const newError = { ...error }
@@ -32,7 +42,6 @@ export const Name = () => {
         if (Object.values(findErrors).some((err) => err !== '')) {
             setError(findErrors)
         } else {
-            console.log(form);
             openAlert({
                 title: t('message_name_success', { keyPrefix: 'my_account' }),
                 icon: images.ic_tick,
@@ -60,8 +69,8 @@ export const Name = () => {
                     <Input
                         name='text'
                         className='w-full mt-[.5rem] mb-[4px]'
-                        inputClass='font-medium !text-neutral-700 text-base	'
-                        value="Prima"
+                        inputClass='font-medium !text-red-100 text-base	'
+                        value={firstName}
                         rowed="w-full"
                         isDisabled={true}
                     />
@@ -70,8 +79,8 @@ export const Name = () => {
                     <Input
                         name='text'
                         className='w-full mb-[4px] md:mt-auto'
-                        inputClass='font-medium !text-neutral-700 text-base	'
-                        value="Kusumo"
+                        inputClass='font-medium !text-neutral-500 text-base'
+                        value={lastName}
                         rowed="w-full "
                         isDisabled={true}
                     />
