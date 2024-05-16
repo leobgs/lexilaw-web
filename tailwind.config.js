@@ -89,7 +89,7 @@ module.exports = {
     },
     content: {
       width: '100vw',
-      height: '100vh',
+      height: '100%',
     },
   },
   plugins: [

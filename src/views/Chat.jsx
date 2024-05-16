@@ -24,7 +24,7 @@ export const Chat = () => {
   const { t } = useTranslation()
   const storage = new LocalStorage()
   const navigate = useNavigate()
-  const { currentLanguage } = useGlobalContext()
+  const { currentLanguage, collection } = useGlobalContext()
   const [isDisplayImage, setDisplayImage] = useState()
   const [isHeader, setIsHeader] = useState(true)
   const [dataMessage, setMessage] = useState([
@@ -35,19 +35,44 @@ export const Chat = () => {
   const [renderedMessage, setRenderedMessage] = useState(null)
   const [headerText, setHeaderText] = useState('Obrolan Baru')
 
+  useEffect(() => {
+    // console.log(collection)
+    switch (true) {
+      case collection.clickColection:
+        return onClickColection(collection.uuid)
+      case collection.deleteColection:
+        return onDelete(collection.uuid)
+      case collection.setEditColection:
+        return handleSetEdit(collection.uuid)
+      default:
+        break
+    }
+  }, [collection])
+
   useQuery(['newest_thread'], () => getData(API.THREAD_LIST), {
     onSettled: (datas) => {
       if (datas?.status === 'Success') {
         const { data } = datas
+        const previousData = data.filter((item) => item.moment === 'Previous')
+        const currentData = data.filter((item) => item.moment === 'Current')
         dataMessage?.map((item) => {
           if (item.type === 'terkini') {
             setMessage([
               { type: 'koleksi', data: KOLEKSI_CHAT },
               {
                 type: 'terkini',
-                data: data ? [...data, ...OROLAN_TERKINI] : [...OROLAN_TERKINI],
+                data:
+                  currentData?.length !== 0
+                    ? [...currentData]
+                    : [...OROLAN_TERKINI],
               },
-              { type: 'riwayat', data: [...RIWAYAT_OROLAN] },
+              {
+                type: 'riwayat',
+                data:
+                  previousData?.length !== 0
+                    ? [...previousData, ...RIWAYAT_OROLAN]
+                    : [...RIWAYAT_OROLAN],
+              },
             ])
           }
         })
@@ -56,6 +81,21 @@ export const Chat = () => {
       }
     },
   })
+
+  const { refetch } = useQuery(
+    ['thread_detail', 'uuid'],
+    () => getData(API.THREAD_DETAIL + collection.uuid),
+    {
+      onSettled: (datas) => {
+        if (datas?.status === 'Success') {
+          const { data } = datas
+          setRenderedMessage(data ?? null)
+        } else {
+          console.log('error', datas)
+        }
+      },
+    }
+  )
 
   const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
     onSettled: (data) => {
@@ -88,7 +128,9 @@ export const Chat = () => {
       })
     )
 
-    setRenderedMessage(activeData?.chat ?? null)
+    activeData?.update_at
+      ? refetch(collection.uuid)
+      : setRenderedMessage(activeData?.chat ?? null)
   }, [dataMessage])
 
   const handleAddChat = (e) => {
@@ -97,53 +139,67 @@ export const Chat = () => {
     if (dataTerkini?.data?.length === 0) {
       dataTerkini.data = [
         {
-          title: e.text,
+          message: e.message,
+          title: e.message,
           chat: [e],
           isActive: true,
-          id: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
+          uuid:
+            Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
         },
       ]
       setIsHeader(false)
     } else if (dataTerkini?.data?.length !== 0 && !isHeader) {
       dataTerkini?.data?.map((item) => {
         if (item.isActive) {
-          return (item.chat = [
-            ...item.chat,
-            {
-              ...e,
-              id:
-                Math.floor(Math.random() * (99999999 - 10000000 + 1)) +
-                10000000,
-            },
-          ])
+          return (item.chat = item.chat
+            ? [
+                ...item?.chat,
+                {
+                  ...e,
+                  uuid:
+                    Math.floor(Math.random() * (99999999 - 10000000 + 1)) +
+                    10000000,
+                },
+              ]
+            : [
+                {
+                  ...e,
+                  uuid:
+                    Math.floor(Math.random() * (99999999 - 10000000 + 1)) +
+                    10000000,
+                },
+              ])
         }
       })
     } else if (dataTerkini?.data?.length !== 0 && isHeader) {
       dataTerkini.data = [
         ...dataTerkini.data,
         {
-          title: e.text,
-          id: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
+          message: e.message,
+          title: e.message,
+          uuid:
+            Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
           chat: [
             e,
             {
-              text: `Sengketa lahan girik merujuk pada konflik atau perselisihan yang berkaitan dengan hak kepemilikan tanah yang diakui melalui girik. Girik adalah bentuk sertifikat tanah tradisional di Indonesia yang mengakui hak kepemilikan tanah secara turun-temurun dalam masyarakat adat atau lokal.
+              message: `Sengketa lahan girik merujuk pada konflik atau perselisihan yang berkaitan dengan hak kepemilikan tanah yang diakui melalui girik. Girik adalah bentuk sertifikat tanah tradisional di Indonesia yang mengakui hak kepemilikan tanah secara turun-temurun dalam masyarakat adat atau lokal.
     Sengketa lahan girik dapat muncul karena beberapa alasan, termasuk ketidakjelasan batas tanah, klaim ganda terhadap lahan, perubahan kebijakan pemerintah terkait tanah, atau perselisihan warisan antara keluarga atau komunitas. Sengketa semacam itu seringkali kompleks dan memerlukan penyelesaian yang cermat dan adil untuk menghindari konflik lebih lanjut.
     Penyelesaian sengketa lahan girik biasanya melibatkan berbagai pihak, termasuk pemilik tanah, pemerintah daerah, badan hukum, dan masyarakat setempat. Prosesnya bisa melalui mediasi, arbitrase, atau bahkan pengadilan tergantung pada tingkat kompleksitas dan kesepakatan antara pihak-pihak terlibat.
     Di Indonesia, pemerintah telah berupaya untuk mengatasi masalah sengketa lahan girik melalui berbagai kebijakan dan program reformasi agraria. Namun, tantangan dalam penyelesaian sengketa lahan girik masih ada dan seringkali memerlukan pendekatan yang komprehensif dan berkelanjutan.`,
-              from: 'Lexi',
-              id:
+              from: 'ai',
+              uuid:
                 Math.floor(Math.random() * (99999999 - 10000000 + 1)) +
                 10000000,
             },
           ],
           isActive: true,
-          id: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
+          uuid:
+            Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
         },
       ]
 
       dataTerkini?.data?.map((item) => {
-        if (item.title === e.text) {
+        if (item.title === e.message) {
           return (item.isActive = true)
         } else {
           return (item.isActive = false)
@@ -151,6 +207,7 @@ export const Chat = () => {
       })
       setIsHeader(false)
     }
+
     dataMessage?.map((item) => {
       if (item.type === 'terkini') {
         item.data = dataTerkini.data
@@ -158,22 +215,46 @@ export const Chat = () => {
         item.data?.map((itm) => (itm.isActive = false))
       }
     })
+
     setMessage([...dataMessage])
   }
 
-  const onClickColection = (e) => {
-    console.log(e, 'on click col')
+  const onClickColection = (id) => {
+    let texts = ''
+
+    dataMessage.forEach((item) => {
+      if (item.type === 'koleksi') {
+        item.data.forEach((dataItem) => {
+          if (dataItem.childs) {
+            dataItem.childs.forEach((child) => {
+              if (child.uuid === id) {
+                texts = child.title ?? child.message
+              }
+            })
+          }
+        })
+      } else {
+        item.data.forEach((dataItem) => {
+          if (dataItem.title) {
+            if (dataItem.uuid === id) {
+              texts = dataItem.title
+            }
+          }
+        })
+      }
+    })
+
     dataMessage?.map((item) => {
       item.data?.map((itm) => {
         if (!itm.value) {
-          if (itm.title === e) {
+          if (itm.uuid === id) {
             itm.isActive = true
           } else {
             itm.isActive = false
           }
         } else if (itm.value) {
           itm.childs?.map((itms) => {
-            if (itms.title === e) {
+            if (itms.uuid === id) {
               itms.isActive = true
             } else {
               itms.isActive = false
@@ -182,12 +263,14 @@ export const Chat = () => {
         }
       })
     })
+
     setMessage([...dataMessage])
-    setHeaderText(e)
+    setHeaderText(texts)
     setIsHeader(false)
   }
 
   const onEdit = (e) => {
+    console.log(e)
     dataMessage?.map((item) => {
       item.data?.map((itm) => {
         if (itm.isActive) {
@@ -201,17 +284,17 @@ export const Chat = () => {
   const onDelete = (e) => {
     const newData = dataMessage.map((category) => ({
       ...category,
-      data: category.data.filter((item) => item.id !== e),
+      data: category.data.filter((item) => item.uuid !== e),
     }))
 
-    setMessage(newData)
+    setMessage([...newData])
   }
 
   const handleOnExpand = (id) => {
     dataMessage?.map((item) => {
       if (item.type === 'koleksi') {
         item.data?.map((items) => {
-          if (items.id === id) {
+          if (items.uuid === id) {
             items.isExpand = !items.isExpand
           } else {
             items.isExpand = false
@@ -222,21 +305,34 @@ export const Chat = () => {
     setMessage([...dataMessage])
   }
 
+  const handleSetEdit = (id) => {
+    dataMessage.map((item) => {
+      if (item.type !== 'koleksi') {
+        item.data?.map((items) => {
+          if (items.uuid === id) {
+            items.isEdit = collection.editState === 'start' ? true : false
+          } else {
+            items.isEdit = false
+          }
+        })
+      }
+    })
+    setMessage([...dataMessage])
+  }
+
   return (
-    <div className='pt-4 bg-primary-base h-screen md:p-4'>
-      <div className='h-calculate md:flex md:justify-between md:mt-12'>
+    <div className='bg-primary-base w-full h-screen flex flex-col'>
+      <div className='md:px-4 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-full flex-1'>
         <NavChat
           onHeaderClick={() => setIsHeader(true)}
           dataLatest={dataMessage}
-          onClickColection={(e) => onClickColection(e)}
           onEdit={(e) => onEdit(e)}
-          onDelete={(e) => onDelete(e)}
           headerText={headerText}
           onExpand={(e) => handleOnExpand(e)}
         />
 
-        <main className='h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border-t border-neutral-20'>
-          <div className='hidden justify-between items-center md:border-b md:border-b-neutral-30 md:flex md:pb-4 md:-mx-4 md:px-8'>
+        <main className='h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border border-neutral-20 border-opacity-80'>
+          <header className='hidden justify-between items-center md:border-b md:border-b-neutral-30 md:flex md:pb-4 md:-mx-4 md:px-8'>
             <div className='flex gap-2'>
               <img src={images.ic_obrolan} alt='obrolan' />
               <div className='font-futura-bold'>{headerText}</div>
@@ -332,10 +428,9 @@ export const Chat = () => {
                 </div>
               }
             />
-          </div>
-          <div
-            className={`flex h-[96%] md:h-[92%] xl:h-[92%] flex-col select-text`}
-          >
+          </header>
+
+          <div className='flex h-full md:h-[calc(100%-56px)] flex-col select-text relative'>
             <AutoScrollingDiv
               content={
                 dataMessage?.length !== 0 && !isHeader ? (

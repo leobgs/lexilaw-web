@@ -1,5 +1,10 @@
-import { actionType, alertState } from 'config/state'
-import { alertReducer } from 'helpers/dataReducer'
+import {
+  actionType,
+  alertState,
+  colectionState,
+  colectionType,
+} from 'config/state'
+import { alertReducer, colectionReducer } from 'helpers/dataReducer'
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import Reducer from 'utils/reducer'
 import { localServerData } from './useLocalServerData'
@@ -13,10 +18,19 @@ export const AppContext = React.createContext({
   registerFormReducer: (name, newValue) => {},
   currentLanguage: null,
   setLanguage: (e) => {},
+  collection: colectionState,
+  collectionClick: (e) => {},
+  collectionDelete: (e) => {},
+  collectionEdit: (e) => {},
+  collectionSetEdit: (e) => {},
 })
 
 export const AppProvider = ({ children }) => {
   const [alert, dispatchAlert] = useReducer(alertReducer, alertState)
+  const [collection, dispatchColection] = useReducer(
+    colectionReducer,
+    colectionState
+  )
   const [authLoader, dispatchAuthLoader] = useReducer(alertReducer, alertState)
   const [currentLanguage, setLanguage] = useState('id')
 
@@ -79,6 +93,34 @@ export const AppProvider = ({ children }) => {
     dispatchAlert({ type: actionType.CLOSE })
   }
 
+  const collectionClick = (action) => {
+    return new Reducer(collection, dispatchColection).dispatch({
+      ...action,
+      type: colectionType.CLICK,
+    })
+  }
+
+  const collectionEdit = (action) => {
+    return new Reducer(collection, dispatchColection).dispatch({
+      ...action,
+      type: colectionType.EDIT,
+    })
+  }
+
+  const collectionDelete = (action) => {
+    return new Reducer(collection, dispatchColection).dispatch({
+      ...action,
+      type: colectionType.DELETE,
+    })
+  }
+
+  const collectionSetEdit = (action) => {
+    return new Reducer(collection, dispatchColection).dispatch({
+      ...action,
+      type: colectionType.SET_EDIT,
+    })
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -91,6 +133,11 @@ export const AppProvider = ({ children }) => {
         currentLanguage,
         authLoader,
         setLanguage,
+        collection,
+        collectionClick,
+        collectionDelete,
+        collectionEdit,
+        collectionSetEdit,
       }}
     >
       {children}
