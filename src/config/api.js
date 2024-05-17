@@ -15,4 +15,6 @@ export const API = {
   LIST_CITY: '/user/app/v1.0.0/city?search=',
 
   THREAD_LIST: '/api/app/v1.0.0/chat/threads',
+  THREAD_DETAIL: '/api/app/v1.0.0/chat/threads/',
+  THREAD_EDIT: '/api/app/v1.0.0/threads/',
 }

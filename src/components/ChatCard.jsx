@@ -7,26 +7,26 @@ export const ChatCard = ({ item }) => {
   return (
     <div
       className={`flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 ${
-        item.from === 'Lexi'
+        item.from === 'ai'
           ? 'bg-neutral-70 rounded-3xl md:rounded-xl border border-neutral-70'
           : ''
       }`}
     >
       <img
         src={
-          item.from === 'Lexi'
+          item.from === 'ai'
             ? images.ic_profile_lexi
             : images.ic_thumbnail_profile
         }
         alt='profile'
-        className={`object-contain ${item.from === 'Lexi' ? 'h-12 w-12' : ''}`}
+        className={`object-contain ${item.from === 'ai' ? 'h-12 w-12' : ''}`}
       />
       <div className='w-full'>
         <div className='font-futura-bold text-secondary-base text-sm'>
-          {item.from || 'You'}
+          {item.from === 'ai' ? 'Lexi' : 'You'}
         </div>
 
-        <div className='whitespace-pre-line text-sm'>{item.text}</div>
+        <div className='whitespace-pre-line text-sm'>{item.message}</div>
 
         {item.file && (
           <>
@@ -59,7 +59,7 @@ export const ChatCard = ({ item }) => {
           </>
         )}
 
-        {item.from === 'Lexi' && <ChatRespond item={item} />}
+        {item.from === 'ai' && <ChatRespond item={item} />}
       </div>
     </div>
   )

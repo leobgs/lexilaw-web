@@ -71,7 +71,7 @@ export const ChatRespond = ({ item }) => {
           <div className='border-t border-neutral-70 -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2'>
             <div className='my-4 justify-between flex'>
               <Button
-                onClick={() => copyToClipboard(item.text)}
+                onClick={() => copyToClipboard(item.message)}
                 className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
                 iconLeft={images.ic_change_style_lang}
                 iconClassName='!h-4 !w-3'
@@ -80,7 +80,7 @@ export const ChatRespond = ({ item }) => {
               <div className='flex justify-between items-center'>
                 <div
                   className='hidden md:inline-block bg-neutral-50 p-2 rounded-full'
-                  onClick={() => copyToClipboard(item.text)}
+                  onClick={() => copyToClipboard(item.message)}
                 >
                   <img src={images.ic_copy} alt='copy' className='h-4 w-4' />
                 </div>

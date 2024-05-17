@@ -11,16 +11,16 @@ import { useMutation } from 'react-query'
 import { API } from 'config/api'
 import { notifyError } from 'hooks/useToas'
 import { deleteData } from 'hooks/useRequest'
+import { useGlobalContext } from 'hooks/context'
 
 export const NavChat = ({
   onHeaderClick,
   dataLatest = [],
-  onClickColection,
-  onEdit,
-  onDelete,
+  // onEdit,
   headerText,
   onExpand,
 }) => {
+  const { collectionClick } = useGlobalContext()
   const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [showNav, setShowNav] = useState(false)
@@ -60,13 +60,22 @@ export const NavChat = ({
   }, [search])
 
   return (
-    <nav className='pb-4 md:w-3/12 md:pt-4 lg:pt-4'>
+    <nav
+      className={`md:w-3/12 md:-mr-2 md:pr-2 overflow-y-auto md:py-1 ${
+        showNav ? '' : 'py-4'
+      }`}
+    >
       <img
         src={images.logo_lexilaw}
         alt='LexiLaw'
         className='hidden md:inline'
       />
-      <div className='md:hidden flex justify-between px-4 items-center gap-4'>
+
+      <div
+        className={`md:hidden flex justify-between px-4 items-center gap-4 ${
+          showNav ? ' hidden' : ' inline-block'
+        }`}
+      >
         <img
           src={images.ic_navbar_hidden}
           alt='navbar hide'
@@ -110,7 +119,7 @@ export const NavChat = ({
         {dataLatest?.map((item, index) => {
           if (item.type === 'koleksi') {
             return (
-              <div key={index}>
+              <div key={`${index}-k`}>
                 {item.data.length !== 0 && (
                   <div className='flex justify-between items-end mr-2 my-4'>
                     <div className='text-neutral-40 text-sm'>Koleksi</div>
@@ -123,14 +132,14 @@ export const NavChat = ({
                 )}
 
                 {item.data?.map((items) => (
-                  <div key={items.id}>
+                  <div key={items.uuid}>
                     <div
                       className={`flex justify-start gap-2 items-center text-sm text-neutral-40 mb-2 mr-4 py-1 ${
                         items.isExpand
                           ? 'bg-blue-sky rounded-2xl pl-2 -ml-2'
                           : ''
                       }`}
-                      onClick={() => onExpand(items.id)}
+                      onClick={() => onExpand(items.uuid)}
                     >
                       <img
                         src={
@@ -147,14 +156,14 @@ export const NavChat = ({
                     {items.isExpand &&
                       items.childs?.map((itms) => (
                         <div
-                          key={itms.id}
+                          key={itms.uuid}
                           className='border-l-2 border-blue-sky ml-3.5 pl-5 pb-2 text-neutral-40 last:mb-4 text-sm'
                           onClick={() => {
-                            onClickColection(itms.title)
+                            collectionClick(itms)
                             setShowNav(false)
                           }}
                         >
-                          {itms.title}
+                          {itms.message}
                         </div>
                       ))}
                   </div>
@@ -164,7 +173,7 @@ export const NavChat = ({
           } else if (item.type === 'terkini') {
             return (
               <div
-                key={index}
+                key={`${index}-t`}
                 className={`${item.data.length !== 0 ? 'my-4' : ''}`}
               >
                 {item.data.length !== 0 && (
@@ -172,22 +181,18 @@ export const NavChat = ({
                 )}
 
                 {item.data.length !== 0 &&
-                  item.data?.map((item) => (
+                  item.data?.map((itms) => (
                     <NavComponent
-                      item={item}
-                      key={item.id}
-                      onClickColection={() => onClickColection(item.title)}
-                      onEdit={(e) => onEdit(e)}
-                      onDelete={(e) => {
-                        onDelete(e)
-                      }}
+                      item={itms}
+                      key={itms.uuid}
+                      // onEdit={(e) => onEdit(e)}
                     />
                   ))}
               </div>
             )
           } else if (item.type === 'riwayat') {
             return (
-              <div key={index}>
+              <div key={`${index}-r`}>
                 {item.data.length !== 0 && (
                   <div className='text-neutral-40 mt-4 text-sm'>
                     Obrolan Lampau
@@ -195,15 +200,11 @@ export const NavChat = ({
                 )}
 
                 {item.data.length !== 0 &&
-                  item.data?.map((item) => (
+                  item.data?.map((items) => (
                     <NavComponent
-                      item={item}
-                      key={item.id}
-                      onClickColection={() => onClickColection(item.title)}
-                      onEdit={(e) => onEdit(e)}
-                      onDelete={(e) => {
-                        onDelete(e)
-                      }}
+                      item={items}
+                      key={items.uuid}
+                      // onEdit={(e) => onEdit(e)}
                     />
                   ))}
               </div>
@@ -225,7 +226,7 @@ export const NavChat = ({
       </div> */}
 
       {showNav && (
-        <div className='md:hidden h-full w-full absolute -mt-14 flex'>
+        <div className='md:hidden h-full w-full absolute flex z-50'>
           <div className='bg-neutral-50 w-3/4 h-full px-2 pt-4'>
             <div className='h-[92%]'>
               <div className='flex justify-between items-center'>
@@ -284,14 +285,14 @@ export const NavChat = ({
                       )}
 
                       {item.data?.map((items) => (
-                        <div key={items.id}>
+                        <div key={items.uuid}>
                           <div
                             className={`flex justify-start gap-2 items-center text-sm text-neutral-40 mb-2 mr-4 py-1 ${
                               items.isExpand
                                 ? 'bg-blue-sky rounded-2xl pl-2 -ml-2'
                                 : ''
                             }`}
-                            onClick={() => onExpand(items.id)}
+                            onClick={() => onExpand(items.uuid)}
                           >
                             <img
                               src={
@@ -306,12 +307,12 @@ export const NavChat = ({
                           </div>
 
                           {items.isExpand &&
-                            items.childs?.map((itms, indexes) => (
+                            items.childs?.map((itms) => (
                               <div
-                                key={indexes}
+                                key={itms.uuid}
                                 className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4 text-sm'
                                 onClick={() => {
-                                  onClickColection(itms.title)
+                                  collectionClick(itms.title)
                                   setShowNav(false)
                                 }}
                               >
@@ -333,18 +334,11 @@ export const NavChat = ({
                       )}
 
                       {item.data.length !== 0 &&
-                        item.data?.map((item, indexs) => (
+                        item.data?.map((itms) => (
                           <NavComponent
-                            item={item}
-                            key={indexs}
-                            onClickColection={() => {
-                              onClickColection(item.title)
-                              setShowNav(false)
-                            }}
-                            onEdit={(e) => onEdit(e)}
-                            onDelete={(e) => {
-                              onDelete(e)
-                            }}
+                            item={itms}
+                            key={itms.uuid}
+                            // onEdit={(e) => onEdit(e)}
                           />
                         ))}
                     </div>
@@ -359,18 +353,16 @@ export const NavChat = ({
                       )}
 
                       {item.data.length !== 0 &&
-                        item.data?.map((item, idxs) => (
+                        item.data?.map((items) => (
                           <NavComponent
-                            item={item}
-                            key={idxs}
-                            onClickColection={() => {
-                              onClickColection(item.title)
-                              setShowNav(false)
-                            }}
-                            onEdit={(e) => onEdit(e)}
-                            onDelete={(e) => {
-                              onDelete(e)
-                            }}
+                            item={items}
+                            key={items.uuid}
+                            // onClickColection={() => {
+                            //   onClickColection(item.title)
+                            //   setShowNav(false)
+                            // }}
+                            // onEdit={(e) => onEdit(e)}
+                            // onSetEdit={() => onSetEdit(item.uuid)}
                           />
                         ))}
                     </div>

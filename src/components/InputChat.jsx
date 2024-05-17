@@ -7,7 +7,7 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
   const [displayImage, setDisplayImage] = useState()
   let maxRows = 4
   const [form, setForm] = useState({
-    text: '',
+    message: '',
     file: null,
   })
   const [error, setError] = useState('')
@@ -26,7 +26,7 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
         onSubmit()
       }
     } else if (e.keyCode === 8) {
-      if (!form.text) {
+      if (!form.message) {
         setRows(1)
       }
     }
@@ -46,7 +46,7 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
     }
 
     setRows(currentRows < maxRows ? currentRows : maxRows)
-    setForm({ ...form, text: e.target?.value })
+    setForm({ ...form, message: e.target?.value })
   }
 
   const changeHandler = (e) => {
@@ -75,13 +75,13 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
   }
 
   const onSubmit = () => {
-    if (form.text) {
+    if (form.message) {
       onChange(form)
     }
     setRows(1)
     setDisplayImage(null)
     setForm({
-      text: '',
+      message: '',
       file: null,
     })
   }
@@ -153,7 +153,7 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
               onKeyUp={handleKeyDown}
               placeholder='Tanyakan ke Lexi'
               rows={rows}
-              value={form.text}
+              value={form.message}
               style={{ resize: 'none' }}
             />
           </div>
