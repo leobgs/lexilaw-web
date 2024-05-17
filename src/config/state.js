@@ -36,3 +36,20 @@ export const alertState = {
 export const localesState = {
   UPDATE: 'UPDATE',
 }
+
+export const colectionType = {
+  CLICK: 'CLICK',
+  EDIT: 'EDIT',
+  DELETE: 'DELETE',
+  SET_EDIT: 'SET_EDIT',
+}
+
+export const colectionState = {
+  clickColection: false,
+  editColection: false,
+  deleteColection: false,
+  setEditColection: false,
+  editState: 'stop',
+  uuid: null,
+  text: '',
+}

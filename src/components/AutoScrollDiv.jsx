@@ -12,7 +12,7 @@ export const AutoScrollingDiv = ({ content }) => {
   return (
     <div
       ref={divRef}
-      className='flex-1 overflow-y-auto'
+      className='flex-1 overflow-y-auto h-full'
       style={{ flexDirection: 'column-reverse' }}
     >
       {content}
