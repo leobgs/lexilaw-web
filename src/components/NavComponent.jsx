@@ -33,6 +33,7 @@ export const NavComponent = ({ item }) => {
           queryClient.invalidateQueries('newest_thread')
           queryClient.invalidateQueries('thread_detail')
           collectionSetEdit({ ...item, editState: 'stop' })
+          setShowModal(false)
         } else {
           notifyError(data?.message)
         }
@@ -79,45 +80,28 @@ export const NavComponent = ({ item }) => {
 
   return (
     <div
-      className={`h-9 md:-mr-2 rounded-lg flex justify-between items-center text-sm ${
-        item.isActive ? 'bg-blue-dark text-white shadow px-2' : ''
-      } ${item.isEdit ? 'mb-1 px-1' : ''} `}
+      className={`h-9 md:-mr-2 rounded-lg flex justify-between items-center text-sm 
+      ${item.isActive ? 'bg-blue-dark text-white shadow px-2' : ''}`}
     >
-      {item.isEdit ? (
-        <input
-          name='text'
-          onChange={(e) => setText(e.target.value)}
-          value={text}
-          autoFocus
-          onBlur={() => {
-            item.update_at
-              ? updateTitle(text)
-              : collectionSetEdit({ ...item, editState: 'stop' })
-          }}
-          onKeyDown={handleKeyDown}
-          className='!py-1 w-full text-neutral-40 rounded-lg px-2 border border-neutral-60 focus:border-neutral-60 focus:border focus:outline-none'
-        />
-      ) : (
-        <>
-          <div
-            className='line-clamp-1 w-full'
-            onClick={() => collectionClick(item)}
-          >
-            {item.title}
+      <>
+        <div
+          className='line-clamp-1 w-full'
+          onClick={() => collectionClick(item)}
+        >
+          {item.title}
+        </div>
+        {item.isActive && (
+          <div className=''>
+            <img
+              src={images.ic_dots}
+              alt='dots'
+              className='h-3 step-2'
+              data-tooltip-id={`tool-tips-${item.uuid}`}
+              onClick={() => setShow1st(true)}
+            />
           </div>
-          {item.isActive && (
-            <div className=''>
-              <img
-                src={images.ic_dots}
-                alt='dots'
-                className='h-3 step-2'
-                data-tooltip-id={`tool-tips-${item.uuid}`}
-                onClick={() => setShow1st(true)}
-              />
-            </div>
-          )}
-        </>
-      )}
+        )}
+      </>
 
       <ReactTooltip
         id={`tool-tips-${item.uuid}`}
@@ -149,6 +133,7 @@ export const NavComponent = ({ item }) => {
           onClick={() => {
             setShow1st(false)
             collectionSetEdit({ ...item, editState: 'start' })
+            setShowModal(true)
             setText(item.title)
           }}
         >
@@ -207,18 +192,31 @@ export const NavComponent = ({ item }) => {
       <Modal
         show={showModal}
         onHide={() => setShowModal(false)}
-        dialogClassName='w-11/12 md:hidden'
+        dialogClassName='w-11/12 md:w-1/2 lg:w-1/3'
       >
-        <div className='bg-white !rounded-xl px-4 flex justify-center py-4'>
+        <div className='bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full'>
           <Input
             name='text'
             onChange={(e) => setText(e.value)}
             value={text}
-            className='!py-1 w-full -mx-2 text-neutral-40'
-            inputClass='!py-1.5'
+            className='!w-full text-neutral-40'
+            inputClass='!py-2 bg-white !w-full !rounded-lg'
+            rowed='w-full'
           />
-          <div className='float-end'>
-            <Button />
+          <div className='self-end flex gap-2 mt-4 mb-6'>
+            <Button
+              label='Batal'
+              className='text-black-dark !h-10'
+              onClick={() => setShowModal(false)}
+            />
+            <Button
+              label='Simpan'
+              className={`${
+                text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
+              } rounded-3xl !h-10`}
+              disabled={!text}
+              onClick={() => updateTitle(text)}
+            />
           </div>
         </div>
       </Modal>

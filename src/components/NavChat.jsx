@@ -20,7 +20,7 @@ export const NavChat = ({
   headerText,
   onExpand,
 }) => {
-  const { collectionClick } = useGlobalContext()
+  const { collectionClick, collection } = useGlobalContext()
   const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [showNav, setShowNav] = useState(false)
@@ -40,6 +40,12 @@ export const NavChat = ({
       }
     },
   })
+
+  useEffect(() => {
+    if (collection.editState === 'stop') {
+      setShowNav(false)
+    }
+  }, [collection.editState])
 
   useEffect(() => {
     dataLatest.forEach((category) => {
