@@ -16,7 +16,7 @@ import { useGlobalContext } from 'hooks/context'
 export const NavChat = ({
   onHeaderClick,
   dataLatest = [],
-  onEdit,
+  // onEdit,
   headerText,
   onExpand,
 }) => {
@@ -61,7 +61,7 @@ export const NavChat = ({
 
   return (
     <nav
-      className={`md:w-3/12 md:-mr-2 md:pr-2 overflow-y-auto md:pt-4 md:py-4 ${
+      className={`md:w-3/12 md:-mr-2 md:pr-2 overflow-y-auto md:py-1 ${
         showNav ? '' : 'py-4'
       }`}
     >
@@ -185,7 +185,7 @@ export const NavChat = ({
                     <NavComponent
                       item={itms}
                       key={itms.uuid}
-                      onEdit={(e) => onEdit(e)}
+                      // onEdit={(e) => onEdit(e)}
                     />
                   ))}
               </div>
@@ -204,7 +204,7 @@ export const NavChat = ({
                     <NavComponent
                       item={items}
                       key={items.uuid}
-                      onEdit={(e) => onEdit(e)}
+                      // onEdit={(e) => onEdit(e)}
                     />
                   ))}
               </div>
@@ -338,7 +338,7 @@ export const NavChat = ({
                           <NavComponent
                             item={itms}
                             key={itms.uuid}
-                            onEdit={(e) => onEdit(e)}
+                            // onEdit={(e) => onEdit(e)}
                           />
                         ))}
                     </div>
@@ -361,7 +361,7 @@ export const NavChat = ({
                             //   onClickColection(item.title)
                             //   setShowNav(false)
                             // }}
-                            onEdit={(e) => onEdit(e)}
+                            // onEdit={(e) => onEdit(e)}
                             // onSetEdit={() => onSetEdit(item.uuid)}
                           />
                         ))}

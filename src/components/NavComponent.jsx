@@ -6,9 +6,14 @@ import { Input } from './Input'
 import { Button } from './Button/Button'
 import { KOLEKSI_CHAT } from 'utils/dummy'
 import { useGlobalContext } from 'hooks/context'
+import { useMutation, useQueryClient } from 'react-query'
+import { API } from 'config/api'
+import { patchData } from 'hooks/useRequest'
+import { notifyError } from 'hooks/useToas'
 
-export const NavComponent = ({ item, onEdit }) => {
-  const { collectionClick, collectionDelete, collectionSetEdit } =
+export const NavComponent = ({ item }) => {
+  const queryClient = useQueryClient()
+  const { collectionClick, collectionDelete, collectionSetEdit, collection } =
     useGlobalContext()
   const [tooltipPlace, setTooltipPlace] = useState('right')
   const [tooltipPlace2, setTooltipPlace2] = useState('right-start')
@@ -18,6 +23,22 @@ export const NavComponent = ({ item, onEdit }) => {
   const [show2nd, setShow2nd] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [text, setText] = useState('')
+
+  const { mutate: updateTitle } = useMutation(
+    (text) =>
+      patchData(API.THREAD_EDIT + collection.uuid + '/edit', { title: text }),
+    {
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          queryClient.invalidateQueries('newest_thread')
+          queryClient.invalidateQueries('thread_detail')
+          collectionSetEdit({ ...item, editState: 'stop' })
+        } else {
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
 
   useEffect(() => {
     function handleResize() {
@@ -45,8 +66,9 @@ export const NavComponent = ({ item, onEdit }) => {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault()
-      onEdit(e.target.value)
-      collectionSetEdit({ ...item, editState: 'stop' })
+      item.update_at
+        ? updateTitle(text)
+        : collectionSetEdit({ ...item, editState: 'stop' })
     }
   }
 
@@ -68,8 +90,9 @@ export const NavComponent = ({ item, onEdit }) => {
           value={text}
           autoFocus
           onBlur={() => {
-            onEdit(text)
-            collectionSetEdit({ ...item, editState: 'stop' })
+            item.update_at
+              ? updateTitle(text)
+              : collectionSetEdit({ ...item, editState: 'stop' })
           }}
           onKeyDown={handleKeyDown}
           className='!py-1 w-full text-neutral-40 rounded-lg px-2 border border-neutral-60 focus:border-neutral-60 focus:border focus:outline-none'

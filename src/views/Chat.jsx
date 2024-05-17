@@ -90,6 +90,7 @@ export const Chat = () => {
         if (datas?.status === 'Success') {
           const { data } = datas
           setRenderedMessage(data ?? null)
+          onClickColection(collection.uuid)
         } else {
           console.log('error', datas)
         }
@@ -270,7 +271,6 @@ export const Chat = () => {
   }
 
   const onEdit = (e) => {
-    console.log(e)
     dataMessage?.map((item) => {
       item.data?.map((itm) => {
         if (itm.isActive) {

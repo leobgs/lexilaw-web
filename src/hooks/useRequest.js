@@ -34,3 +34,12 @@ export const deleteData = async (URL, config) => {
         .catch((error) => error.response)
   return respond.data
 }
+
+export const patchData = async (URL, config) => {
+  const respond = await axios
+    .patch(apiURLQuery + URL, config)
+    .then((res) => res)
+    .catch((error) => error.response)
+
+  return respond.data
+}
