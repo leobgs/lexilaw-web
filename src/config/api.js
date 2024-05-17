@@ -17,4 +17,6 @@ export const API = {
   THREAD_LIST: '/api/app/v1.0.0/chat/threads',
   THREAD_DETAIL: '/api/app/v1.0.0/chat/threads/',
   THREAD_EDIT: '/api/app/v1.0.0/threads/',
+
+  USER_DETAIL: '/user/app/v1.0.0/user/detail',
 }

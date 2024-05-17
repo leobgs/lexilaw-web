@@ -8,36 +8,64 @@ import { getData } from 'hooks/useRequest'
 import { useGlobalContext } from 'hooks/context'
 import InputImage from 'components/InputImage'
 
-export const Profile = () => {
+export const Profile = ({ userData }) => {
     const { t } = useTranslation()
     const { registerForm, registerFormReducer } = useGlobalContext()
     const [optionCity, setOptionCity] = useState([])
-    const [selectedCity, setSelectedCity] = useState()
+    const [selectedCity, setSelectedCity] = useState(null);
+
+    const [emailAddress, setEmailAddress] = useState('');
+    const [cityId, setCityId] = useState('');
+    const [companyName, setCompanyName] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
+
+    useEffect(() => {
+        if (userData) {
+            setEmailAddress(userData.email || '');
+            setCityId(userData.city_id || '');
+            setCompanyName(userData.company_name || '');
+            setImageUrl(userData.image_url ? userData.image_url : images.ic_avatar_placeholder);
+        }
+    }, [userData]);
 
     useQuery(['city_list'], () => getData(API.LIST_CITY), {
         onSettled: (datas) => {
             if (datas.status === 'Success') {
-                const { data } = datas
-                let tmp = []
+                const { data } = datas;
+                let tmp = [];
                 data?.forEach((item) => {
-                    tmp.push({ label: item.name, value: item.id })
-                })
-                setOptionCity([...tmp])
+                    tmp.push({ label: item.name, value: item.id });
+                });
+                setOptionCity([...tmp]);
+
+                const matchedCity = tmp.find(city => city.value === cityId);
+                if (matchedCity) {
+                    setSelectedCity(matchedCity);
+                }
             } else {
-                setOptionCity([{ label: 'Kota tidak dapat ditemukan', value: 0 }])
+                setOptionCity([{ label: 'Kota tidak dapat ditemukan', value: 0 }]);
             }
         },
-    })
+    });
 
-    const handleChangeCity = (e) => {
-        setSelectedCity(e)
-        registerFormReducer(['city'], e.value)
-    }
+    useEffect(() => {
+        if (cityId) {
+            const matchedCity = optionCity.find(city => city.value === cityId);
+            if (matchedCity) {
+                setSelectedCity(matchedCity);
+            }
+        }
+    }, [cityId, optionCity]);
+
+    const handleChangeCity = (selectedOption) => {
+        setSelectedCity(selectedOption);
+        registerFormReducer(['city'], selectedOption.value);
+    };
 
     const handleImageChange = (newImage) => {
         registerFormReducer(['image'], newImage)
+        setImageUrl(newImage);
     }
-
 
     return (
         <div className="bg-white p-6 md:p-8 rounded-xl mt-6 border md:border-0 border-neutral-70">
@@ -47,7 +75,7 @@ export const Profile = () => {
                 name='email'
                 className='w-full flex flex-col'
                 inputClass='font-medium !text-neutral-700 text-base'
-                value="primkus@hotmale.com"
+                value={emailAddress}
                 rowed="w-full"
             />
             <div className="mt-3">
@@ -59,7 +87,7 @@ export const Profile = () => {
                     onChange={handleChangeCity}
                     className="font-medium !text-base"
                     options={optionCity}
-                    value={[{ label: 'Jakarta', value: 1 }]}
+                    value={selectedCity}
                     isSearchable
                 />
             </div>
@@ -71,12 +99,13 @@ export const Profile = () => {
                 inputClass='font-medium !text-neutral-700 text-base'
                 placeholder={t('firm_name_optional', { keyPrefix: 'my_account' })}
                 rowed="w-full"
+                value={companyName}
             />
 
             <InputImage
                 className="mt-5"
                 name='image'
-                image={images.ic_thumbnail_profile}
+                image={imageUrl}
                 onImageSelect={handleImageChange}
             />
 
