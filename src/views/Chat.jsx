@@ -132,7 +132,7 @@ export const Chat = () => {
     activeData?.update_at
       ? refetch(collection.uuid)
       : setRenderedMessage(activeData?.chat ?? null)
-  }, [dataMessage])
+  }, [collection.setEditColection])
 
   const handleAddChat = (e) => {
     let dataTerkini = dataMessage.find((itm) => itm.type === 'terkini')
