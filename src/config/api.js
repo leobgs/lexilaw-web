@@ -10,6 +10,8 @@ export const API = {
   RESET_PASSWORD_CHECK_EMAIL: '/user/app/v1.0.0/user/request/reset-password',
   RESET_PASSWORD: '/user/app/v1.0.0/user/reset-password',
 
+  UPDATE_PASSWORD: '/user/app/v1.0.0/user/password',
+
   LIST_CITY: '/user/app/v1.0.0/city?search=',
 
   THREAD_LIST: '/api/app/v1.0.0/chat/threads',

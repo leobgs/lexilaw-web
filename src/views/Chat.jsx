@@ -351,7 +351,7 @@ export const Chat = () => {
               idToolTips='profile-tooltip'
               tooltipEffect='solid'
               tooltipPlace='bottom-end'
-              className='bg-secondary-base hidden md:inline-block'
+              className='bg-secondary-base hidden md:inline-block z-50'
               children={
                 <div className='text-neutral-40 -mx-4'>
                   <div className='bg-blue-dark w-full h-2 -mt-2 rounded-t-md' />

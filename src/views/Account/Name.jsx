@@ -61,7 +61,7 @@ export const Name = () => {
                         name='text'
                         className='w-full mt-[.5rem] mb-[4px]'
                         inputClass='font-medium !text-neutral-700 text-base	'
-                        value="Prima"
+                        placeholder="Prima"
                         rowed="w-full"
                         isDisabled={true}
                     />
@@ -71,7 +71,7 @@ export const Name = () => {
                         name='text'
                         className='w-full mb-[4px] md:mt-auto'
                         inputClass='font-medium !text-neutral-700 text-base	'
-                        value="Kusumo"
+                        placeholder="Kusumo"
                         rowed="w-full "
                         isDisabled={true}
                     />
