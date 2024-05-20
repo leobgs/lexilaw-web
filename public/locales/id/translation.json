@@ -104,6 +104,6 @@
   },
   "incorrect_name_format": "Format Nama salah",
   "min_password": "Minimal Password 8 karakter",
-  "password_format_fail": "Password tidak valid karena harus mengandung setidaknya satu huruf kapital, satu angka, satu simbol, dan memiliki panjang minimal 6 hingga maksimal 8 karakter.",
+  "password_format_fail": "Password tidak valid karena harus mengandung setidaknya satu huruf kapital, satu angka, satu simbol, dan memiliki panjang minimal 8 karakter.",
   "password_empty": "Password tidak boleh kosong"
 }
