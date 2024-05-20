@@ -1,6 +1,5 @@
 import images from "assets/images";
 import { Modal } from "./Modal";
-import { LAWYER_DATA } from "utils/dummy";
 import { LawyerCard } from "./LawyerCard";
 import { useEffect, useState } from "react";
 import { Button } from "./Button/Button";
@@ -15,10 +14,7 @@ import { notifyError } from "hooks/useToas";
 export const LawyerRecommendation = ({
   isShow,
   onHide = () => {},
-  lawyerUUIDs = [
-    "71059093-d800-46d5-89d7-a5f5848a9271",
-    "ce291454-e0e6-4cff-b78f-81fbc2c80f36",
-  ],
+  lawyerUUIDs = [],
 }) => {
   const navigate = useNavigate();
   const [dataLawyer, setDataLawyer] = useState();
@@ -44,10 +40,7 @@ export const LawyerRecommendation = ({
   );
 
   const resetDataLawyer = () => {
-    LAWYER_DATA?.forEach((item) => {
-      item.isActive = false;
-    });
-    setDataLawyer(LAWYER_DATA);
+    setDataLawyer([]);
     setSelectedLawyer(null);
   };
 
