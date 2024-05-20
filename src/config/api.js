@@ -19,4 +19,7 @@ export const API = {
   THREAD_EDIT: '/api/app/v1.0.0/threads/',
 
   USER_DETAIL: '/user/app/v1.0.0/user/detail',
+
+  // TRANSACTION
+  LAWYER_RECOMMENDATION: '/user/app/v1.0.0/lawyer/recommendation'
 }

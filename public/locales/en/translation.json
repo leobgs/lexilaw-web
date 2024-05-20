@@ -104,6 +104,6 @@
   },
   "incorrect_name_format": "Incorrect Name Format",
   "min_password": "Minimum password is 8 characters",
-  "password_format_fail": "The password is invalid as it must contain at least one uppercase letter, one number, and be between 6 to 8 characters in length.",
+  "password_format_fail": "The password is invalid because it must contain at least one capital letter, one number, one symbol, and have a minimum length of 8 characters.",
   "password_empty": "The password cannot be empty"
 }

@@ -34,7 +34,7 @@ export const LawyerCard = ({ data, className, onClick = () => {} }) => {
       <div className='bg-dark-50 rounded-bl-lg rounded-tr-md text-white absolute top-0 right-0 py-4 px-2'>
         <div className='flex items-center gap-1'>
           <div className='flex'>
-            <div className='text-3xl'>{data.experince}</div>
+            <div className='text-3xl'>{data.experience}</div>
             <div>+</div>
           </div>
           <div className='text-xs font-light'>

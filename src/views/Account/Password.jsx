@@ -44,7 +44,7 @@ export const Password = () => {
   };
 
   const validatePassword = (password) => {
-    if (password.length < 6 || password.length > 8) {
+    if (password.length < 8) {
       return t("password_format_fail");
     }
 
