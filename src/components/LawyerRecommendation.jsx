@@ -150,7 +150,7 @@ export const LawyerRecommendation = ({
             <div className="mx-4">
               <Button
                 onClick={() =>
-                  navigate("/book-lawyer", { state: selectedLawyer.uuid })
+                  navigate("/book-lawyer", { state: selectedLawyer })
                 }
                 label="Pesan Pengacara"
                 iconRight={images.ic_briefcase}
@@ -232,7 +232,7 @@ export const LawyerRecommendation = ({
           <div className="mx-4">
             <Button
               onClick={() =>
-                navigate("/book-lawyer", { state: selectedLawyer.uuid })
+                navigate("/book-lawyer", { state: selectedLawyer })
               }
               label="Pesan Pengacara"
               iconRight={images.ic_briefcase}
