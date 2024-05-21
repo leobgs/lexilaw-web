@@ -138,7 +138,7 @@ export const Profile = ({ userData }) => {
         <div className="bg-white p-6 md:p-8 rounded-xl mt-6 border md:border-0 border-neutral-70">
             <Input
                 label="Email"
-                labeblClassName='font-bold text-[14px]'
+                labeblClassName='font-bold text-base'
                 name='email'
                 className='w-full flex flex-col !items-start'
                 inputClass='font-medium !text-neutral-700 text-base'
@@ -164,7 +164,7 @@ export const Profile = ({ userData }) => {
             </div>
             <Input
                 label={t('firm_name', { keyPrefix: 'my_account' })}
-                labeblClassName='font-bold text-[14px]'
+                labeblClassName='font-bold text-base'
                 name='company_name'
                 onChange={handleChangeForm}
                 className='w-full flex flex-col mt-3'

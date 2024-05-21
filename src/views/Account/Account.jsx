@@ -23,7 +23,7 @@ export const Account = () => {
     }, [getUserDetail]);
 
     return (
-        <div className='bg-primary-base p-4 h-full md:h-screen md:p-4'>
+        <div className='bg-primary-base p-4 md:h-screen md:p-4'>
             <NavLink
                 className='flex items-center w-fit'
                 to='/'
@@ -34,7 +34,7 @@ export const Account = () => {
                 </div>
             </NavLink>
 
-            <div className='md:flex md:justify-between mt-12'>
+            <div className='md:flex md:justify-between mt-6 md:mt-12'>
 
                 <main className='mx-auto md:w-[740px]'>
 
