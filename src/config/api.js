@@ -17,4 +17,8 @@ export const API = {
   THREAD_LIST: '/api/app/v1.0.0/chat/threads',
   THREAD_DETAIL: '/api/app/v1.0.0/chat/threads/',
   THREAD_EDIT: '/api/app/v1.0.0/threads/',
+
+  MESSAGE_SEND: '/api/app/v1.0.0/chat/conversation',
+  MESSAGE_RESPONSE: '/api/app/v1.0.0/chat/conversation/',
+  MESSAGE_STATUS: '/api/app/v1.0.0/chat/',
 }

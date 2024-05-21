@@ -67,15 +67,35 @@ export const NavChat = ({
 
   return (
     <nav
-      className={`md:w-3/12 md:-mr-2 md:pr-2 overflow-y-auto md:py-1 ${
+      className={`md:w-3/12 md:py-1 h-full flex flex-col ${
         showNav ? '' : 'py-4'
       }`}
     >
-      <img
-        src={images.logo_lexilaw}
-        alt='LexiLaw'
-        className='hidden md:inline'
-      />
+      <div className='hidden md:inline'>
+        <img src={images.logo_lexilaw} alt='LexiLaw' className='' />
+        <div className='flex justify-between gap-2 mr-4 mt-4 w-full'>
+          <Input
+            onChange={(e) => setSearch(e.value)}
+            value={search}
+            name='search'
+            className='w-10/12'
+            placeholder={'Cari'}
+            rowed='w-2/3 mx-auto'
+            iconClassName='!w-6'
+            icon={images.ic_search}
+          />
+          <div
+            className='bg-neutral-20 w-2/12 rounded-full outline outline-neutral-30 py-1 flex items-center'
+            onClick={() => onHeaderClick()}
+          >
+            <img
+              src={images.ic_add_convo}
+              alt='add converstaion'
+              className='mx-auto'
+            />
+          </div>
+        </div>
+      </div>
 
       <div
         className={`md:hidden flex justify-between px-4 items-center gap-4 ${
@@ -98,30 +118,7 @@ export const NavChat = ({
         </div>
       </div>
 
-      <div className='hidden flex-col justify-center md:my-4 md:flex'>
-        <div className='flex justify-between gap-2 mr-4'>
-          <Input
-            onChange={(e) => setSearch(e.value)}
-            value={search}
-            name='search'
-            className='w-10/12'
-            placeholder={'Cari'}
-            rowed='w-2/3 mx-auto'
-            iconClassName='!w-6'
-            icon={images.ic_search}
-          />
-          <div
-            className='bg-neutral-20 w-2/12 rounded-full outline outline-neutral-30 py-1 flex items-center'
-            onClick={() => onHeaderClick()}
-          >
-            <img
-              src={images.ic_add_convo}
-              alt='add converstaion'
-              className='mx-auto'
-            />
-          </div>
-        </div>
-
+      <div className='hidden justify-center md:my-4 md:inline-block h-3/5 overflow-y-auto'>
         {dataLatest?.map((item, index) => {
           if (item.type === 'koleksi') {
             return (
