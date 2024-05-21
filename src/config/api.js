@@ -21,5 +21,6 @@ export const API = {
   USER_DETAIL: '/user/app/v1.0.0/user/detail',
 
   // TRANSACTION
+  UPDATE_NAME: '/user/app/v1.0.0/user/request/change-name',
   LAWYER_RECOMMENDATION: '/user/app/v1.0.0/lawyer/recommendation'
 }
