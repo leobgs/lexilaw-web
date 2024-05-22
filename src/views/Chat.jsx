@@ -40,6 +40,10 @@ export const Chat = () => {
     thread_id: '',
     message_id: '',
   })
+  const [threadMessageIdtoRespond, setThreadMessageIdtoRespond] = useState({
+    thread_id: '',
+    message_id: '',
+  })
   const [currUUID, setCurrUUID] = useState(null)
 
   useEffect(() => {
@@ -167,20 +171,30 @@ export const Chat = () => {
   )
 
   useQuery(
-    ['respond_chat', threadMessageId.thread_id],
-    () => getData(API.MESSAGE_RESPONSE + threadMessageId.thread_id),
+    ['respond_chat', threadMessageIdtoRespond.thread_id],
+    () => getData(API.MESSAGE_RESPONSE + threadMessageIdtoRespond.thread_id),
     {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
-          const { data } = datas
           queryClient.invalidateQueries('thread_detail')
         } else {
-          notifyError(datas?.message)
+          // notifyError(datas?.message)
+          renderedMessage?.forEach((item) => {
+            if (item.type === 'isloading') {
+              return {
+                ...item,
+                message: `${datas?.message}`,
+                type: '',
+              }
+            }
+          })
+          setRenderedMessage([...renderedMessage])
         }
       },
-      enabled: !!threadMessageId.thread_id,
+      enabled: !!threadMessageIdtoRespond.thread_id,
     }
   )
+  console.log(currUUID)
 
   useQuery(
     ['check_status', threadMessageId],
@@ -195,6 +209,10 @@ export const Chat = () => {
           const { data } = datas
           if (data.status === 'completed') {
             queryClient.invalidateQueries('respond_chat')
+            setThreadMessageIdtoRespond({
+              thread_id: data.thread_id,
+              message_id: data.message_id,
+            })
           } else {
             const isLoading = renderedMessage.find(
               (item) => item.type === 'loading'
@@ -219,7 +237,6 @@ export const Chat = () => {
       enabled: !!threadMessageId.thread_id && !!threadMessageId.message_id,
     }
   )
-  console.log(renderedMessage)
 
   const { mutate: sendMessage } = useMutation(
     (form) => getData(API.MESSAGE_SEND, form),

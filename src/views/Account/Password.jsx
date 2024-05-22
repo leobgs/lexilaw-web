@@ -44,7 +44,7 @@ export const Password = () => {
   };
 
   const validatePassword = (password) => {
-    if (password.length < 6 || password.length > 8) {
+    if (password.length < 8) {
       return t("password_format_fail");
     }
 
@@ -105,7 +105,7 @@ export const Password = () => {
   };
 
   return (
-    <div className="bg-white p-6 md:p-8 rounded-xl mt-6 mb-3 border md:border-0 border-neutral-70">
+    <div className="bg-white p-6 md:p-8 rounded-xl mt-6 mb-12 border md:border-0 border-neutral-70">
       {!isOpen && (
         <div className="flex flex-col md:flex-row justify-between">
           <p className="font-bold my-auto">

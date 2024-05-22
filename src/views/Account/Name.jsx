@@ -1,15 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button, Input } from 'components'
 import { useGlobalContext } from 'hooks/context'
 import images from 'assets/images'
+import { API } from 'config/api'
+import { getData } from 'hooks/useRequest'
+import { useMutation } from 'react-query'
 
-export const Name = () => {
+export const Name = ({ userData }) => {
     const { t } = useTranslation()
     const [errorText, setErrorText] = useState('')
     const [form, setForm] = useState({ first_name: '', last_name: '' })
     const [error, setError] = useState({ first_name: '', last_name: '' })
     const { openAlert, closeAlert } = useGlobalContext()
+
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+
+    useEffect(() => {
+        if (userData) {
+            setFirstName(userData.first_name || '');
+            setLastName(userData.last_name || '');
+        }
+    }, [userData]);
 
     const validationForm = () => {
         const newError = { ...error }
@@ -27,16 +40,33 @@ export const Name = () => {
         return regex.test(first_name, last_name)
     }
 
+    const { mutate: changeName } = useMutation(
+        (form) => getData(API.UPDATE_NAME, form),
+        {
+            onSettled: (data) => {
+                if (data.status === 'Success') {
+                    openAlert({
+                        title: t('message_name_success', { keyPrefix: 'my_account' }),
+                        icon: images.ic_tick,
+                    })
+                    let timeOut = setTimeout(() => { 
+                        setForm({ ...form, first_name: '', last_name: '' });
+                        closeAlert({ isConfirm: false, showLoading: false })
+                    }, 1000)
+                    return () => clearTimeout(timeOut)
+                } else {
+                    setErrorText(data?.message)
+                }
+            },
+        }
+    )
+
     const onSubmit = () => {
         const findErrors = validationForm()
         if (Object.values(findErrors).some((err) => err !== '')) {
             setError(findErrors)
         } else {
-            console.log(form);
-            openAlert({
-                title: t('message_name_success', { keyPrefix: 'my_account' }),
-                icon: images.ic_tick,
-            })
+            changeName(form)
         }
         setErrorText('')
     }
@@ -60,18 +90,18 @@ export const Name = () => {
                     <Input
                         name='text'
                         className='w-full mt-[.5rem] mb-[4px]'
-                        inputClass='font-medium !text-neutral-700 text-base	'
-                        placeholder="Prima"
+                        inputClass='font-medium !text-red-100 text-base	'
+                        value={firstName}
                         rowed="w-full"
                         isDisabled={true}
                     />
                 </div>
                 <div className="flex">
                     <Input
-                        name='text'
+                        name='old_lastName'
                         className='w-full mb-[4px] md:mt-auto'
-                        inputClass='font-medium !text-neutral-700 text-base	'
-                        placeholder="Kusumo"
+                        inputClass='font-medium !text-neutral-500 text-base'
+                        value={lastName}
                         rowed="w-full "
                         isDisabled={true}
                     />
