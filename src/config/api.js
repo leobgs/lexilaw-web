@@ -19,6 +19,8 @@ export const API = {
   THREAD_EDIT: '/api/app/v1.0.0/threads/',
 
   USER_DETAIL: '/user/app/v1.0.0/user/detail',
+  UPDATE_PROFIL: '/user/app/v1.0.0/user/info',
+
 
   // TRANSACTION
   UPDATE_NAME: '/user/app/v1.0.0/user/request/change-name',

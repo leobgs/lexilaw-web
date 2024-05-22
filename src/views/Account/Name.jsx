@@ -49,9 +49,7 @@ export const Name = ({ userData }) => {
                         title: t('message_name_success', { keyPrefix: 'my_account' }),
                         icon: images.ic_tick,
                     })
-                    let timeOut = setTimeout(() => {
-                        // setFirstName(form.first_name || '');
-                        // setLastName(form.last_name || '');
+                    let timeOut = setTimeout(() => { 
                         setForm({ ...form, first_name: '', last_name: '' });
                         closeAlert({ isConfirm: false, showLoading: false })
                     }, 1000)
