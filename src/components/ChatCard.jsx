@@ -59,7 +59,16 @@ export const ChatCard = ({ item }) => {
           </>
         )}
 
-        {item.from === '000000' && <ChatRespond item={item} />}
+        {item.from === '000000' && item.type !== 'loading' && (
+          <ChatRespond item={item} />
+        )}
+        {item.from === '000000' && item.type === 'loading' && (
+          <>
+            <div className='h-4 rounded-xl w-48 animate-pulse bg-black-lighter opacity-30' />
+            <div className='h-4 rounded-xl w-72 animate-pulse bg-black-lighter opacity-30 my-2' />
+            <div className='h-4 rounded-xl w-1/2 animate-pulse bg-black-lighter opacity-30' />
+          </>
+        )}
       </div>
     </div>
   )

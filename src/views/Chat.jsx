@@ -72,7 +72,6 @@ export const Chat = () => {
       if (datas?.status === 'Success') {
         const { data } = datas
         let texts = 'Obrolan Baru'
-        let activeData = null
 
         const previousData = data?.filter((item) => item.moment === 'Previous')
         const currentData = data?.filter((item) => item.moment === 'Current')
@@ -105,7 +104,6 @@ export const Chat = () => {
                 dataItem.childs.forEach((child) => {
                   if (child.uuid === collectionUUID) {
                     texts = child.title ?? child.message
-                    activeData = child
                   }
                 })
               }
@@ -115,7 +113,6 @@ export const Chat = () => {
               if (dataItem.title) {
                 if (dataItem.uuid === collectionUUID) {
                   texts = dataItem.title
-                  activeData = dataItem
                 }
               }
             })
@@ -198,6 +195,16 @@ export const Chat = () => {
           const { data } = datas
           if (data.status === 'completed') {
             queryClient.invalidateQueries('respond_chat')
+          } else {
+            const isLoading = renderedMessage.find(
+              (item) => item.type === 'loading'
+            )
+            if (!isLoading) {
+              setRenderedMessage((prevArray) => [
+                ...prevArray,
+                { type: 'loading', from: '000000' },
+              ])
+            }
           }
         }
       },
@@ -212,6 +219,7 @@ export const Chat = () => {
       enabled: !!threadMessageId.thread_id && !!threadMessageId.message_id,
     }
   )
+  console.log(renderedMessage)
 
   const { mutate: sendMessage } = useMutation(
     (form) => getData(API.MESSAGE_SEND, form),
@@ -368,7 +376,6 @@ export const Chat = () => {
     setMessage([...dataMessage])
   }
 
-  console.log(currUUID, dataMessage)
   return (
     <div className='bg-primary-base w-full h-screen flex flex-col'>
       <div className='md:px-4 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
@@ -379,6 +386,7 @@ export const Chat = () => {
             setCurrUUID(null)
             setHeaderText('Obrolan Baru')
             handleResetThread()
+            setRenderedMessage([])
           }}
           dataLatest={dataMessage}
           onEdit={(e) => onEdit(e)}
@@ -488,7 +496,15 @@ export const Chat = () => {
           <div className='flex h-full md:h-[calc(100%-56px)] flex-col select-text relative'>
             <AutoScrollingDiv
               content={
-                !isHeader ? (
+                isHeader && renderedMessage?.length === 0 ? (
+                  <QuestionCard
+                    data={DEFAULT_QUESTION}
+                    onClick={(e) => handleAddChat(e)}
+                    className={`md:absolute ${
+                      isDisplayImage ? 'md:top-[20%]' : 'md:top-1/4'
+                    }`}
+                  />
+                ) : renderedMessage?.length !== 0 ? (
                   renderedMessage?.map((itms, index) => (
                     <ChatCard key={index} item={itms} />
                   ))
