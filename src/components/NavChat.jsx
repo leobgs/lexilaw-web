@@ -67,7 +67,7 @@ export const NavChat = ({
 
   return (
     <nav
-      className={`md:w-3/12 md:py-1 h-full flex flex-col ${
+      className={`md:w-3/12 md:py-1 md:h-full flex flex-col ${
         showNav ? '' : 'py-4'
       }`}
     >

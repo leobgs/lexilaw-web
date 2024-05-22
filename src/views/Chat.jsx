@@ -41,6 +41,7 @@ export const Chat = () => {
     message_id: '',
   })
   const [currUUID, setCurrUUID] = useState(null)
+  const [firstData, setFirstData] = useState()
 
   useEffect(() => {
     switch (true) {
@@ -55,13 +56,28 @@ export const Chat = () => {
     }
   }, [collection])
 
+  const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
+    onSettled: (data) => {
+      if (data?.status === 'Success') {
+        storage.remove(StorageKey.ACCESS_TOKEN)
+        storage.remove(StorageKey.IS_LOGIN)
+        navigate('/auth')
+      } else {
+        notifyError(data?.message)
+      }
+    },
+  })
+
   useQuery(['newest_thread'], () => getData(API.THREAD_LIST), {
     onSettled: (datas) => {
       if (datas?.status === 'Success') {
         const { data } = datas
+        let texts = 'Obrolan Baru'
+        let activeData = null
+        const collectionUUID = isHeader ? firstData?.uuid : collection?.uuid
         const previousData = data?.filter((item) => item.moment === 'Previous')
         const currentData = data?.filter((item) => item.moment === 'Current')
-        const firstData = currentData && currentData[0]
+        setFirstData(currentData && currentData[0])
 
         const newMessage = [
           { type: 'koleksi', data: KOLEKSI_CHAT },
@@ -79,105 +95,59 @@ export const Chat = () => {
           },
         ]
 
-        if (!isHeader) {
-          let texts = ''
+        setMessage([...newMessage])
 
-          newMessage?.forEach((item) => {
-            if (item.type === 'koleksi') {
-              item.data.forEach((dataItem) => {
-                if (dataItem.childs) {
-                  dataItem.childs.forEach((child) => {
-                    if (child.uuid === collection.uuid) {
-                      texts = child.title ?? child.message
-                    }
-                  })
-                }
-              })
-            } else {
-              item.data.forEach((dataItem) => {
-                if (dataItem.title) {
-                  if (dataItem.uuid === collection.uuid) {
-                    texts = dataItem.title
-                  }
-                }
-              })
-            }
-          })
-
-          setHeaderText(texts)
-          newMessage?.map((item) => {
-            item.data?.map((itm) => {
-              if (!itm.value) {
-                if (itm?.uuid === collection?.uuid) {
-                  itm.isActive = true
-                } else {
-                  itm.isActive = false
-                }
-              } else if (itm.value) {
-                itm.childs?.map((itms) => {
-                  if (itms?.uuid === collection?.uuid) {
-                    itms.isActive = true
-                  } else {
-                    itms.isActive = false
+        newMessage?.forEach((item) => {
+          if (item.type === 'koleksi') {
+            item.data.forEach((dataItem) => {
+              if (dataItem.childs) {
+                dataItem.childs.forEach((child) => {
+                  if (child.uuid === collectionUUID) {
+                    texts = child.title ?? child.message
+                    activeData = child
                   }
                 })
               }
             })
-          })
-
-          setMessage([...newMessage])
-        } else if (isHeader) {
-          let texts = ''
-          let activeData = null
-
-          newMessage?.forEach((item) => {
-            if (item.type === 'koleksi') {
-              item.data.forEach((dataItem) => {
-                if (dataItem.childs) {
-                  dataItem.childs.forEach((child) => {
-                    if (child?.uuid === firstData?.uuid) {
-                      texts = child.title ?? child.message
-                      activeData = child
-                    }
-                  })
+          } else {
+            item.data.forEach((dataItem) => {
+              if (dataItem.title) {
+                if (dataItem.uuid === collectionUUID) {
+                  texts = dataItem.title
+                  activeData = dataItem
                 }
-              })
-            } else {
-              item.data.forEach((dataItem) => {
-                if (dataItem.title) {
-                  if (dataItem?.uuid === firstData?.uuid) {
-                    texts = dataItem.title
-                    activeData = dataItem
-                  }
+              }
+            })
+          }
+        })
+
+        newMessage?.map((item) => {
+          item.data?.map((itm) => {
+            if (!itm.value) {
+              if (itm.uuid === collectionUUID) {
+                itm.isActive = true
+              } else {
+                itm.isActive = false
+              }
+            } else if (itm.value) {
+              itm.childs?.map((itms) => {
+                if (itms.uuid === collectionUUID) {
+                  itms.isActive = true
+                } else {
+                  itms.isActive = false
                 }
               })
             }
           })
+        })
 
-          setHeaderText(texts)
+        setMessage([...newMessage])
+        setHeaderText(texts)
 
-          newMessage?.map((item) => {
-            item.data?.map((itm) => {
-              if (!itm.value) {
-                if (itm?.uuid === firstData?.uuid) {
-                  itm.isActive = true
-                } else {
-                  itm.isActive = false
-                }
-              } else if (itm.value) {
-                itm.childs?.map((itms) => {
-                  if (itms?.uuid === firstData?.uuid) {
-                    itms.isActive = true
-                  } else {
-                    itms.isActive = false
-                  }
-                })
-              }
-            })
-          })
-
-          setMessage([...newMessage])
-          setCurrUUID(activeData.uuid)
+        if (activeData?.update_at) {
+          setCurrUUID(collectionUUID)
+        } else {
+          setRenderedMessage(activeData?.chat ?? null)
         }
       } else {
         notifyError(datas?.message)
@@ -185,9 +155,9 @@ export const Chat = () => {
     },
   })
 
-  const { refetch } = useQuery(
+  const { refetch: refetchDetail } = useQuery(
     ['thread_detail', currUUID],
-    () => getData(API.THREAD_DETAIL + collection.uuid),
+    () => getData(API.THREAD_DETAIL + currUUID),
     {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
@@ -198,7 +168,23 @@ export const Chat = () => {
           notifyError(datas?.message)
         }
       },
-      enabled: false,
+      enabled: !!currUUID,
+    }
+  )
+
+  useQuery(
+    ['respond_chat', threadMessageId.thread_id],
+    () => getData(API.MESSAGE_RESPONSE + threadMessageId.thread_id),
+    {
+      onSettled: (datas) => {
+        if (datas?.status === 'Success') {
+          const { data } = datas
+          queryClient.invalidateQueries('thread_detail')
+        } else {
+          notifyError(datas?.message)
+        }
+      },
+      enabled: !!threadMessageId.thread_id,
     }
   )
 
@@ -214,7 +200,7 @@ export const Chat = () => {
         if (datas?.status === 'Success') {
           const { data } = datas
           if (data.status === 'completed') {
-            queryClient.invalidateQueries('thread_detail')
+            queryClient.invalidateQueries('respond_chat')
           }
         }
       },
@@ -222,25 +208,13 @@ export const Chat = () => {
         if (query?.data?.status !== 'in_progress') {
           return false
         } else {
-          return 200
+          return 3000
         }
       },
       onError: (e) => console.log('eh error', e),
       enabled: !!threadMessageId.thread_id && !!threadMessageId.message_id,
     }
   )
-
-  const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
-    onSettled: (data) => {
-      if (data?.status === 'Success') {
-        storage.remove(StorageKey.ACCESS_TOKEN)
-        storage.remove(StorageKey.IS_LOGIN)
-        navigate('/auth')
-      } else {
-        notifyError(data?.message)
-      }
-    },
-  })
 
   const { mutate: sendMessage } = useMutation(
     (form) => getData(API.MESSAGE_SEND, form),
@@ -250,6 +224,7 @@ export const Chat = () => {
           const { data } = datas
           queryClient.invalidateQueries('newest_thread')
           setCurrUUID(collection.uuid)
+          refetchDetail()
           setThreadMessageId({
             thread_id: data.thread_id,
             message_id: data.message_id,
@@ -260,32 +235,6 @@ export const Chat = () => {
       },
     }
   )
-
-  useEffect(() => {
-    let activeData = null
-
-    if (collection.uuid) {
-      dataMessage?.map((itm) =>
-        itm.data?.map((items) => {
-          if (!items.value) {
-            if (items.isActive) {
-              activeData = items
-            }
-          } else if (items.value) {
-            items.childs?.map((itms) => {
-              if (itms.isActive) {
-                activeData = itms
-              }
-            })
-          }
-        })
-      )
-
-      activeData?.update_at
-        ? refetch()
-        : setRenderedMessage(activeData?.chat ?? null)
-    }
-  }, [collection.uuid])
 
   const handleAddChat = (e) => {
     const dataMessage = {
@@ -302,7 +251,8 @@ export const Chat = () => {
   }
 
   const onClickColection = (id) => {
-    let texts = ''
+    let texts = 'Obrolan Baru'
+    let activeData = null
 
     dataMessage?.forEach((item) => {
       if (item.type === 'koleksi') {
@@ -311,6 +261,7 @@ export const Chat = () => {
             dataItem.childs.forEach((child) => {
               if (child.uuid === id) {
                 texts = child.title ?? child.message
+                activeData = child
               }
             })
           }
@@ -320,6 +271,7 @@ export const Chat = () => {
           if (dataItem.title) {
             if (dataItem.uuid === id) {
               texts = dataItem.title
+              activeData = dataItem
             }
           }
         })
@@ -349,6 +301,12 @@ export const Chat = () => {
     setMessage([...dataMessage])
     setHeaderText(texts)
     setIsHeader(false)
+
+    if (activeData?.update_at) {
+      setCurrUUID(id)
+    } else {
+      setRenderedMessage(activeData?.chat ?? null)
+    }
   }
 
   const onEdit = (e) => {
@@ -415,7 +373,7 @@ export const Chat = () => {
           onExpand={(e) => handleOnExpand(e)}
         />
 
-        <main className='md:h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border border-neutral-20 border-opacity-80'>
+        <main className='md:h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border border-neutral-20 border-opacity-80 h-[calc(100%-76px)]'>
           <header className='hidden justify-between items-center md:border-b md:border-b-neutral-30 md:flex md:pb-4 md:-mx-4 md:px-8'>
             <div className='flex gap-2'>
               <img src={images.ic_obrolan} alt='obrolan' />
@@ -517,7 +475,7 @@ export const Chat = () => {
           <div className='flex h-full md:h-[calc(100%-56px)] flex-col select-text relative'>
             <AutoScrollingDiv
               content={
-                dataMessage?.length !== 0 && !isHeader ? (
+                !isHeader ? (
                   renderedMessage?.map((itms, index) => (
                     <ChatCard key={index} item={itms} />
                   ))
