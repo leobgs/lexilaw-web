@@ -41,7 +41,6 @@ export const Chat = () => {
     message_id: '',
   })
   const [currUUID, setCurrUUID] = useState(null)
-  const [firstData, setFirstData] = useState()
 
   useEffect(() => {
     switch (true) {
@@ -74,10 +73,12 @@ export const Chat = () => {
         const { data } = datas
         let texts = 'Obrolan Baru'
         let activeData = null
-        const collectionUUID = isHeader ? firstData?.uuid : collection?.uuid
+
         const previousData = data?.filter((item) => item.moment === 'Previous')
         const currentData = data?.filter((item) => item.moment === 'Current')
-        setFirstData(currentData && currentData[0])
+        const collectionUUID = isHeader
+          ? currentData && currentData[0]?.uuid
+          : collection?.uuid
 
         const newMessage = [
           { type: 'koleksi', data: KOLEKSI_CHAT },
@@ -144,11 +145,7 @@ export const Chat = () => {
         setMessage([...newMessage])
         setHeaderText(texts)
 
-        if (activeData?.update_at) {
-          setCurrUUID(collectionUUID)
-        } else {
-          setRenderedMessage(activeData?.chat ?? null)
-        }
+        setCurrUUID(collectionUUID)
       } else {
         notifyError(datas?.message)
       }
@@ -162,8 +159,8 @@ export const Chat = () => {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
           const { data } = datas
-          setRenderedMessage(data ?? null)
-          onClickColection(collection.uuid)
+          setRenderedMessage(data)
+          // onClickColection(collection.uuid)
         } else {
           notifyError(datas?.message)
         }
@@ -305,6 +302,7 @@ export const Chat = () => {
     if (activeData?.update_at) {
       setCurrUUID(id)
     } else {
+      setCurrUUID(null)
       setRenderedMessage(activeData?.chat ?? null)
     }
   }
@@ -359,6 +357,18 @@ export const Chat = () => {
     setMessage([...dataMessage])
   }
 
+  const handleResetThread = () => {
+    dataMessage.map((item) => {
+      if (item.type !== 'koleksi') {
+        item.data?.map((items) => {
+          items.isActive = false
+        })
+      }
+    })
+    setMessage([...dataMessage])
+  }
+
+  console.log(currUUID, dataMessage)
   return (
     <div className='bg-primary-base w-full h-screen flex flex-col'>
       <div className='md:px-4 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
@@ -366,6 +376,9 @@ export const Chat = () => {
           onHeaderClick={() => {
             setIsHeader(true)
             collectionReset()
+            setCurrUUID(null)
+            setHeaderText('Obrolan Baru')
+            handleResetThread()
           }}
           dataLatest={dataMessage}
           onEdit={(e) => onEdit(e)}

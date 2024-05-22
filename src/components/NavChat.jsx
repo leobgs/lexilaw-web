@@ -118,7 +118,7 @@ export const NavChat = ({
         </div>
       </div>
 
-      <div className='hidden justify-center md:my-4 md:inline-block h-3/5 overflow-y-auto'>
+      <div className='hidden justify-center md:my-4 md:inline-block h-4/5 overflow-y-auto'>
         {dataLatest?.map((item, index) => {
           if (item.type === 'koleksi') {
             return (
