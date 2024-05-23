@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 import { byteConversion } from 'utils/byteConversion'
 
-export const InputChat = ({ onChange, className, onDisplayImage }) => {
+export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
   const [displayImage, setDisplayImage] = useState()
   let maxRows = 4
   const [form, setForm] = useState({
@@ -147,14 +147,21 @@ export const InputChat = ({ onChange, className, onDisplayImage }) => {
 
           <div className='w-full text-xs flex justify-center'>
             <textarea
-              className='max-h-20 w-full focus:outline-none bg-neutral-30 bg-opacity-0 text-sm'
+              className={`max-h-20 w-full focus:outline-none bg-neutral-30 bg-opacity-0 text-sm ${
+                disable ? 'bg-neutral-10' : ''
+              }`}
               autoFocus
               onChange={handleChat}
               onKeyUp={handleKeyDown}
-              placeholder='Tanyakan ke Lexi'
+              placeholder={`${
+                disable
+                  ? 'Tunggu Lexi menjawab pertanyaanmu ya...'
+                  : 'Tanyakan ke Lexi'
+              }`}
               rows={rows}
               value={form.message}
               style={{ resize: 'none' }}
+              disabled={disable}
             />
           </div>
           <div

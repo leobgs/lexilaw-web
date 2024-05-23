@@ -26,7 +26,8 @@ export const Chat = () => {
   const storage = new LocalStorage()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { currentLanguage, collection, collectionReset } = useGlobalContext()
+  const { currentLanguage, collection, collectionReset, collectionClick } =
+    useGlobalContext()
   const [isDisplayImage, setDisplayImage] = useState()
   const [isHeader, setIsHeader] = useState(true)
   const [dataMessage, setMessage] = useState([
@@ -45,6 +46,7 @@ export const Chat = () => {
     message_id: '',
   })
   const [currUUID, setCurrUUID] = useState(null)
+  const [disableInput, setDisableInput] = useState(false)
 
   useEffect(() => {
     switch (true) {
@@ -101,52 +103,52 @@ export const Chat = () => {
 
         setMessage([...newMessage])
 
-        newMessage?.forEach((item) => {
-          if (item.type === 'koleksi') {
-            item.data.forEach((dataItem) => {
-              if (dataItem.childs) {
-                dataItem.childs.forEach((child) => {
-                  if (child.uuid === collectionUUID) {
-                    texts = child.title ?? child.message
-                  }
-                })
-              }
-            })
-          } else {
-            item.data.forEach((dataItem) => {
-              if (dataItem.title) {
-                if (dataItem.uuid === collectionUUID) {
-                  texts = dataItem.title
-                }
-              }
-            })
-          }
-        })
+        // newMessage?.forEach((item) => {
+        //   if (item.type === 'koleksi') {
+        //     item.data.forEach((dataItem) => {
+        //       if (dataItem.childs) {
+        //         dataItem.childs.forEach((child) => {
+        //           if (child.uuid === collectionUUID) {
+        //             texts = child.title ?? child.message
+        //           }
+        //         })
+        //       }
+        //     })
+        //   } else {
+        //     item.data.forEach((dataItem) => {
+        //       if (dataItem.title) {
+        //         if (dataItem.uuid === collectionUUID) {
+        //           texts = dataItem.title
+        //         }
+        //       }
+        //     })
+        //   }
+        // })
 
-        newMessage?.map((item) => {
-          item.data?.map((itm) => {
-            if (!itm.value) {
-              if (itm.uuid === collectionUUID) {
-                itm.isActive = true
-              } else {
-                itm.isActive = false
-              }
-            } else if (itm.value) {
-              itm.childs?.map((itms) => {
-                if (itms.uuid === collectionUUID) {
-                  itms.isActive = true
-                } else {
-                  itms.isActive = false
-                }
-              })
-            }
-          })
-        })
+        // newMessage?.map((item) => {
+        //   item.data?.map((itm) => {
+        //     if (!itm.value) {
+        //       if (itm.uuid === collectionUUID) {
+        //         itm.isActive = true
+        //       } else {
+        //         itm.isActive = false
+        //       }
+        //     } else if (itm.value) {
+        //       itm.childs?.map((itms) => {
+        //         if (itms.uuid === collectionUUID) {
+        //           itms.isActive = true
+        //         } else {
+        //           itms.isActive = false
+        //         }
+        //       })
+        //     }
+        //   })
+        // })
 
         setMessage([...newMessage])
         setHeaderText(texts)
-
         setCurrUUID(collectionUUID)
+        collectionClick(currentData[0])
       } else {
         notifyError(datas?.message)
       }
@@ -162,6 +164,8 @@ export const Chat = () => {
           const { data } = datas
           setRenderedMessage(data)
           // onClickColection(collection.uuid)
+        } else if (datas?.status === 'Not Found') {
+          refetchDetail()
         } else {
           notifyError(datas?.message)
         }
@@ -194,7 +198,6 @@ export const Chat = () => {
       enabled: !!threadMessageIdtoRespond.thread_id,
     }
   )
-  console.log(currUUID)
 
   useQuery(
     ['check_status', threadMessageId],
@@ -206,22 +209,35 @@ export const Chat = () => {
     {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
+          const isLoading = renderedMessage?.find(
+            (item) => item.type === 'loading'
+          )
           const { data } = datas
           if (data.status === 'completed') {
             queryClient.invalidateQueries('respond_chat')
+            setDisableInput(false)
             setThreadMessageIdtoRespond({
               thread_id: data.thread_id,
               message_id: data.message_id,
             })
-          } else {
-            const isLoading = renderedMessage.find(
-              (item) => item.type === 'loading'
-            )
+          } else if (data.status === 'in_progress') {
+            setDisableInput(true)
+
             if (!isLoading) {
-              setRenderedMessage((prevArray) => [
-                ...prevArray,
-                { type: 'loading', from: '000000' },
-              ])
+              renderedMessage &&
+                setRenderedMessage((prevArray) => [
+                  ...prevArray,
+                  { type: 'loading', from: '000000' },
+                ])
+            }
+          } else {
+            setDisableInput(true)
+            if (!isLoading) {
+              renderedMessage &&
+                setRenderedMessage((prevArray) => [
+                  ...prevArray,
+                  { type: '', message: 'Answer on queued', from: '000000' },
+                ])
             }
           }
         }
@@ -270,6 +286,7 @@ export const Chat = () => {
       bodyFormData.append(key, value)
     }
     sendMessage(bodyFormData)
+    setDisableInput(true)
   }
 
   const onClickColection = (id) => {
@@ -542,6 +559,7 @@ export const Chat = () => {
                 onChange={(e) => handleAddChat(e)}
                 onDisplayImage={(e) => setDisplayImage(e)}
                 className='w-full md:w-3/4'
+                disable={disableInput}
               />
             </div>
           </div>
