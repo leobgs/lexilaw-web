@@ -31,7 +31,6 @@ export const NavComponent = ({ item }) => {
       onSettled: (data) => {
         if (data.status === 'Success') {
           queryClient.invalidateQueries('newest_thread')
-          queryClient.invalidateQueries('thread_detail')
           collectionSetEdit({ ...item, editState: 'stop' })
           setShowModal(false)
         } else {
@@ -80,7 +79,7 @@ export const NavComponent = ({ item }) => {
 
   return (
     <div
-      className={`h-9 md:-mr-2 rounded-lg flex justify-between items-center text-sm 
+      className={`h-9 rounded-lg flex justify-between items-center text-sm 
       ${item.isActive ? 'bg-blue-dark text-white shadow px-2' : ''}`}
     >
       <>

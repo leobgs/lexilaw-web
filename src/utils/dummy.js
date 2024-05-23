@@ -140,7 +140,7 @@ export const RIWAYAT_OROLAN = [
       },
       {
         message: 'Oke, silahkan cek kenalan Saya yang bisa bantu Kamu',
-        from: 'ai',
+        from: '000000',
         uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
         type: 'recommendation',
       },

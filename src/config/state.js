@@ -42,6 +42,7 @@ export const colectionType = {
   EDIT: 'EDIT',
   DELETE: 'DELETE',
   SET_EDIT: 'SET_EDIT',
+  EMPTY: 'EMPTY',
 }
 
 export const colectionState = {
@@ -51,5 +52,6 @@ export const colectionState = {
   setEditColection: false,
   editState: 'stop',
   uuid: null,
+  thread_id: null,
   text: '',
 }

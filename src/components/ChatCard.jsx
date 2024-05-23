@@ -7,14 +7,14 @@ export const ChatCard = ({ item }) => {
   return (
     <div
       className={`flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 ${
-        item.from === 'ai'
+        item.from === '000000'
           ? 'bg-neutral-70 rounded-3xl md:rounded-xl border border-neutral-70'
           : ''
       }`}
     >
       <img
         src={
-          item.from === 'ai'
+          item.from === '000000'
             ? images.ic_profile_lexi
             : images.ic_thumbnail_profile
         }
@@ -23,7 +23,7 @@ export const ChatCard = ({ item }) => {
       />
       <div className='w-full'>
         <div className='font-futura-bold text-secondary-base text-sm'>
-          {item.from === 'ai' ? 'Lexi' : 'You'}
+          {item.from === '000000' ? 'Lexi' : 'You'}
         </div>
 
         <div className='whitespace-pre-line text-sm'>{item.message}</div>
@@ -59,7 +59,16 @@ export const ChatCard = ({ item }) => {
           </>
         )}
 
-        {item.from === 'ai' && <ChatRespond item={item} />}
+        {item.from === '000000' && item.type !== 'loading' && (
+          <ChatRespond item={item} />
+        )}
+        {item.from === '000000' && item.type === 'loading' && (
+          <>
+            <div className='h-4 rounded-xl w-48 animate-pulse bg-black-lighter bg-opacity-30' />
+            <div className='h-4 rounded-xl w-72 animate-pulse bg-black-lighter bg-opacity-30 my-2' />
+            <div className='h-4 rounded-xl w-1/2 animate-pulse bg-black-lighter bg-opacity-30' />
+          </>
+        )}
       </div>
     </div>
   )
