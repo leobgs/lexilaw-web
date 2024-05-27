@@ -1,4 +1,5 @@
 import images from 'assets/images'
+import axios from 'axios'
 import { InputChat, NavChat, QuestionCard, Tooltips } from 'components'
 import { AutoScrollingDiv } from 'components/AutoScrollDiv'
 import { ChatCard } from 'components/ChatCard'
@@ -10,7 +11,7 @@ import { deleteData, getData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { LocalStorage } from 'utils'
 import {
@@ -24,7 +25,9 @@ export const Chat = () => {
   const { t } = useTranslation()
   const storage = new LocalStorage()
   const navigate = useNavigate()
-  const { currentLanguage, collection } = useGlobalContext()
+  const queryClient = useQueryClient()
+  const { currentLanguage, collection, collectionReset, collectionClick } =
+    useGlobalContext()
   const [isDisplayImage, setDisplayImage] = useState()
   const [isHeader, setIsHeader] = useState(true)
   const [dataMessage, setMessage] = useState([
@@ -34,9 +37,18 @@ export const Chat = () => {
   ])
   const [renderedMessage, setRenderedMessage] = useState(null)
   const [headerText, setHeaderText] = useState('Obrolan Baru')
+  const [threadMessageId, setThreadMessageId] = useState({
+    thread_id: '',
+    message_id: '',
+  })
+  const [threadMessageIdtoRespond, setThreadMessageIdtoRespond] = useState({
+    thread_id: '',
+    message_id: '',
+  })
+  const [currUUID, setCurrUUID] = useState(null)
+  const [disableInput, setDisableInput] = useState(false)
 
   useEffect(() => {
-    // console.log(collection)
     switch (true) {
       case collection.clickColection:
         return onClickColection(collection.uuid)
@@ -48,55 +60,6 @@ export const Chat = () => {
         break
     }
   }, [collection])
-
-  useQuery(['newest_thread'], () => getData(API.THREAD_LIST), {
-    onSettled: (datas) => {
-      if (datas?.status === 'Success') {
-        const { data } = datas
-        const previousData = data.filter((item) => item.moment === 'Previous')
-        const currentData = data.filter((item) => item.moment === 'Current')
-        dataMessage?.map((item) => {
-          if (item.type === 'terkini') {
-            setMessage([
-              { type: 'koleksi', data: KOLEKSI_CHAT },
-              {
-                type: 'terkini',
-                data:
-                  currentData?.length !== 0
-                    ? [...currentData]
-                    : [...OROLAN_TERKINI],
-              },
-              {
-                type: 'riwayat',
-                data:
-                  previousData?.length !== 0
-                    ? [...previousData, ...RIWAYAT_OROLAN]
-                    : [...RIWAYAT_OROLAN],
-              },
-            ])
-          }
-        })
-      } else {
-        console.log('error', datas)
-      }
-    },
-  })
-
-  const { refetch } = useQuery(
-    ['thread_detail', 'uuid'],
-    () => getData(API.THREAD_DETAIL + collection.uuid),
-    {
-      onSettled: (datas) => {
-        if (datas?.status === 'Success') {
-          const { data } = datas
-          setRenderedMessage(data ?? null)
-          onClickColection(collection.uuid)
-        } else {
-          console.log('error', datas)
-        }
-      },
-    }
-  )
 
   const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
     onSettled: (data) => {
@@ -110,126 +73,234 @@ export const Chat = () => {
     },
   })
 
-  useEffect(() => {
-    let activeData = null
+  useQuery(['newest_thread'], () => getData(API.THREAD_LIST), {
+    onSettled: (datas) => {
+      if (datas?.status === 'Success') {
+        const { data } = datas
+        let texts = 'Obrolan Baru'
 
-    dataMessage?.map((itm) =>
-      itm.data?.map((items) => {
-        if (!items.value) {
-          if (items.isActive) {
-            activeData = items
-          }
-        } else if (items.value) {
-          items.childs?.map((itms) => {
-            if (itms.isActive) {
-              activeData = itms
+        const previousData = data?.filter((item) => item.moment === 'Previous')
+        const currentData = data?.filter((item) => item.moment === 'Current')
+        const collectionUUID = isHeader
+          ? currentData && currentData[0]?.uuid
+          : collection?.uuid
+
+        const newMessage = [
+          { type: 'koleksi', data: KOLEKSI_CHAT },
+          {
+            type: 'terkini',
+            data:
+              currentData?.length !== 0 && currentData ? [...currentData] : [],
+          },
+          {
+            type: 'riwayat',
+            data:
+              previousData?.length !== 0 && previousData
+                ? [...previousData, ...RIWAYAT_OROLAN]
+                : [...RIWAYAT_OROLAN], //nanti dihapus kalo udh full api
+          },
+        ]
+
+        setMessage([...newMessage])
+
+        // newMessage?.forEach((item) => {
+        //   if (item.type === 'koleksi') {
+        //     item.data.forEach((dataItem) => {
+        //       if (dataItem.childs) {
+        //         dataItem.childs.forEach((child) => {
+        //           if (child.uuid === collectionUUID) {
+        //             texts = child.title ?? child.message
+        //           }
+        //         })
+        //       }
+        //     })
+        //   } else {
+        //     item.data.forEach((dataItem) => {
+        //       if (dataItem.title) {
+        //         if (dataItem.uuid === collectionUUID) {
+        //           texts = dataItem.title
+        //         }
+        //       }
+        //     })
+        //   }
+        // })
+
+        // newMessage?.map((item) => {
+        //   item.data?.map((itm) => {
+        //     if (!itm.value) {
+        //       if (itm.uuid === collectionUUID) {
+        //         itm.isActive = true
+        //       } else {
+        //         itm.isActive = false
+        //       }
+        //     } else if (itm.value) {
+        //       itm.childs?.map((itms) => {
+        //         if (itms.uuid === collectionUUID) {
+        //           itms.isActive = true
+        //         } else {
+        //           itms.isActive = false
+        //         }
+        //       })
+        //     }
+        //   })
+        // })
+
+        setMessage([...newMessage])
+        setHeaderText(texts)
+        setCurrUUID(collectionUUID)
+        collectionClick(currentData[0])
+      } else {
+        notifyError(datas?.message)
+      }
+    },
+  })
+
+  const { refetch: refetchDetail } = useQuery(
+    ['thread_detail', currUUID],
+    () => getData(API.THREAD_DETAIL + currUUID),
+    {
+      onSettled: (datas) => {
+        if (datas?.status === 'Success') {
+          const { data } = datas
+          setRenderedMessage(data)
+          // onClickColection(collection.uuid)
+        } else if (datas?.status === 'Not Found') {
+          refetchDetail()
+        } else {
+          notifyError(datas?.message)
+        }
+      },
+      enabled: !!currUUID,
+    }
+  )
+
+  useQuery(
+    ['respond_chat', threadMessageIdtoRespond.thread_id],
+    () => getData(API.MESSAGE_RESPONSE + threadMessageIdtoRespond.thread_id),
+    {
+      onSettled: (datas) => {
+        if (datas?.status === 'Success') {
+          queryClient.invalidateQueries('thread_detail')
+        } else {
+          // notifyError(datas?.message)
+          renderedMessage?.forEach((item) => {
+            if (item.type === 'isloading') {
+              return {
+                ...item,
+                message: `${datas?.message}`,
+                type: '',
+              }
             }
           })
+          setRenderedMessage([...renderedMessage])
         }
-      })
-    )
+      },
+      enabled: !!threadMessageIdtoRespond.thread_id,
+    }
+  )
 
-    activeData?.update_at
-      ? refetch(collection.uuid)
-      : setRenderedMessage(activeData?.chat ?? null)
-  }, [collection.setEditColection])
+  useQuery(
+    ['check_status', threadMessageId],
+    () =>
+      getData(
+        API.MESSAGE_STATUS +
+          `${threadMessageId.thread_id}/${threadMessageId.message_id}/status`
+      ),
+    {
+      onSettled: (datas) => {
+        if (datas?.status === 'Success') {
+          const isLoading = renderedMessage?.find(
+            (item) => item.type === 'loading'
+          )
+          const { data } = datas
+          if (data.status === 'completed') {
+            queryClient.invalidateQueries('respond_chat')
+            setDisableInput(false)
+            setThreadMessageIdtoRespond({
+              thread_id: data.thread_id,
+              message_id: data.message_id,
+            })
+          } else if (data.status === 'in_progress') {
+            setDisableInput(true)
+
+            if (!isLoading) {
+              renderedMessage &&
+                setRenderedMessage((prevArray) => [
+                  ...prevArray,
+                  { type: 'loading', from: '000000' },
+                ])
+            }
+          } else {
+            setDisableInput(true)
+            if (!isLoading) {
+              renderedMessage &&
+                setRenderedMessage((prevArray) => [
+                  ...prevArray,
+                  { type: '', message: 'Answer on queued', from: '000000' },
+                ])
+            }
+          }
+        }
+      },
+      refetchInterval: (query) => {
+        if (query?.data?.status !== 'in_progress') {
+          return false
+        } else {
+          return 3000
+        }
+      },
+      onError: (e) => console.log('eh error', e),
+      enabled: !!threadMessageId.thread_id && !!threadMessageId.message_id,
+    }
+  )
+
+  const { mutate: sendMessage } = useMutation(
+    (form) => getData(API.MESSAGE_SEND, form),
+    {
+      onSettled: (datas) => {
+        if (datas?.status === 'Success') {
+          const { data } = datas
+          queryClient.invalidateQueries('newest_thread')
+          setCurrUUID(collection.uuid)
+          refetchDetail()
+          setThreadMessageId({
+            thread_id: data.thread_id,
+            message_id: data.message_id,
+          })
+        } else {
+          notifyError(datas?.message)
+        }
+      },
+    }
+  )
 
   const handleAddChat = (e) => {
-    let dataTerkini = dataMessage.find((itm) => itm.type === 'terkini')
-
-    if (dataTerkini?.data?.length === 0) {
-      dataTerkini.data = [
-        {
-          message: e.message,
-          title: e.message,
-          chat: [e],
-          isActive: true,
-          uuid:
-            Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
-        },
-      ]
-      setIsHeader(false)
-    } else if (dataTerkini?.data?.length !== 0 && !isHeader) {
-      dataTerkini?.data?.map((item) => {
-        if (item.isActive) {
-          return (item.chat = item.chat
-            ? [
-                ...item?.chat,
-                {
-                  ...e,
-                  uuid:
-                    Math.floor(Math.random() * (99999999 - 10000000 + 1)) +
-                    10000000,
-                },
-              ]
-            : [
-                {
-                  ...e,
-                  uuid:
-                    Math.floor(Math.random() * (99999999 - 10000000 + 1)) +
-                    10000000,
-                },
-              ])
-        }
-      })
-    } else if (dataTerkini?.data?.length !== 0 && isHeader) {
-      dataTerkini.data = [
-        ...dataTerkini.data,
-        {
-          message: e.message,
-          title: e.message,
-          uuid:
-            Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
-          chat: [
-            e,
-            {
-              message: `Sengketa lahan girik merujuk pada konflik atau perselisihan yang berkaitan dengan hak kepemilikan tanah yang diakui melalui girik. Girik adalah bentuk sertifikat tanah tradisional di Indonesia yang mengakui hak kepemilikan tanah secara turun-temurun dalam masyarakat adat atau lokal.
-    Sengketa lahan girik dapat muncul karena beberapa alasan, termasuk ketidakjelasan batas tanah, klaim ganda terhadap lahan, perubahan kebijakan pemerintah terkait tanah, atau perselisihan warisan antara keluarga atau komunitas. Sengketa semacam itu seringkali kompleks dan memerlukan penyelesaian yang cermat dan adil untuk menghindari konflik lebih lanjut.
-    Penyelesaian sengketa lahan girik biasanya melibatkan berbagai pihak, termasuk pemilik tanah, pemerintah daerah, badan hukum, dan masyarakat setempat. Prosesnya bisa melalui mediasi, arbitrase, atau bahkan pengadilan tergantung pada tingkat kompleksitas dan kesepakatan antara pihak-pihak terlibat.
-    Di Indonesia, pemerintah telah berupaya untuk mengatasi masalah sengketa lahan girik melalui berbagai kebijakan dan program reformasi agraria. Namun, tantangan dalam penyelesaian sengketa lahan girik masih ada dan seringkali memerlukan pendekatan yang komprehensif dan berkelanjutan.`,
-              from: 'ai',
-              uuid:
-                Math.floor(Math.random() * (99999999 - 10000000 + 1)) +
-                10000000,
-            },
-          ],
-          isActive: true,
-          uuid:
-            Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
-        },
-      ]
-
-      dataTerkini?.data?.map((item) => {
-        if (item.title === e.message) {
-          return (item.isActive = true)
-        } else {
-          return (item.isActive = false)
-        }
-      })
-      setIsHeader(false)
+    const dataMessage = {
+      message: e.message,
+      thread_id: collection.thread_id,
+      document: e.file,
     }
 
-    dataMessage?.map((item) => {
-      if (item.type === 'terkini') {
-        item.data = dataTerkini.data
-      } else {
-        item.data?.map((itm) => (itm.isActive = false))
-      }
-    })
-
-    setMessage([...dataMessage])
+    const bodyFormData = new FormData()
+    for (const [key, value] of Object.entries(dataMessage)) {
+      bodyFormData.append(key, value)
+    }
+    sendMessage(bodyFormData)
+    setDisableInput(true)
   }
 
   const onClickColection = (id) => {
-    let texts = ''
+    let texts = 'Obrolan Baru'
+    let activeData = null
 
-    dataMessage.forEach((item) => {
+    dataMessage?.forEach((item) => {
       if (item.type === 'koleksi') {
         item.data.forEach((dataItem) => {
           if (dataItem.childs) {
             dataItem.childs.forEach((child) => {
               if (child.uuid === id) {
                 texts = child.title ?? child.message
+                activeData = child
               }
             })
           }
@@ -239,6 +310,7 @@ export const Chat = () => {
           if (dataItem.title) {
             if (dataItem.uuid === id) {
               texts = dataItem.title
+              activeData = dataItem
             }
           }
         })
@@ -268,6 +340,13 @@ export const Chat = () => {
     setMessage([...dataMessage])
     setHeaderText(texts)
     setIsHeader(false)
+
+    if (activeData?.update_at) {
+      setCurrUUID(id)
+    } else {
+      setCurrUUID(null)
+      setRenderedMessage(activeData?.chat ?? null)
+    }
   }
 
   const onEdit = (e) => {
@@ -320,18 +399,36 @@ export const Chat = () => {
     setMessage([...dataMessage])
   }
 
+  const handleResetThread = () => {
+    dataMessage.map((item) => {
+      if (item.type !== 'koleksi') {
+        item.data?.map((items) => {
+          items.isActive = false
+        })
+      }
+    })
+    setMessage([...dataMessage])
+  }
+
   return (
     <div className='bg-primary-base w-full h-screen flex flex-col'>
-      <div className='md:px-4 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-full flex-1'>
+      <div className='md:px-4 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
         <NavChat
-          onHeaderClick={() => setIsHeader(true)}
+          onHeaderClick={() => {
+            setIsHeader(true)
+            collectionReset()
+            setCurrUUID(null)
+            setHeaderText('Obrolan Baru')
+            handleResetThread()
+            setRenderedMessage([])
+          }}
           dataLatest={dataMessage}
           onEdit={(e) => onEdit(e)}
           headerText={headerText}
           onExpand={(e) => handleOnExpand(e)}
         />
 
-        <main className='h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border border-neutral-20 border-opacity-80'>
+        <main className='md:h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border border-neutral-20 border-opacity-80 h-[calc(100%-76px)]'>
           <header className='hidden justify-between items-center md:border-b md:border-b-neutral-30 md:flex md:pb-4 md:-mx-4 md:px-8'>
             <div className='flex gap-2'>
               <img src={images.ic_obrolan} alt='obrolan' />
@@ -433,7 +530,15 @@ export const Chat = () => {
           <div className='flex h-full md:h-[calc(100%-56px)] flex-col select-text relative'>
             <AutoScrollingDiv
               content={
-                dataMessage?.length !== 0 && !isHeader ? (
+                isHeader && renderedMessage?.length === 0 ? (
+                  <QuestionCard
+                    data={DEFAULT_QUESTION}
+                    onClick={(e) => handleAddChat(e)}
+                    className={`md:absolute ${
+                      isDisplayImage ? 'md:top-[20%]' : 'md:top-1/4'
+                    }`}
+                  />
+                ) : renderedMessage?.length !== 0 ? (
                   renderedMessage?.map((itms, index) => (
                     <ChatCard key={index} item={itms} />
                   ))
@@ -454,6 +559,7 @@ export const Chat = () => {
                 onChange={(e) => handleAddChat(e)}
                 onDisplayImage={(e) => setDisplayImage(e)}
                 className='w-full md:w-3/4'
+                disable={disableInput}
               />
             </div>
           </div>

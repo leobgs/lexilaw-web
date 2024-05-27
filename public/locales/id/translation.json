@@ -98,7 +98,11 @@
     "firm_name_optional": "Nama perusahaan  (Opsional)",
     "firm_name": "Nama Perusahaan",
     "message_name_success": "Berhasil mengirim permintaan untuk mengubah nama",
+    "email_empty": "Email cannot be empty",
+    "email_incorect": "Incorrect Email Format",
+    "city_empty": "City cannot be empty",
     "message_password_success": "Kata Sandi berhasil diubah",
+    "message_success_update_info": "Data berhasil diubah",
     "message_password_wrong": "Kata sandi yang Anda masukkan salah. Silahkan coba lagi.",
     "message_new_password_must_not_same": "Kata sandi baru tidak boleh sama dengan kata sandi lama."
   },

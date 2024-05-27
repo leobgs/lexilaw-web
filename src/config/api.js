@@ -18,9 +18,14 @@ export const API = {
   THREAD_DETAIL: '/api/app/v1.0.0/chat/threads/',
   THREAD_EDIT: '/api/app/v1.0.0/threads/',
 
+  MESSAGE_SEND: '/api/app/v1.0.0/chat/conversation',
+  MESSAGE_RESPONSE: '/api/app/v1.0.0/chat/conversation/',
+  MESSAGE_STATUS: '/api/app/v1.0.0/chat/',
+
   USER_DETAIL: '/user/app/v1.0.0/user/detail',
   UPDATE_NAME: '/user/app/v1.0.0/user/request/change-name',
-
+  UPDATE_PROFIL: '/user/app/v1.0.0/user/info',
+  
   // TRANSACTION
   LAWYER_RECOMMENDATION: '/user/app/v1.0.0/lawyer/recommendation',
   BOOK_LAWYER_SERVICES: '/user/app/v1.0.0/lawyer/service/'

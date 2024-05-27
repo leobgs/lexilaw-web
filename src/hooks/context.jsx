@@ -23,6 +23,7 @@ export const AppContext = React.createContext({
   collectionDelete: (e) => {},
   collectionEdit: (e) => {},
   collectionSetEdit: (e) => {},
+  collectionReset: (e) => {},
 })
 
 export const AppProvider = ({ children }) => {
@@ -121,6 +122,13 @@ export const AppProvider = ({ children }) => {
     })
   }
 
+  const collectionReset = (action) => {
+    return new Reducer(collection, dispatchColection).dispatch({
+      ...action,
+      type: colectionType.EMPTY,
+    })
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -138,6 +146,7 @@ export const AppProvider = ({ children }) => {
         collectionDelete,
         collectionEdit,
         collectionSetEdit,
+        collectionReset,
       }}
     >
       {children}
