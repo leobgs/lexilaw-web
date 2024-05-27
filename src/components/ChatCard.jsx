@@ -3,7 +3,7 @@ import { notify } from 'hooks/useToas'
 import { byteConversion } from 'utils/byteConversion'
 import { ChatRespond } from './ChatRespond'
 
-export const ChatCard = ({ item }) => {
+export const ChatCard = ({ item, index }) => {
   return (
     <div
       className={`flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 ${
@@ -60,8 +60,9 @@ export const ChatCard = ({ item }) => {
         )}
 
         {item.from === '000000' && item.type !== 'loading' && (
-          <ChatRespond item={item} />
+          <ChatRespond item={item} index={index} />
         )}
+
         {item.from === '000000' && item.type === 'loading' && (
           <>
             <div className='h-4 rounded-xl w-48 animate-pulse bg-black-lighter bg-opacity-30' />

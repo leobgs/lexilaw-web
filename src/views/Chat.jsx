@@ -102,53 +102,9 @@ export const Chat = () => {
         ]
 
         setMessage([...newMessage])
-
-        // newMessage?.forEach((item) => {
-        //   if (item.type === 'koleksi') {
-        //     item.data.forEach((dataItem) => {
-        //       if (dataItem.childs) {
-        //         dataItem.childs.forEach((child) => {
-        //           if (child.uuid === collectionUUID) {
-        //             texts = child.title ?? child.message
-        //           }
-        //         })
-        //       }
-        //     })
-        //   } else {
-        //     item.data.forEach((dataItem) => {
-        //       if (dataItem.title) {
-        //         if (dataItem.uuid === collectionUUID) {
-        //           texts = dataItem.title
-        //         }
-        //       }
-        //     })
-        //   }
-        // })
-
-        // newMessage?.map((item) => {
-        //   item.data?.map((itm) => {
-        //     if (!itm.value) {
-        //       if (itm.uuid === collectionUUID) {
-        //         itm.isActive = true
-        //       } else {
-        //         itm.isActive = false
-        //       }
-        //     } else if (itm.value) {
-        //       itm.childs?.map((itms) => {
-        //         if (itms.uuid === collectionUUID) {
-        //           itms.isActive = true
-        //         } else {
-        //           itms.isActive = false
-        //         }
-        //       })
-        //     }
-        //   })
-        // })
-
-        setMessage([...newMessage])
         setHeaderText(texts)
         setCurrUUID(collectionUUID)
-        collectionClick(currentData[0])
+        collectionClick(currentData && currentData[0])
       } else {
         notifyError(datas?.message)
       }
@@ -530,7 +486,7 @@ export const Chat = () => {
           <div className='flex h-full md:h-[calc(100%-56px)] flex-col select-text relative'>
             <AutoScrollingDiv
               content={
-                isHeader && renderedMessage?.length === 0 ? (
+                isHeader || !renderedMessage ? (
                   <QuestionCard
                     data={DEFAULT_QUESTION}
                     onClick={(e) => handleAddChat(e)}
@@ -540,7 +496,7 @@ export const Chat = () => {
                   />
                 ) : renderedMessage?.length !== 0 ? (
                   renderedMessage?.map((itms, index) => (
-                    <ChatCard key={index} item={itms} />
+                    <ChatCard key={index} item={itms} index={index} />
                   ))
                 ) : (
                   <QuestionCard

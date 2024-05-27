@@ -125,7 +125,12 @@ export const NavChat = ({
               <div key={`${index}-k`}>
                 {item.data.length !== 0 && (
                   <div className='flex justify-between items-end mr-2 my-4'>
-                    <div className='text-neutral-40 text-sm'>Koleksi</div>
+                    <div className='text-[#AEB3BF] text-sm'>
+                      {' '}
+                      {t('collection', {
+                        keyPrefix: 'chat.chat_text',
+                      })}
+                    </div>
                     <img
                       src={images.ic_menu_down}
                       alt='dropdown'
@@ -180,7 +185,12 @@ export const NavChat = ({
                 className={`${item.data.length !== 0 ? 'my-4' : ''}`}
               >
                 {item.data.length !== 0 && (
-                  <div className='text-neutral-40 mt-4'>Terkini</div>
+                  <div className='text-[#AEB3BF] mt-4'>
+                    {' '}
+                    {t('current', {
+                      keyPrefix: 'chat.chat_text',
+                    })}
+                  </div>
                 )}
 
                 {item.data.length !== 0 &&
@@ -197,8 +207,10 @@ export const NavChat = ({
             return (
               <div key={`${index}-r`}>
                 {item.data.length !== 0 && (
-                  <div className='text-neutral-40 mt-4 text-sm'>
-                    Obrolan Lampau
+                  <div className='text-[#AEB3BF] mt-4 text-sm'>
+                    {t('past_chat', {
+                      keyPrefix: 'chat.chat_text',
+                    })}
                   </div>
                 )}
 
