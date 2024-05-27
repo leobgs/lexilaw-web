@@ -79,7 +79,9 @@ export const NavChat = ({
             value={search}
             name='search'
             className='w-10/12'
-            placeholder={'Cari'}
+            placeholder={t('search', {
+              keyPrefix: 'chat.chat_text',
+            })}
             rowed='w-2/3 mx-auto'
             iconClassName='!w-6'
             icon={images.ic_search}
@@ -126,7 +128,6 @@ export const NavChat = ({
                 {item.data.length !== 0 && (
                   <div className='flex justify-between items-end mr-2 my-4'>
                     <div className='text-[#AEB3BF] text-sm'>
-                      {' '}
                       {t('collection', {
                         keyPrefix: 'chat.chat_text',
                       })}
@@ -266,7 +267,9 @@ export const NavChat = ({
                     name='search'
                     className='w-10/12'
                     inputClass='!rounded-full'
-                    placeholder={'Cari'}
+                    placeholder={t('search', {
+                      keyPrefix: 'chat.chat_text',
+                    })}
                     rowed
                     iconClassName='!w-6'
                     icon={images.ic_search}
