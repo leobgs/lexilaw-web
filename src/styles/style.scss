@@ -85,3 +85,30 @@ body {
   background-repeat: no-repeat;
   background-size: 100%;
 }
+
+@property --angle {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+.card-animated-chat {
+  --angle: 0deg;
+  padding: 40px;
+  background: linear-gradient(white, white) padding-box,
+    conic-gradient(from var(--angle), #dfdfdf, #17171b) border-box;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  width: fit-content;
+  height: fit-content;
+  animation: rotate-gradient 3s infinite linear;
+}
+
+@keyframes rotate-gradient {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
+  }
+}

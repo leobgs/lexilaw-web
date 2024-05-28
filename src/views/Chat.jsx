@@ -483,7 +483,7 @@ export const Chat = () => {
             />
           </header>
 
-          <div className='flex h-full md:h-[calc(100%-56px)] flex-col select-text relative'>
+          <div className='flex h-full md:h-[calc(100%-56px)] flex-col select-text relative mb-2'>
             <AutoScrollingDiv
               content={
                 isHeader || !renderedMessage ? (
