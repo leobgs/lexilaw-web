@@ -86,48 +86,6 @@ export const OROLAN_TERKINI = []
 
 export const RIWAYAT_OROLAN = [
   {
-    title: 'dummy - Apa boleh tidak memperpanjang surat Kendaraan?',
-    uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
-    chat: [
-      {
-        message: 'Apa boleh tidak memperpanjang surat Kendaraan?',
-        file: null,
-        from: 'cb87b9a5-e1da-4410-85e5-4e1d4a9c463e',
-        uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
-        type: '',
-      },
-      {
-        message: 'sadsd',
-        file: null,
-        from: 'cb87b9a5-e1da-4410-85e5-4e1d4a9c463e',
-        uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
-        type: '',
-      },
-    ],
-    isActive: false,
-  },
-  {
-    title: 'dummy - Hukum tidak melapor pajak bagi wajib pajak?',
-    uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
-    chat: [
-      {
-        message: 'Hukum tidak melapor pajak bagi wajib pajak?',
-        file: null,
-        from: 'cb87b9a5-e1da-4410-85e5-4e1d4a9c463e',
-        uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
-        type: '',
-      },
-      {
-        message:
-          'Sengketa lahan girik merujuk pada konflik atau perselisihan yang berkaitan dengan hak kepemilikan tanah yang diakui melalui girik. Girik adalah bentuk sertifikat tanah tradisional di Indonesia yang mengakui hak kepemilikan tanah secara turun-temurun dalam masyarakat adat atau lokal.\n    Sengketa lahan girik dapat muncul karena beberapa alasan, termasuk ketidakjelasan batas tanah, klaim ganda terhadap lahan, perubahan kebijakan pemerintah terkait tanah, atau perselisihan warisan antara keluarga atau komunitas. Sengketa semacam itu seringkali kompleks dan memerlukan penyelesaian yang cermat dan adil untuk menghindari konflik lebih lanjut.\n    Penyelesaian sengketa lahan girik biasanya melibatkan berbagai pihak, termasuk pemilik tanah, pemerintah daerah, badan hukum, dan masyarakat setempat. Prosesnya bisa melalui mediasi, arbitrase, atau bahkan pengadilan tergantung pada tingkat kompleksitas dan kesepakatan antara pihak-pihak terlibat.\n    Di Indonesia, pemerintah telah berupaya untuk mengatasi masalah sengketa lahan girik melalui berbagai kebijakan dan program reformasi agraria. Namun, tantangan dalam penyelesaian sengketa lahan girik masih ada dan seringkali memerlukan pendekatan yang komprehensif dan berkelanjutan.',
-        from: 'ai',
-        uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
-        type: '',
-      },
-    ],
-    isActive: false,
-  },
-  {
     title: 'dummy - Bagaimana cara melihat semua feature?',
     uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
     chat: [

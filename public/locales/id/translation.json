@@ -77,6 +77,13 @@
       "main_menu": "Menu Utama",
       "connected": "Hubungkan",
       "configure": "Konfigurasi"
+    },
+    "chat_text": {
+      "switch_lang": "Gunakan bahasa santai, dong",
+      "collection": "Koleksi",
+      "current": "Terkini",
+      "past_chat": "Obrolan Lampau",
+      "search": "Cari"
     }
   },
   "my_account": {

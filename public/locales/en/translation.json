@@ -77,6 +77,13 @@
       "main_menu": "Main Menu",
       "connected": "Connected",
       "configure": "Configure"
+    },
+    "chat_text": {
+      "switch_lang": "Use casual language, please",
+      "collection": "Collection",
+      "current": "Current Chat",
+      "past_chat": "Past Chat",
+      "search": "Search"
     }
   },
   "my_account": {
