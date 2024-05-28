@@ -1,14 +1,33 @@
 import images from 'assets/images'
 import { copyToClipboard } from 'utils'
-import { LAWYER_DATA } from 'utils/dummy'
 import { Button } from './Button/Button'
 import { useState } from 'react'
 import { LawyerRecommendation } from './LawyerRecommendation'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
+import { getData } from 'hooks/useRequest'
+import { API } from 'config/api'
+import { notifyError } from 'hooks/useToas'
 
 export const ChatRespond = ({ item, index }) => {
   const [showLawyerRecommendation, setLawyerRecommendation] = useState(false)
   const { t } = useTranslation()
+  const [dataLawyer, setDataLawyer] = useState([]);
+
+  useQuery(
+    ["lawyer_recomendation"],
+    () => getData(API.LAWYER_RECOMMENDATION, { lawyer_uuid: ["71059093-d800-46d5-89d7-a5f5848a9272", "71059093-d800-46d5-89d7-a5f5848a9271", "ce291454-e0e6-4cff-b78f-81fbc2c80f36"] }),
+    {
+      enabled: item.type === "recommendation",
+      onSettled: (data) => {
+        if (data.status === "Success") {
+          setDataLawyer(data.data);
+        } else {
+          notifyError(data?.message);
+        }
+      },
+    }
+  );
 
   const renderMessage = (type) => {
     switch (type) {
@@ -21,24 +40,24 @@ export const ChatRespond = ({ item, index }) => {
             >
               <div className='flex items-center'>
                 <img
-                  src={LAWYER_DATA[0].image_url}
+                  src={dataLawyer[0]?.image_url}
                   alt='lawyer'
                   className='h-9 w-9 rounded-full'
                 />
                 <div className='ml-3'>
                   <div className='flex items-center'>
                     <div className='text-secondary-base font-semi-bold'>
-                      {LAWYER_DATA[0].first_name} {LAWYER_DATA[0].last_name}
+                      {dataLawyer[0]?.first_name} {dataLawyer[0]?.last_name}
                     </div>
                     <div className='ml-3 font-semi-bold text-neutral-40 hidden md:inline-block'>
-                      +{LAWYER_DATA?.length} more
+                      +{dataLawyer?.length} more
                     </div>
                   </div>
                   <div className='text-sm text-neutral-40'>
-                    {LAWYER_DATA[0].city}
+                    {dataLawyer[0]?.city}
                   </div>
                   <div className='font-semi-bold text-neutral-40 md:hidden'>
-                    +{LAWYER_DATA?.length} more
+                    +{dataLawyer?.length} more
                   </div>
                 </div>
               </div>
@@ -63,6 +82,7 @@ export const ChatRespond = ({ item, index }) => {
             <LawyerRecommendation
               isShow={showLawyerRecommendation}
               onHide={() => setLawyerRecommendation(false)}
+              dataLawyer={dataLawyer}
             />
           </div>
         )

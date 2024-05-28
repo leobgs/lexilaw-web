@@ -6,18 +6,13 @@ import { Button } from "./Button/Button";
 import { useWidthSize } from "hooks/useWidthSize";
 import "./LawyerRecommendation.scss";
 import { useNavigate } from "react-router-dom";
-import { getData } from "hooks/useRequest";
-import { useQuery } from "react-query";
-import { API } from "config/api";
-import { notifyError } from "hooks/useToas";
 
 export const LawyerRecommendation = ({
   isShow,
   onHide = () => {},
-  lawyerUUIDs = [],
+  dataLawyer = [],
 }) => {
   const navigate = useNavigate();
-  const [dataLawyer, setDataLawyer] = useState();
   const [selectedLawyer, setSelectedLawyer] = useState(null);
   const currWidth = useWidthSize();
 
@@ -25,22 +20,7 @@ export const LawyerRecommendation = ({
     resetDataLawyer();
   }, []);
 
-  useQuery(
-    ["lawyer_recomendation"],
-    () => getData(API.LAWYER_RECOMMENDATION, { lawyer_uuid: lawyerUUIDs }),
-    {
-      onSettled: (data) => {
-        if (data.status === "Success") {
-          setDataLawyer(data.data);
-        } else {
-          notifyError(data?.message);
-        }
-      },
-    }
-  );
-
   const resetDataLawyer = () => {
-    setDataLawyer([]);
     setSelectedLawyer(null);
   };
 
@@ -52,7 +32,6 @@ export const LawyerRecommendation = ({
         item.isActive = false;
       }
     });
-    setDataLawyer([...dataLawyer]);
   };
 
   return (
