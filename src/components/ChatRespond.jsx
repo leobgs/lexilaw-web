@@ -3,11 +3,12 @@ import { copyToClipboard } from 'utils'
 import { LAWYER_DATA } from 'utils/dummy'
 import { Button } from './Button/Button'
 import { useState } from 'react'
-import { Modal } from './Modal'
 import { LawyerRecommendation } from './LawyerRecommendation'
+import { useTranslation } from 'react-i18next'
 
-export const ChatRespond = ({ item }) => {
+export const ChatRespond = ({ item, index }) => {
   const [showLawyerRecommendation, setLawyerRecommendation] = useState(false)
+  const { t } = useTranslation()
 
   const renderMessage = (type) => {
     switch (type) {
@@ -69,26 +70,31 @@ export const ChatRespond = ({ item }) => {
       default:
         return (
           <div className='border-t border-neutral-70 -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2'>
-            <div className='my-4 justify-between flex'>
-              <Button
-                onClick={() => copyToClipboard(item.message)}
-                className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
-                iconLeft={images.ic_change_style_lang}
-                iconClassName='!h-4 !w-3'
-                label='Gunakan bahasa santai, dong'
-              />
-              <div className='flex justify-between items-center'>
-                <div
-                  className='hidden md:inline-block bg-neutral-50 p-2 rounded-full'
-                  onClick={() => copyToClipboard(item.message)}
-                >
-                  <img src={images.ic_copy} alt='copy' className='h-4 w-4' />
-                </div>
-                <div className='bg-neutral-50 p-2 rounded-full'>
-                  <img src={images.ic_redo} alt='redo' className='h-4 w-4' />
+            {index === 1 && (
+              <div className='my-4 justify-between flex'>
+                <Button
+                  onClick={() => console.log('switch cassual language')}
+                  className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
+                  iconLeft={images.ic_change_style_lang}
+                  iconClassName='!h-4 !w-3'
+                  label={t('switch_lang', {
+                    keyPrefix: 'chat.chat_text',
+                  })}
+                />
+
+                <div className='flex justify-between items-center'>
+                  <div
+                    className='hidden md:inline-block bg-neutral-50 p-2 rounded-full'
+                    onClick={() => copyToClipboard(item.message)}
+                  >
+                    <img src={images.ic_copy} alt='copy' className='h-4 w-4' />
+                  </div>
+                  <div className='bg-neutral-50 p-2 rounded-full'>
+                    <img src={images.ic_redo} alt='redo' className='h-4 w-4' />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         )
     }

@@ -102,53 +102,9 @@ export const Chat = () => {
         ]
 
         setMessage([...newMessage])
-
-        // newMessage?.forEach((item) => {
-        //   if (item.type === 'koleksi') {
-        //     item.data.forEach((dataItem) => {
-        //       if (dataItem.childs) {
-        //         dataItem.childs.forEach((child) => {
-        //           if (child.uuid === collectionUUID) {
-        //             texts = child.title ?? child.message
-        //           }
-        //         })
-        //       }
-        //     })
-        //   } else {
-        //     item.data.forEach((dataItem) => {
-        //       if (dataItem.title) {
-        //         if (dataItem.uuid === collectionUUID) {
-        //           texts = dataItem.title
-        //         }
-        //       }
-        //     })
-        //   }
-        // })
-
-        // newMessage?.map((item) => {
-        //   item.data?.map((itm) => {
-        //     if (!itm.value) {
-        //       if (itm.uuid === collectionUUID) {
-        //         itm.isActive = true
-        //       } else {
-        //         itm.isActive = false
-        //       }
-        //     } else if (itm.value) {
-        //       itm.childs?.map((itms) => {
-        //         if (itms.uuid === collectionUUID) {
-        //           itms.isActive = true
-        //         } else {
-        //           itms.isActive = false
-        //         }
-        //       })
-        //     }
-        //   })
-        // })
-
-        setMessage([...newMessage])
         setHeaderText(texts)
         setCurrUUID(collectionUUID)
-        collectionClick(currentData[0])
+        collectionClick(currentData && currentData[0])
       } else {
         notifyError(datas?.message)
       }
@@ -163,7 +119,6 @@ export const Chat = () => {
         if (datas?.status === 'Success') {
           const { data } = datas
           setRenderedMessage(data)
-          // onClickColection(collection.uuid)
         } else if (datas?.status === 'Not Found') {
           refetchDetail()
         } else {
@@ -260,7 +215,9 @@ export const Chat = () => {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
           const { data } = datas
-          queryClient.invalidateQueries('newest_thread')
+          if (isHeader) {
+            queryClient.invalidateQueries('newest_thread')
+          }
           setCurrUUID(collection.uuid)
           refetchDetail()
           setThreadMessageId({
@@ -527,10 +484,10 @@ export const Chat = () => {
             />
           </header>
 
-          <div className='flex h-full md:h-[calc(100%-56px)] flex-col select-text relative'>
+          <div className='flex h-full md:h-[calc(100%-56px)] flex-col select-text relative mb-2'>
             <AutoScrollingDiv
               content={
-                isHeader && renderedMessage?.length === 0 ? (
+                isHeader || !renderedMessage ? (
                   <QuestionCard
                     data={DEFAULT_QUESTION}
                     onClick={(e) => handleAddChat(e)}
@@ -540,7 +497,7 @@ export const Chat = () => {
                   />
                 ) : renderedMessage?.length !== 0 ? (
                   renderedMessage?.map((itms, index) => (
-                    <ChatCard key={index} item={itms} />
+                    <ChatCard key={index} item={itms} index={index} />
                   ))
                 ) : (
                   <QuestionCard
