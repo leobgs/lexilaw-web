@@ -101,13 +101,12 @@ export const BookLawyer = () => {
   const firstServicesRate = summaryPrices?.jasa_pajak?.find(
     (service) => service.id === 0
   );
-  const totalServicePrice = (firstServicesRate?.price || 0)
+  const totalServicePrice = firstServicesRate?.price || 0;
 
-  const totalServicePriceAndTax =
-    (summaryPrices?.jasa_pajak || []).reduce(
-      (total, service) => total + service.price,
-      0
-    );
+  const totalServicePriceAndTax = (summaryPrices?.jasa_pajak || []).reduce(
+    (total, service) => total + service.price,
+    0
+  );
 
   const totalTransactionPrice = (summaryPrices?.transaction_price || []).reduce(
     (total, transaction) => total + transaction.price,
@@ -115,7 +114,8 @@ export const BookLawyer = () => {
   );
 
   // Hitung total harga transaksi keseluruhan
-  const totalTransactionAmount = (totalServicePriceAndTax || 0) + (totalTransactionPrice || 0);
+  const totalTransactionAmount =
+    (totalServicePriceAndTax || 0) + (totalTransactionPrice || 0);
 
   return (
     <div className="">
@@ -123,6 +123,9 @@ export const BookLawyer = () => {
         dataLawyer={dataLawyer}
         isShow={isShowPaymentMethodModal}
         onHide={() => {
+          setPaymentMethodModal(!isShowPaymentMethodModal);
+        }}
+        onPaidClicked={() => {
           setPaymentMethodModal(!isShowPaymentMethodModal);
           setIsShowPaymentSuccessModal(!isShowPaymentSuccessModal);
         }}
