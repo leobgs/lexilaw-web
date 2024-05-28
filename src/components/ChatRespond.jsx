@@ -32,6 +32,8 @@ export const ChatRespond = ({ item, index }) => {
   const renderMessage = (type) => {
     switch (type) {
       case 'recommendation':
+        const moreValue = dataLawyer?.length - 1
+        
         return (
           <div className='mx-4 -ml-10 px-4 md:border-t-0 md:-mx-4 mt-2'>
             <div
@@ -49,16 +51,16 @@ export const ChatRespond = ({ item, index }) => {
                     <div className='text-secondary-base font-semi-bold'>
                       {dataLawyer[0]?.first_name} {dataLawyer[0]?.last_name}
                     </div>
-                    <div className='ml-3 font-semi-bold text-neutral-40 hidden md:inline-block'>
-                      +{dataLawyer?.length} more
-                    </div>
+                    {moreValue > 0 &&  <div className='ml-3 font-semi-bold text-neutral-40 hidden md:inline-block'>
+                      +{moreValue} more
+                    </div>}
                   </div>
                   <div className='text-sm text-neutral-40'>
                     {dataLawyer[0]?.city}
                   </div>
-                  <div className='font-semi-bold text-neutral-40 md:hidden'>
-                    +{dataLawyer?.length} more
-                  </div>
+                  {moreValue > 0 && <div className='font-semi-bold text-neutral-40 md:hidden'>
+                    +{moreValue} more
+                  </div>}
                 </div>
               </div>
               <img src={images.ic_arrow_cornering} alt='' />
