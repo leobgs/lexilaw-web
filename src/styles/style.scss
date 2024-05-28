@@ -94,11 +94,11 @@ body {
 
 .card-animated-chat {
   --angle: 0deg;
-  padding: 40px;
+
   background: linear-gradient(white, white) padding-box,
-    conic-gradient(from var(--angle), #dfdfdf, #17171b) border-box;
+    conic-gradient(from var(--angle), #dfdfdf, #004225) border-box;
   border: 2px solid transparent;
-  border-radius: 16px;
+  border-radius: 12px;
   width: fit-content;
   height: fit-content;
   animation: rotate-gradient 3s infinite linear;

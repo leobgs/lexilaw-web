@@ -119,7 +119,6 @@ export const Chat = () => {
         if (datas?.status === 'Success') {
           const { data } = datas
           setRenderedMessage(data)
-          // onClickColection(collection.uuid)
         } else if (datas?.status === 'Not Found') {
           refetchDetail()
         } else {
@@ -216,7 +215,9 @@ export const Chat = () => {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
           const { data } = datas
-          queryClient.invalidateQueries('newest_thread')
+          if (isHeader) {
+            queryClient.invalidateQueries('newest_thread')
+          }
           setCurrUUID(collection.uuid)
           refetchDetail()
           setThreadMessageId({
