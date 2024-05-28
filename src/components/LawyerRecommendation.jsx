@@ -21,6 +21,9 @@ export const LawyerRecommendation = ({
   }, []);
 
   const resetDataLawyer = () => {
+    dataLawyer?.forEach((item) => {
+      item.isActive = false;
+    });
     setSelectedLawyer(null);
   };
 
