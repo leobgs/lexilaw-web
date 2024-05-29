@@ -18,6 +18,13 @@
       "registration": "Registration",
       "dont_have_an_account_yet": "Don't have an account yet?",
       "login_using_registered_email": "Login Using Registered Email",
+      "select_city": "Select City",
+      "validate_email_format": "Invalid email format",
+      "validate_name_format": "Invalid name format",
+      "validate_password": "Invalid password must contain at least an upper case characters, a number, symbol and 8 characters minimum",
+      "password_match": "Password don't match",
+      "input_password_first": "Input password first",
+      "city_not_found": "The city could not be found",
       "error_messages": {
         "image_error": "Incorrect image format"
       },
