@@ -36,7 +36,7 @@ export const Name = ({ userData }) => {
     }
 
     const validateName = (first_name, last_name) => {
-        const regex = /^[a-zA-Z\s']+$/;
+        const regex = /^[a-zA-Z\s]*$/
         return regex.test(first_name, last_name)
     }
 
