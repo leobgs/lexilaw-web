@@ -12,6 +12,7 @@ export const PaymentMethodModal = ({
   dataLawyer,
   isShow,
   onHide = () => {},
+  onPaidClicked = () => {}
 }) => {
   const { t } = useTranslation()
   const [paymentMethods, setPaymentMethods] = useState(PAYMENT_METHOD)
@@ -66,7 +67,7 @@ export const PaymentMethodModal = ({
         <Button
           label={'Bayar Sekarang'}
           onClick={() => {
-            onHide()
+            onPaidClicked()
           }}
           className={clsx(
             'w-full mx-8 my-[18px] bg-gradient-to-r from-[#1D1D1D] to-[#403E3E] font-bold text-[#E9E9E9] text-base rounded-md transition',
