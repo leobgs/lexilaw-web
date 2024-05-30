@@ -1,60 +1,62 @@
-import bg_register_login from "./bg_register_login.png";
-import logo_lexilaw from "./logo_lexilaw.png";
+import bg_register_login from './bg_register_login.png'
+import logo_lexilaw from './logo_lexilaw.png'
 
-import ic_right_vector from "./ic_right_vector.png";
-import ic_eye_strike from "./ic_eye_strike.png";
-import ic_vector_right from "./ic_vector_right.png";
-import ic_chat_bubbles from "./ic_chat_bubbles.png";
-import ic_chat_blue from "./ic_chat_blue.png";
-import ic_navbar_hidden from "./ic_navbar_hidden.png";
-import ic_attachment_upload from "./ic_attachment_upload.png";
-import ic_attach_black from "./ic_attach_black.png";
-import ic_invalid from "./ic_invalid.png";
-import ic_close_black from "./ic_close_black.png";
-import ic_thumbnail_profile from "./ic_thumbnail_profile.png";
-import ic_add_convo from "./ic_add_convo.png";
-import ic_obrolan from "./ic_obrolan.png";
-import ic_search from "./ic_search.png";
-import ic_menu_down from "./ic_menu_down.png";
-import ic_folder_colection from "./ic_folder_colection.png";
-import ic_folder_colection_active from "./ic_folder_colection_active.png";
-import ic_dots from "./ic_dots.png";
-import ic_folder_colections from "./ic_folder_colections.png";
-import ic_right_toogle from "./ic_right_toogle.png";
-import ic_profile_lexi from "./ic_profile_lexi.png";
-import ic_change_style_lang from "./ic_change_style_lang.png";
-import ic_copy from "./ic_copy.png";
-import ic_redo from "./ic_redo.png";
-import ic_pdf_thumbnail from "./ic_pdf_thumbnail.png";
-import ic_send from "./ic_send.png";
-import ic_chevron_left from "./ic_chevron_left.png";
-import lexilaw_logo from "./lexilaw-logo.png";
-import ic_eye from "./ic_eye.png";
-import chevron_right from "./chevron-right.png";
-import chevron_left from "./chevron-left.png";
-import google from "./google.png";
-import apple from "./apple.png";
-import email_outline from "./email-outline.png";
-import ai_profile_thumbnail from "./ai-profile-thumbnail.png";
-import ic_upload from "./ic_upload.png";
-import ic_avatar_placeholder from "./ic_avatar_placeholder.png";
-import ic_chevron_down from "./ic_chevron_down.png";
-import ic_close_red from "./ic_close_red.png";
-import ic_arrow_cornering from "./ic_arrow_cornering.png";
-import ic_close from "./ic_close.png";
-import ic_blink from "./ic_blink.png";
-import ic_briefcase from "./ic_briefcase.png";
-import ic_close_white from "./ic_close_white.png";
-import ic_back from "./ic_back.png";
-import bg_lawyer_recommendation from "./bg_lawyer_recommendation.png";
-import bg_lawyerbottom from "./bg_lawyerbottom.png";
-import bg_lawyertop from "./bg_lawyertop.png";
-import ic_edit from "./ic_edit.png";
-import ic_delete from "./ic_delete.png";
-import ic_check from "./ic_check.png";
-import ic_check_green from "./ic_check_green.png";
-import ic_message_bubble_outline_white from "./ic_message_bubble_outline_white.png";
-import ic_tick from "./ic_tick.png";
+import ic_right_vector from './ic_right_vector.png'
+import ic_eye_strike from './ic_eye_strike.png'
+import ic_vector_right from './ic_vector_right.png'
+import ic_chat_bubbles from './ic_chat_bubbles.png'
+import ic_chat_blue from './ic_chat_blue.png'
+import ic_navbar_hidden from './ic_navbar_hidden.png'
+import ic_attachment_upload from './ic_attachment_upload.png'
+import ic_attach_black from './ic_attach_black.png'
+import ic_invalid from './ic_invalid.png'
+import ic_close_black from './ic_close_black.png'
+import ic_thumbnail_profile from './ic_thumbnail_profile.png'
+import ic_add_convo from './ic_add_convo.png'
+import ic_obrolan from './ic_obrolan.png'
+import ic_search from './ic_search.png'
+import ic_menu_down from './ic_menu_down.png'
+import ic_folder_colection from './ic_folder_colection.png'
+import ic_folder_colection_active from './ic_folder_colection_active.png'
+import ic_dots from './ic_dots.png'
+import ic_folder_colections from './ic_folder_colections.png'
+import ic_right_toogle from './ic_right_toogle.png'
+import ic_profile_lexi from './ic_profile_lexi.png'
+import ic_change_style_lang from './ic_change_style_lang.png'
+import ic_copy from './ic_copy.png'
+import ic_redo from './ic_redo.png'
+import ic_pdf_thumbnail from './ic_pdf_thumbnail.png'
+import ic_send from './ic_send.png'
+import ic_chevron_left from './ic_chevron_left.png'
+import lexilaw_logo from './lexilaw-logo.png'
+import ic_eye from './ic_eye.png'
+import chevron_right from './chevron-right.png'
+import chevron_left from './chevron-left.png'
+import google from './google.png'
+import apple from './apple.png'
+import email_outline from './email-outline.png'
+import ai_profile_thumbnail from './ai-profile-thumbnail.png'
+import ic_upload from './ic_upload.png'
+import ic_avatar_placeholder from './ic_avatar_placeholder.png'
+import ic_chevron_down from './ic_chevron_down.png'
+import ic_close_red from './ic_close_red.png'
+import ic_arrow_cornering from './ic_arrow_cornering.png'
+import ic_close from './ic_close.png'
+import ic_blink from './ic_blink.png'
+import ic_briefcase from './ic_briefcase.png'
+import ic_close_white from './ic_close_white.png'
+import ic_back from './ic_back.png'
+import bg_lawyer_recommendation from './bg_lawyer_recommendation.png'
+import bg_lawyerbottom from './bg_lawyerbottom.png'
+import bg_lawyertop from './bg_lawyertop.png'
+import ic_edit from './ic_edit.png'
+import ic_delete from './ic_delete.png'
+import ic_check from './ic_check.png'
+import ic_check_green from './ic_check_green.png'
+import ic_message_bubble_outline_white from './ic_message_bubble_outline_white.png'
+import ic_tick from './ic_tick.png'
+import ic_vector_green from './ic_vector_green.png'
+import ic_forum from './ic_forum.png'
 
 const images = {
   bg_register_login,
@@ -118,6 +120,8 @@ const images = {
   ic_check,
   ic_message_bubble_outline_white,
   ic_tick,
-};
+  ic_forum,
+  ic_vector_green,
+}
 
-export default images;
+export default images

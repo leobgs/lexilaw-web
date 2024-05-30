@@ -1,5 +1,5 @@
 import images from 'assets/images'
-import axios from 'axios'
+
 import { InputChat, NavChat, QuestionCard, Tooltips } from 'components'
 import { AutoScrollingDiv } from 'components/AutoScrollDiv'
 import { ChatCard } from 'components/ChatCard'
@@ -423,7 +423,10 @@ export const Chat = () => {
                       })}
                     </NavLink>
                     <div className='flex justify-between items-center  mb-2'>
-                      <div className='px-4 text-black-darker'>
+                      <div
+                        className='px-4 text-black-darker'
+                        onClick={() => navigate('/my-lawyer')}
+                      >
                         {t('my_lawyer', {
                           keyPrefix: 'chat.profile_option',
                         })}

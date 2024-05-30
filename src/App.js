@@ -16,6 +16,7 @@ import {
   PreChangePassword,
   BookLawyer,
   Account,
+  MyLawyer,
 } from 'views'
 import { ModalAlert } from 'components'
 import { ToastContainer } from 'react-toastify'
@@ -83,6 +84,7 @@ function App() {
         {/* with header component */}
         <Route element={<PrivateRoute wrapperContent={false} />}>
           <Route path='/book-lawyer' element={<BookLawyer />} />
+          <Route path='/my-lawyer' element={<MyLawyer />} />
         </Route>
 
         <Route path='/components' element={<Components />} />

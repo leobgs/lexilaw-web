@@ -433,7 +433,10 @@ export const NavChat = ({
                 })}
               </div>
               <div className='flex justify-between items-center mb-2'>
-                <div className='px-4 text-black-darker'>
+                <div
+                  className='px-4 text-black-darker'
+                  onClick={() => navigate('/my-lawyer')}
+                >
                   {t('my_lawyer', {
                     keyPrefix: 'chat.profile_option',
                   })}
