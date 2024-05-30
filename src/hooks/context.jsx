@@ -24,6 +24,8 @@ export const AppContext = React.createContext({
   collectionEdit: (e) => {},
   collectionSetEdit: (e) => {},
   collectionReset: (e) => {},
+  bookingLawyerPayload: null,
+  bookingLawyerReducer: (name, newValue) => {},
 })
 
 export const AppProvider = ({ children }) => {
@@ -44,6 +46,11 @@ export const AppProvider = ({ children }) => {
     city: '',
     image: null,
     company_name: '',
+  })
+
+  const [bookingLawyerPayload, setBookingLawyerPayload] = useState(() => {
+    const { BOOKING_LAWYER_PAYLOAD } = localServerData()
+    return BOOKING_LAWYER_PAYLOAD || {}
   })
 
   useEffect(() => {
@@ -129,6 +136,20 @@ export const AppProvider = ({ children }) => {
     })
   }
 
+  useEffect(() => {
+    const { setBookingLawyerPayload } = localServerData()
+    if (bookingLawyerPayload) {
+      setBookingLawyerPayload(bookingLawyerPayload);
+    }
+  }, [bookingLawyerPayload])
+
+  const bookingLawyerReducer = (fieldName, newValue) => {
+    return setBookingLawyerPayload({
+      ...bookingLawyerPayload,
+      [fieldName]: newValue,
+    });
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -147,6 +168,8 @@ export const AppProvider = ({ children }) => {
         collectionEdit,
         collectionSetEdit,
         collectionReset,
+        bookingLawyerPayload,
+        bookingLawyerReducer
       }}
     >
       {children}
