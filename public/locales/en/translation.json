@@ -123,5 +123,27 @@
   "incorrect_name_format": "Incorrect Name Format",
   "min_password": "Minimum password is 8 characters",
   "password_format_fail": "The password is invalid because it must contain at least one capital letter, one number, one symbol, and have a minimum length of 8 characters.",
-  "password_empty": "The password cannot be empty"
+  "password_empty": "The password cannot be empty",
+  "lawyer_recommendation": {
+    "another_option": "Another option",
+    "select_attorney_option": "Please Select the Attorney Option",
+    "based_on_your_needs": "Based on your needs, here are my recommended lawyers",
+    "booking_lawyer": "Booking Lawyer"
+  },
+  "chat_respond": {
+    "place_an_order": "Place an order",
+    "another_option": "Another option"
+  },
+  "input_chat": {
+    "ask_lexi": "Ask Lexi",
+    "Wait_for_lexi_to_answer": "Wait for Lexi to answer your question..."
+  },
+  "nav_component": {
+    "change_name": "Change name",
+    "move_to": "Move to",
+    "delete": "Delete",
+    "new_collection": "New Collection",
+    "save": "Save",
+    "cancel": "Cancel"
+  }
 }
