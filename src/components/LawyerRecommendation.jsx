@@ -14,7 +14,7 @@ export const LawyerRecommendation = ({
   onHide = () => {},
   dataLawyer = [],
 }) => {
-  const { bookingLawyer, bookingLawyerReducer } = useGlobalContext();
+  const { bookingLawyerReducer } = useGlobalContext();
   const navigate = useNavigate();
   const [selectedLawyer, setSelectedLawyer] = useState(null);
   const currWidth = useWidthSize();
