@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from 'react-query'
 import { API } from 'config/api'
 import { patchData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
+import { useTranslation } from 'react-i18next'
 
 export const NavComponent = ({ item }) => {
   const queryClient = useQueryClient()
@@ -23,6 +24,7 @@ export const NavComponent = ({ item }) => {
   const [show2nd, setShow2nd] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [text, setText] = useState('')
+  const { t } = useTranslation()
 
   const { mutate: updateTitle } = useMutation(
     (text) =>
@@ -125,7 +127,7 @@ export const NavComponent = ({ item }) => {
             setText(item.title)
           }}
         >
-          Ganti Nama
+          {t('change_name', { keyPrefix: 'nav_component' })}
         </div>
         <div
           className='border-b border-neutral-20 -mx-4 px-4 py-1 hidden md:inline-block w-52'
@@ -136,7 +138,7 @@ export const NavComponent = ({ item }) => {
             setText(item.title)
           }}
         >
-          Ganti Nama
+          {t('change_name', { keyPrefix: 'nav_component' })}
         </div>
 
         <div
@@ -144,14 +146,14 @@ export const NavComponent = ({ item }) => {
           onClick={() => setShow2nd(true)}
           data-tooltip-id={`tool-tips2-${item.uuid}`}
         >
-          <div>Pindah ke</div>
+          <div>{t('move_to', { keyPrefix: 'nav_component' })}</div>
           <img src={images.ic_right_toogle} alt='right toogle' />
         </div>
         <div
           className='text-error-base bg-neutral-60 -mx-4 px-4 -mb-2.5 py-1 rounded-b-lg'
           onClick={() => onDeleteClick()}
         >
-          Hapus
+          {t('delete', { keyPrefix: 'nav_component' })}
         </div>
       </ReactTooltip>
 
@@ -184,7 +186,7 @@ export const NavComponent = ({ item }) => {
           </div>
         ))}
         <div>
-          <div className='!text-neutral-40 text-base'>Koleksi Baru</div>
+          <div className='!text-neutral-40 text-base'>{t('new_collection', { keyPrefix: 'nav_component' })}</div>
         </div>
       </ReactTooltip>
 
@@ -204,12 +206,12 @@ export const NavComponent = ({ item }) => {
           />
           <div className='self-end flex gap-2 mt-4 mb-6'>
             <Button
-              label='Batal'
+              label={t('cancel', { keyPrefix: 'nav_component' })}
               className='text-black-dark !h-10'
               onClick={() => setShowModal(false)}
             />
             <Button
-              label='Simpan'
+              label={t('save', { keyPrefix: 'nav_component' })}
               className={`${
                 text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
               } rounded-3xl !h-10`}

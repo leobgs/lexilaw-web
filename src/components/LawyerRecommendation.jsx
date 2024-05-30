@@ -6,6 +6,7 @@ import { Button } from "./Button/Button";
 import { useWidthSize } from "hooks/useWidthSize";
 import "./LawyerRecommendation.scss";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next'
 
 export const LawyerRecommendation = ({
   isShow,
@@ -15,6 +16,7 @@ export const LawyerRecommendation = ({
   const navigate = useNavigate();
   const [selectedLawyer, setSelectedLawyer] = useState(null);
   const currWidth = useWidthSize();
+  const { t } = useTranslation()
 
   useEffect(() => {
     resetDataLawyer();
@@ -58,7 +60,9 @@ export const LawyerRecommendation = ({
               resetDataLawyer();
             }}
           />
-          <div className="text-xl font-futura-bold">Opsi Lain</div>
+          <div className="text-xl font-futura-bold">
+            {t('another_option', { keyPrefix: 'lawyer_recommendation' })}
+          </div>
           <img
             src={images.ic_close}
             alt="close"
@@ -72,7 +76,7 @@ export const LawyerRecommendation = ({
         <div className="bg-gradient-to-b from-[#FBEFD8] from-10% to-white to-100% -mx-4 px-8 py-2 text-sm border-b border-t border-b-[#F2F2F2] border-t-[#F2F2F2] items-center gap-4 hidden md:flex">
           <img src={images.ic_blink} alt="blink" />
           <div className="text-sm">
-            Berdasarkan kebutuhanmu, berikut pengacara rekomendasi Saya
+            {t('based_on_your_needs', { keyPrefix: 'lawyer_recommendation' })}
           </div>
         </div>
       </div>
@@ -134,7 +138,7 @@ export const LawyerRecommendation = ({
                 onClick={() =>
                   navigate("/book-lawyer", { state: selectedLawyer })
                 }
-                label="Pesan Pengacara"
+                label={t('booking_lawyer', { keyPrefix: 'lawyer_recommendation' })}
                 iconRight={images.ic_briefcase}
                 className={
                   "btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8"
@@ -151,7 +155,7 @@ export const LawyerRecommendation = ({
                 className="mx-auto"
               />
               <div className="text-center text-2xl mt-4 mx-4">
-                Silahkan Pilih Opsi pengacara
+                  {t('select_attorney_option', { keyPrefix: 'lawyer_recommendation' })}
               </div>
             </div>
             <div className="h-40 relative top-0 rounded-b-xl bg-gradient-white" />
@@ -216,7 +220,7 @@ export const LawyerRecommendation = ({
               onClick={() =>
                 navigate("/book-lawyer", { state: selectedLawyer })
               }
-              label="Pesan Pengacara"
+              label={t('booking_lawyer', { keyPrefix: 'lawyer_recommendation' })}
               iconRight={images.ic_briefcase}
               className={
                 "btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8"

@@ -11,8 +11,10 @@ import { useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { renderLabel } from "utils";
 import { numberSeparator } from "utils/numberSeparator";
+import { useTranslation } from 'react-i18next'
 
 export const BookLawyer = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate();
   const { state } = useLocation();
   const [dataLawyer, setDataLawyer] = useState({});
@@ -138,7 +140,7 @@ export const BookLawyer = () => {
           navigate("/", { replace: true });
         }}
       />
-      <Header label="Pesan Pengacara" onBackClick={() => navigate(-1)} />
+      <Header label={t('booking_lawyer', { keyPrefix: 'lawyer_recommendation' })} onBackClick={() => navigate(-1)} />
       <div className="m-4 md:flex md:gap-4 md:justify-end">
         <div className="md:w-3/5">
           <HeaderLawyerCard data={dataLawyer} />

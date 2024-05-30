@@ -123,5 +123,27 @@
   "incorrect_name_format": "Format Nama salah",
   "min_password": "Minimal Password 8 karakter",
   "password_format_fail": "Password tidak valid karena harus mengandung setidaknya satu huruf kapital, satu angka, satu simbol, dan memiliki panjang minimal 8 karakter.",
-  "password_empty": "Password tidak boleh kosong"
+  "password_empty": "Password tidak boleh kosong",
+  "lawyer_recommendation": {
+    "another_option": "Opsi lain",
+    "select_attorney_option": "Silahkan Pilih Opsi pengacara",
+    "based_on_your_needs": "Berdasarkan kebutuhanmu, berikut pengacara rekomendasi Saya",
+    "order_lawyer": "Pesan Pengacara"
+  },
+  "chat_respond": {
+    "place_an_order": "Lakukan Pemesanan",
+    "another_option": "Opsi lain"
+  },
+  "input_chat": {
+    "ask_lexi": "Tanyakan ke Lexi",
+    "Wait_for_lexi_to_answer": "Tunggu Lexi menjawab pertanyaanmu ya..."
+  },
+  "nav_component": {
+    "change_name": "Ganti nama",
+    "move_to": "Pindah ke",
+    "delete": "Hapus",
+    "new_collection": "Koleksi Baru",
+    "save": "Simpan",
+    "cancel": "Batal"
+  }
 }

@@ -71,14 +71,14 @@ export const ChatRespond = ({ item, index }) => {
                 className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
                 iconLeft={images.ic_arrow_cornering}
                 iconClassName='!h-4 !w-4 !-ml-1'
-                label='Lakukan Pemesanan'
+                label={t('place_an_order', { keyPrefix: 'chat_respond' })}
               />
               <Button
                 onClick={() => setLawyerRecommendation(true)}
                 className='border-blue-dark border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem]'
                 iconLeft={images.ic_arrow_cornering}
                 iconClassName='!h-4 !w-4 !-ml-1'
-                label='Opsi Lain'
+                label={t('another_option', { keyPrefix: 'chat_respond' })}
               />
             </div>
             <LawyerRecommendation
