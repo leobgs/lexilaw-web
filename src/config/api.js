@@ -28,5 +28,6 @@ export const API = {
   
   // TRANSACTION
   LAWYER_RECOMMENDATION: '/user/app/v1.0.0/lawyer/recommendation',
-  BOOK_LAWYER_SERVICES: '/user/app/v1.0.0/lawyer/service/'
+  BOOK_LAWYER_SERVICES: '/user/app/v1.0.0/lawyer/service/',
+  BOOKING_LAWYER: '/transaction/app/v1.0.0/booking'
 }
