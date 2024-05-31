@@ -24,7 +24,7 @@ export const BookLawyer = () => {
     transaction_price: [
       {
         id: 1,
-        name: "Biaya Platform",
+        name: t('platform_fee', { keyPrefix: 'booking_lawyer' }),
         price: 5000,
       },
     ],
