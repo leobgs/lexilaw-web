@@ -57,6 +57,11 @@ import ic_message_bubble_outline_white from './ic_message_bubble_outline_white.p
 import ic_tick from './ic_tick.png'
 import ic_vector_green from './ic_vector_green.png'
 import ic_forum from './ic_forum.png'
+import ic_time_sand from './ic_time_sand.png'
+import ic_handycam from './ic_handycam.png'
+import ic_case from './ic_case.png'
+import ic_menu_down_darker from './ic_menu_down_darker.png'
+import ic_copy_button from './ic_copy_button.png'
 
 const images = {
   bg_register_login,
@@ -122,6 +127,11 @@ const images = {
   ic_tick,
   ic_forum,
   ic_vector_green,
+  ic_time_sand,
+  ic_handycam,
+  ic_case,
+  ic_menu_down_darker,
+  ic_copy_button,
 }
 
 export default images

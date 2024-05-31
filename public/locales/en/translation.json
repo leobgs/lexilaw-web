@@ -86,6 +86,9 @@
       "search": "Search"
     }
   },
+  "my_lawyer": {
+    "header": "My Lawyer"
+  },
   "my_account": {
     "current_name": "Current Name",
     "propose_new_name": "Submit a New Name",

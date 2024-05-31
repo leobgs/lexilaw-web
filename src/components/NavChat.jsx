@@ -242,9 +242,9 @@ export const NavChat = ({
       </div> */}
 
       {showNav && (
-        <div className='md:hidden h-full w-full absolute flex z-50'>
+        <div className='md:hidden h-full w-full absolute flex z-50 '>
           <div className='bg-neutral-50 w-3/4 h-full px-2 pt-4'>
-            <div className='h-[92%]'>
+            <div className='h-[92%] overflow-y-auto pb-4'>
               <div className='flex justify-between items-center'>
                 <img
                   src={images.logo_lexilaw}
@@ -389,7 +389,7 @@ export const NavChat = ({
               })}
             </div>
 
-            <div className='h-[8%] -mx-2 bg-white flex items-center px-2 justify-between top-shadow'>
+            <div className='h-[8%] -mx-2 bg-white flex items-center px-2 justify-between top-shadow z-40'>
               <div className='font-semi-bold'>Prima Kusumo</div>
               <div>
                 <img
@@ -409,7 +409,7 @@ export const NavChat = ({
       )}
 
       {showSetting && (
-        <div className='md:hidden absolute w-full h-full bg-white -mt-14 p-4 pt-8'>
+        <div className='md:hidden absolute w-full h-full bg-white  p-4 pt-8 z-50'>
           <div className='flex justify-start gap-4 items-center shadow-md -mx-4 px-4 pb-4'>
             <img
               src={images.ic_chevron_left}

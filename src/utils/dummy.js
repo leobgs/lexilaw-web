@@ -482,3 +482,58 @@ export const MY_LAWYER = [
   //   uuid: 105,
   // },
 ]
+
+export const DOCUMMENT_HASIL = [
+  {
+    title: 'Draft Kontrak over kredit',
+    uuid: 111,
+    documments: [
+      {
+        title: 'Draft memorendum',
+        image_url:
+          'https://placehold.co/200x200/EEE/31343C?font=raleway&text=RalewayLorem%20ipsum%20dolor%20sit%20amet%20consectetur,%20adipisicing%20elit.%20Ipsum,%20asperiores!',
+      },
+      {
+        title: 'Draft perjanjian',
+        image_url:
+          'https://placehold.co/200x200/EEE/31343C?font=raleway&text=RalewayLorem%20ipsum%20dolor%20sit%20amet%20consectetur,%20adipisicing%20elit.%20Ipsum,%20asperiores!',
+      },
+      {
+        title: 'Opini Hukum',
+        image_url:
+          'https://placehold.co/200x200/EEE/31343C?font=raleway&text=RalewayLorem%20ipsum%20dolor%20sit%20amet%20consectetur,%20adipisicing%20elit.%20Ipsum,%20asperiores!',
+      },
+      {
+        title: 'Dokumen Hukum',
+        image_url:
+          'https://placehold.co/200x200/EEE/31343C?font=raleway&text=RalewayLorem%20ipsum%20dolor%20sit%20amet%20consectetur,%20adipisicing%20elit.%20Ipsum,%20asperiores!',
+      },
+    ],
+  },
+  {
+    title: 'Kerjasama dan HAKI',
+    uuid: 1230,
+    documments: [
+      {
+        title: 'draft_contract.jpg',
+        image_url:
+          'https://placehold.co/200x200/EEE/31343C?font=raleway&text=RalewayLorem%20ipsum%20dolor%20sit%20amet%20consectetur,%20adipisicing%20elit.%20Ipsum,%20asperiores!',
+      },
+    ],
+  },
+]
+
+export const LAWYER_SCHEDULE = [
+  {
+    title: 'Draft kontrak over kredit',
+    scheduled_at: 'Senin, December 18',
+    time_at: '10:00 – 11:00am',
+    url: 'https://meet.google.com/tsl-092',
+  },
+  {
+    title: 'Perjanjian pergantian warga negara',
+    scheduled_at: 'Selasa, December 19',
+    time_at: '10:00 – 14:00am',
+    url: 'https://meet.google.com/tsl-192',
+  },
+]
