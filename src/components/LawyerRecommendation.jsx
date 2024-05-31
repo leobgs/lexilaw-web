@@ -6,19 +6,22 @@ import { Button } from "./Button/Button";
 import { useWidthSize } from "hooks/useWidthSize";
 import "./LawyerRecommendation.scss";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next';
+import { useGlobalContext } from "hooks/context";
 
 export const LawyerRecommendation = ({
   isShow,
   onHide = () => {},
   dataLawyer = [],
+  thread_uuid
 }) => {
+  const { bookingLawyerReducer } = useGlobalContext();
   const navigate = useNavigate();
   const [selectedLawyer, setSelectedLawyer] = useState(null);
   const currWidth = useWidthSize();
   const { t } = useTranslation()
-
   useEffect(() => {
+    bookingLawyerReducer(['thread_uuid'], thread_uuid || "d9118a0e-a477-421f-88fe-f66b95c9fa30")
     resetDataLawyer();
   }, []);
 
@@ -33,6 +36,7 @@ export const LawyerRecommendation = ({
     dataLawyer?.forEach((item) => {
       if (item.uuid === id) {
         item.isActive = true;
+        bookingLawyerReducer(['selected_lawyer'], item)
       } else {
         item.isActive = false;
       }

@@ -3,11 +3,12 @@ import { Button, Header, Modal, PriceItem } from "components";
 import { PaymentMethodModal } from "components/PaymentMethodModal";
 import { PaymentSuccessModal } from "components/PaymentSuccessModal";
 import { API } from "config/api";
+import { useGlobalContext } from "hooks/context";
 import { getData } from "hooks/useRequest";
 import { notifyError } from "hooks/useToas";
 import { useWidthSize } from "hooks/useWidthSize";
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { renderLabel } from "utils";
 import { numberSeparator } from "utils/numberSeparator";
@@ -15,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 
 export const BookLawyer = () => {
   const { t } = useTranslation()
+  const { bookingLawyerPayload } = useGlobalContext()
   const navigate = useNavigate();
   const { state } = useLocation();
   const [dataLawyer, setDataLawyer] = useState({});
@@ -29,12 +31,13 @@ export const BookLawyer = () => {
   });
   const [isEdit, setEdit] = useState(false);
   const [isShowPaymentMethodModal, setPaymentMethodModal] = useState(false);
-  const [isShowPaymentSuccessModal, setIsShowPaymentSuccessModal] =
-    useState(false);
+  const [isShowPaymentSuccessModal, setIsShowPaymentSuccessModal] = useState(false);
 
   useEffect(() => {
-    setDataLawyer(state);
-  }, [state]);
+    if (bookingLawyerPayload?.selected_lawyer) {
+      setDataLawyer(bookingLawyerPayload.selected_lawyer)
+    }
+  }, [bookingLawyerPayload]);
 
   useEffect(() => {
     if (dataLawyer.service_price) {
@@ -66,10 +69,10 @@ export const BookLawyer = () => {
 
   const { refetch } = useQuery(
     ["lawyer_services"],
-    () => getData(API.BOOK_LAWYER_SERVICES + state.uuid),
+    () => getData(API.BOOK_LAWYER_SERVICES + bookingLawyerPayload?.selected_lawyer?.uuid),
     {
       onSettled: (data) => {
-        if (data.status === "Success") {
+        if (data?.status === "Success") {
           setEdit(false);
           setDataLawyer({ ...dataLawyer, service_price: data.data });
         } else {
@@ -79,6 +82,35 @@ export const BookLawyer = () => {
     }
   );
 
+  const { mutate: bookLawyer } = useMutation(
+    (form) => getData(API.BOOKING_LAWYER, form),
+    {
+      onSettled: (data) => {
+        if (data?.status === 'Success') {
+          if (data?.redirect_url) {
+            setPaymentMethodModal(!isShowPaymentMethodModal);
+          }
+        } else {
+          notifyError(data?.message);
+        }
+      },
+    }
+  )
+
+  const handleBookLawyer = () => {
+    const selectedServiceUUIDs = dataLawyer?.service_price?.map((service) => {
+      return service.uuid
+    });
+    const payload = {
+      "lawyer_id": bookingLawyerPayload.selected_lawyer.uuid,
+      "thread_id": bookingLawyerPayload.thread_uuid,
+      "payment_gateway": 'midtrans',
+      "services": selectedServiceUUIDs
+    }
+
+    bookLawyer(payload)
+  }
+
   const handleEditList = () => {
     dataLawyer?.service_price?.map((item) => {
       return (item.isEdit = !item.isEdit);
@@ -87,11 +119,11 @@ export const BookLawyer = () => {
     setEdit(!isEdit);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (uuid) => {
     setDataLawyer({
       ...dataLawyer,
       service_price: dataLawyer?.service_price?.filter(
-        (item) => item.id !== id
+        (item) => item.uuid !== uuid
       ),
     });
   };
@@ -183,7 +215,7 @@ export const BookLawyer = () => {
             </div>
 
             {dataLawyer?.service_price?.map((item) => (
-              <PriceItem data={item} onDelete={() => handleDelete(item.id)} />
+              <PriceItem data={item} onDelete={() => handleDelete(item.uuid)} />
             ))}
           </div>
           <div className="bg-white rounded-2xl p-4 mt-4">
@@ -239,7 +271,8 @@ export const BookLawyer = () => {
             <div
               className="btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8 py-2.5"
               onClick={() => {
-                setPaymentMethodModal(!isShowPaymentMethodModal);
+                handleBookLawyer();
+                // setPaymentMethodModal(!isShowPaymentMethodModal);
               }}
             >
               <span className="pr-1 border-r border-r-neutral-40">BAYAR</span>

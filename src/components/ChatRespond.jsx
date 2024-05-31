@@ -13,7 +13,6 @@ export const ChatRespond = ({ item, index }) => {
   const [showLawyerRecommendation, setLawyerRecommendation] = useState(false)
   const { t } = useTranslation()
   const [dataLawyer, setDataLawyer] = useState([]);
-
   useQuery(
     ["lawyer_recomendation"],
     () => getData(API.LAWYER_RECOMMENDATION, { lawyer_uuid: ["71059093-d800-46d5-89d7-a5f5848a9272", "71059093-d800-46d5-89d7-a5f5848a9271", "ce291454-e0e6-4cff-b78f-81fbc2c80f36"] }),
@@ -85,6 +84,7 @@ export const ChatRespond = ({ item, index }) => {
               isShow={showLawyerRecommendation}
               onHide={() => setLawyerRecommendation(false)}
               dataLawyer={dataLawyer}
+              thread_uuid={ item?.thread_uuid }
             />
           </div>
         )
