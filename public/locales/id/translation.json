@@ -18,6 +18,13 @@
       "registration": "Daftar Sekarang",
       "dont_have_an_account_yet": "Belum punya akun?",
       "login_using_registered_email": "Login Menggunakan Email Terdaftar",
+      "select_city": "Pilih Kota",
+      "validate_email_format": "Format email salah",
+      "validate_name_format": "Format nama salah",
+      "validate_password": "Kata sandi tidak valid harus mengandung setidaknya satu karakter huruf besar, angka, simbol, dan minimal 8 karakter",
+      "password_match": "kata sandi tidak cocok",
+      "input_password_first": "Masukkan kata sandi terlebih dahulu",
+      "city_not_found": "Kota tidak dapat ditemukan",
       "error_messages": {
         "image_error": "Gambar tidak sesuai"
       },
@@ -119,5 +126,27 @@
   "incorrect_name_format": "Format Nama salah",
   "min_password": "Minimal Password 8 karakter",
   "password_format_fail": "Password tidak valid karena harus mengandung setidaknya satu huruf kapital, satu angka, satu simbol, dan memiliki panjang minimal 8 karakter.",
-  "password_empty": "Password tidak boleh kosong"
+  "password_empty": "Password tidak boleh kosong",
+  "lawyer_recommendation": {
+    "another_option": "Opsi lain",
+    "select_attorney_option": "Silahkan Pilih Opsi pengacara",
+    "based_on_your_needs": "Berdasarkan kebutuhanmu, berikut pengacara rekomendasi Saya",
+    "order_lawyer": "Pesan Pengacara"
+  },
+  "chat_respond": {
+    "place_an_order": "Lakukan Pemesanan",
+    "another_option": "Opsi lain"
+  },
+  "input_chat": {
+    "ask_lexi": "Tanyakan ke Lexi",
+    "Wait_for_lexi_to_answer": "Tunggu Lexi menjawab pertanyaanmu ya..."
+  },
+  "nav_component": {
+    "change_name": "Ganti nama",
+    "move_to": "Pindah ke",
+    "delete": "Hapus",
+    "new_collection": "Koleksi Baru",
+    "save": "Simpan",
+    "cancel": "Batal"
+  }
 }

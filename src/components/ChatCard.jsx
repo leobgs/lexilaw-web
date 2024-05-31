@@ -1,5 +1,4 @@
 import images from 'assets/images'
-import { notify } from 'hooks/useToas'
 import { byteConversion } from 'utils/byteConversion'
 import { ChatRespond } from './ChatRespond'
 
@@ -7,7 +6,7 @@ export const ChatCard = ({ item, index }) => {
   return (
     <>
       {item.from === '000000' && item.type === 'loading' ? (
-        <div className='card-animated-chat'>
+        <div className='card-animated-chat ml-4 mb-2'>
           <div className='bg-white rounded-lg flex gap-2 px-4'>
             <img
               src={

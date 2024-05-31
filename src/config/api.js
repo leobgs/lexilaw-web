@@ -23,9 +23,11 @@ export const API = {
   MESSAGE_STATUS: '/api/app/v1.0.0/chat/',
 
   USER_DETAIL: '/user/app/v1.0.0/user/detail',
-  UPDATE_PROFIL: '/user/app/v1.0.0/user/info',
-
-  // TRANSACTION
   UPDATE_NAME: '/user/app/v1.0.0/user/request/change-name',
+  UPDATE_PROFIL: '/user/app/v1.0.0/user/info',
+  
+  // TRANSACTION
   LAWYER_RECOMMENDATION: '/user/app/v1.0.0/lawyer/recommendation',
+  BOOK_LAWYER_SERVICES: '/user/app/v1.0.0/lawyer/service/',
+  BOOKING_LAWYER: '/transaction/app/v1.0.0/booking'
 }

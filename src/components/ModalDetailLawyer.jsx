@@ -43,7 +43,7 @@ export const ModalDetailLawyer = ({
       className='bg-neutral-40 h-full'
     >
       <div className='md:hidden'>
-        <div className='bg-neutral-60 -mx-4 px-4 py-4 flex items-center gap-2'>
+        <div className='bg-neutral-60 -mx-4 px-4 py-4 flex items-center gap-2 top fixed w-full'>
           <img
             src={images.ic_back}
             alt='back'
@@ -70,7 +70,7 @@ export const ModalDetailLawyer = ({
             currText === 'Hasil' ? '' : 'hidden'
           }`}
         >
-          <div className='line-clamp-5 text'>{`Berkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian SengketaBerkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian Sengketa Advokat Hukum | Hukum Perdata | ....`}</div>
+          <div className='line-clamp-5 text mt-20'>{`Berkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian SengketaBerkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian Sengketa Advokat Hukum | Hukum Perdata | ....`}</div>
           <div className={`grid grid-cols-10 mt-4 gap-2`}>
             {['Hukum Pertanahan', 'Hukum Keluarga', 'Hukum Perdata']?.map(
               (item, index) => (
@@ -86,8 +86,8 @@ export const ModalDetailLawyer = ({
         </div>
       </div>
 
-      <div className='hidden md:inline-block pb-4 bg-neutral-60 h-fit overflow-y-auto -mx-4 rounded-t-2xl'>
-        <div className='bg-neutral-60 px-4 py-4 flex items-center gap-2 justify-between'>
+      <div className='hidden md:inline-block pb-4 bg-neutral-60 overflow-y-auto -mx-4 relative'>
+        <div className='bg-neutral-60 px-4 py-4 flex items-center gap-2 justify-between rounded-t-2xl fixed md:!w-1/2 xl:!w-1/3 lg:!w-1/2'>
           <div className='flex items-center'>
             <img
               src='https://picsum.photos/id/64/200/200'
@@ -109,7 +109,7 @@ export const ModalDetailLawyer = ({
           />
         </div>
 
-        <div className='line-clamp-5 text px-4 mt-4'>{`Berkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian SengketaBerkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian Sengketa Advokat Hukum | Hukum Perdata | ....`}</div>
+        <div className='line-clamp-5 text px-4 mt-20'>{`Berkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian SengketaBerkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian Sengketa Advokat Hukum | Hukum Perdata | ....`}</div>
         <div className={`grid grid-cols-10 mt-4 gap-2 mx-4`}>
           {['Hukum Pertanahan', 'Hukum Keluarga', 'Hukum Perdata']?.map(
             (item, index) => (
@@ -125,7 +125,9 @@ export const ModalDetailLawyer = ({
       </div>
 
       <Tabs
-        className='my-4'
+        className={`${
+          currText === 'Hasil' ? 'md:mt-4 my-4' : 'mt-24 md:mt-2 mb-4'
+        }`}
         textArr={['Hasil', 'Jadwal']}
         onTabClick={(e) => setCurrText(e)}
         currText={currText}
@@ -135,7 +137,7 @@ export const ModalDetailLawyer = ({
         <div className='md:h-3/5 h-4/6 overflow-y-auto'>
           {dataDocumment?.map((item) => (
             <div
-              className='bg-white p-4 rounded-2xl mb-4 last:mb-0'
+              className='bg-white p-4 rounded-2xl mb-4 last:mb-4 first:mt-4 '
               key={item.uuid}
             >
               <div
@@ -170,7 +172,7 @@ export const ModalDetailLawyer = ({
           ))}
         </div>
       ) : (
-        <div className='md:h-3/5 h-3/4 overflow-y-auto'>
+        <div className='md:h-3/5 h-full overflow-y-auto'>
           {LAWYER_SCHEDULE?.map((item) => (
             <div className='bg-white mb-4 p-4 rounded-2xl shadow-md'>
               <div className='font-bold text-2xl md:text-base md:font-semi-bold mb-3'>

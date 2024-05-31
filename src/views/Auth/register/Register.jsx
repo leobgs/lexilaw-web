@@ -37,7 +37,7 @@ export default function Register() {
         })
         setOptionCity([...tmp])
       } else {
-        setOptionCity([{ label: 'Kota tidak dapat ditemukan', value: 0 }])
+        setOptionCity([{ label: t('city_not_found', { keyPrefix: 'auth.register' }), value: 0 }])
       }
     },
   })
@@ -64,7 +64,7 @@ export default function Register() {
   const fullName = registerForm.first_name + ' ' + registerForm.last_name
 
   const validateName = (value) => {
-    const nameRegex = /^[a-zA-Z\s]*$/
+    const nameRegex = /^[a-zA-Z\s.',]*$/;
     return nameRegex.test(value)
   }
 
@@ -74,7 +74,7 @@ export default function Register() {
   }
 
   const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
     return passwordRegex.test(password)
   }
 
@@ -82,9 +82,9 @@ export default function Register() {
     switch (name) {
       case 'first_name':
       case 'last_name':
-        return validateName(value) ? '' : 'Invalid name format'
+        return validateName(value) ? '' : t('validate_name_format', { keyPrefix: 'auth.register' })
       case 'email':
-        return validateEmail(value) ? '' : 'Invalid email format'
+        return validateEmail(value) ? '' : t('validate_email_format', { keyPrefix: 'auth.register' })
       default:
         return ''
     }
@@ -127,7 +127,7 @@ export default function Register() {
               setError({
                 ...error,
                 password: '',
-                password_confirm: `Password didn't match`,
+                password_confirm: t('password_match', { keyPrefix: 'auth.register' }),
               })
             } else {
               setError({ ...error, password: '' })
@@ -135,9 +135,9 @@ export default function Register() {
           } else {
             setError({
               ...error,
-              password_confirm: `Password didn't match`,
+              password_confirm: t('password_match', { keyPrefix: 'auth.register' }),
               password:
-                'Invalid password must contain at least an upper case characters, a number and 8 characters minimum',
+                t('validate_password', { keyPrefix: 'auth.register' }),
             })
           }
         } else {
@@ -151,15 +151,15 @@ export default function Register() {
           ? setError({ ...error, password: '' })
           : setError({
               ...error,
-              password_confirm: `Password didn't match`,
+            password_confirm: t('password_match', { keyPrefix: 'auth.register' }),
               password:
-                'Invalid password must contain at least an upper case characters, a number and 8 characters minimum',
+              t('validate_password', { keyPrefix: 'auth.register' }),
             })
       }
     } else if (name === 'password_confirm') {
       if (registerForm.password) {
         if (value !== registerForm.password) {
-          setError({ ...error, password_confirm: `Password didn't match` })
+          setError({ ...error, password_confirm: t('password_match', { keyPrefix: 'auth.register' }) })
         } else if (value === registerForm.password) {
           if (validatePassword(value)) {
             setError({ ...error, password_confirm: '' })
@@ -167,14 +167,14 @@ export default function Register() {
             setError({
               ...error,
               password_confirm:
-                'Invalid password must contain at least an upper case characters, a number and 8 characters minimum',
+                t('validate_password', { keyPrefix: 'auth.register' }),
             })
           }
         }
       } else {
         setError({
           ...error,
-          password_confirm: 'Input password first',
+          password_confirm: t('input_password_first', { keyPrefix: 'auth.register' }),
         })
       }
     }
@@ -196,7 +196,7 @@ export default function Register() {
   }
 
   const handleImageChange = (newImage) => {
-    registerFormReducer(['image'], newImage)
+    registerFormReducer(['image'], newImage) 
   }
 
   const onSubmit = () => {
@@ -293,7 +293,7 @@ export default function Register() {
         </div>
 
         <InputSelect
-          placeholder='Pilih Kota'
+          placeholder={t('select_city', { keyPrefix: 'auth.register' })}
           onChange={handleChangeCity}
           options={optionCity}
           value={selectedCity}

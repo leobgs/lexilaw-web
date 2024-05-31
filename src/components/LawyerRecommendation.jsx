@@ -6,41 +6,32 @@ import { Button } from './Button/Button'
 import { useWidthSize } from 'hooks/useWidthSize'
 import './LawyerRecommendation.scss'
 import { useNavigate } from 'react-router-dom'
-import { getData } from 'hooks/useRequest'
-import { useQuery } from 'react-query'
-import { API } from 'config/api'
-import { notifyError } from 'hooks/useToas'
+import { useTranslation } from 'react-i18next'
+import { useGlobalContext } from 'hooks/context'
 
 export const LawyerRecommendation = ({
   isShow,
   onHide = () => {},
-  lawyerUUIDs = [],
+  dataLawyer = [],
+  thread_uuid,
 }) => {
+  const { bookingLawyerReducer } = useGlobalContext()
   const navigate = useNavigate()
-  const [dataLawyer, setDataLawyer] = useState()
   const [selectedLawyer, setSelectedLawyer] = useState(null)
   const currWidth = useWidthSize()
-
+  const { t } = useTranslation()
   useEffect(() => {
+    bookingLawyerReducer(
+      ['thread_uuid'],
+      thread_uuid || 'd9118a0e-a477-421f-88fe-f66b95c9fa30'
+    )
     resetDataLawyer()
   }, [])
 
-  useQuery(
-    ['lawyer_recomendation'],
-    () => getData(API.LAWYER_RECOMMENDATION, { lawyer_uuid: lawyerUUIDs }),
-    {
-      onSettled: (data) => {
-        if (data.status === 'Success') {
-          setDataLawyer(data.data)
-        } else {
-          notifyError(data?.message)
-        }
-      },
-    }
-  )
-
   const resetDataLawyer = () => {
-    setDataLawyer([])
+    dataLawyer?.forEach((item) => {
+      item.isActive = false
+    })
     setSelectedLawyer(null)
   }
 
@@ -48,11 +39,11 @@ export const LawyerRecommendation = ({
     dataLawyer?.forEach((item) => {
       if (item.uuid === id) {
         item.isActive = true
+        bookingLawyerReducer(['selected_lawyer'], item)
       } else {
         item.isActive = false
       }
     })
-    setDataLawyer([...dataLawyer])
   }
 
   return (
@@ -76,7 +67,9 @@ export const LawyerRecommendation = ({
               resetDataLawyer()
             }}
           />
-          <div className='text-xl font-futura-bold'>Opsi Lain</div>
+          <div className='text-xl font-futura-bold'>
+            {t('another_option', { keyPrefix: 'lawyer_recommendation' })}
+          </div>
           <img
             src={images.ic_close}
             alt='close'
@@ -90,7 +83,7 @@ export const LawyerRecommendation = ({
         <div className='bg-gradient-to-b from-[#FBEFD8] from-10% to-white to-100% -mx-4 px-8 py-2 text-sm border-b border-t border-b-[#F2F2F2] border-t-[#F2F2F2] items-center gap-4 hidden md:flex'>
           <img src={images.ic_blink} alt='blink' />
           <div className='text-sm'>
-            Berdasarkan kebutuhanmu, berikut pengacara rekomendasi Saya
+            {t('based_on_your_needs', { keyPrefix: 'lawyer_recommendation' })}
           </div>
         </div>
       </div>
@@ -150,9 +143,11 @@ export const LawyerRecommendation = ({
             <div className='mx-4'>
               <Button
                 onClick={() =>
-                  navigate('/book-lawyer', { state: selectedLawyer.uuid })
+                  navigate('/book-lawyer', { state: selectedLawyer })
                 }
-                label='Pesan Pengacara'
+                label={t('booking_lawyer', {
+                  keyPrefix: 'lawyer_recommendation',
+                })}
                 iconRight={images.ic_briefcase}
                 className={
                   'btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8'
@@ -169,7 +164,9 @@ export const LawyerRecommendation = ({
                 className='mx-auto'
               />
               <div className='text-center text-2xl mt-4 mx-4'>
-                Silahkan Pilih Opsi pengacara
+                {t('select_attorney_option', {
+                  keyPrefix: 'lawyer_recommendation',
+                })}
               </div>
             </div>
             <div className='h-40 relative top-0 rounded-b-xl bg-gradient-white' />
@@ -232,9 +229,11 @@ export const LawyerRecommendation = ({
           <div className='mx-4'>
             <Button
               onClick={() =>
-                navigate('/book-lawyer', { state: selectedLawyer.uuid })
+                navigate('/book-lawyer', { state: selectedLawyer })
               }
-              label='Pesan Pengacara'
+              label={t('booking_lawyer', {
+                keyPrefix: 'lawyer_recommendation',
+              })}
               iconRight={images.ic_briefcase}
               className={
                 'btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8'

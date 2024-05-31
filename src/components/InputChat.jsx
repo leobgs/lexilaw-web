@@ -2,6 +2,7 @@ import images from 'assets/images'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 import { byteConversion } from 'utils/byteConversion'
+import { useTranslation } from 'react-i18next'
 
 export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
   const [displayImage, setDisplayImage] = useState()
@@ -12,6 +13,7 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
   })
   const [error, setError] = useState('')
   const [rows, setRows] = useState(1)
+  const { t } = useTranslation()
 
   useEffect(() => {
     onDisplayImage(displayImage)
@@ -155,8 +157,8 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
               onKeyUp={handleKeyDown}
               placeholder={`${
                 disable
-                  ? 'Tunggu Lexi menjawab pertanyaanmu ya...'
-                  : 'Tanyakan ke Lexi'
+                ? t('Wait_for_lexi_to_answer', { keyPrefix: 'input_chat' })
+                : t('ask_lexi', { keyPrefix: 'input_chat' })
               }`}
               rows={rows}
               value={form.message}
