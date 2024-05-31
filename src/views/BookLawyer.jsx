@@ -8,7 +8,7 @@ import { getData } from "hooks/useRequest";
 import { notifyError } from "hooks/useToas";
 import { useWidthSize } from "hooks/useWidthSize";
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { renderLabel } from "utils";
 import { numberSeparator } from "utils/numberSeparator";
@@ -81,6 +81,35 @@ export const BookLawyer = () => {
       },
     }
   );
+
+  const { mutate: bookLawyer } = useMutation(
+    (form) => getData(API.BOOKING_LAWYER, form),
+    {
+      onSettled: (data) => {
+        if (data?.status === 'Success') {
+          if (data?.redirect_url) {
+            setPaymentMethodModal(!isShowPaymentMethodModal);
+          }
+        } else {
+          notifyError(data?.message);
+        }
+      },
+    }
+  )
+
+  const handleBookLawyer = () => {
+    const selectedServiceUUIDs = dataLawyer?.service_price?.map((service) => {
+      return service.uuid
+    });
+    const payload = {
+      "lawyer_id": bookingLawyerPayload.selected_lawyer.uuid,
+      "thread_id": bookingLawyerPayload.thread_uuid,
+      "payment_gateway": 'midtrans',
+      "services": selectedServiceUUIDs
+    }
+
+    bookLawyer(payload)
+  }
 
   const handleEditList = () => {
     dataLawyer?.service_price?.map((item) => {
@@ -242,7 +271,8 @@ export const BookLawyer = () => {
             <div
               className="btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8 py-2.5"
               onClick={() => {
-                setPaymentMethodModal(!isShowPaymentMethodModal);
+                handleBookLawyer();
+                // setPaymentMethodModal(!isShowPaymentMethodModal);
               }}
             >
               <span className="pr-1 border-r border-r-neutral-40">BAYAR</span>
