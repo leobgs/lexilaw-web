@@ -375,3 +375,165 @@ export const PAYMENT_METHOD = [
     isSelected: false,
   },
 ]
+
+export const MY_LAWYER = [
+  {
+    first_name: 'Lucia',
+    last_name: 'Zulauf',
+    image_url: 'https://picsum.photos/id/409/200/200',
+    city: 'Bali',
+    thread: ['Case 01', 'Case 02'],
+    uuid: 11,
+  },
+  {
+    first_name: 'Jeff',
+    last_name: 'Nippard',
+    image_url: 'https://picsum.photos/id/419/200/200',
+    city: 'Tangerang',
+    thread: ['Case 01'],
+    uuid: 2,
+  },
+  {
+    first_name: 'Mike',
+    last_name: 'Ehrmantraut',
+    image_url: 'https://picsum.photos/id/40/200/200',
+    city: 'Bali',
+    thread: ['Case 01', 'Case 02', 'Case 03', 'Case 04', 'Case 05', 'Case 06'],
+    uuid: 3,
+  },
+  {
+    first_name: 'Jose',
+    last_name: 'Callejon',
+    image_url: 'https://picsum.photos/id/469/200/200',
+    city: 'Jakarta',
+    thread: ['Case 01', 'case 02', 'Case 03', 'Case 04'],
+    uuid: 4,
+  },
+  {
+    first_name: 'Umabachi',
+    last_name: '',
+    image_url: 'https://picsum.photos/id/64/200/200',
+    city: 'Jakarta',
+    thread: ['Case 01', 'case 02'],
+    uuid: 5,
+  },
+  {
+    first_name: 'Muhammad',
+    last_name: 'Huda',
+    image_url: 'https://picsum.photos/id/409/200/200',
+    city: 'Medan',
+    thread: ['Case 01', 'Case 02'],
+    uuid: 11,
+  },
+  {
+    first_name: 'Akmal',
+    last_name: 'Nizzar',
+    image_url: 'https://picsum.photos/id/419/200/200',
+    city: 'Tangerang',
+    thread: ['Case 01'],
+    uuid: 12,
+  },
+  // {
+  //   first_name: 'Jusuf ',
+  //   last_name: 'Baharrudin',
+  //   image_url: 'https://picsum.photos/id/40/200/200',
+  //   city: 'Tangeran',
+  //   thread: ['Case 01', 'Case 02', 'Case 03', 'Case 04', 'Case 05', 'Case 06'],
+  //   uuid: 13,
+  // },
+  // {
+  //   first_name: 'Kiki',
+  //   last_name: 'Saputri',
+  //   image_url: 'https://picsum.photos/id/469/200/200',
+  //   city: 'Tangerang',
+  //   thread: ['Case 01', 'case 02', 'Case 03', 'Case 04'],
+  //   uuid: 14,
+  // },
+  // {
+  //   first_name: 'Risma',
+  //   last_name: '',
+  //   image_url: 'https://picsum.photos/id/64/200/200',
+  //   city: 'Jakarta',
+  //   thread: ['Case 01', 'case 02'],
+  //   uuid: 15,
+  // },
+  // {
+  //   first_name: 'Jusuf ',
+  //   last_name: 'Baharrudin',
+  //   image_url: 'https://picsum.photos/id/40/200/200',
+  //   city: 'Tangeran',
+  //   thread: ['Case 01'],
+  //   uuid: 131,
+  // },
+  // {
+  //   first_name: 'Kiki',
+  //   last_name: 'Saputri',
+  //   image_url: 'https://picsum.photos/id/469/200/200',
+  //   city: 'Tangerang',
+  //   thread: ['Case 01'],
+  //   uuid: 141,
+  // },
+  // {
+  //   first_name: 'Risma',
+  //   last_name: '',
+  //   image_url: 'https://picsum.photos/id/64/200/200',
+  //   city: 'Jakarta',
+  //   thread: ['Case 01', 'case 02'],
+  //   uuid: 105,
+  // },
+]
+
+export const DOCUMMENT_HASIL = [
+  {
+    title: 'Draft Kontrak over kredit',
+    uuid: 111,
+    documments: [
+      {
+        title: 'Draft memorendum',
+        image_url:
+          'https://placehold.co/200x200/EEE/31343C?font=raleway&text=RalewayLorem%20ipsum%20dolor%20sit%20amet%20consectetur,%20adipisicing%20elit.%20Ipsum,%20asperiores!',
+      },
+      {
+        title: 'Draft perjanjian',
+        image_url:
+          'https://placehold.co/200x200/EEE/31343C?font=raleway&text=RalewayLorem%20ipsum%20dolor%20sit%20amet%20consectetur,%20adipisicing%20elit.%20Ipsum,%20asperiores!',
+      },
+      {
+        title: 'Opini Hukum',
+        image_url:
+          'https://placehold.co/200x200/EEE/31343C?font=raleway&text=RalewayLorem%20ipsum%20dolor%20sit%20amet%20consectetur,%20adipisicing%20elit.%20Ipsum,%20asperiores!',
+      },
+      {
+        title: 'Dokumen Hukum',
+        image_url:
+          'https://placehold.co/200x200/EEE/31343C?font=raleway&text=RalewayLorem%20ipsum%20dolor%20sit%20amet%20consectetur,%20adipisicing%20elit.%20Ipsum,%20asperiores!',
+      },
+    ],
+  },
+  {
+    title: 'Kerjasama dan HAKI',
+    uuid: 1230,
+    documments: [
+      {
+        title: 'draft_contract.jpg',
+        image_url:
+          'https://placehold.co/200x200/EEE/31343C?font=raleway&text=RalewayLorem%20ipsum%20dolor%20sit%20amet%20consectetur,%20adipisicing%20elit.%20Ipsum,%20asperiores!',
+      },
+    ],
+  },
+]
+
+export const LAWYER_SCHEDULE = [
+  {
+    title: 'Draft kontrak over kredit',
+    scheduled_at: 'Senin, December 18',
+    time_at: '10:00 – 11:00am',
+    url: 'https://meet.google.com/tsl-092',
+  },
+  {
+    title: 'Perjanjian pergantian warga negara',
+    scheduled_at: 'Selasa, December 19',
+    time_at: '10:00 – 14:00am',
+    url: 'https://meet.google.com/tsl-192',
+  },
+]

@@ -25,6 +25,10 @@
     -webkit-appearance: none;
     margin: 0;
   }
+  a {
+    text-decoration: underline;
+    color: blue;
+  }
 }
 
 @layer utilities {
@@ -84,6 +88,13 @@ body {
   background-position: top;
   background-repeat: no-repeat;
   background-size: 100%;
+}
+
+.bg-img-detail {
+  background-image: url('../assets/images/bg_lawyer_detail.png');
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-size: 70% 100%;
 }
 
 @property --angle {
