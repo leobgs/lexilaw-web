@@ -42,7 +42,7 @@ export const BookLawyer = () => {
   useEffect(() => {
     if (dataLawyer.service_price) {
       const servicePricesFiltered = (summaryPrices.jasa_pajak || []).filter(
-        (service) => service.id !== 0
+        (service) => service.id !== 0 && service.id !== 1
       );
       servicePricesFiltered.push({
         id: 0,
