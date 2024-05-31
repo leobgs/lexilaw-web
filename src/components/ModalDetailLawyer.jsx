@@ -87,7 +87,7 @@ export const ModalDetailLawyer = ({
       </div>
 
       <div className='hidden md:inline-block pb-4 bg-neutral-60 overflow-y-auto -mx-4 relative'>
-        <div className='bg-neutral-60 px-4 py-4 flex items-center gap-2 justify-between rounded-t-2xl fixed md:!w-1/2 xl:!w-1/3 lg:!w-1/2'>
+        <div className='bg-neutral-60 px-4 py-4 flex items-center gap-2 justify-between rounded-t-2xl fixed md:!w-1/2 xl:!w-1/3 lg:!w-1/2 bg-img-detail'>
           <div className='flex items-center'>
             <img
               src='https://picsum.photos/id/64/200/200'
@@ -125,9 +125,7 @@ export const ModalDetailLawyer = ({
       </div>
 
       <Tabs
-        className={`${
-          currText === 'Hasil' ? 'md:mt-4 my-4' : 'mt-24 md:mt-2 mb-4'
-        }`}
+        className={`${currText === 'Hasil' ? 'md:mt-4' : 'mt-24 md:mt-2 mb-4'}`}
         textArr={['Hasil', 'Jadwal']}
         onTabClick={(e) => setCurrText(e)}
         currText={currText}
