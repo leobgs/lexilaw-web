@@ -41,31 +41,26 @@ export const BookLawyer = () => {
 
   useEffect(() => {
     if (dataLawyer.service_price) {
-      const servicePricesFiltered = (summaryPrices.jasa_pajak || []).filter(
-        (service) => service.id !== 0 && service.id !== 1
+      const totalServicePrice = dataLawyer.service_price.reduce(
+        (sum, service) => sum + service.price,
+        0
       );
-      servicePricesFiltered.push({
-        id: 0,
-        name: "Rate Jasa",
-        price: dataLawyer?.service_price?.reduce(
-          (sum, service) => sum + service.price,
-          0
-        ),
-      });
+      const newServicePrices = [
+        {
+          id: 0,
+          name: "Rate Jasa",
+          price: totalServicePrice,
+        },
+        {
+          id: 1,
+          name: "Biaya PPN (11%)",
+          price: totalServicePrice * 0.11,
+        }
+      ];
 
-      servicePricesFiltered.push({
-        id: 1,
-        name: "Biaya PPN (11%)",
-        price:
-          dataLawyer?.service_price?.reduce(
-            (sum, service) => sum + service.price,
-            0
-          ) * 0.11,
-      });
-
-      setSummaryPrices({ ...summaryPrices, jasa_pajak: servicePricesFiltered });
+      setSummaryPrices({ ...summaryPrices, jasa_pajak: newServicePrices });
     }
-  }, [dataLawyer?.service_price]);
+  }, [dataLawyer?.service_price, summaryPrices]);
 
   const { refetch } = useQuery(
     ["lawyer_services"],
