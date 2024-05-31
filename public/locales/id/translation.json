@@ -145,5 +145,19 @@
     "new_collection": "Koleksi Baru",
     "save": "Simpan",
     "cancel": "Batal"
+  },
+  "booking_lawyer": {
+    "pay_button": "Bayar",
+    "results_obtained": "Hasil yang Didapatkan",
+    "summary": "Rangkuman",
+    "service_tax": "Jasa + Pajak",
+    "transaction_fee": "Biaya Transaksi",
+    "platform_fee": "Biaya Platform",
+    "total_bill": "Total Tagihan",
+    "adjust": "Sesuaikan",
+    "back_to_start": "Kembali ke awal",
+    "finished": "Selesai",
+    "service_rate": "Rate Jasa",
+    "vat_fee": "Biaya PPN (11%)"
   }
 }

@@ -145,5 +145,19 @@
     "new_collection": "New Collection",
     "save": "Save",
     "cancel": "Cancel"
+  },
+  "booking_lawyer": {
+    "pay_button": "Pay",
+    "results_obtained": "Results Obtained",
+    "summary": "Summary",
+    "service_tax": "Service + Tax",
+    "transaction_fee": "Transaction Fee",
+    "platform_fee": "Platform Fee",
+    "total_bill": "Total Bill",
+    "adjust": "Adjust",
+    "back_to_start": "Back to Start",
+    "finished": "Finished",
+    "service_rate": "Service Rate",
+    "vat_fee": "VAT Fee (11%)"
   }
 }
