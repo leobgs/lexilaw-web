@@ -184,7 +184,9 @@ export const ModalDetailLawyer = ({
               <div className='bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4'>
                 <div>Ruang Pertemuan</div>
                 <div className='flex justify-between items-center'>
-                  <Link to={item.url}>{item.url}</Link>
+                  <Link to={item.url} className='a-link'>
+                    {item.url}
+                  </Link>
                   <img
                     src={images.ic_copy_button}
                     alt='copy'

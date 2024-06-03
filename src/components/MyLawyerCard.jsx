@@ -2,6 +2,7 @@ import images from 'assets/images'
 import clsx from 'clsx'
 
 export const MyLawyerCard = ({ data, className, onClick = () => {} }) => {
+  console.log(data)
   return (
     <div
       className={clsx('bg-[#F2F1EC] px-3 pt-3 pb-1 rounded-2xl', className)}
@@ -25,12 +26,12 @@ export const MyLawyerCard = ({ data, className, onClick = () => {} }) => {
       </div>
 
       <div className='max-h-44 overflow-y-scroll scroll-smooth my-4 rounded-xl'>
-        {data.thread?.map((item, index) => (
+        {data.thread_uuid?.map((item, index) => (
           <div
             className='bg-chat p-2 border-b border-b-neutral-30 last:border-none flex items-center justify-between px-4'
             key={index}
           >
-            <div>{item}</div>
+            <div className='w-9/12 line-clamp-2'>{item.name}</div>
             <div className='flex items-center gap-2 rounded-full border border-neutral-30 px-2 py-1'>
               <div className='text-sm text-green-900'>Konteks</div>
               <img src={images.ic_forum} alt='' />
