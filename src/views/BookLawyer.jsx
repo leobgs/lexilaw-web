@@ -16,9 +16,8 @@ import { useTranslation } from "react-i18next";
 
 export const BookLawyer = () => {
   const { t } = useTranslation();
-  const { bookingLawyerPayload } = useGlobalContext();
+  const { bookingLawyerPayload, bookingLawyerReducer  } = useGlobalContext();
   const navigate = useNavigate();
-  const { state } = useLocation();
   const [dataLawyer, setDataLawyer] = useState({});
   const [summaryPrices, setSummaryPrices] = useState({
     transaction_price: [
@@ -34,10 +33,13 @@ export const BookLawyer = () => {
   const [isShowPaymentSuccessModal, setIsShowPaymentSuccessModal] =
     useState(false);
   const [redirectURL, setRedirectURL] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
     if (bookingLawyerPayload?.selected_lawyer) {
       setDataLawyer(bookingLawyerPayload.selected_lawyer);
+    } else {
+      navigate("/", { replace: true});
     }
   }, [bookingLawyerPayload]);
 
@@ -63,6 +65,15 @@ export const BookLawyer = () => {
       setSummaryPrices({ ...summaryPrices, jasa_pajak: newServicePrices });
     }
   }, [dataLawyer?.service_price]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const statusCode = params.get('status_code');
+    
+    if (statusCode === '200') {
+      setIsShowPaymentSuccessModal(true);
+    }
+  }, [location]);
 
   const { refetch } = useQuery(
     ["lawyer_services"],
@@ -99,6 +110,11 @@ export const BookLawyer = () => {
   );
 
   const handleBookLawyer = () => {
+    if (redirectURL !== "") {
+      setPaymentMethodModal(!isShowPaymentMethodModal);
+      return
+    }
+
     const selectedServiceUUIDs = dataLawyer?.service_price?.map((service) => {
       return service.uuid;
     });
@@ -167,7 +183,8 @@ export const BookLawyer = () => {
         lawyerName={`${dataLawyer?.first_name} ${dataLawyer?.last_name}`}
         onNavigate={() => {
           setIsShowPaymentSuccessModal(false);
-          navigate("/", { replace: true });
+          bookingLawyerReducer(['selected_lawyer'], null);
+          navigate("/");
         }}
       />
 
