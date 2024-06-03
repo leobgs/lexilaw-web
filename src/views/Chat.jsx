@@ -12,7 +12,7 @@ import { notifyError } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { LocalStorage } from 'utils'
 import {
   DEFAULT_QUESTION,
@@ -23,10 +23,11 @@ import {
 
 export const Chat = () => {
   const { t } = useTranslation()
+  const { state } = useLocation();
   const storage = new LocalStorage()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { currentLanguage, collection, collectionReset, collectionClick } =
+  const { currentLanguage, collection, collectionReset, collectionClick, bookingLawyerPayload, bookingLawyerReducer } =
     useGlobalContext()
   const [isDisplayImage, setDisplayImage] = useState()
   const [isHeader, setIsHeader] = useState(true)
@@ -81,8 +82,16 @@ export const Chat = () => {
 
         const previousData = data?.filter((item) => item.moment === 'Previous')
         const currentData = data?.filter((item) => item.moment === 'Current')
+        let activeCollection = currentData[0];
+        
+        if (bookingLawyerPayload?.thread_uuid) {
+          activeCollection = currentData.find((item) => item.uuid === bookingLawyerPayload?.thread_uuid);
+          bookingLawyerReducer(
+            ['thread_uuid'], null);
+        }
+
         const collectionUUID = isHeader
-          ? currentData && currentData[0]?.uuid
+          ? currentData && activeCollection?.uuid
           : collection?.uuid
 
         const newMessage = [
@@ -104,7 +113,7 @@ export const Chat = () => {
         setMessage([...newMessage])
         setHeaderText(texts)
         setCurrUUID(collectionUUID)
-        collectionClick(currentData && currentData[0])
+        collectionClick(currentData && activeCollection)
       } else {
         notifyError(datas?.message)
       }
