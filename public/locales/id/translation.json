@@ -94,7 +94,9 @@
     }
   },
   "my_lawyer": {
-    "header": "Pengacara Saya"
+    "header": "Pengacara Saya",
+    "results": "Hasil",
+    "schedule": "Jadwal"
   },
   "my_account": {
     "current_name": "Nama Saat Ini",

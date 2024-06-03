@@ -94,7 +94,9 @@
     }
   },
   "my_lawyer": {
-    "header": "My Lawyer"
+    "header": "My Lawyer",
+    "results": "Results",
+    "schedule": "Schedule"
   },
   "my_account": {
     "current_name": "Current Name",

@@ -6,14 +6,46 @@ import { DOCUMMENT_HASIL, LAWYER_SCHEDULE } from 'utils/dummy'
 import { Link } from 'react-router-dom'
 import { copyToClipboard } from 'utils'
 import { Button } from './Button/Button'
+import { API } from 'config/api'
+import { useQuery } from 'react-query'
+import { getData } from 'hooks/useRequest'
+import { useTranslation } from 'react-i18next'
 
 export const ModalDetailLawyer = ({
   data,
   show = false,
-  onHide = () => {},
+  onHide = () => { },
 }) => {
-  const [currText, setCurrText] = useState('Hasil')
+  const { t } = useTranslation()
+  const [currText, setCurrText] = useState(t('results', { keyPrefix: 'my_lawyer' }))
   const [dataDocumment, setDataDocumment] = useState([])
+  const [lawyerData, setlawyerData] = useState([]);
+
+
+  const getdetailLawyer = useQuery(['detailLawyer', show], () => {
+    if (show) {
+      return getData(API.MY_LAWYER_DETAIL + show)
+    } else {
+      return Promise.resolve(null)
+    }
+  });
+
+  useEffect(() => {
+    if (show && getdetailLawyer?.data?.status === 'Success') {
+      setlawyerData(getdetailLawyer.data.data);
+    }
+  }, [show, getdetailLawyer]);
+
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(' ');
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(' ') + '...';
+    }
+    return text;
+  };
+
+  const lawyerDescription = truncateText(getdetailLawyer.data?.data?.description || '', 200);
+
 
   useEffect(() => {
     DOCUMMENT_HASIL?.forEach((item, index) => {
@@ -35,6 +67,7 @@ export const ModalDetailLawyer = ({
     setDataDocumment([...dataDocumment])
   }
 
+
   return (
     <Modal
       show={show}
@@ -52,27 +85,26 @@ export const ModalDetailLawyer = ({
           />
           <div className='flex items-center'>
             <img
-              src='https://picsum.photos/id/64/200/200'
+              src={lawyerData.image_url}
               alt='images'
               className='rounded-full w-12 h-12'
             />
             <div className='ml-2'>
               <div className='font-semi-bold text-secondary-base'>
-                {'Umabachi'}
+                {lawyerData.first_name} {lawyerData.last_name}
               </div>
-              <div className='text-xs text-neutral-40'>{'Medan'}</div>
+              <div className='text-xs text-neutral-40'>{lawyerData.city}</div>
             </div>
           </div>
         </div>
 
         <div
-          className={`bg-neutral-60 -mx-4 px-4 py-4 ${
-            currText === 'Hasil' ? '' : 'hidden'
-          }`}
+          className={`bg-neutral-60 -mx-4 px-4 py-4 ${currText === t('results', { keyPrefix: 'my_lawyer' }) ? '' : 'hidden'
+            }`}
         >
-          <div className='line-clamp-5 text mt-20'>{`Berkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian SengketaBerkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian Sengketa Advokat Hukum | Hukum Perdata | ....`}</div>
+          <div className='line-clamp-5 text mt-20'>{lawyerDescription}</div>
           <div className={`grid grid-cols-10 mt-4 gap-2`}>
-            {['Hukum Pertanahan', 'Hukum Keluarga', 'Hukum Perdata']?.map(
+            {lawyerData.lawyer_filed?.map(
               (item, index) => (
                 <div
                   className='bg-[#D9D9D9] rounded-lg py-1 px-2 text-center text-neutral-40 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5'
@@ -86,19 +118,19 @@ export const ModalDetailLawyer = ({
         </div>
       </div>
 
-      <div className='hidden md:inline-block pb-4 bg-neutral-60 overflow-y-auto -mx-4 relative'>
+      <div className='hidden md:flex pb-4 bg-neutral-60 overflow-y-auto -mx-4 relative flex-col'>
         <div className='bg-neutral-60 px-4 py-4 flex items-center gap-2 justify-between rounded-t-2xl fixed md:!w-1/2 xl:!w-1/3 lg:!w-1/2 bg-img-detail'>
           <div className='flex items-center'>
             <img
-              src='https://picsum.photos/id/64/200/200'
+              src={lawyerData.image_url}
               alt='images'
               className='rounded-full w-12 h-12'
             />
             <div className='ml-2'>
               <div className='font-semi-bold text-secondary-base'>
-                {'Umabachi'}
+                {lawyerData.first_name} {lawyerData.last_name}
               </div>
-              <div className='text-xs text-neutral-40'>{'Medan'}</div>
+              <div className='text-xs text-neutral-40'>{lawyerData.city}</div>
             </div>
           </div>
           <img
@@ -108,10 +140,10 @@ export const ModalDetailLawyer = ({
             className='h-4 w-4'
           />
         </div>
+        <div className='line-clamp-5 text px-4 mt-20'>{lawyerDescription}</div>
 
-        <div className='line-clamp-5 text px-4 mt-20'>{`Berkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian SengketaBerkomitmen untuk Menyelesaikan Perselisihan | Konsultasi Hukum dan Penyelesaian Sengketa Advokat Hukum | Hukum Perdata | ....`}</div>
         <div className={`grid grid-cols-10 mt-4 gap-2 mx-4`}>
-          {['Hukum Pertanahan', 'Hukum Keluarga', 'Hukum Perdata']?.map(
+          {lawyerData.lawyer_filed?.map(
             (item, index) => (
               <div
                 className='bg-[#D9D9D9] rounded-lg py-1 px-2 text-center text-neutral-40 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5'
@@ -125,13 +157,13 @@ export const ModalDetailLawyer = ({
       </div>
 
       <Tabs
-        className={`${currText === 'Hasil' ? 'md:mt-4' : 'mt-24 md:mt-2 mb-4'}`}
-        textArr={['Hasil', 'Jadwal']}
+        className={`${currText === t('results', { keyPrefix: 'my_lawyer' }) ? 'md:mt-4' : 'mt-24 md:mt-2 mb-4'}`}
+        textArr={[t('results', { keyPrefix: 'my_lawyer' }), t('schedule', { keyPrefix: 'my_lawyer' })]}
         onTabClick={(e) => setCurrText(e)}
         currText={currText}
       />
 
-      {currText === 'Hasil' ? (
+      {currText === t('results', { keyPrefix: 'my_lawyer' }) ? (
         <div className='md:h-3/5 h-4/6 overflow-y-auto'>
           {dataDocumment?.map((item) => (
             <div
