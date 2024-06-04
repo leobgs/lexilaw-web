@@ -96,7 +96,11 @@
   "my_lawyer": {
     "header": "My Lawyer",
     "results": "Results",
-    "schedule": "Schedule"
+    "schedule": "Schedule",
+    "you_haven_results_lawyer": "If you haven't had any results with the relevant lawyer, please do so",
+    "chat_with_lexi": "chat with Lexi Ai",
+    "dont_have_schedule": "You don't have a schedule yet relevant lawyer.",
+    "create_schedule": "Create a Schedule"
   },
   "my_account": {
     "current_name": "Current Name",

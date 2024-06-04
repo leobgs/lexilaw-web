@@ -62,6 +62,8 @@ import ic_handycam from './ic_handycam.png'
 import ic_case from './ic_case.png'
 import ic_menu_down_darker from './ic_menu_down_darker.png'
 import ic_copy_button from './ic_copy_button.png'
+import ic_file from './ic_file.png'
+import ic_calendar_white_outline from './ic_calendar_white_outline.png'
 
 const images = {
   bg_register_login,
@@ -132,6 +134,8 @@ const images = {
   ic_case,
   ic_menu_down_darker,
   ic_copy_button,
+  ic_file,
+  ic_calendar_white_outline
 }
 
 export default images
