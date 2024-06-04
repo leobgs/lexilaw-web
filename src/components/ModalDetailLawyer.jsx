@@ -107,7 +107,7 @@ export const ModalDetailLawyer = ({
             {lawyerData.lawyer_filed?.map(
               (item, index) => (
                 <div
-                  className='bg-[#D9D9D9] rounded-lg py-1 px-2 text-center text-neutral-40 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5'
+                  className='bg-[#FFFBF5] rounded-lg py-1 px-2 font-semi-bold text-center text-dark-50 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5'
                   key={index}
                 >
                   {item}
@@ -146,7 +146,7 @@ export const ModalDetailLawyer = ({
           {lawyerData.lawyer_filed?.map(
             (item, index) => (
               <div
-                className='bg-[#D9D9D9] rounded-lg py-1 px-2 text-center text-neutral-40 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5'
+                className='bg-[#FFFBF5] rounded-lg py-1 px-2 font-semi-bold text-center text-dark-50 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5'
                 key={index}
               >
                 {item}
