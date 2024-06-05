@@ -24,21 +24,26 @@ export const Name = ({ userData }) => {
         }
     }, [userData]);
 
+
     const validationForm = () => {
-        const newError = { ...error }
+        const newError = { ...error };
 
         if (!validateName(form.first_name)) {
-            newError.first_name = t('incorrect_name_format')
-        } else if (!validateName(form.last_name)) {
-            newError.last_name = t('incorrect_name_format')
+            newError.first_name = t('incorrect_name_format');
         }
-        return newError
+
+        if (!validateName(form.last_name)) {
+            newError.last_name = t('incorrect_name_format');
+        }
+
+        return newError;
     }
 
-    const validateName = (first_name, last_name) => { 
+    const validateName = (value) => {
         const regex = /^[a-zA-Z\s.',]*$/;
-        return regex.test(first_name, last_name)
+        return regex.test(value);
     }
+
 
     const { mutate: changeName } = useMutation(
         (form) => getData(API.UPDATE_NAME, form),
@@ -141,7 +146,7 @@ export const Name = ({ userData }) => {
             <Button
                 label={t('button_change_name', { keyPrefix: 'my_account' })}
                 onClick={onSubmit}
-                disabled={!form.first_name || !form.last_name || !validateName(form.first_name)}
+                disabled={!form.first_name || !form.last_name || !validateName(form.first_name) || !validateName(form.last_name)}
                 className={
                     'btn-secondary-hover  mt-8 rounded-full font-medium ml-auto px-6 w-full md:w-fit'
                 }
