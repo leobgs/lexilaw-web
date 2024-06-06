@@ -167,6 +167,14 @@
     "back_to_start": "Kembali ke awal",
     "finished": "Selesai",
     "service_rate": "Rate Jasa",
-    "vat_fee": "Biaya PPN (11%)"
+    "vat_fee": "Biaya PPN (11%)",
+    "success_modal": {
+      "connect_with": "Kamu terhubung dengan",
+      "payment_success": "Pembayaran Berhasil",
+      "look_connected_lawyer": "Lihat pengacara yang terhubung di Halaman Lawyer Saya di bawah menu navigasi.",
+      "back_to_chat": "Kembali ke Obrolan",
+      "automatic_in": "Otomatis Dalam",
+      "automatic_back_in": "Kembali otomatis dalam"
+    }
   }
 }
