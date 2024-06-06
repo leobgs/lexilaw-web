@@ -85,7 +85,7 @@ export const Chat = () => {
         
         if (bookingLawyerPayload?.thread_uuid) {
           activeCollection = currentData.find((item) => item.uuid === bookingLawyerPayload.thread_uuid);
-          if (activeCollection === undefined) {
+          if (!activeCollection) {
             activeCollection = previousData.find((item) => item.uuid === bookingLawyerPayload.thread_uuid) || currentData[0];
           }
           bookingLawyerReducer(['thread_uuid'], null);
