@@ -12,7 +12,7 @@ import { notifyError } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { LocalStorage } from 'utils'
 import {
   DEFAULT_QUESTION,
@@ -23,7 +23,6 @@ import {
 
 export const Chat = () => {
   const { t } = useTranslation()
-  const { state } = useLocation();
   const storage = new LocalStorage()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
