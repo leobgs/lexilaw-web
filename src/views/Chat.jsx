@@ -80,40 +80,30 @@ export const Chat = () => {
         const { data } = datas
         let texts = 'Obrolan Baru'
 
-        const previousData = data?.filter((item) => item.moment === 'Previous')
-        const currentData = data?.filter((item) => item.moment === 'Current')
+        const previousData = data?.filter((item) => item.moment === 'Previous') || [];
+        const currentData = data?.filter((item) => item.moment === 'Current') || [];
         let activeCollection = currentData[0];
         
         if (bookingLawyerPayload?.thread_uuid) {
-          activeCollection = currentData.find((item) => item.uuid === bookingLawyerPayload?.thread_uuid);
-          bookingLawyerReducer(
-            ['thread_uuid'], null);
+          activeCollection = currentData.find((item) => item.uuid === bookingLawyerPayload.thread_uuid);
+          if (activeCollection === undefined) {
+            activeCollection = previousData.find((item) => item.uuid === bookingLawyerPayload.thread_uuid) || currentData[0];
+          }
+          bookingLawyerReducer(['thread_uuid'], null);
         }
 
-        const collectionUUID = isHeader
-          ? currentData && activeCollection?.uuid
-          : collection?.uuid
+       const collectionUUID = isHeader ? activeCollection?.uuid : collection?.uuid;
 
-        const newMessage = [
-          { type: 'koleksi', data: KOLEKSI_CHAT },
-          {
-            type: 'terkini',
-            data:
-              currentData?.length !== 0 && currentData ? [...currentData] : [],
-          },
-          {
-            type: 'riwayat',
-            data:
-              previousData?.length !== 0 && previousData
-                ? [...previousData, ...RIWAYAT_OROLAN]
-                : [...RIWAYAT_OROLAN], //nanti dihapus kalo udh full api
-          },
-        ]
+      const newMessage = [
+        { type: "koleksi", data: KOLEKSI_CHAT },
+        { type: "terkini", data: currentData },
+        { type: "riwayat", data: [...previousData, ...RIWAYAT_OROLAN]}, // ...RIWAYAT_OROLAN nanti dihapus kalo udh full api
+      ];
 
-        setMessage([...newMessage])
-        setHeaderText(texts)
-        setCurrUUID(collectionUUID)
-        collectionClick(currentData && activeCollection)
+      setMessage(newMessage);
+      setHeaderText(texts);
+      setCurrUUID(collectionUUID);
+      collectionClick(activeCollection);
       } else {
         notifyError(datas?.message)
       }
