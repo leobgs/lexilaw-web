@@ -175,6 +175,10 @@
       "back_to_chat": "Back to Chat",
       "automatic_in": "Automatic In",
       "automatic_back_in": "Automatically back in"
+    },
+    "fail_modal": {
+      "title": "Payment Failed",
+      "message": "Please check the details you have entered and ensure you are connected to the internet."
     }
   }
 }
