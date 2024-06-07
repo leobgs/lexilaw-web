@@ -441,9 +441,9 @@ export const Chat = () => {
                           keyPrefix: 'chat.profile_option',
                         })}
                       </div>
-                      <div className='py-1 px-2 bg-error-lighter text-xs mr-2 rounded-full text-white flex items-center justify-center'>
+                      {/* <div className='py-1 px-2 bg-error-lighter text-xs mr-2 rounded-full text-white flex items-center justify-center'>
                         1
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className='px-4 mb-2 mt-2 text-xxs'>
