@@ -23,12 +23,18 @@ import {
 
 export const Chat = () => {
   const { t } = useTranslation()
-  const { state } = useLocation();
+  const { state } = useLocation()
   const storage = new LocalStorage()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { currentLanguage, collection, collectionReset, collectionClick, bookingLawyerPayload, bookingLawyerReducer } =
-    useGlobalContext()
+  const {
+    currentLanguage,
+    collection,
+    collectionReset,
+    collectionClick,
+    bookingLawyerPayload,
+    bookingLawyerReducer,
+  } = useGlobalContext()
   const [isDisplayImage, setDisplayImage] = useState()
   const [isHeader, setIsHeader] = useState(true)
   const [dataMessage, setMessage] = useState([
@@ -82,12 +88,13 @@ export const Chat = () => {
 
         const previousData = data?.filter((item) => item.moment === 'Previous')
         const currentData = data?.filter((item) => item.moment === 'Current')
-        let activeCollection = currentData[0];
-        
+        let activeCollection = currentData[0]
+
         if (bookingLawyerPayload?.thread_uuid) {
-          activeCollection = currentData.find((item) => item.uuid === bookingLawyerPayload?.thread_uuid);
-          bookingLawyerReducer(
-            ['thread_uuid'], null);
+          activeCollection = currentData.find(
+            (item) => item.uuid === bookingLawyerPayload?.thread_uuid
+          )
+          bookingLawyerReducer(['thread_uuid'], null)
         }
 
         const collectionUUID = isHeader
@@ -140,7 +147,10 @@ export const Chat = () => {
 
   useQuery(
     ['respond_chat', threadMessageIdtoRespond.thread_id],
-    () => getData(API.MESSAGE_RESPONSE + threadMessageIdtoRespond.thread_id),
+    () =>
+      getData(
+        `${API.MESSAGE_RESPONSE}${threadMessageIdtoRespond.thread_id}/${threadMessageIdtoRespond.message_id}`
+      ),
     {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {

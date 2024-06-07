@@ -45,9 +45,10 @@ export const patchData = async (URL, config) => {
 }
 
 export const putformData = async (URL, formData) => {
-  const respond = await axios.put(apiURLQuery + URL, formData)
+  const respond = await axios
+    .put(apiURLQuery + URL, formData)
     .then((res) => res)
-    .catch((error) => error.response);
+    .catch((error) => error.response)
 
-  return respond.data;
+  return respond.data
 }
