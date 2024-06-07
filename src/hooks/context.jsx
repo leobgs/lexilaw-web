@@ -35,7 +35,10 @@ export const AppProvider = ({ children }) => {
     colectionState
   )
   const [authLoader, dispatchAuthLoader] = useReducer(alertReducer, alertState)
-  const [currentLanguage, setLanguage] = useState('id')
+  const [currentLanguage, setLanguage] = useState(() => {
+    const { CURRENT_LANGUAGE } = localServerData()
+    return CURRENT_LANGUAGE || 'id'
+  })
 
   const [registerForm, setRegisterForm] = useState({
     first_name: '',
@@ -52,13 +55,6 @@ export const AppProvider = ({ children }) => {
     const { BOOKING_LAWYER_PAYLOAD } = localServerData()
     return BOOKING_LAWYER_PAYLOAD || {}
   })
-
-  useEffect(() => {
-    const { CURRENT_LANGUAGE } = localServerData()
-    if (CURRENT_LANGUAGE) {
-      setLanguage(CURRENT_LANGUAGE)
-    }
-  }, [])
 
   useEffect(() => {
     const { setCurrentLanguage } = localServerData()

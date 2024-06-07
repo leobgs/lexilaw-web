@@ -94,7 +94,13 @@
     }
   },
   "my_lawyer": {
-    "header": "Pengacara Saya"
+    "header": "Pengacara Saya",
+    "results": "Hasil",
+    "schedule": "Jadwal",
+    "you_haven_results_lawyer": "Kamu belum memiliki hasil dengan lawyer terkait, silahkan lakukan",
+    "chat_with_lexi": "obrolan dengan Lexi Ai",
+    "dont_have_schedule": "Kamu belum memiliki jadwal dengan lawyer terkait.",
+    "create_schedule": "Buat Jadwal"
   },
   "my_account": {
     "current_name": "Nama Saat Ini",
@@ -131,7 +137,7 @@
     "another_option": "Opsi lain",
     "select_attorney_option": "Silahkan Pilih Opsi pengacara",
     "based_on_your_needs": "Berdasarkan kebutuhanmu, berikut pengacara rekomendasi Saya",
-    "order_lawyer": "Pesan Pengacara"
+    "booking_lawyer": "Pesan Pengacara"
   },
   "chat_respond": {
     "place_an_order": "Lakukan Pemesanan",

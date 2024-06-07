@@ -94,7 +94,13 @@
     }
   },
   "my_lawyer": {
-    "header": "My Lawyer"
+    "header": "My Lawyer",
+    "results": "Results",
+    "schedule": "Schedule",
+    "you_haven_results_lawyer": "If you haven't had any results with the relevant lawyer, please do so",
+    "chat_with_lexi": "chat with Lexi Ai",
+    "dont_have_schedule": "You don't have a schedule yet relevant lawyer.",
+    "create_schedule": "Create a Schedule"
   },
   "my_account": {
     "current_name": "Current Name",
@@ -148,5 +154,19 @@
     "new_collection": "New Collection",
     "save": "Save",
     "cancel": "Cancel"
+  },
+  "booking_lawyer": {
+    "pay_button": "Pay",
+    "results_obtained": "Results Obtained",
+    "summary": "Summary",
+    "service_tax": "Service + Tax",
+    "transaction_fee": "Transaction Fee",
+    "platform_fee": "Platform Fee",
+    "total_bill": "Total Bill",
+    "adjust": "Adjust",
+    "back_to_start": "Back to Start",
+    "finished": "Finished",
+    "service_rate": "Service Rate",
+    "vat_fee": "VAT Fee (11%)"
   }
 }
