@@ -87,7 +87,10 @@ export const NavComponent = ({ item }) => {
       <>
         <div
           className='line-clamp-1 w-full'
-          onClick={() => collectionClick(item)}
+          onClick={() => {
+            collectionClick(item)
+            console.log(item)
+          }}
         >
           {item.title}
         </div>
@@ -186,7 +189,9 @@ export const NavComponent = ({ item }) => {
           </div>
         ))}
         <div>
-          <div className='!text-neutral-40 text-base'>{t('new_collection', { keyPrefix: 'nav_component' })}</div>
+          <div className='!text-neutral-40 text-base'>
+            {t('new_collection', { keyPrefix: 'nav_component' })}
+          </div>
         </div>
       </ReactTooltip>
 

@@ -26,8 +26,14 @@ export const Chat = () => {
   const storage = new LocalStorage()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { currentLanguage, collection, collectionReset, collectionClick, bookingLawyerPayload, bookingLawyerReducer } =
-    useGlobalContext()
+  const {
+    currentLanguage,
+    collection,
+    collectionReset,
+    collectionClick,
+    bookingLawyerPayload,
+    bookingLawyerReducer,
+  } = useGlobalContext()
   const [isDisplayImage, setDisplayImage] = useState()
   const [isHeader, setIsHeader] = useState(true)
   const [dataMessage, setMessage] = useState([
@@ -129,7 +135,10 @@ export const Chat = () => {
 
   useQuery(
     ['respond_chat', threadMessageIdtoRespond.thread_id],
-    () => getData(API.MESSAGE_RESPONSE + threadMessageIdtoRespond.thread_id),
+    () =>
+      getData(
+        `${API.MESSAGE_RESPONSE}${threadMessageIdtoRespond.thread_id}/${threadMessageIdtoRespond.message_id}`
+      ),
     {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
@@ -430,9 +439,9 @@ export const Chat = () => {
                           keyPrefix: 'chat.profile_option',
                         })}
                       </div>
-                      <div className='py-1 px-2 bg-error-lighter text-xs mr-2 rounded-full text-white flex items-center justify-center'>
+                      {/* <div className='py-1 px-2 bg-error-lighter text-xs mr-2 rounded-full text-white flex items-center justify-center'>
                         1
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className='px-4 mb-2 mt-2 text-xxs'>
