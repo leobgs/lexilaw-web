@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { Modal } from "./Modal";
 import images from "assets/images";
 import { Button } from "./Button/Button";
+import { useTranslation } from "react-i18next";
 
 export const PaymentSuccessModal = ({
   isActive,
   lawyerName = "",
   onNavigate = () => {},
 }) => {
+  const { t } = useTranslation()
   const [isSecondForm, setIsSecondForm] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(3);
   const [isCountdownActive, setIsCountdownActive] = useState(false);
@@ -101,14 +103,14 @@ export const PaymentSuccessModal = ({
 
         <div className="font-bold text-dark-50 text-[32px] text-center transition-all">
           {isSecondForm
-            ? `Kamu terhubung dengan ${lawyerName}`
-            : "Pembayaran Berhasil"}
+            ? `${t("connect_with", { keyPrefix: "booking_lawyer.success_modal" })} ${lawyerName}`
+            : `${t("payment_success", { keyPrefix: "booking_lawyer.success_modal" })}`}
         </div>
 
         {isSecondForm && (
           <div className="font-regular text-[#5A5A5A] text-xl text-center transition-all">
             {
-              "Lihat pengacara yang terhubung di Halaman Lawyer Saya di bawah menu navigasi."
+              t("look_connected_lawyer", { keyPrefix: "booking_lawyer.success_modal" })
             }
           </div>
         )}
@@ -116,8 +118,8 @@ export const PaymentSuccessModal = ({
         {isSecondForm && (
           <div className="flex flex-col gap-2 transition-all">
             <Button
-              label={`Kembali ke Obrolan ${
-                isOnMobileSize ? "" : `(Otomatis Dalam ${timeRemaining}s)`
+              label={`${t("back_to_chat", { keyPrefix: "booking_lawyer.success_modal" })} ${
+                isOnMobileSize ? "" : `(${t("automatic_in", { keyPrefix: "booking_lawyer.success_modal" })} ${timeRemaining}s)`
               }`}
               onClick={onNavigate}
               className={
@@ -128,7 +130,7 @@ export const PaymentSuccessModal = ({
 
             {isOnMobileSize && (
               <div className="w-full mx-auto font-regular text-center text-sm text-[#666666] transition-all">
-                Kembali otomatis dalam {timeRemaining}s
+                 {t("automatic_back_in", { keyPrefix: "booking_lawyer.success_modal" })} {timeRemaining}s
               </div>
             )}
           </div>

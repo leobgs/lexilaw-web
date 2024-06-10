@@ -167,6 +167,18 @@
     "back_to_start": "Back to Start",
     "finished": "Finished",
     "service_rate": "Service Rate",
-    "vat_fee": "VAT Fee (11%)"
+    "vat_fee": "VAT Fee (11%)",
+    "success_modal": {
+      "connect_with": "You are connected with",
+      "payment_success": "Payment Successful",
+      "look_connected_lawyer": "See the connected lawyer on My Lawyer Page under the navigation menu.",
+      "back_to_chat": "Back to Chat",
+      "automatic_in": "Automatic In",
+      "automatic_back_in": "Automatically back in"
+    },
+    "fail_modal": {
+      "title": "Payment Failed",
+      "message": "Please check the details you have entered and ensure you are connected to the internet."
+    }
   }
 }

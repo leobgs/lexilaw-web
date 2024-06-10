@@ -1,29 +1,30 @@
-import images from 'assets/images'
-import { Header, Modal, PriceItem } from 'components'
-import { PaymentMethodModal } from 'components/PaymentMethodModal'
-import { PaymentSuccessModal } from 'components/PaymentSuccessModal'
-import { API } from 'config/api'
-import { useGlobalContext } from 'hooks/context'
-import { getData } from 'hooks/useRequest'
-import { notifyError } from 'hooks/useToas'
-import { useWidthSize } from 'hooks/useWidthSize'
-import { useEffect, useState } from 'react'
-import { useMutation, useQuery } from 'react-query'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { renderLabel } from 'utils'
-import { numberSeparator } from 'utils/numberSeparator'
-import { useTranslation } from 'react-i18next'
+import images from "assets/images";
+import { Header, Modal, PriceItem } from "components";
+import { PaymentMethodModal } from "components/PaymentMethodModal";
+import { PaymentSuccessModal } from "components/PaymentSuccessModal";
+import { API } from "config/api";
+import { useGlobalContext } from "hooks/context";
+import { getData } from "hooks/useRequest";
+import { notifyError } from "hooks/useToas";
+import { useWidthSize } from "hooks/useWidthSize";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "react-query";
+import { useLocation, useNavigate } from "react-router-dom";
+import { renderLabel } from "utils";
+import { numberSeparator } from "utils/numberSeparator";
+import { useTranslation } from "react-i18next";
+import { PaymentFailedModal } from "components/PaymentFailedModal";
 
 export const BookLawyer = () => {
-  const { t } = useTranslation()
-  const { bookingLawyerPayload, bookingLawyerReducer } = useGlobalContext()
-  const navigate = useNavigate()
-  const [dataLawyer, setDataLawyer] = useState({})
+  const { t } = useTranslation();
+  const { bookingLawyerPayload, bookingLawyerReducer } = useGlobalContext();
+  const navigate = useNavigate();
+  const [dataLawyer, setDataLawyer] = useState({});
   const [summaryPrices, setSummaryPrices] = useState({
     transaction_price: [
       {
         id: 1,
-        name: t('platform_fee', { keyPrefix: 'booking_lawyer' }),
+        name: t("platform_fee", { keyPrefix: "booking_lawyer" }),
         price: 5000,
       },
     ],
@@ -31,15 +32,17 @@ export const BookLawyer = () => {
   const [isEdit, setEdit] = useState(false)
   const [isShowPaymentMethodModal, setPaymentMethodModal] = useState(false)
   const [isShowPaymentSuccessModal, setIsShowPaymentSuccessModal] =
-    useState(false)
-  const [redirectURL, setRedirectURL] = useState('')
-  const location = useLocation()
+    useState(false);
+  const [isShowPaymentFailedModal, setIsShowPaymentFailedModal] =
+    useState(false);
+  const [redirectURL, setRedirectURL] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
     if (bookingLawyerPayload?.selected_lawyer) {
       setDataLawyer(bookingLawyerPayload.selected_lawyer)
     } else {
-      navigate('/', { replace: true })
+      navigate("/", { replace: true });
     }
   }, [bookingLawyerPayload])
 
@@ -52,12 +55,12 @@ export const BookLawyer = () => {
       const newServicePrices = [
         {
           id: 0,
-          name: t('service_rate', { keyPrefix: 'booking_lawyer' }),
+          name: t("service_rate", { keyPrefix: "booking_lawyer" }),
           price: totalServicePrice,
         },
         {
           id: 1,
-          name: t('vat_fee', { keyPrefix: 'booking_lawyer' }),
+          name: t("vat_fee", { keyPrefix: "booking_lawyer" }),
           price: totalServicePrice * 0.11,
         },
       ]
@@ -67,11 +70,14 @@ export const BookLawyer = () => {
   }, [dataLawyer?.service_price])
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search)
-    const statusCode = params.get('status_code')
+    const params = new URLSearchParams(location.search);
+    const statusCode = params.get("status_code");
+    const statusCodeNumber = parseInt(statusCode, 10);
 
-    if (statusCode === '200') {
-      setIsShowPaymentSuccessModal(true)
+    if (statusCode === 200) {
+      setIsShowPaymentSuccessModal(true);
+    } else if (statusCodeNumber >= 400 && statusCodeNumber < 600) {
+      setIsShowPaymentFailedModal(true);
     }
   }, [location])
 
@@ -110,9 +116,9 @@ export const BookLawyer = () => {
   )
 
   const handleBookLawyer = () => {
-    if (redirectURL !== '') {
-      setPaymentMethodModal(!isShowPaymentMethodModal)
-      return
+    if (redirectURL !== "") {
+      setPaymentMethodModal(!isShowPaymentMethodModal);
+      return;
     }
 
     const selectedServiceUUIDs = dataLawyer?.service_price?.map((service) => {
@@ -182,10 +188,15 @@ export const BookLawyer = () => {
         isActive={isShowPaymentSuccessModal}
         lawyerName={`${dataLawyer?.first_name} ${dataLawyer?.last_name}`}
         onNavigate={() => {
-          setIsShowPaymentSuccessModal(false)
-          bookingLawyerReducer(['selected_lawyer'], null)
-          navigate('/')
+          setIsShowPaymentSuccessModal(false);
+          bookingLawyerReducer(["selected_lawyer"], null);
+          navigate("/");
         }}
+      />
+
+      <PaymentFailedModal
+        isActive={isShowPaymentFailedModal}
+        onHide={() => setIsShowPaymentFailedModal(true)}
       />
 
       <Header
@@ -195,10 +206,10 @@ export const BookLawyer = () => {
       <div className='m-4 md:flex md:gap-4 md:justify-end'>
         <div className='md:w-3/5'>
           <HeaderLawyerCard data={dataLawyer} />
-          <div className='bg-white rounded-2xl p-4 mt-4'>
-            <div className='justify-between flex items-center text-[#ABABAA] font-semi-bold pb-2 border-b-2 border-b-neutral-60 w-full'>
-              <div className='line-clamp-1'>
-                {t('results_obtained', { keyPrefix: 'booking_lawyer' })}
+          <div className="bg-white rounded-2xl p-4 mt-4">
+            <div className="justify-between flex items-center text-[#ABABAA] font-semi-bold pb-2 border-b-2 border-b-neutral-60 w-full">
+              <div className="line-clamp-1">
+                {t("results_obtained", { keyPrefix: "booking_lawyer" })}
               </div>
 
               {isEdit ? (
@@ -207,13 +218,13 @@ export const BookLawyer = () => {
                     className='w-full text-[#00153F] text-xs'
                     onClick={handleRefetchServices}
                   >
-                    {t('back_to_start', { keyPrefix: 'booking_lawyer' })}
+                    {t("back_to_start", { keyPrefix: "booking_lawyer" })}
                   </div>
                   <div
                     className='bg-blue-sky px-4 text-black-dark rounded-2xl md:inline hidden'
                     onClick={handleEditList}
                   >
-                    {t('finished', { keyPrefix: 'booking_lawyer' })}
+                    {t("finished", { keyPrefix: "booking_lawyer" })}
                   </div>
                   <img
                     src={images.ic_check}
@@ -227,8 +238,8 @@ export const BookLawyer = () => {
                   onClick={handleEditList}
                   className='bg-blue-sky rounded-full flex items-center'
                 >
-                  <div className='text-black-dark hidden md:ml-4 md:inline-block'>
-                    {t('adjust', { keyPrefix: 'booking_lawyer' })}
+                  <div className="text-black-dark hidden md:ml-4 md:inline-block">
+                    {t("adjust", { keyPrefix: "booking_lawyer" })}
                   </div>
                   <img src={images.ic_edit} alt='edit service' className='' />
                 </div>
@@ -251,14 +262,14 @@ export const BookLawyer = () => {
           </div>
         </div>
 
-        <div className='md:bg-blue-dark md:text-white md:rounded-2xl md:h-fit bg-selected-lawyer'>
-          <div className='mt-4 pt-8 border-t border-t-neutral-30 mx-4 md:mt-0 md:border-none'>
-            <div className='font-futura md:text-xl md:mb-8 md:-mt-4'>
-              {t('summary', { keyPrefix: 'booking_lawyer' })}
+        <div className="md:bg-blue-dark md:text-white md:rounded-2xl md:h-fit bg-selected-lawyer">
+          <div className="mt-4 pt-8 border-t border-t-neutral-30 mx-4 md:mt-0 md:border-none">
+            <div className="font-futura md:text-xl md:mb-8 md:-mt-4">
+              {t("summary", { keyPrefix: "booking_lawyer" })}
             </div>
-            <div className=''>
-              <div className='font-futura-bold text-sm my-2'>
-                {t('service_tax', { keyPrefix: 'booking_lawyer' })}
+            <div className="">
+              <div className="font-futura-bold text-sm my-2">
+                {t("service_tax", { keyPrefix: "booking_lawyer" })}
               </div>
               {summaryPrices.jasa_pajak?.map((item) =>
                 renderLabel({
@@ -269,9 +280,9 @@ export const BookLawyer = () => {
               )}
             </div>
 
-            <div className='mt-8'>
-              <div className='font-futura-bold text-sm my-2'>
-                {t('transaction_fee', { keyPrefix: 'booking_lawyer' })}
+            <div className="mt-8">
+              <div className="font-futura-bold text-sm my-2">
+                {t("transaction_fee", { keyPrefix: "booking_lawyer" })}
               </div>
               {summaryPrices?.transaction_price?.map((item) =>
                 renderLabel({
@@ -282,12 +293,12 @@ export const BookLawyer = () => {
               )}
             </div>
 
-            <div className='flex justify-between my-8 items-center'>
-              <div className='font-futura-bold text-sm'>
-                {t('total_bill', { keyPrefix: 'booking_lawyer' })}
+            <div className="flex justify-between my-8 items-center">
+              <div className="font-futura-bold text-sm">
+                {t("total_bill", { keyPrefix: "booking_lawyer" })}
               </div>
-              <div className='font-futura-bold text-sm'>
-                {numberSeparator(totalTransactionAmount, 'Rp')}
+              <div className="font-futura-bold text-sm">
+                {numberSeparator(totalTransactionAmount, "Rp")}
               </div>
             </div>
           </div>
@@ -300,11 +311,11 @@ export const BookLawyer = () => {
                 // setPaymentMethodModal(!isShowPaymentMethodModal);
               }}
             >
-              <span className='pr-1 border-r border-r-neutral-40'>
-                {t('pay_button', { keyPrefix: 'booking_lawyer' })}
+              <span className="pr-1 border-r border-r-neutral-40">
+                {t("pay_button", { keyPrefix: "booking_lawyer" })}
               </span>
-              <span className='pl-1'>
-                {numberSeparator(totalTransactionAmount, 'Rp')}
+              <span className="pl-1">
+                {numberSeparator(totalTransactionAmount, "Rp")}
               </span>
             </div>
           </div>
