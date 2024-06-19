@@ -1,14 +1,18 @@
-export const DEFAULT_QUESTION = [
-  { message: 'Undang-undang tentang pajak apa?', value: 1 },
-  { message: 'UU ITE dan PTSE terkait A.I gimana?', value: 2 },
-  { message: 'Pasal perjanjian 1313 KUHP perdata?', value: 3 },
-  { message: 'Pencuri dipotong tangan, emg boleh?', value: 4 },
-  { message: 'Sengketa lahan girik', value: 5 },
-  { message: 'UU soal HAM', value: 6 },
-  { message: 'UU 39 1999 intinya apa', value: 7 },
-  { message: 'Pokok dari TKDN', value: 8 },
-  { message: 'Apakah ada aturan menggunakan lampu strobo', value: 9 },
-]
+export const DEFAULT_QUESTION = {
+  right: [
+    { question: 'Undang-undang tentang pajak apa?', value: 1 },
+    { question: 'UU ITE dan PTSE terkait A.I gimana?', value: 2 },
+    { question: 'Pasal perjanjian 1313 KUHP perdata?', value: 3 },
+    { question: 'Pencuri dipotong tangan, emg boleh?', value: 4 },
+    { question: 'Sengketa lahan girik', value: 5 },
+  ],
+  left: [
+    { question: 'UU soal HAM', value: 6 },
+    { question: 'UU 39 1999 intinya apa', value: 7 },
+    { question: 'Pokok dari TKDN', value: 8 },
+    { question: 'Apakah ada aturan menggunakan lampu strobo', value: 9 },
+  ],
+}
 
 export const KOLEKSI_CHAT = [
   {

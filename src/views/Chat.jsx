@@ -33,11 +33,16 @@ export const Chat = () => {
   const [isDisplayImage, setDisplayImage] = useState()
   const [disableInput, setDisableInput] = useState(false)
   const [dataMessage, setMessage] = useState([])
+  const [defaultQuestion, setDefaultQuestion] = useState([])
   const [headerText, setHeaderText] = useState('Obrolan Baru')
   const [userDetail, setUserDetail] = useState({
     first_name: '-',
     last_name: '-',
     image_url: '',
+  })
+  const [threadMessageId, setThreadMessageId] = useState({
+    thread_id: '',
+    message_id: '',
   })
 
   useEffect(() => {
@@ -72,6 +77,18 @@ export const Chat = () => {
 
     setMessage([...dataMessage])
   }, [uuid])
+
+  useQuery(['suggestion_list'], () => getData(API.SUGGESTION_LIST), {
+    onSettled: (datas) => {
+      if (datas?.status === 'Success') {
+        const { data } = datas
+
+        setDefaultQuestion(data)
+      } else {
+        setDefaultQuestion(DEFAULT_QUESTION)
+      }
+    },
+  })
 
   const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
     onSettled: (data) => {
@@ -110,10 +127,6 @@ export const Chat = () => {
           bookingLawyerReducer(['thread_uuid'], null)
         }
 
-        const collectionUUID = isHeader
-          ? activeCollection?.uuid
-          : collection?.uuid
-
         const newMessage = [
           { type: 'koleksi', data: KOLEKSI_CHAT },
           { type: 'terkini', data: currentData },
@@ -142,9 +155,17 @@ export const Chat = () => {
 
         setMessage([...newMessage])
         setHeaderText(texts)
-        if (uuid) onClickColection(uuid)
-        // setCurrUUID(collectionUUID)
-        // collectionClick(activeCollection)
+        if (threadMessageId.thread_id) {
+          const selectedThread = currentData?.find(
+            (item) => item.open_thread_id === threadMessageId.thread_id
+          )
+          setHeaderText(selectedThread.title)
+          navigate(`/thread/${selectedThread?.uuid}`, {
+            state: threadMessageId,
+          })
+          setIsHeader(false)
+          setDisableInput(false)
+        } else if (uuid) onClickColection(uuid)
       } else {
         notifyError(datas?.message)
       }
@@ -157,11 +178,12 @@ export const Chat = () => {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
           const { data } = datas
-          // if (isHeader) {
+
+          setThreadMessageId({
+            thread_id: data?.thread_id,
+            message_id: data?.message_id,
+          })
           queryClient.invalidateQueries('newest_thread')
-          // }
-          // setCurrUUID(collection.uuid)
-          // refetchDetail()
         } else {
           notifyError(datas?.message)
         }
@@ -185,7 +207,7 @@ export const Chat = () => {
       thread_id: collection.thread_id,
       document: e.file,
     }
-
+    setHeaderText(e?.message)
     const bodyFormData = new FormData()
     for (const [key, value] of Object.entries(dataMessage)) {
       bodyFormData.append(key, value)
@@ -196,6 +218,7 @@ export const Chat = () => {
 
   const onClickColection = (id) => {
     navigate(`/thread/${id}`)
+    setThreadMessageId({ message_id: '', thread_id: '' })
     let texts = 'Obrolan Baru'
 
     dataMessage?.forEach((item) => {
@@ -378,7 +401,7 @@ export const Chat = () => {
             {isHeader ? (
               <div className='relative flex h-full flex-col select-text mb-2'>
                 <QuestionCard
-                  data={DEFAULT_QUESTION}
+                  data={defaultQuestion}
                   onClick={(e) => handleAddChat(e)}
                   className={`md:absolute ${
                     isDisplayImage ? 'md:top-[20%]' : 'md:top-1/4'
