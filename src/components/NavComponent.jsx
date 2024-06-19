@@ -65,15 +65,6 @@ export const NavComponent = ({ item }) => {
     }
   }, [])
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      item.update_at
-        ? updateTitle(text)
-        : collectionSetEdit({ ...item, editState: 'stop' })
-    }
-  }
-
   const onDeleteClick = () => {
     setShow1st(false)
     collectionDelete(item)
@@ -89,7 +80,6 @@ export const NavComponent = ({ item }) => {
           className='line-clamp-1 w-full'
           onClick={() => {
             collectionClick(item)
-            console.log(item)
           }}
         >
           {item.title}

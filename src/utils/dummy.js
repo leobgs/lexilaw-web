@@ -87,7 +87,7 @@ export const OROLAN_TERKINI = []
 export const RIWAYAT_OROLAN = [
   {
     title: 'dummy - Bagaimana cara melihat semua feature?',
-    uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
+    uuid: '63926537',
     chat: [
       {
         message: 'Bagaimana cara melihat rekomendasi lawyer?',

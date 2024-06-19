@@ -23,8 +23,9 @@ import { ToastContainer } from 'react-toastify'
 import AuthLayout from 'views/Auth/layouts/AuthLayout'
 import Register from 'views/Auth/register/Register'
 import RegisterOTP from 'views/Auth/register/RegisterOTP'
+import { ThreadPage } from 'views/ThreadPage'
 
-const PrivateRoute = ({ wrapperContent = true }) => {
+export const PrivateRoute = ({ wrapperContent = true }) => {
   if (!isLogin()) {
     return <Navigate to='/auth' replace />
   }
@@ -77,7 +78,9 @@ function App() {
 
         {/* page without header component */}
         <Route element={<PrivateRoute />}>
-          <Route path='/' element={<Chat />} />
+          <Route path='/' element={<Chat />}>
+            <Route path='/thread/:uuid' element={<ThreadPage />} />
+          </Route>
           <Route path='/account' element={<Account />} />
         </Route>
 

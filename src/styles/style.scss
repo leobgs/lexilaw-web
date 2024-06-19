@@ -1,6 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+h1 {
+  @apply text-2xl;
+}
+h2 {
+  @apply text-xl;
+}
+h3 {
+  @apply text-lg;
+}
+strong {
+  @apply font-bold;
+}
+ul {
+  @apply list-disc pl-6;
+}
+
+ol {
+  @apply list-decimal pl-6;
+}
+
+li {
+  @apply mb-2;
+}
+
 @import './font';
 
 @layer base {
