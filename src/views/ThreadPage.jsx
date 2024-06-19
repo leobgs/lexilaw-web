@@ -7,12 +7,13 @@ import { getData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { RIWAYAT_OROLAN } from 'utils/dummy'
 
 export const ThreadPage = () => {
   const { collection } = useGlobalContext()
   const params = useParams()
+  const { state } = useLocation()
   const queryClient = useQueryClient()
   const [disableInput, setDisableInput] = useState(false)
   const [isDisplayImage, setDisplayImage] = useState()
@@ -33,7 +34,14 @@ export const ThreadPage = () => {
       )
       setRenderedMessage(dataFiltered?.chat)
     }
-  }, [params.uuid])
+
+    if (state) {
+      setThreadMessageId({
+        thread_id: state.thread_id,
+        message_id: state.message_id,
+      })
+    }
+  }, [params.uuid, state])
 
   const { refetch: refetchDetail } = useQuery(
     ['thread_detail', params.uuid],
