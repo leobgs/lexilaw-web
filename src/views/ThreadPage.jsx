@@ -158,6 +158,7 @@ export const ThreadPage = () => {
           refetchDetail()
         } else {
           notifyError(datas?.message)
+          setDisableInput(false)
         }
       },
     }
