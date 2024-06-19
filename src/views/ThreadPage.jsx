@@ -147,6 +147,7 @@ export const ThreadPage = () => {
             thread_id: data.thread_id,
             message_id: data.message_id,
           })
+          refetchDetail()
         } else {
           notifyError(datas?.message)
         }
@@ -167,6 +168,8 @@ export const ThreadPage = () => {
     }
     sendMessage(bodyFormData)
     setDisableInput(true)
+    setThreadMessageId({ message_id: '', thread_id: '' })
+    setThreadMessageIdtoRespond({ message_id: '', thread_id: '' })
   }
 
   return (

@@ -34,6 +34,11 @@ export const Chat = () => {
   const [disableInput, setDisableInput] = useState(false)
   const [dataMessage, setMessage] = useState([])
   const [headerText, setHeaderText] = useState('Obrolan Baru')
+  const [userDetail, setUserDetail] = useState({
+    first_name: '-',
+    last_name: '-',
+    image_url: '',
+  })
 
   useEffect(() => {
     switch (true) {
@@ -164,6 +169,16 @@ export const Chat = () => {
     }
   )
 
+  useQuery(['user'], () => getData(API.USER_DETAIL), {
+    onSettled: (datas) => {
+      if (datas?.status === 'Success') {
+        setUserDetail(datas?.data)
+      } else {
+        notifyError(datas?.message)
+      }
+    },
+  })
+
   const handleAddChat = (e) => {
     const dataMessage = {
       message: e.message,
@@ -249,6 +264,7 @@ export const Chat = () => {
           dataLatest={dataMessage}
           onEdit={(e) => onEdit(e)}
           headerText={headerText}
+          userDetail={userDetail}
           onExpand={(e) => handleOnExpand(e)}
         />
 
@@ -260,11 +276,18 @@ export const Chat = () => {
             </div>
 
             <div className='flex items-center gap-2'>
-              <p className='font-bold'>Prima Kusumo</p>
+              <p className='font-bold'>
+                {userDetail.first_name} {userDetail.last_name}
+              </p>
               <img
-                src={images.ic_thumbnail_profile}
+                className='size-10 rounded-full ring-1 ring-[#C9BBA0] drop-shadow-[2px_2px_2px_rgba(240, 237, 232, 1)]'
+                src={userDetail.image_url}
                 alt='profile'
                 data-tooltip-id='profile-tooltip'
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null
+                  currentTarget.src = images.ic_avatar_placeholder
+                }}
               />
             </div>
 

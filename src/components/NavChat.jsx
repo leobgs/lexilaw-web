@@ -17,6 +17,7 @@ export const NavChat = ({
   onHeaderClick,
   dataLatest = [],
   headerText,
+  userDetail,
   onExpand,
 }) => {
   const { collection } = useGlobalContext()
@@ -369,12 +370,17 @@ export const NavChat = ({
             </div>
 
             <div className='h-[8%] -mx-2 bg-white flex items-center px-2 justify-between top-shadow z-40'>
-              <div className='font-semi-bold'>Prima Kusumo</div>
+              <div className='font-semi-bold'>{userDetail.first_name} {userDetail.last_name}</div>
               <div>
                 <img
-                  src={images.ic_thumbnail_profile}
+                  className='size-10 rounded-full ring-1 ring-[#2E2C2B]'
+                  src={userDetail.image_url}
                   alt='profile'
                   onClick={() => setShowSetting(true)}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null;
+                    currentTarget.src=images.ic_avatar_placeholder;
+                  }}
                 />
               </div>
             </div>
