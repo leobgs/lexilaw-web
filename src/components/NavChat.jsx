@@ -16,12 +16,11 @@ import { useGlobalContext } from 'hooks/context'
 export const NavChat = ({
   onHeaderClick,
   dataLatest = [],
-  // onEdit,
   headerText,
   userDetail,
   onExpand,
 }) => {
-  const { collectionClick, collection } = useGlobalContext()
+  const { collection } = useGlobalContext()
   const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [showNav, setShowNav] = useState(false)
@@ -169,7 +168,7 @@ export const NavChat = ({
                           key={itms.uuid}
                           className='border-l-2 border-blue-sky ml-3.5 pl-5 pb-2 text-neutral-40 last:mb-4 text-sm'
                           onClick={() => {
-                            collectionClick(itms)
+                            // collectionClick(itms)
                             setShowNav(false)
                           }}
                         >
@@ -197,11 +196,7 @@ export const NavChat = ({
 
                 {item.data.length !== 0 &&
                   item.data?.map((itms) => (
-                    <NavComponent
-                      item={itms}
-                      key={itms.uuid}
-                      // onEdit={(e) => onEdit(e)}
-                    />
+                    <NavComponent item={itms} key={itms.uuid} />
                   ))}
               </div>
             )
@@ -229,18 +224,6 @@ export const NavChat = ({
           }
         })}
       </div>
-
-      {/* <div className='mt-20 flex-col justify-center hidden md:flex'>
-        <img
-          src={images.ic_chat_bubbles}
-          alt='chat bubbles'
-          className='w-24 h-20 mx-auto'
-        />
-        <div className='mx-auto mt-2 text-center md:w-4/5'>
-          Kamu belum memiliki topik apapun,{' '}
-          <span className='font-semi-bold'>Mulai Obrolan Baru!</span>
-        </div>
-      </div> */}
 
       {showNav && (
         <div className='md:hidden h-full w-full absolute flex z-50 '>
@@ -331,7 +314,7 @@ export const NavChat = ({
                                 key={itms.uuid}
                                 className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4 text-sm'
                                 onClick={() => {
-                                  collectionClick(itms.title)
+                                  // collectionClick(itms.title)
                                   setShowNav(false)
                                 }}
                               >
@@ -354,11 +337,7 @@ export const NavChat = ({
 
                       {item.data.length !== 0 &&
                         item.data?.map((itms) => (
-                          <NavComponent
-                            item={itms}
-                            key={itms.uuid}
-                            // onEdit={(e) => onEdit(e)}
-                          />
+                          <NavComponent item={itms} key={itms.uuid} />
                         ))}
                     </div>
                   )

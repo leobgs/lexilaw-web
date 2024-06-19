@@ -1,8 +1,6 @@
 import images from 'assets/images'
 
-import { InputChat, NavChat, QuestionCard, Tooltips } from 'components'
-import { AutoScrollingDiv } from 'components/AutoScrollDiv'
-import { ChatCard } from 'components/ChatCard'
+import { InputChat, NavChat, Tooltips, QuestionCard } from 'components'
 import { Toggle } from 'components/Toggle/Toggle'
 import { API } from 'config/api'
 import { StorageKey } from 'config/storage'
@@ -12,65 +10,68 @@ import { notifyError } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { LocalStorage } from 'utils'
-import {
-  DEFAULT_QUESTION,
-  KOLEKSI_CHAT,
-  OROLAN_TERKINI,
-  RIWAYAT_OROLAN,
-} from 'utils/dummy'
+import { DEFAULT_QUESTION, KOLEKSI_CHAT, RIWAYAT_OROLAN } from 'utils/dummy'
+import { ThreadPage } from './ThreadPage'
 
 export const Chat = () => {
   const { t } = useTranslation()
   const storage = new LocalStorage()
   const navigate = useNavigate()
-  const queryClient = useQueryClient()
+
   const {
     currentLanguage,
     collection,
     collectionReset,
-    collectionClick,
     bookingLawyerPayload,
     bookingLawyerReducer,
   } = useGlobalContext()
-  const [isDisplayImage, setDisplayImage] = useState()
+  const { uuid } = useParams()
+  const queryClient = useQueryClient()
   const [isHeader, setIsHeader] = useState(true)
-  const [dataMessage, setMessage] = useState([
-    { type: 'koleksi', data: KOLEKSI_CHAT },
-    { type: 'terkini', data: OROLAN_TERKINI },
-    { type: 'riwayat', data: [...RIWAYAT_OROLAN] },
-  ])
-  const [renderedMessage, setRenderedMessage] = useState(null)
+  const [isDisplayImage, setDisplayImage] = useState()
+  const [disableInput, setDisableInput] = useState(false)
+  const [dataMessage, setMessage] = useState([])
   const [headerText, setHeaderText] = useState('Obrolan Baru')
-  const [threadMessageId, setThreadMessageId] = useState({
-    thread_id: '',
-    message_id: '',
-  })
-  const [threadMessageIdtoRespond, setThreadMessageIdtoRespond] = useState({
-    thread_id: '',
-    message_id: '',
-  })
   const [userDetail, setUserDetail] = useState({
     first_name: '-',
     last_name: '-',
     image_url: '',
   })
-  const [currUUID, setCurrUUID] = useState(null)
-  const [disableInput, setDisableInput] = useState(false)
 
   useEffect(() => {
     switch (true) {
       case collection.clickColection:
         return onClickColection(collection.uuid)
-      case collection.deleteColection:
-        return onDelete(collection.uuid)
-      case collection.setEditColection:
-        return handleSetEdit(collection.uuid)
       default:
         break
     }
   }, [collection])
+
+  useEffect(() => {
+    dataMessage?.forEach((item) => {
+      item.data?.forEach((itm) => {
+        if (!itm.value) {
+          if (itm.uuid === uuid) {
+            itm.isActive = true
+          } else {
+            itm.isActive = false
+          }
+        } else if (itm.value) {
+          itm.childs?.forEach((itms) => {
+            if (itms.uuid === uuid) {
+              itms.isActive = true
+            } else {
+              itms.isActive = false
+            }
+          })
+        }
+      })
+    })
+
+    setMessage([...dataMessage])
+  }, [uuid])
 
   const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
     onSettled: (data) => {
@@ -90,136 +91,65 @@ export const Chat = () => {
         const { data } = datas
         let texts = 'Obrolan Baru'
 
-        const previousData = data?.filter((item) => item.moment === 'Previous') || [];
-        const currentData = data?.filter((item) => item.moment === 'Current') || [];
-        let activeCollection = currentData[0];
-        
+        const previousData =
+          data?.filter((item) => item.moment === 'Previous') || []
+        const currentData =
+          data?.filter((item) => item.moment === 'Current') || []
+        let activeCollection = currentData[0]
+
         if (bookingLawyerPayload?.thread_uuid) {
-          activeCollection = currentData.find((item) => item.uuid === bookingLawyerPayload.thread_uuid);
+          activeCollection = currentData.find(
+            (item) => item.uuid === bookingLawyerPayload.thread_uuid
+          )
           if (!activeCollection) {
-            activeCollection = previousData.find((item) => item.uuid === bookingLawyerPayload.thread_uuid) || currentData[0];
+            activeCollection =
+              previousData.find(
+                (item) => item.uuid === bookingLawyerPayload.thread_uuid
+              ) || currentData[0]
           }
-          bookingLawyerReducer(['thread_uuid'], null);
+          bookingLawyerReducer(['thread_uuid'], null)
         }
 
-       const collectionUUID = isHeader ? activeCollection?.uuid : collection?.uuid;
+        const collectionUUID = isHeader
+          ? activeCollection?.uuid
+          : collection?.uuid
 
-      const newMessage = [
-        { type: "koleksi", data: KOLEKSI_CHAT },
-        { type: "terkini", data: currentData },
-        { type: "riwayat", data: [...previousData, ...RIWAYAT_OROLAN]}, // ...RIWAYAT_OROLAN nanti dihapus kalo udh full api
-      ];
+        const newMessage = [
+          { type: 'koleksi', data: KOLEKSI_CHAT },
+          { type: 'terkini', data: currentData },
+          { type: 'riwayat', data: [...previousData, ...RIWAYAT_OROLAN] }, // ...RIWAYAT_OROLAN nanti dihapus kalo udh full api
+        ]
 
-      setMessage(newMessage);
-      setHeaderText(texts);
-      setCurrUUID(collectionUUID);
-      collectionClick(activeCollection);
+        newMessage?.forEach((item) => {
+          item.data?.forEach((itm) => {
+            if (!itm.value) {
+              if (itm.uuid === uuid) {
+                itm.isActive = true
+              } else {
+                itm.isActive = false
+              }
+            } else if (itm.value) {
+              itm.childs?.forEach((itms) => {
+                if (itms.uuid === uuid) {
+                  itms.isActive = true
+                } else {
+                  itms.isActive = false
+                }
+              })
+            }
+          })
+        })
+
+        setMessage([...newMessage])
+        setHeaderText(texts)
+        if (uuid) onClickColection(uuid)
+        // setCurrUUID(collectionUUID)
+        // collectionClick(activeCollection)
       } else {
         notifyError(datas?.message)
       }
     },
   })
-
-  const { refetch: refetchDetail } = useQuery(
-    ['thread_detail', currUUID],
-    () => getData(API.THREAD_DETAIL + currUUID),
-    {
-      onSettled: (datas) => {
-        if (datas?.status === 'Success') {
-          const { data } = datas
-          setRenderedMessage(data)
-        } else if (datas?.status === 'Not Found') {
-          refetchDetail()
-        } else {
-          notifyError(datas?.message)
-        }
-      },
-      enabled: !!currUUID,
-    }
-  )
-
-  useQuery(
-    ['respond_chat', threadMessageIdtoRespond.thread_id],
-    () =>
-      getData(
-        `${API.MESSAGE_RESPONSE}${threadMessageIdtoRespond.thread_id}/${threadMessageIdtoRespond.message_id}`
-      ),
-    {
-      onSettled: (datas) => {
-        if (datas?.status === 'Success') {
-          queryClient.invalidateQueries('thread_detail')
-        } else {
-          // notifyError(datas?.message)
-          renderedMessage?.forEach((item) => {
-            if (item.type === 'isloading') {
-              return {
-                ...item,
-                message: `${datas?.message}`,
-                type: '',
-              }
-            }
-          })
-          setRenderedMessage([...renderedMessage])
-        }
-      },
-      enabled: !!threadMessageIdtoRespond.thread_id,
-    }
-  )
-
-  useQuery(
-    ['check_status', threadMessageId],
-    () =>
-      getData(
-        API.MESSAGE_STATUS +
-          `${threadMessageId.thread_id}/${threadMessageId.message_id}/status`
-      ),
-    {
-      onSettled: (datas) => {
-        if (datas?.status === 'Success') {
-          const isLoading = renderedMessage?.find(
-            (item) => item.type === 'loading'
-          )
-          const { data } = datas
-          if (data.status === 'completed') {
-            queryClient.invalidateQueries('respond_chat')
-            setDisableInput(false)
-            setThreadMessageIdtoRespond({
-              thread_id: data.thread_id,
-              message_id: data.message_id,
-            })
-          } else if (data.status === 'in_progress') {
-            setDisableInput(true)
-
-            if (!isLoading) {
-              renderedMessage &&
-                setRenderedMessage((prevArray) => [
-                  ...prevArray,
-                  { type: 'loading', from: '000000' },
-                ])
-            }
-          } else {
-            setDisableInput(true)
-            if (!isLoading) {
-              renderedMessage &&
-                setRenderedMessage((prevArray) => [
-                  ...prevArray,
-                  { type: '', message: 'Answer on queued', from: '000000' },
-                ])
-            }
-          }
-        }
-      },
-      refetchInterval: (query) => {
-        if (query?.data?.status !== 'in_progress') {
-          return false
-        } else {
-          return 3000
-        }
-      },
-      onError: (e) => console.log('eh error', e),
-      enabled: !!threadMessageId.thread_id && !!threadMessageId.message_id,
-    }
-  )
 
   const { mutate: sendMessage } = useMutation(
     (form) => getData(API.MESSAGE_SEND, form),
@@ -227,15 +157,11 @@ export const Chat = () => {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
           const { data } = datas
-          if (isHeader) {
-            queryClient.invalidateQueries('newest_thread')
-          }
-          setCurrUUID(collection.uuid)
-          refetchDetail()
-          setThreadMessageId({
-            thread_id: data.thread_id,
-            message_id: data.message_id,
-          })
+          // if (isHeader) {
+          queryClient.invalidateQueries('newest_thread')
+          // }
+          // setCurrUUID(collection.uuid)
+          // refetchDetail()
         } else {
           notifyError(datas?.message)
         }
@@ -246,7 +172,7 @@ export const Chat = () => {
   useQuery(['user'], () => getData(API.USER_DETAIL), {
     onSettled: (datas) => {
       if (datas?.status === 'Success') {
-        setUserDetail(datas?.data);
+        setUserDetail(datas?.data)
       } else {
         notifyError(datas?.message)
       }
@@ -269,8 +195,8 @@ export const Chat = () => {
   }
 
   const onClickColection = (id) => {
+    navigate(`/thread/${id}`)
     let texts = 'Obrolan Baru'
-    let activeData = null
 
     dataMessage?.forEach((item) => {
       if (item.type === 'koleksi') {
@@ -279,7 +205,6 @@ export const Chat = () => {
             dataItem.childs.forEach((child) => {
               if (child.uuid === id) {
                 texts = child.title ?? child.message
-                activeData = child
               }
             })
           }
@@ -289,48 +214,19 @@ export const Chat = () => {
           if (dataItem.title) {
             if (dataItem.uuid === id) {
               texts = dataItem.title
-              activeData = dataItem
             }
           }
         })
       }
     })
 
-    dataMessage?.map((item) => {
-      item.data?.map((itm) => {
-        if (!itm.value) {
-          if (itm.uuid === id) {
-            itm.isActive = true
-          } else {
-            itm.isActive = false
-          }
-        } else if (itm.value) {
-          itm.childs?.map((itms) => {
-            if (itms.uuid === id) {
-              itms.isActive = true
-            } else {
-              itms.isActive = false
-            }
-          })
-        }
-      })
-    })
-
-    setMessage([...dataMessage])
     setHeaderText(texts)
     setIsHeader(false)
-
-    if (activeData?.update_at) {
-      setCurrUUID(id)
-    } else {
-      setCurrUUID(null)
-      setRenderedMessage(activeData?.chat ?? null)
-    }
   }
 
   const onEdit = (e) => {
-    dataMessage?.map((item) => {
-      item.data?.map((itm) => {
+    dataMessage?.forEach((item) => {
+      item.data?.forEach((itm) => {
         if (itm.isActive) {
           itm.title = e
         }
@@ -339,50 +235,15 @@ export const Chat = () => {
     setMessage([...dataMessage])
   }
 
-  const onDelete = (e) => {
-    const newData = dataMessage.map((category) => ({
-      ...category,
-      data: category.data.filter((item) => item.uuid !== e),
-    }))
-
-    setMessage([...newData])
-  }
-
   const handleOnExpand = (id) => {
-    dataMessage?.map((item) => {
+    dataMessage?.forEach((item) => {
       if (item.type === 'koleksi') {
-        item.data?.map((items) => {
+        item.data?.forEach((items) => {
           if (items.uuid === id) {
             items.isExpand = !items.isExpand
           } else {
             items.isExpand = false
           }
-        })
-      }
-    })
-    setMessage([...dataMessage])
-  }
-
-  const handleSetEdit = (id) => {
-    dataMessage.map((item) => {
-      if (item.type !== 'koleksi') {
-        item.data?.map((items) => {
-          if (items.uuid === id) {
-            items.isEdit = collection.editState === 'start' ? true : false
-          } else {
-            items.isEdit = false
-          }
-        })
-      }
-    })
-    setMessage([...dataMessage])
-  }
-
-  const handleResetThread = () => {
-    dataMessage.map((item) => {
-      if (item.type !== 'koleksi') {
-        item.data?.map((items) => {
-          items.isActive = false
         })
       }
     })
@@ -396,11 +257,10 @@ export const Chat = () => {
           onHeaderClick={() => {
             setIsHeader(true)
             collectionReset()
-            setCurrUUID(null)
             setHeaderText('Obrolan Baru')
-            handleResetThread()
-            setRenderedMessage([])
+            navigate('/')
           }}
+          onClickNav={(item) => onClickColection(item.uuid)}
           dataLatest={dataMessage}
           onEdit={(e) => onEdit(e)}
           headerText={headerText}
@@ -416,15 +276,17 @@ export const Chat = () => {
             </div>
 
             <div className='flex items-center gap-2'>
-              <p className='font-bold'>{userDetail.first_name} {userDetail.last_name}</p>
+              <p className='font-bold'>
+                {userDetail.first_name} {userDetail.last_name}
+              </p>
               <img
                 className='size-10 rounded-full ring-1 ring-[#C9BBA0] drop-shadow-[2px_2px_2px_rgba(240, 237, 232, 1)]'
                 src={userDetail.image_url}
                 alt='profile'
                 data-tooltip-id='profile-tooltip'
                 onError={({ currentTarget }) => {
-                  currentTarget.onerror = null;
-                  currentTarget.src=images.ic_avatar_placeholder;
+                  currentTarget.onerror = null
+                  currentTarget.src = images.ic_avatar_placeholder
                 }}
               />
             </div>
@@ -460,9 +322,6 @@ export const Chat = () => {
                           keyPrefix: 'chat.profile_option',
                         })}
                       </div>
-                      {/* <div className='py-1 px-2 bg-error-lighter text-xs mr-2 rounded-full text-white flex items-center justify-center'>
-                        1
-                      </div> */}
                     </div>
                   </div>
                   <div className='px-4 mb-2 mt-2 text-xxs'>
@@ -515,41 +374,27 @@ export const Chat = () => {
             />
           </header>
 
-          <div className='flex h-full md:h-[calc(100%-56px)] flex-col select-text relative mb-2'>
-            <AutoScrollingDiv
-              content={
-                isHeader || !renderedMessage ? (
-                  <QuestionCard
-                    data={DEFAULT_QUESTION}
-                    onClick={(e) => handleAddChat(e)}
-                    className={`md:absolute ${
-                      isDisplayImage ? 'md:top-[20%]' : 'md:top-1/4'
-                    }`}
-                  />
-                ) : renderedMessage?.length !== 0 ? (
-                  renderedMessage?.map((itms, index) => (
-                    <ChatCard key={index} item={itms} index={index} />
-                  ))
-                ) : (
-                  <QuestionCard
-                    data={DEFAULT_QUESTION}
-                    onClick={(e) => handleAddChat(e)}
-                    className={`md:absolute ${
-                      isDisplayImage ? 'md:top-[20%]' : 'md:top-1/4'
-                    }`}
-                  />
-                )
-              }
-            />
+          <div className='md:h-[calc(100%-56px)]'>
+            {isHeader ? (
+              <div className='relative flex h-full flex-col select-text mb-2'>
+                <QuestionCard
+                  data={DEFAULT_QUESTION}
+                  onClick={(e) => handleAddChat(e)}
+                  className={`md:absolute ${
+                    isDisplayImage ? 'md:top-[20%]' : 'md:top-1/4'
+                  }`}
+                />
 
-            <div>
-              <InputChat
-                onChange={(e) => handleAddChat(e)}
-                onDisplayImage={(e) => setDisplayImage(e)}
-                className='w-full md:w-3/4'
-                disable={disableInput}
-              />
-            </div>
+                <InputChat
+                  onChange={(e) => handleAddChat(e)}
+                  onDisplayImage={(e) => setDisplayImage(e)}
+                  className='w-full md:w-3/4 bottom-0 absolute'
+                  disable={disableInput}
+                />
+              </div>
+            ) : (
+              <ThreadPage />
+            )}
           </div>
         </main>
       </div>
