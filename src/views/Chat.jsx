@@ -157,7 +157,7 @@ export const Chat = () => {
         setMessage([...newMessage])
         setHeaderText(texts)
 
-        if (threadMessageId.thread_id) {
+        if (threadMessageId.thread_id && !uuid) {
           const selectedThread = data?.find(
             (item) => item.open_thread_id === threadMessageId.thread_id
           )
@@ -168,7 +168,7 @@ export const Chat = () => {
           setIsHeader(false)
           setDisableInput(false)
           collectionSet(selectedThread)
-        } else if (uuid) {
+        } else if (!threadMessageId.thread_id && uuid) {
           const selectedThread = data?.find((item) => item.uuid === uuid)
           onClickColection(uuid)
           collectionSet(selectedThread)
@@ -185,7 +185,6 @@ export const Chat = () => {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
           const { data } = datas
-
           setThreadMessageId({
             thread_id: data?.thread_id,
             message_id: data?.message_id,
@@ -290,7 +289,10 @@ export const Chat = () => {
             setHeaderText('Obrolan Baru')
             navigate('/')
           }}
-          onClickNav={(item) => onClickColection(item.uuid)}
+          onClickNav={(item) => {
+            onClickColection(item.uuid)
+            console.log('clicked')
+          }}
           dataLatest={dataMessage}
           onEdit={(e) => onEdit(e)}
           headerText={headerText}
