@@ -43,6 +43,7 @@ export const colectionType = {
   DELETE: 'DELETE',
   SET_EDIT: 'SET_EDIT',
   EMPTY: 'EMPTY',
+  SET: 'SET',
 }
 
 export const colectionState = {

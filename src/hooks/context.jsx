@@ -20,6 +20,7 @@ export const AppContext = React.createContext({
   setLanguage: (e) => {},
   collection: colectionState,
   collectionClick: (e) => {},
+  collectionSet: (e) => {},
   collectionDelete: (e) => {},
   collectionEdit: (e) => {},
   collectionSetEdit: (e) => {},
@@ -104,6 +105,13 @@ export const AppProvider = ({ children }) => {
     })
   }
 
+  const collectionSet = (action) => {
+    return new Reducer(collection, dispatchColection).dispatch({
+      ...action,
+      type: colectionType.SET,
+    })
+  }
+
   const collectionEdit = (action) => {
     return new Reducer(collection, dispatchColection).dispatch({
       ...action,
@@ -135,7 +143,7 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const { setBookingLawyerPayload } = localServerData()
     if (bookingLawyerPayload) {
-      setBookingLawyerPayload(bookingLawyerPayload);
+      setBookingLawyerPayload(bookingLawyerPayload)
     }
   }, [bookingLawyerPayload])
 
@@ -143,7 +151,7 @@ export const AppProvider = ({ children }) => {
     return setBookingLawyerPayload({
       ...bookingLawyerPayload,
       [fieldName]: newValue,
-    });
+    })
   }
 
   return (
@@ -160,12 +168,13 @@ export const AppProvider = ({ children }) => {
         setLanguage,
         collection,
         collectionClick,
+        collectionSet,
         collectionDelete,
         collectionEdit,
         collectionSetEdit,
         collectionReset,
         bookingLawyerPayload,
-        bookingLawyerReducer
+        bookingLawyerReducer,
       }}
     >
       {children}

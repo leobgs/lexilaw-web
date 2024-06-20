@@ -167,7 +167,7 @@ export const ThreadPage = () => {
   const handleAddChat = (e) => {
     const dataMessage = {
       message: e.message,
-      thread_id: collection.thread_id,
+      thread_id: state ? state?.thread_id : collection.thread_id,
       document: e.file,
     }
 
