@@ -23,9 +23,10 @@ export const Chat = () => {
   const {
     currentLanguage,
     collection,
-    collectionReset,
     bookingLawyerPayload,
     bookingLawyerReducer,
+    collectionReset,
+    collectionSet,
   } = useGlobalContext()
   const { uuid } = useParams()
   const queryClient = useQueryClient()
@@ -155,8 +156,9 @@ export const Chat = () => {
 
         setMessage([...newMessage])
         setHeaderText(texts)
+
         if (threadMessageId.thread_id) {
-          const selectedThread = currentData?.find(
+          const selectedThread = data?.find(
             (item) => item.open_thread_id === threadMessageId.thread_id
           )
           setHeaderText(selectedThread.title)
@@ -165,7 +167,12 @@ export const Chat = () => {
           })
           setIsHeader(false)
           setDisableInput(false)
-        } else if (uuid) onClickColection(uuid)
+          collectionSet(selectedThread)
+        } else if (uuid) {
+          const selectedThread = data?.find((item) => item.uuid === uuid)
+          onClickColection(uuid)
+          collectionSet(selectedThread)
+        }
       } else {
         notifyError(datas?.message)
       }

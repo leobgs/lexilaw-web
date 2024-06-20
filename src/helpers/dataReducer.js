@@ -56,6 +56,16 @@ export const colectionReducer = (state, action) => {
         thread_id: action.open_thread_id ?? action.thread_id,
       }
 
+    case colectionType.SET:
+      return {
+        editColection: false,
+        clickColection: false,
+        deleteColection: false,
+        setEditColection: false,
+        uuid: action.uuid,
+        thread_id: action.open_thread_id ?? action.thread_id,
+      }
+
     case colectionType.EDIT:
       return {
         editColection: true,
