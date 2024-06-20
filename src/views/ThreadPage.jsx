@@ -43,6 +43,25 @@ export const ThreadPage = () => {
     }
   }, [params.uuid, state])
 
+  const { mutate: sendMessage } = useMutation(
+    (form) => getData(API.MESSAGE_SEND, form),
+    {
+      onSettled: (datas) => {
+        if (datas?.status === 'Success') {
+          const { data } = datas
+          setThreadMessageId({
+            thread_id: data.thread_id,
+            message_id: data.message_id,
+          })
+          refetchDetail()
+        } else {
+          notifyError(datas?.message)
+          setDisableInput(false)
+        }
+      },
+    }
+  )
+
   const { refetch: refetchDetail } = useQuery(
     ['thread_detail', params.uuid],
     () => getData(API.THREAD_DETAIL + params.uuid),
@@ -145,29 +164,10 @@ export const ThreadPage = () => {
     }
   )
 
-  const { mutate: sendMessage } = useMutation(
-    (form) => getData(API.MESSAGE_SEND, form),
-    {
-      onSettled: (datas) => {
-        if (datas?.status === 'Success') {
-          const { data } = datas
-          setThreadMessageId({
-            thread_id: data.thread_id,
-            message_id: data.message_id,
-          })
-          refetchDetail()
-        } else {
-          notifyError(datas?.message)
-          setDisableInput(false)
-        }
-      },
-    }
-  )
-
   const handleAddChat = (e) => {
     const dataMessage = {
       message: e.message,
-      thread_id: state ? state?.thread_id : collection.thread_id,
+      thread_id: state?.thread_id ? state?.thread_id : collection?.thread_id,
       document: e.file,
     }
 
@@ -175,6 +175,7 @@ export const ThreadPage = () => {
     for (const [key, value] of Object.entries(dataMessage)) {
       bodyFormData.append(key, value)
     }
+
     sendMessage(bodyFormData)
     setDisableInput(true)
     setThreadMessageId({ message_id: '', thread_id: '' })
