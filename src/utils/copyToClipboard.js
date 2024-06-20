@@ -10,5 +10,6 @@ export const copyToClipboard = ({ text }) => {
   textarea.select()
   document.execCommand('copy')
   document.body.removeChild(textarea)
+
   notify('Copy text berhasil!')
 }

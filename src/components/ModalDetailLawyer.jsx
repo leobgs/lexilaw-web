@@ -14,13 +14,14 @@ import { useTranslation } from 'react-i18next'
 export const ModalDetailLawyer = ({
   data,
   show = false,
-  onHide = () => { },
+  onHide = () => {},
 }) => {
   const { t } = useTranslation()
-  const [currText, setCurrText] = useState(t('results', { keyPrefix: 'my_lawyer' }))
+  const [currText, setCurrText] = useState(
+    t('results', { keyPrefix: 'my_lawyer' })
+  )
   const [dataDocumment, setDataDocumment] = useState([])
-  const [lawyerData, setlawyerData] = useState([]);
-
+  const [lawyerData, setlawyerData] = useState([])
 
   const getdetailLawyer = useQuery(['detailLawyer', show], () => {
     if (show) {
@@ -28,24 +29,26 @@ export const ModalDetailLawyer = ({
     } else {
       return Promise.resolve(null)
     }
-  });
+  })
 
   useEffect(() => {
     if (show && getdetailLawyer?.data?.status === 'Success') {
-      setlawyerData(getdetailLawyer.data.data);
+      setlawyerData(getdetailLawyer.data.data)
     }
-  }, [show, getdetailLawyer]);
+  }, [show, getdetailLawyer])
 
   const truncateText = (text, wordLimit) => {
-    const words = text.split(' ');
+    const words = text.split(' ')
     if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(' ') + '...';
+      return words.slice(0, wordLimit).join(' ') + '...'
     }
-    return text;
-  };
+    return text
+  }
 
-  const lawyerDescription = truncateText(getdetailLawyer.data?.data?.description || '', 200);
-
+  const lawyerDescription = truncateText(
+    getdetailLawyer.data?.data?.description || '',
+    200
+  )
 
   useEffect(() => {
     DOCUMMENT_HASIL?.forEach((item, index) => {
@@ -66,7 +69,6 @@ export const ModalDetailLawyer = ({
     })
     setDataDocumment([...dataDocumment])
   }
-
 
   return (
     <Modal
@@ -99,21 +101,22 @@ export const ModalDetailLawyer = ({
         </div>
 
         <div
-          className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${currText === t('results', { keyPrefix: 'my_lawyer' }) ? '' : 'hidden'
-            }`}
+          className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${
+            currText === t('results', { keyPrefix: 'my_lawyer' })
+              ? ''
+              : 'hidden'
+          }`}
         >
           <div className='line-clamp-5 text mt-20'>{lawyerDescription}</div>
           <div className={`grid grid-cols-10 mt-4 gap-2`}>
-            {lawyerData.lawyer_filed?.map(
-              (item, index) => (
-                <div
-                  className='bg-[#FFFBF5] rounded-lg py-1 px-2 font-semi-bold text-center text-dark-50 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5'
-                  key={index}
-                >
-                  {item}
-                </div>
-              )
-            )}
+            {lawyerData.lawyer_filed?.map((item, index) => (
+              <div
+                className='bg-[#FFFBF5] rounded-lg py-1 px-2 font-semi-bold text-center text-dark-50 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5'
+                key={index}
+              >
+                {item}
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -143,22 +146,27 @@ export const ModalDetailLawyer = ({
         <div className='line-clamp-5 text px-4 mt-20'>{lawyerDescription}</div>
 
         <div className={`grid grid-cols-10 mt-4 gap-2 mx-4`}>
-          {lawyerData.lawyer_filed?.map(
-            (item, index) => (
-              <div
-                className='bg-[#FFFBF5] rounded-lg py-1 px-2 font-semi-bold text-center text-dark-50 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5'
-                key={index}
-              >
-                {item}
-              </div>
-            )
-          )}
+          {lawyerData.lawyer_filed?.map((item, index) => (
+            <div
+              className='bg-[#FFFBF5] rounded-lg py-1 px-2 text-center text-neutral-40 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5'
+              key={index}
+            >
+              {item}
+            </div>
+          ))}
         </div>
       </div>
 
       <Tabs
-        className={`${currText === t('results', { keyPrefix: 'my_lawyer' }) ? 'md:mt-4' : 'mt-24 md:mt-4 mb-4'}`}
-        textArr={[t('results', { keyPrefix: 'my_lawyer' }), t('schedule', { keyPrefix: 'my_lawyer' })]}
+        className={`${
+          currText === t('results', { keyPrefix: 'my_lawyer' })
+            ? 'md:mt-4'
+            : 'mt-24 md:mt-4 mb-4'
+        }`}
+        textArr={[
+          t('results', { keyPrefix: 'my_lawyer' }),
+          t('schedule', { keyPrefix: 'my_lawyer' }),
+        ]}
         onTabClick={(e) => setCurrText(e)}
         currText={currText}
       />
@@ -202,68 +210,81 @@ export const ModalDetailLawyer = ({
                 </div>
               ))
             ) : (
-              <div className="h-[100%] w-[300px] flex flex-col justify-center items-center mx-auto">
+              <div className='h-[100%] w-[300px] flex flex-col justify-center items-center mx-auto'>
                 <img
                   src={images.ic_file}
                   alt='documment attached'
                   className='mb-3 w-14 h-14'
                 />
-                <p className='text-center text-sm text-dark-50'>{t('you_haven_results_lawyer', { keyPrefix: 'my_lawyer' })}</p>
-                <div className='text-center text-sm font-semi-bold text-[#073A77]'>{t('chat_with_lexi', { keyPrefix: 'my_lawyer' })} ↗️</div>
+                <p className='text-center text-sm text-dark-50'>
+                  {t('you_haven_results_lawyer', { keyPrefix: 'my_lawyer' })}
+                </p>
+                <div className='text-center text-sm font-semi-bold text-[#073A77]'>
+                  {t('chat_with_lexi', { keyPrefix: 'my_lawyer' })} ↗️
+                </div>
               </div>
             )}
           </div>
         </>
       ) : (
         <div className='md:h-3/5 h-full overflow-y-auto'>
-            {LAWYER_SCHEDULE && LAWYER_SCHEDULE.length > 0 ? (
-              LAWYER_SCHEDULE.map((item) => (
-                <div className='bg-white mb-4 p-4 rounded-2xl shadow-md' key={item.id}>
-                  <div className='font-bold text-2xl md:text-base md:font-semi-bold mb-3'>
-                    {item.title}
-                  </div>
-                  <div className='font-light'>Dijadwalkan Pada</div>
-                  <div className='font-semi-bold'>
-                    {item.scheduled_at} | {item.time_at}
-                  </div>
-                  <div className='bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4'>
-                    <div>Ruang Pertemuan</div>
-                    <div className='flex justify-between items-center'>
-                      <Link to={item.url} className='a-link'>
-                        {item.url}
-                      </Link>
-                      <img
-                        src={images.ic_copy_button}
-                        alt='copy'
-                        onClick={() => copyToClipboard(item.url)}
-                      />
-                    </div>
-                    <div className='flex justify-end mt-2'>
-                      <Button
-                        onClick={() => console.log('g call')}
-                        label='Join Call'
-                        iconRight={images.ic_handycam}
-                        iconClassName='!w-4 !h-2.5'
-                        className='bg-blue-sky rounded-full'
-                      />
-                    </div>
-                  </div>
+          {LAWYER_SCHEDULE && LAWYER_SCHEDULE.length > 0 ? (
+            LAWYER_SCHEDULE.map((item) => (
+              <div
+                className='bg-white mb-4 p-4 rounded-2xl shadow-md'
+                key={item.id}
+              >
+                <div className='font-bold text-2xl md:text-base md:font-semi-bold mb-3'>
+                  {item.title}
                 </div>
-              ))
-            ) : (
-              <div className="h-4/5 w-[300px] flex flex-col justify-center items-center mx-auto">
-                <img
-                  src={images.ic_file}
-                  alt='icon file'
-                  className='mb-3 w-14 h-14'
-                />
-                <p className='text-center text-sm mb-3 text-dark-50'>{t('dont_have_schedule', { keyPrefix: 'my_lawyer' })}</p>
-                <div className='p-3 px-4 rounded-full flex flex-row items-center text-sm font-semi-bold bg-blue-dark text-[#FFFFFF]'>
-                  {t('create_schedule', { keyPrefix: 'my_lawyer' })}
-                  <img className='ms-2 w-[1.125rem] h-[1.125rem]' src={images.ic_calendar_white_outline} alt="icon calendar" />
+                <div className='font-light'>Dijadwalkan Pada</div>
+                <div className='font-semi-bold'>
+                  {item.scheduled_at} | {item.time_at}
+                </div>
+                <div className='bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4'>
+                  <div>Ruang Pertemuan</div>
+                  <div className='flex justify-between items-center'>
+                    <Link to={item.url} className='a-link'>
+                      {item.url}
+                    </Link>
+                    <img
+                      src={images.ic_copy_button}
+                      alt='copy'
+                      onClick={() => copyToClipboard(item.url)}
+                    />
+                  </div>
+                  <div className='flex justify-end mt-2'>
+                    <Button
+                      onClick={() => console.log('g call')}
+                      label='Join Call'
+                      iconRight={images.ic_handycam}
+                      iconClassName='!w-4 !h-2.5'
+                      className='bg-blue-sky rounded-full'
+                    />
+                  </div>
                 </div>
               </div>
-            )}
+            ))
+          ) : (
+            <div className='h-4/5 w-[300px] flex flex-col justify-center items-center mx-auto'>
+              <img
+                src={images.ic_file}
+                alt='icon file'
+                className='mb-3 w-14 h-14'
+              />
+              <p className='text-center text-sm mb-3 text-dark-50'>
+                {t('dont_have_schedule', { keyPrefix: 'my_lawyer' })}
+              </p>
+              <div className='p-3 px-4 rounded-full flex flex-row items-center text-sm font-semi-bold bg-blue-dark text-[#FFFFFF]'>
+                {t('create_schedule', { keyPrefix: 'my_lawyer' })}
+                <img
+                  className='ms-2 w-[1.125rem] h-[1.125rem]'
+                  src={images.ic_calendar_white_outline}
+                  alt='icon calendar'
+                />
+              </div>
+            </div>
+          )}
         </div>
       )}
     </Modal>

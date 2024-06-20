@@ -188,7 +188,17 @@ export const ThreadPage = () => {
         content={
           renderedMessage?.length !== 0 &&
           renderedMessage?.map((itms, index) => (
-            <ChatCard key={index} item={itms} index={index} />
+            <ChatCard
+              key={index}
+              item={itms}
+              index={index}
+              onClickChangeLangStyle={(e) =>
+                handleAddChat({
+                  message: e,
+                  document: '',
+                })
+              }
+            />
           ))
         }
       />
