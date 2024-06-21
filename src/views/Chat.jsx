@@ -386,7 +386,7 @@ export const Chat = () => {
                       })}{' '}
                       {currentLanguage === 'id' ? '(ID)' : '(EN)'}
                     </div>
-                    <div className='mr-1'>
+                    <div className='mr-2.5'>
                       <Toggle
                         labelClassName='!w-[50px]'
                         className='!my-0'
@@ -396,7 +396,7 @@ export const Chat = () => {
                   </div>
 
                   <div
-                    className='font-semi-bold text-error-base px-6 bg-error-lighter bg-opacity-10 py-2 -mb-2.5 rounded-b-lg text-sm'
+                    className='font-semi-bold text-error-base px-4 bg-error-lighter bg-opacity-10 py-2 -mb-2.5 rounded-b-lg text-sm'
                     onClick={onLogout}
                   >
                     Logout
@@ -406,7 +406,7 @@ export const Chat = () => {
             />
           </header>
 
-          <div className='md:h-[calc(100%-56px)]'>
+          <div className='md:h-[calc(100%-56px)] h-full'>
             {isHeader ? (
               <div className='relative flex h-full flex-col select-text mb-2'>
                 <QuestionCard
@@ -420,7 +420,7 @@ export const Chat = () => {
                 <InputChat
                   onChange={(e) => handleAddChat(e)}
                   onDisplayImage={(e) => setDisplayImage(e)}
-                  className='w-full md:w-3/4 bottom-0 absolute'
+                  className='w-full md:w-3/4 bottom-1 absolute'
                   disable={disableInput}
                 />
               </div>

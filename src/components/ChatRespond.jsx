@@ -9,7 +9,12 @@ import { getData } from 'hooks/useRequest'
 import { API } from 'config/api'
 import { notifyError } from 'hooks/useToas'
 
-export const ChatRespond = ({ item, index, onClickChangeLangStyle }) => {
+export const ChatRespond = ({
+  item,
+  index,
+  onClickChangeLangStyle,
+  isLast,
+}) => {
   const [showLawyerRecommendation, setLawyerRecommendation] = useState(false)
   const { t } = useTranslation()
   const [dataLawyer, setDataLawyer] = useState([])
@@ -103,9 +108,9 @@ export const ChatRespond = ({ item, index, onClickChangeLangStyle }) => {
 
       default:
         return (
-          <div className='border-t border-neutral-70 -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2'>
-            {index === 1 && (
-              <div className='my-4 justify-between flex'>
+          <div className='border-t border-neutral-70 -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2 flex justify-between'>
+            {index === 1 ? (
+              <div className='my-4'>
                 <Button
                   onClick={() =>
                     onClickChangeLangStyle(
@@ -121,20 +126,65 @@ export const ChatRespond = ({ item, index, onClickChangeLangStyle }) => {
                     keyPrefix: 'chat.chat_text',
                   })}
                 />
+              </div>
+            ) : index === 3 ? (
+              <div className='my-4 flex gap-2 no-scrollbar overflow-x-auto w-full'>
+                <Button
+                  onClick={() =>
+                    onClickChangeLangStyle(
+                      t('more_detail', {
+                        keyPrefix: 'chat.chat_text',
+                      })
+                    )
+                  }
+                  className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
+                  iconLeft={images.ic_change_style_lang}
+                  iconClassName='!h-4 !w-3'
+                  label={t('more_detail', {
+                    keyPrefix: 'chat.chat_text',
+                  })}
+                />
 
-                <div className='flex justify-between items-center'>
-                  <div
-                    className='hidden md:inline-block bg-neutral-50 p-2 rounded-full'
-                    onClick={() => copyToClipboard({ text: item.message })}
-                  >
-                    <img src={images.ic_copy} alt='copy' className='h-4 w-4' />
-                  </div>
-                  <div className='bg-neutral-50 p-2 rounded-full'>
-                    <img src={images.ic_redo} alt='redo' className='h-4 w-4' />
-                  </div>
+                <Button
+                  onClick={() =>
+                    onClickChangeLangStyle(
+                      t('fit_lang', {
+                        keyPrefix: 'chat.chat_text',
+                      })
+                    )
+                  }
+                  className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
+                  iconLeft={images.ic_change_style_lang}
+                  iconClassName='!h-4 !w-3'
+                  label={t('fit_lang', {
+                    keyPrefix: 'chat.chat_text',
+                  })}
+                />
+              </div>
+            ) : (
+              <div></div>
+            )}
+            <div className='flex justify-between items-center'>
+              <div className='flex'>
+                <div className='bg-neutral-50 p-2 rounded-full'>
+                  <img src={images.ic_like} alt='redo' className='h-6 w-6' />
+                </div>
+                <div className='bg-neutral-50 p-2 rounded-full'>
+                  <img src={images.ic_dislike} alt='redo' className='h-6 w-6' />
                 </div>
               </div>
-            )}
+
+              <div
+                className='hidden md:inline-block bg-neutral-50 p-2 rounded-full'
+                onClick={() => copyToClipboard({ text: item.message })}
+              >
+                <img src={images.ic_copy} alt='copy' className='h-4 w-4' />
+              </div>
+
+              {/* <div className='bg-neutral-50 p-2 rounded-full'>
+                <img src={images.ic_redo} alt='redo' className='h-4 w-4' />
+              </div> */}
+            </div>
           </div>
         )
     }
