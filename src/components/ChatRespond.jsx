@@ -181,9 +181,9 @@ export const ChatRespond = ({
                 <img src={images.ic_copy} alt='copy' className='h-4 w-4' />
               </div>
 
-              {/* <div className='bg-neutral-50 p-2 rounded-full'>
+              <div className='bg-neutral-50 p-2 rounded-full'>
                 <img src={images.ic_redo} alt='redo' className='h-4 w-4' />
-              </div> */}
+              </div>
             </div>
           </div>
         )
