@@ -3,7 +3,7 @@ import { byteConversion } from 'utils/byteConversion'
 import { ChatRespond } from './ChatRespond'
 import Markdown from 'markdown-to-jsx'
 
-export const ChatCard = ({ item, index }) => {
+export const ChatCard = ({ item, index, onClickChangeLangStyle }) => {
   return (
     <>
       {item.from === '000000' && item.type === 'loading' ? (
@@ -85,7 +85,11 @@ export const ChatCard = ({ item, index }) => {
             )}
 
             {item.type !== 'loading' && (
-              <ChatRespond item={item} index={index} />
+              <ChatRespond
+                item={item}
+                index={index}
+                onClickChangeLangStyle={(e) => onClickChangeLangStyle(e)}
+              />
             )}
           </div>
         </div>

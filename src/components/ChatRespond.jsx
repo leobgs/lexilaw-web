@@ -9,30 +9,38 @@ import { getData } from 'hooks/useRequest'
 import { API } from 'config/api'
 import { notifyError } from 'hooks/useToas'
 
-export const ChatRespond = ({ item, index }) => {
+export const ChatRespond = ({ item, index, onClickChangeLangStyle }) => {
   const [showLawyerRecommendation, setLawyerRecommendation] = useState(false)
   const { t } = useTranslation()
-  const [dataLawyer, setDataLawyer] = useState([]);
+  const [dataLawyer, setDataLawyer] = useState([])
+
   useQuery(
-    ["lawyer_recomendation"],
-    () => getData(API.LAWYER_RECOMMENDATION, { lawyer_uuid: ["71059093-d800-46d5-89d7-a5f5848a9272", "71059093-d800-46d5-89d7-a5f5848a9271", "ce291454-e0e6-4cff-b78f-81fbc2c80f36"] }),
+    ['lawyer_recomendation'],
+    () =>
+      getData(API.LAWYER_RECOMMENDATION, {
+        lawyer_uuid: [
+          '71059093-d800-46d5-89d7-a5f5848a9272',
+          '71059093-d800-46d5-89d7-a5f5848a9271',
+          'ce291454-e0e6-4cff-b78f-81fbc2c80f36',
+        ],
+      }),
     {
-      enabled: item.type === "recommendation",
+      enabled: item.type === 'recommendation',
       onSettled: (data) => {
-        if (data.status === "Success") {
-          setDataLawyer(data.data);
+        if (data.status === 'Success') {
+          setDataLawyer(data.data)
         } else {
-          notifyError(data?.message);
+          notifyError(data?.message)
         }
       },
     }
-  );
+  )
 
   const renderMessage = (type) => {
     switch (type) {
       case 'recommendation':
         const moreValue = dataLawyer?.length - 1
-        
+
         return (
           <div className='mx-4 -ml-10 px-4 md:border-t-0 md:-mx-4 mt-2'>
             <div
@@ -50,16 +58,20 @@ export const ChatRespond = ({ item, index }) => {
                     <div className='text-secondary-base font-semi-bold'>
                       {dataLawyer[0]?.first_name} {dataLawyer[0]?.last_name}
                     </div>
-                    {moreValue > 0 &&  <div className='ml-3 font-semi-bold text-neutral-40 hidden md:inline-block'>
-                      +{moreValue} more
-                    </div>}
+                    {moreValue > 0 && (
+                      <div className='ml-3 font-semi-bold text-neutral-40 hidden md:inline-block'>
+                        +{moreValue} more
+                      </div>
+                    )}
                   </div>
                   <div className='text-sm text-neutral-40'>
                     {dataLawyer[0]?.city}
                   </div>
-                  {moreValue > 0 && <div className='font-semi-bold text-neutral-40 md:hidden'>
-                    +{moreValue} more
-                  </div>}
+                  {moreValue > 0 && (
+                    <div className='font-semi-bold text-neutral-40 md:hidden'>
+                      +{moreValue} more
+                    </div>
+                  )}
                 </div>
               </div>
               <img src={images.ic_arrow_cornering} alt='' />
@@ -84,7 +96,7 @@ export const ChatRespond = ({ item, index }) => {
               isShow={showLawyerRecommendation}
               onHide={() => setLawyerRecommendation(false)}
               dataLawyer={dataLawyer}
-              thread_uuid={ item?.thread_uuid }
+              thread_uuid={item?.thread_uuid}
             />
           </div>
         )
@@ -95,7 +107,13 @@ export const ChatRespond = ({ item, index }) => {
             {index === 1 && (
               <div className='my-4 justify-between flex'>
                 <Button
-                  onClick={() => console.log('switch cassual language')}
+                  onClick={() =>
+                    onClickChangeLangStyle(
+                      t('switch_lang', {
+                        keyPrefix: 'chat.chat_text',
+                      })
+                    )
+                  }
                   className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
                   iconLeft={images.ic_change_style_lang}
                   iconClassName='!h-4 !w-3'
@@ -107,7 +125,7 @@ export const ChatRespond = ({ item, index }) => {
                 <div className='flex justify-between items-center'>
                   <div
                     className='hidden md:inline-block bg-neutral-50 p-2 rounded-full'
-                    onClick={() => copyToClipboard(item.message)}
+                    onClick={() => copyToClipboard({ text: item.message })}
                   >
                     <img src={images.ic_copy} alt='copy' className='h-4 w-4' />
                   </div>
