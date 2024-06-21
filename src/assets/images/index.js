@@ -65,6 +65,8 @@ import ic_copy_button from './ic_copy_button.png'
 import ic_file from './ic_file.png'
 import ic_calendar_white_outline from './ic_calendar_white_outline.png'
 import ic_fail_red from './ic_fail_red.png'
+import ic_dislike from './ic_dislike.png'
+import ic_like from './ic_like.png'
 
 const images = {
   bg_register_login,
@@ -99,10 +101,7 @@ const images = {
   ic_send,
   ic_close,
 
-  bg_register_login,
   lexilaw_logo,
-  ic_eye,
-  ic_eye_strike,
   chevron_right,
   chevron_left,
   google,
@@ -137,7 +136,9 @@ const images = {
   ic_copy_button,
   ic_file,
   ic_calendar_white_outline,
-  ic_fail_red
+  ic_fail_red,
+  ic_dislike,
+  ic_like,
 }
 
 export default images

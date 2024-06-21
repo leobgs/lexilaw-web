@@ -106,6 +106,7 @@ export const ThreadPage = () => {
         }
       },
       enabled: !!threadMessageIdtoRespond.thread_id,
+      staleTime: 0,
     }
   )
 
@@ -133,7 +134,8 @@ export const ThreadPage = () => {
           } else if (data.status === 'in_progress') {
             setDisableInput(true)
 
-            if (!isLoading) {
+            // console.log(data.thread_id, collection?.thread_id) ini nanti harusnya dibuat diluar biar tiap load halaman loading lgsg nampil
+            if (!isLoading && data.thread_id === collection?.thread_id) {
               renderedMessage &&
                 setRenderedMessage((prevArray) => [
                   ...prevArray,
@@ -161,6 +163,7 @@ export const ThreadPage = () => {
       },
       onError: (e) => console.log('eh error', e),
       enabled: !!threadMessageId.thread_id && !!threadMessageId.message_id,
+      staleTime: 0,
     }
   )
 
@@ -192,6 +195,7 @@ export const ThreadPage = () => {
               key={index}
               item={itms}
               index={index}
+              length={renderedMessage?.length}
               onClickChangeLangStyle={(e) =>
                 handleAddChat({
                   message: e,

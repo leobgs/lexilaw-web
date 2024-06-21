@@ -87,6 +87,8 @@
     },
     "chat_text": {
       "switch_lang": "Use casual language, please",
+      "more_detail": "Use more detailed answer",
+      "fit_lang": "Answer was appropriate",
       "collection": "Collection",
       "current": "Current Chat",
       "past_chat": "Past Chat",

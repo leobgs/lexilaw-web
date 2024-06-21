@@ -87,6 +87,8 @@
     },
     "chat_text": {
       "switch_lang": "Gunakan bahasa santai, dong",
+      "more_detail": "Gunakan bahasa lebih detail",
+      "fit_lang": "Bahasa sudah sesuai",
       "collection": "Koleksi",
       "current": "Terkini",
       "past_chat": "Obrolan Lampau",
