@@ -2,8 +2,12 @@ import images from 'assets/images'
 import { byteConversion } from 'utils/byteConversion'
 import { ChatRespond } from './ChatRespond'
 import Markdown from 'markdown-to-jsx'
+import { useQueryClient } from 'react-query'
 
 export const ChatCard = ({ item, index, onClickChangeLangStyle, length }) => {
+  const queryClient = useQueryClient()
+  const cachedData = queryClient.getQueryData('user')
+
   return (
     <>
       {item.from === '000000' && item.type === 'loading' ? (
@@ -99,11 +103,9 @@ export const ChatCard = ({ item, index, onClickChangeLangStyle, length }) => {
           className={`flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4`}
         >
           <img
-            src={images.ic_thumbnail_profile}
+            src={cachedData?.data?.image_url}
             alt='profile'
-            className={`object-contain ${
-              item.from === 'ai' ? 'h-12 w-12' : ''
-            }`}
+            className={`object-contain rounded-full h-11 w-11`}
           />
           <div className='w-full'>
             <div className='font-futura-bold text-secondary-base text-sm'>
