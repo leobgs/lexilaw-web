@@ -12,7 +12,7 @@ import { patchData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useTranslation } from 'react-i18next'
 
-export const NavComponent = ({ item }) => {
+export const NavComponent = ({ item, onClick }) => {
   const queryClient = useQueryClient()
   const { collectionClick, collectionDelete, collectionSetEdit, collection } =
     useGlobalContext()

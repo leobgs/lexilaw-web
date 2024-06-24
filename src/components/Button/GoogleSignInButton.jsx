@@ -64,9 +64,6 @@ export const GoogleSignInButton = ({ className, callback }) => {
       label={t('social_google', { keyPrefix: 'auth' })}
       iconLeft={images.google}
       iconClassName={'w-[20px] h-[20px] me-2'}
-      // label={t("social_apple", { keyPrefix: "auth" })}
-      // iconLeft={images.apple}
-      // iconClassName={"w-[20px] h-[20px] me-2"}
       className={className}
       onClick={handleGoogleSignIn}
     />

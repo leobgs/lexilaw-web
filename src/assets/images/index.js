@@ -7,12 +7,11 @@ import ic_vector_right from './ic_vector_right.png'
 import ic_chat_bubbles from './ic_chat_bubbles.png'
 import ic_chat_blue from './ic_chat_blue.png'
 import ic_navbar_hidden from './ic_navbar_hidden.png'
-import ic_attachment_upload from './ic_attachment_upload.png'
+import ic_attachment_upload from './ic_attachment_upload.svg'
 import ic_attach_black from './ic_attach_black.png'
 import ic_invalid from './ic_invalid.png'
 import ic_close_black from './ic_close_black.png'
 import ic_thumbnail_profile from './ic_thumbnail_profile.png'
-import ic_add_convo from './ic_add_convo.png'
 import ic_obrolan from './ic_obrolan.png'
 import ic_search from './ic_search.png'
 import ic_menu_down from './ic_menu_down.png'
@@ -23,8 +22,8 @@ import ic_folder_colections from './ic_folder_colections.png'
 import ic_right_toogle from './ic_right_toogle.png'
 import ic_profile_lexi from './ic_profile_lexi.png'
 import ic_change_style_lang from './ic_change_style_lang.png'
-import ic_copy from './ic_copy.png'
-import ic_redo from './ic_redo.png'
+import ic_copy from './ic_copy.svg'
+import ic_redo from './ic_redo.svg'
 import ic_pdf_thumbnail from './ic_pdf_thumbnail.png'
 import ic_send from './ic_send.png'
 import ic_chevron_left from './ic_chevron_left.png'
@@ -65,12 +64,21 @@ import ic_copy_button from './ic_copy_button.png'
 import ic_file from './ic_file.png'
 import ic_calendar_white_outline from './ic_calendar_white_outline.png'
 import ic_fail_red from './ic_fail_red.png'
-import ic_dislike from './ic_dislike.png'
-import ic_like from './ic_like.png'
+import ic_dislike from './ic_dislike.svg'
+import ic_like from './ic_like.svg'
+import ic_search_black from './ic_search_black.png'
+import ic_add_convo2 from './ic_add_convo2.svg'
 
 const images = {
   bg_register_login,
   logo_lexilaw,
+  lexilaw_logo,
+  chevron_right,
+  chevron_left,
+  google,
+  apple,
+  email_outline,
+  ai_profile_thumbnail,
 
   ic_right_vector,
   ic_eye,
@@ -84,7 +92,6 @@ const images = {
   ic_invalid,
   ic_close_black,
   ic_thumbnail_profile,
-  ic_add_convo,
   ic_obrolan,
   ic_search,
   ic_menu_down,
@@ -100,14 +107,6 @@ const images = {
   ic_pdf_thumbnail,
   ic_send,
   ic_close,
-
-  lexilaw_logo,
-  chevron_right,
-  chevron_left,
-  google,
-  apple,
-  email_outline,
-  ai_profile_thumbnail,
   ic_check_green,
   ic_upload,
   ic_avatar_placeholder,
@@ -139,6 +138,8 @@ const images = {
   ic_fail_red,
   ic_dislike,
   ic_like,
+  ic_search_black,
+  ic_add_convo2,
 }
 
 export default images

@@ -81,22 +81,69 @@ export const ChatRespond = ({
               </div>
               <img src={images.ic_arrow_cornering} alt='' />
             </div>
-            <div className='mb-2 mt-4 flex flex-col md:flex-row gap-2'>
-              <Button
-                onClick={() => console.log('pemesanan')}
-                className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
-                iconLeft={images.ic_arrow_cornering}
-                iconClassName='!h-4 !w-4 !-ml-1'
-                label={t('place_an_order', { keyPrefix: 'chat_respond' })}
-              />
-              <Button
-                onClick={() => setLawyerRecommendation(true)}
-                className='border-blue-dark border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem]'
-                iconLeft={images.ic_arrow_cornering}
-                iconClassName='!h-4 !w-4 !-ml-1'
-                label={t('another_option', { keyPrefix: 'chat_respond' })}
-              />
+
+            <div className='-mx-8'>
+              <div className='mb-2 mt-4 flex flex-row justi gap-2 border-t border-t-[#D8D8D8] pt-4 md:border-none md:pt-0'>
+                <button
+                  className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-sm px-2'
+                  onClick={() => console.log('pemesanan')}
+                >
+                  <img src={images.ic_arrow_cornering} alt='place order' />
+                  <div>
+                    {t('place_an_order', { keyPrefix: 'chat_respond' })}
+                  </div>
+                </button>
+
+                <button
+                  className='border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-sm px-2'
+                  onClick={() => console.log('another option')}
+                >
+                  <img src={images.ic_arrow_cornering} alt='place order' />
+                  <div>
+                    {t('another_option', { keyPrefix: 'chat_respond' })}
+                  </div>
+                </button>
+              </div>
+
+              <div className='flex items-center'>
+                <div className='flex'>
+                  <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mr-1.5 shadow-sm'>
+                    <img
+                      src={images.ic_like}
+                      alt='redo'
+                      className='h-4 w-4 m-0.5 mx-2 my-1'
+                    />
+                  </div>
+                  <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm'>
+                    <img
+                      src={images.ic_dislike}
+                      alt='redo'
+                      className='h-4 w-4 m-0.5 mx-2 my-1'
+                    />
+                  </div>
+                </div>
+
+                <div
+                  className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mx-1.5 shadow-sm'
+                  onClick={() => copyToClipboard({ text: item.message })}
+                >
+                  <img
+                    src={images.ic_copy}
+                    alt='copy'
+                    className='h-4 w-4 m-0.5 mx-2 my-1'
+                  />
+                </div>
+
+                <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm'>
+                  <img
+                    src={images.ic_redo}
+                    alt='redo'
+                    className='h-4 w-4 m-0.5 mx-2 my-1'
+                  />
+                </div>
+              </div>
             </div>
+
             <LawyerRecommendation
               isShow={showLawyerRecommendation}
               onHide={() => setLawyerRecommendation(false)}
@@ -108,7 +155,10 @@ export const ChatRespond = ({
 
       default:
         return (
-          <div className='border-t border-neutral-70 -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2 flex justify-between'>
+          <div className=' -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2 flex justify-between flex-col md:flex-row'>
+            {
+              <div className='border-t border-neutral-30 px-2 md:hidden pb-1.5' />
+            }
             {index === 1 ? (
               <div className='my-4'>
                 <Button
@@ -128,7 +178,7 @@ export const ChatRespond = ({
                 />
               </div>
             ) : index === 3 ? (
-              <div className='my-4 flex gap-2 no-scrollbar overflow-x-auto w-full'>
+              <div className='my-4 flex gap-2 no-scrollbar overflow-x-auto w-full flex-col md:flex-row'>
                 <Button
                   onClick={() =>
                     onClickChangeLangStyle(
@@ -153,7 +203,7 @@ export const ChatRespond = ({
                       })
                     )
                   }
-                  className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
+                  className='border-[#E0DBD1] border rounded-3xl bg-white gap-2 !py-0 !font-regular !h-[2rem]'
                   iconLeft={images.ic_change_style_lang}
                   iconClassName='!h-4 !w-3'
                   label={t('fit_lang', {
@@ -164,26 +214,45 @@ export const ChatRespond = ({
             ) : (
               <div></div>
             )}
-            <div className='flex justify-between items-center'>
+
+            <div className='flex md:justify-between items-center'>
               <div className='flex'>
-                <div className='bg-neutral-50 p-2 rounded-full'>
-                  <img src={images.ic_like} alt='redo' className='h-6 w-6' />
+                <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mr-1.5 shadow-sm'>
+                  <img
+                    src={images.ic_like}
+                    alt='redo'
+                    className='h-4 w-4 m-0.5 mx-2 my-1'
+                  />
                 </div>
-                <div className='bg-neutral-50 p-2 rounded-full'>
-                  <img src={images.ic_dislike} alt='redo' className='h-6 w-6' />
+                <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm'>
+                  <img
+                    src={images.ic_dislike}
+                    alt='redo'
+                    className='h-4 w-4 m-0.5 mx-2 my-1'
+                  />
                 </div>
               </div>
 
               <div
-                className='hidden md:inline-block bg-neutral-50 p-2 rounded-full'
+                className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mx-1.5 shadow-sm'
                 onClick={() => copyToClipboard({ text: item.message })}
               >
-                <img src={images.ic_copy} alt='copy' className='h-4 w-4' />
+                <img
+                  src={images.ic_copy}
+                  alt='copy'
+                  className='h-4 w-4 m-0.5 mx-2 my-1'
+                />
               </div>
 
-              <div className='bg-neutral-50 p-2 rounded-full'>
-                <img src={images.ic_redo} alt='redo' className='h-4 w-4' />
-              </div>
+              {isLast && (
+                <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm'>
+                  <img
+                    src={images.ic_redo}
+                    alt='redo'
+                    className='h-4 w-4 m-0.5 mx-2 my-1'
+                  />
+                </div>
+              )}
             </div>
           </div>
         )
