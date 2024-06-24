@@ -302,8 +302,14 @@ export const Chat = () => {
 
         <main className='md:h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border border-neutral-20 border-opacity-80 h-[calc(100%-76px)]'>
           <header className='hidden justify-between items-center md:border-b md:border-b-neutral-30 md:flex md:pb-4 md:-mx-4 md:px-8'>
-            <div className='flex gap-2'>
-              <img src={images.ic_obrolan} alt='obrolan' />
+            <div className='flex gap-2 items-center'>
+              {headerText === 'Obrolan Baru' && (
+                <img
+                  src={images.ic_obrolan}
+                  alt='obrolan'
+                  className='h-5 w-5'
+                />
+              )}
               <div className='font-futura-bold'>{headerText}</div>
             </div>
 

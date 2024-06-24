@@ -83,17 +83,17 @@ export const NavChat = ({
               keyPrefix: 'chat.chat_text',
             })}
             rowed='w-2/3 mx-auto'
-            iconClassName='!w-6'
-            icon={images.ic_search}
+            iconClassName='!w-4 !h-4'
+            icon={images.ic_search_black}
           />
           <div
             className='bg-neutral-20 w-2/12 rounded-full outline outline-neutral-30 py-1 flex items-center'
             onClick={() => onHeaderClick()}
           >
             <img
-              src={images.ic_add_convo}
+              src={images.ic_add_convo2}
               alt='add converstaion'
-              className='mx-auto'
+              className='mx-auto w-6 h-6'
             />
           </div>
         </div>
@@ -107,15 +107,19 @@ export const NavChat = ({
         <img
           src={images.ic_navbar_hidden}
           alt='navbar hide'
-          className='h-4 w-6'
+          className='h-4 w-5'
           onClick={() => setShowNav(!showNav)}
         />
-        <div className='flex w-full justify-between items-center'>
-          <div className='font-futura-bold font-bold text-xl line-clamp-1'>
+        <div className='flex w-full justify-between items-center h-10'>
+          <div className='font-futura-bold font-bold text-xl line-clamp-1 text-[#00153F]'>
             {headerText}
           </div>
-          <div className='bg-neutral-20 px-3 py-2 rounded-full'>
-            <img src={images.ic_attachment_upload} alt='upload' className='' />
+          <div className='bg-neutral-20 rounded-full px-1.5 py-1'>
+            <img
+              src={images.ic_attachment_upload}
+              alt='upload'
+              className='h-7 w-8'
+            />
           </div>
         </div>
       </div>
@@ -255,8 +259,8 @@ export const NavChat = ({
                       keyPrefix: 'chat.chat_text',
                     })}
                     rowed
-                    iconClassName='!w-6'
-                    icon={images.ic_search}
+                    iconClassName='!w-4 !h-4'
+                    icon={images.ic_search_black}
                   />
                   <div
                     className='bg-neutral-20 w-2/12 rounded-xl'
@@ -314,7 +318,6 @@ export const NavChat = ({
                                 key={itms.uuid}
                                 className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4 text-sm'
                                 onClick={() => {
-                                  // collectionClick(itms.title)
                                   setShowNav(false)
                                 }}
                               >
@@ -337,7 +340,11 @@ export const NavChat = ({
 
                       {item.data.length !== 0 &&
                         item.data?.map((itms) => (
-                          <NavComponent item={itms} key={itms.uuid} />
+                          <NavComponent
+                            item={itms}
+                            key={itms.uuid}
+                            onClick={() => setShowNav(false)}
+                          />
                         ))}
                     </div>
                   )
@@ -355,12 +362,7 @@ export const NavChat = ({
                           <NavComponent
                             item={items}
                             key={items.uuid}
-                            // onClickColection={() => {
-                            //   onClickColection(item.title)
-                            //   setShowNav(false)
-                            // }}
-                            // onEdit={(e) => onEdit(e)}
-                            // onSetEdit={() => onSetEdit(item.uuid)}
+                            onClick={() => setShowNav(false)}
                           />
                         ))}
                     </div>
