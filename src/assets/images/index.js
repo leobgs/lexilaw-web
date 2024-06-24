@@ -68,6 +68,7 @@ import ic_dislike from './ic_dislike.svg'
 import ic_like from './ic_like.svg'
 import ic_search_black from './ic_search_black.png'
 import ic_add_convo2 from './ic_add_convo2.svg'
+import ic_attach_black_sm from './ic_attach_black_sm.svg'
 
 const images = {
   bg_register_login,
@@ -140,6 +141,7 @@ const images = {
   ic_like,
   ic_search_black,
   ic_add_convo2,
+  ic_attach_black_sm,
 }
 
 export default images
