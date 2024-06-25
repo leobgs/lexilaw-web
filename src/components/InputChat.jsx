@@ -133,8 +133,17 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
         <div className='gap-1 flex items-center justify-between '>
           <label htmlFor='file' className='w-1/12 ml-4 md:ml-0'>
             <div className='w-full flex justify-center'>
-              <div className='bg-neutral-20 py-1 md:p-2 rounded-full'>
-                <img src={images.ic_attach_black} alt='' className='w-3 h-4' />
+              <div className='bg-neutral-20 rounded-full md:-ml-4 -ml-3'>
+                <img
+                  src={images.ic_attach_black}
+                  alt='attach'
+                  className='w-3 h-4 hidden md:inline-block m-2'
+                />
+                <img
+                  src={images.ic_attach_black_sm}
+                  alt='attach'
+                  className='w-3 h-4 md:hidden m-2'
+                />
               </div>
             </div>
             <input
@@ -157,8 +166,8 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
               onKeyUp={handleKeyDown}
               placeholder={`${
                 disable
-                ? t('Wait_for_lexi_to_answer', { keyPrefix: 'input_chat' })
-                : t('ask_lexi', { keyPrefix: 'input_chat' })
+                  ? t('Wait_for_lexi_to_answer', { keyPrefix: 'input_chat' })
+                  : t('ask_lexi', { keyPrefix: 'input_chat' })
               }`}
               rows={rows}
               value={form.message}
