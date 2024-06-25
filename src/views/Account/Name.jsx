@@ -41,7 +41,7 @@ export const Name = ({ userData }) => {
 
     const validateName = (value) => {
         const regex = /^[a-zA-Z\s.',]*$/;
-        return regex.test(value);
+        return regex.test(value); 
     }
 
 
@@ -61,6 +61,14 @@ export const Name = ({ userData }) => {
                     return () => clearTimeout(timeOut)
                 } else {
                     setErrorText(data?.message)
+                    openAlert({
+                        title: data?.message,
+                        icon: images.ic_fail_red,
+                    })
+                    let timeOut = setTimeout(() => {
+                        closeAlert({ isConfirm: false, showLoading: false })
+                    }, 1000)
+                    return () => clearTimeout(timeOut) 
                 }
             },
         }

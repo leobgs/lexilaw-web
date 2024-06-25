@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Button, Input, InputSelect } from 'components'
 import { getData, putformData } from 'hooks/useRequest'
-import InputImageFile from 'components/InputImageFile'
+import InputImage from 'components/InputImage'
 import images from 'assets/images'
 import { useGlobalContext } from 'hooks/context'
 import { useMutation } from 'react-query'
@@ -95,7 +95,7 @@ export const Profile = ({ userData }) => {
             setForm({ ...form, [name]: value })
             setError({ email: '', city_id: '', company_name: '' })
         }
-    }
+    } 
 
     const { mutate: changeProfile } = useMutation(
         (form) => {
@@ -119,6 +119,14 @@ export const Profile = ({ userData }) => {
                     return () => clearTimeout(timeOut)
                 } else {
                     setErrorText(data?.message)
+                    openAlert({
+                        title: data?.message,
+                        icon: images.ic_fail_red,
+                    })
+                    let timeOut = setTimeout(() => {
+                        closeAlert({ isConfirm: false, showLoading: false })
+                    }, 1000)
+                    return () => clearTimeout(timeOut) 
                 }
             },
         }
@@ -173,7 +181,7 @@ export const Profile = ({ userData }) => {
                 rowed="w-full" 
                 value={form.company_name}
             />  
-            <InputImageFile
+            <InputImage
                 className="mt-5"
                 name='image'
                 image={imageUrl}

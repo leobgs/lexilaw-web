@@ -26,6 +26,12 @@ export default function InputImageFile({ className, name, image, onImageSelect }
     const file = event.target.files[0];
 
     if (file) {
+      const validExtensions = ['image/png', 'image/jpeg', 'image/jpg'];
+      if (!validExtensions.includes(file.type)) {
+        setError('Invalid file type. Only PNG, JPG, and JPEG are allowed.');
+        return;
+      }
+
       if (file.size > 5 * 1024 * 1024) {
         setError('File size exceeds the limit of 5MB.');
         return;
@@ -50,6 +56,7 @@ export default function InputImageFile({ className, name, image, onImageSelect }
         reader.readAsDataURL(file);
       }
     }
+
   };
 
   const handleClick = () => {
