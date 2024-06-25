@@ -119,6 +119,14 @@ export const Profile = ({ userData }) => {
                     return () => clearTimeout(timeOut)
                 } else {
                     setErrorText(data?.message)
+                    openAlert({
+                        title: data?.message,
+                        icon: images.ic_fail_red,
+                    })
+                    let timeOut = setTimeout(() => {
+                        closeAlert({ isConfirm: false, showLoading: false })
+                    }, 1000)
+                    return () => clearTimeout(timeOut) 
                 }
             },
         }
