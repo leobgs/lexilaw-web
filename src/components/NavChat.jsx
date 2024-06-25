@@ -83,7 +83,7 @@ export const NavChat = ({
               keyPrefix: 'chat.chat_text',
             })}
             rowed='w-2/3 mx-auto'
-            iconClassName='!w-4 !h-4'
+            iconClassName='!w-[13.81px] !h-[13.81px]'
             icon={images.ic_search_black}
           />
           <div
@@ -124,7 +124,7 @@ export const NavChat = ({
         </div>
       </div>
 
-      <div className='hidden justify-center md:my-4 md:inline-block h-4/5 overflow-y-auto'>
+      <div className='hidden justify-center md:my-4 md:inline-block h-4/5 overflow-y-auto no-scrollbar'>
         {dataLatest?.map((item, index) => {
           if (item.type === 'koleksi') {
             return (

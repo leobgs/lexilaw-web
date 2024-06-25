@@ -64,7 +64,7 @@ export const ThreadPage = () => {
 
   const { refetch: refetchDetail } = useQuery(
     ['thread_detail', params.uuid],
-    () => getData(API.THREAD_DETAIL + params.uuid),
+    () => getData(`${API.THREAD_DETAIL + params.uuid}?limit=1200`),
     {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
