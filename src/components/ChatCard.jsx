@@ -3,15 +3,30 @@ import { byteConversion } from 'utils/byteConversion'
 import { ChatRespond } from './ChatRespond'
 import Markdown from 'markdown-to-jsx'
 import { useQueryClient } from 'react-query'
+import { useEffect, useRef } from 'react'
 
 export const ChatCard = ({ item, index, onClickChangeLangStyle, length }) => {
   const queryClient = useQueryClient()
   const cachedData = queryClient.getQueryData('user')
 
+  const boxRef = useRef(null)
+  let angle = useRef(0).current
+
+  useEffect(() => {
+    const animate = () => {
+      angle = (angle + 1) % 360
+      boxRef.current?.style.setProperty('--angle', `${angle}deg`)
+      requestAnimationFrame(animate)
+    }
+    requestAnimationFrame(animate)
+
+    return () => cancelAnimationFrame(animate)
+  }, [angle])
+
   return (
     <>
       {item.from === '000000' && item.type === 'loading' ? (
-        <div className='card-animated-chat ml-4 mb-2 pt-1'>
+        <div className='card-animated-chat ml-4 mb-2 pt-1' ref={boxRef}>
           <div className='bg-white rounded-lg flex gap-2 px-4'>
             <img
               src={
