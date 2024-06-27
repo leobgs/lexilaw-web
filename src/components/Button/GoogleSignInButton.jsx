@@ -36,10 +36,9 @@ export const GoogleSignInButton = ({ className }) => {
   const handleGoogleSignIn = useGoogleLogin({
     flow: 'auth-code',
     onSuccess: async ({ code }) => {
-      // mutateGoogleLogin({
-      //   code: code,
-      // })
-      console.log(code)
+      mutateGoogleLogin({
+        code: code,
+      })
     },
   })
 
