@@ -10,6 +10,7 @@ import './i18n'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import axios from 'axios'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import { googleOauthClientId } from 'config/app'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
@@ -23,7 +24,7 @@ root.render(
     <React.Suspense>
       <QueryClientProvider client={clientQuery}>
         <AppProvider>
-          <GoogleOAuthProvider clientId='196242172817-h4krpgo07egtdfkqqv9gnj9qb5vugcjf.apps.googleusercontent.com'>
+          <GoogleOAuthProvider clientId={googleOauthClientId}>
             <App />
           </GoogleOAuthProvider>
         </AppProvider>
