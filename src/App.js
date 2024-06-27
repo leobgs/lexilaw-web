@@ -24,6 +24,8 @@ import AuthLayout from 'views/Auth/layouts/AuthLayout'
 import Register from 'views/Auth/register/Register'
 import RegisterOTP from 'views/Auth/register/RegisterOTP'
 import { ThreadPage } from 'views/ThreadPage'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 export const PrivateRoute = ({ wrapperContent = true }) => {
   if (!isLogin()) {
@@ -58,6 +60,32 @@ const ProtectedRoute = ({ wrapperContent = true }) => {
 }
 
 function App() {
+  const [currentVersion, setCurrentVersion] = useState(null)
+
+  useEffect(() => {
+    const fetchVersion = async () => {
+      try {
+        const response = await axios.get('/version.json').then((data) => {
+          return data
+        })
+        const latestVersion = response.data.version
+
+        if (currentVersion && currentVersion !== latestVersion) {
+          window.location.reload()
+        } else {
+          setCurrentVersion(latestVersion)
+        }
+      } catch (error) {
+        console.error('Error fetching version:', error)
+      }
+    }
+
+    const intervalId = setInterval(fetchVersion, 60000)
+
+    fetchVersion()
+    return () => clearInterval(intervalId)
+  }, [currentVersion])
+
   return (
     <BrowserRouter>
       <Routes>

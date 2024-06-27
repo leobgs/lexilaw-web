@@ -9,6 +9,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import './i18n'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import axios from 'axios'
+import { GoogleOAuthProvider } from '@react-oauth/google'
+import { googleOauthClientId } from 'config/app'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
@@ -22,7 +24,9 @@ root.render(
     <React.Suspense>
       <QueryClientProvider client={clientQuery}>
         <AppProvider>
-          <App />
+          <GoogleOAuthProvider clientId={googleOauthClientId}>
+            <App />
+          </GoogleOAuthProvider>
         </AppProvider>
       </QueryClientProvider>
     </React.Suspense>

@@ -103,7 +103,7 @@ export const Chat = () => {
     },
   })
 
-  useQuery(['newest_thread'], () => getData(API.THREAD_LIST), {
+  useQuery(['newest_thread'], () => getData(`${API.THREAD_LIST}?limit=100`), {
     onSettled: (datas) => {
       if (datas?.status === 'Success') {
         const { data } = datas
