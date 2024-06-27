@@ -14,6 +14,7 @@ import './Login.scss'
 import { AppleSignInButton } from 'components/Button/AppleSiginInButton'
 import { AuthLoader } from 'components/AuthLoader'
 import { GoogleSignInButton } from 'components/Button/GoogleSignInButton'
+import { GoogleLogin } from '@react-oauth/google'
 
 export default function AuthLayout() {
   const { t } = useTranslation()
