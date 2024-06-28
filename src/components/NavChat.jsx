@@ -26,6 +26,7 @@ export const NavChat = ({
   const [showNav, setShowNav] = useState(false)
   const [showSearchNav, setShowSearchNav] = useState(false)
   const [showSetting, setShowSetting] = useState(false)
+  const [showColetion, setShowColetion] = useState(true)
   const storage = new LocalStorage()
   const navigate = useNavigate()
 
@@ -139,48 +140,50 @@ export const NavChat = ({
                     <img
                       src={images.ic_menu_down}
                       alt='dropdown'
-                      className='h-6'
+                      className={`h-6 ${showColetion ? '' : 'rotate-180'}`}
+                      onClick={() => setShowColetion(!showColetion)}
                     />
                   </div>
                 )}
 
-                {item.data?.map((items) => (
-                  <div key={items.uuid}>
-                    <div
-                      className={`flex justify-start gap-2 items-center text-sm text-neutral-40 mb-2 mr-4 py-1 ${
-                        items.isExpand
-                          ? 'bg-blue-sky rounded-2xl pl-2 -ml-2'
-                          : ''
-                      }`}
-                      onClick={() => onExpand(items.uuid)}
-                    >
-                      <img
-                        src={
+                {showColetion &&
+                  item.data?.map((items) => (
+                    <div key={items.uuid}>
+                      <div
+                        className={`flex justify-start gap-2 items-center text-sm text-neutral-40 mb-2 mr-4 py-1 ${
                           items.isExpand
-                            ? images.ic_folder_colection_active
-                            : images.ic_folder_colection
-                        }
-                        alt='ic_folder_colection'
-                        className='h-7 w-7'
-                      />
-                      <div>{items.label}</div>
-                    </div>
+                            ? 'bg-blue-sky rounded-2xl pl-2 -ml-2'
+                            : ''
+                        }`}
+                        onClick={() => onExpand(items.uuid)}
+                      >
+                        <img
+                          src={
+                            items.isExpand
+                              ? images.ic_folder_colection_active
+                              : images.ic_folder_colection
+                          }
+                          alt='ic_folder_colection'
+                          className='h-7 w-7'
+                        />
+                        <div>{items.label}</div>
+                      </div>
 
-                    {items.isExpand &&
-                      items.childs?.map((itms) => (
-                        <div
-                          key={itms.uuid}
-                          className='border-l-2 border-blue-sky ml-3.5 pl-5 pb-2 text-neutral-40 last:mb-4 text-sm'
-                          onClick={() => {
-                            // collectionClick(itms)
-                            setShowNav(false)
-                          }}
-                        >
-                          {itms.message}
-                        </div>
-                      ))}
-                  </div>
-                ))}
+                      {items.isExpand &&
+                        items.childs?.map((itms) => (
+                          <div
+                            key={itms.uuid}
+                            className='border-l-2 border-blue-sky ml-3.5 pl-5 pb-2 text-neutral-40 last:mb-4 text-sm'
+                            onClick={() => {
+                              // collectionClick(itms)
+                              setShowNav(false)
+                            }}
+                          >
+                            {itms.message}
+                          </div>
+                        ))}
+                    </div>
+                  ))}
               </div>
             )
           } else if (item.type === 'terkini') {
@@ -190,8 +193,7 @@ export const NavChat = ({
                 className={`${item.data.length !== 0 ? 'my-4' : ''}`}
               >
                 {item.data.length !== 0 && (
-                  <div className='text-[#AEB3BF] mt-4'>
-                    {' '}
+                  <div className='text-[#AEB3BF] mt-4 text-sm'>
                     {t('current', {
                       keyPrefix: 'chat.chat_text',
                     })}

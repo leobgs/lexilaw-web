@@ -83,7 +83,6 @@ export const Chat = () => {
     onSettled: (datas) => {
       if (datas?.status === 'Success') {
         const { data } = datas
-
         setDefaultQuestion(data)
       } else {
         setDefaultQuestion(DEFAULT_QUESTION)

@@ -3,52 +3,36 @@ import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 import { byteConversion } from 'utils/byteConversion'
 import { useTranslation } from 'react-i18next'
+import AutoResizeTextarea from './AutoResizeTextArea'
 
 export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
   const [displayImage, setDisplayImage] = useState()
-  let maxRows = 4
   const [form, setForm] = useState({
     message: '',
     file: null,
   })
   const [error, setError] = useState('')
-  const [rows, setRows] = useState(1)
   const { t } = useTranslation()
+  const [inputValue, setInputValue] = useState('')
 
   useEffect(() => {
     onDisplayImage(displayImage)
   }, [displayImage])
 
-  const handleKeyDown = (e) => {
-    e.preventDefault()
-    if (e.keyCode === 13) {
-      if (e.shiftKey) {
-        setRows(rows)
-      } else {
-        onSubmit()
-      }
-    } else if (e.keyCode === 8) {
-      if (!form.message) {
-        setRows(1)
-      }
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value)
+  }
+
+  const handleSubmit = (e) => {
+    if (e.key === 'Enter') {
+      onChange({ ...form, message: e.target.value })
+      setInputValue('')
     }
   }
 
-  const handleChat = (e) => {
-    const prevRows = e.target.rows
-    const currentRows = ~~(e.target.scrollHeight / 18)
-
-    if (currentRows === prevRows) {
-      e.target.rows = currentRows
-    }
-
-    if (currentRows >= maxRows) {
-      e.target.rows = maxRows
-      e.target.scrollTop = e.target.scrollHeight
-    }
-
-    setRows(currentRows < maxRows ? currentRows : maxRows)
-    setForm({ ...form, message: e.target?.value })
+  const handleSubmitButton = (e) => {
+    onChange({ ...form, message: e?.replace(/\n/g, ' ').trim() })
+    setInputValue('')
   }
 
   const changeHandler = (e) => {
@@ -74,18 +58,6 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
   const handleDeleteImageDetail = () => {
     setForm({ ...form, file: null, content_type: 'TEXT', caption: null })
     setDisplayImage(null)
-  }
-
-  const onSubmit = () => {
-    if (form.message) {
-      onChange(form)
-    }
-    setRows(1)
-    setDisplayImage(null)
-    setForm({
-      message: '',
-      file: null,
-    })
   }
 
   return (
@@ -156,31 +128,23 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
             />
           </label>
 
-          <div className='w-full text-xs flex justify-center'>
-            <textarea
-              className={`max-h-20 w-full focus:outline-none bg-neutral-30 bg-opacity-0 text-sm ${
-                disable ? 'bg-neutral-10' : ''
-              }`}
-              autoFocus
-              onChange={handleChat}
-              onKeyUp={handleKeyDown}
-              placeholder={`${
-                disable
-                  ? t('Wait_for_lexi_to_answer', { keyPrefix: 'input_chat' })
-                  : t('ask_lexi', { keyPrefix: 'input_chat' })
-              }`}
-              rows={rows}
-              value={form.message}
-              style={{ resize: 'none' }}
-              disabled={disable}
-            />
-          </div>
-          <div
-            onClick={() => onSubmit()}
-            className='md:hidden bg-blue-dark px-2 py-1.5 rounded-3xl'
-          >
-            <img src={images.ic_send} alt='kirim' />
-          </div>
+          <AutoResizeTextarea
+            value={inputValue}
+            onChange={(e) => {
+              handleInputChange(e)
+              handleSubmit(e)
+            }}
+            onSubmit={handleSubmitButton}
+            disable={disable}
+            className={`max-h-20 w-full focus:outline-none bg-neutral-30 bg-opacity-0 text-sm ${
+              disable ? 'bg-neutral-10' : ''
+            }`}
+            placeholder={`${
+              disable
+                ? t('Wait_for_lexi_to_answer', { keyPrefix: 'input_chat' })
+                : t('ask_lexi', { keyPrefix: 'input_chat' })
+            }`}
+          />
         </div>
       </div>
 

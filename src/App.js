@@ -80,7 +80,7 @@ function App() {
       }
     }
 
-    const intervalId = setInterval(fetchVersion, 60000)
+    const intervalId = setInterval(fetchVersion, 24 * 3600000)
 
     fetchVersion()
     return () => clearInterval(intervalId)
