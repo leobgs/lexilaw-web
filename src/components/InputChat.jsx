@@ -105,7 +105,7 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
         <div className='gap-1 flex items-center justify-between '>
           <label htmlFor='file' className='w-1/12 ml-4 md:ml-0'>
             <div className='w-full flex justify-center'>
-              <div className='bg-neutral-20 rounded-full md:-ml-4 -ml-3'>
+              <div className='bg-neutral-20 rounded-full'>
                 <img
                   src={images.ic_attach_black}
                   alt='attach'
