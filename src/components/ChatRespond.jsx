@@ -1,6 +1,5 @@
 import images from 'assets/images'
 import { copyToClipboard } from 'utils'
-import { Button } from './Button/Button'
 import { useState } from 'react'
 import { LawyerRecommendation } from './LawyerRecommendation'
 import { useTranslation } from 'react-i18next'
@@ -161,7 +160,8 @@ export const ChatRespond = ({
             }
             {index === 1 ? (
               <div className='my-4'>
-                <Button
+                <div
+                  className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center md:w-full cursor-pointer'
                   onClick={() =>
                     onClickChangeLangStyle(
                       t('switch_lang', {
@@ -169,17 +169,21 @@ export const ChatRespond = ({
                       })
                     )
                   }
-                  className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
-                  iconLeft={images.ic_change_style_lang}
-                  iconClassName='!h-4 !w-3'
-                  label={t('switch_lang', {
+                >
+                  <img
+                    src={images.ic_change_style_lang}
+                    alt='change style'
+                    className='h-4 w-3'
+                  />
+                  {t('switch_lang', {
                     keyPrefix: 'chat.chat_text',
                   })}
-                />
+                </div>
               </div>
-            ) : index === 3 ? (
+            ) : index === 4 ? (
               <div className='my-4 flex gap-2 no-scrollbar overflow-x-auto w-full flex-col md:flex-row'>
-                <Button
+                <div
+                  className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center sm:basis-1/3 cursor-pointer'
                   onClick={() =>
                     onClickChangeLangStyle(
                       t('more_detail', {
@@ -187,15 +191,38 @@ export const ChatRespond = ({
                       })
                     )
                   }
-                  className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem]'
-                  iconLeft={images.ic_change_style_lang}
-                  iconClassName='!h-4 !w-3'
-                  label={t('more_detail', {
+                >
+                  <img
+                    src={images.ic_change_style_lang}
+                    alt='change style'
+                    className='h-4 w-3'
+                  />
+                  {t('more_detail', {
                     keyPrefix: 'chat.chat_text',
                   })}
-                />
+                </div>
 
-                <Button
+                <div
+                  className='border-[#E0DBD1] border rounded-3xl bg-white gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center cursor-pointer'
+                  onClick={() =>
+                    onClickChangeLangStyle(
+                      t('fit_lang', {
+                        keyPrefix: 'chat.chat_text',
+                      })
+                    )
+                  }
+                >
+                  <img
+                    src={images.ic_change_style_lang}
+                    alt='change style'
+                    className='h-4 w-3'
+                  />
+                  {t('fit_lang', {
+                    keyPrefix: 'chat.chat_text',
+                  })}
+                </div>
+
+                {/* <Button
                   onClick={() =>
                     onClickChangeLangStyle(
                       t('fit_lang', {
@@ -209,7 +236,7 @@ export const ChatRespond = ({
                   label={t('fit_lang', {
                     keyPrefix: 'chat.chat_text',
                   })}
-                />
+                /> */}
               </div>
             ) : (
               <div></div>
