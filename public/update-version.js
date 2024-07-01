@@ -12,11 +12,23 @@ fs.readFile(filePath, 'utf8', (err, data) => {
   const versionData = JSON.parse(data)
   const versionParts = versionData.version.split('.').map(Number)
 
-  versionParts[versionParts.length - 1] += 1
+  // Increment the patch version
+  versionParts[2] += 1
+
+  // If patch version reaches 10, reset it and increment minor version
+  if (versionParts[2] === 10) {
+    versionParts[2] = 0
+    versionParts[1] += 1
+
+    // If minor version reaches 10, reset it and increment major version
+    if (versionParts[1] === 10) {
+      versionParts[1] = 0
+      versionParts[0] += 1
+    }
+  }
 
   versionData.version = versionParts.join('.')
 
-  console.log(versionData)
   fs.writeFile(
     filePath,
     JSON.stringify(versionData, null, 2),
@@ -26,7 +38,13 @@ fs.readFile(filePath, 'utf8', (err, data) => {
         console.error('Error writing version.json:', err)
         return
       }
-      console.log('Version incremented successfully.')
+      console.log(
+        `Version incremented successfully to ${JSON.stringify(
+          versionData,
+          null,
+          2
+        )}`
+      )
     }
   )
 })
