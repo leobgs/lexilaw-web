@@ -4,7 +4,7 @@ export const QuestionCard = ({ data, onClick, className }) => {
   return (
     <div
       className={clsx(
-        'bg-white px-4 py-10 rounded-3xl md:w-1/2 md:outline md:outline-neutral-30',
+        'bg-white px-4 py-10 rounded-2xl md:w-1/2 md:outline md:outline-1 md:outline-neutral-30 shadow-lg',
         className
       )}
     >
@@ -12,7 +12,7 @@ export const QuestionCard = ({ data, onClick, className }) => {
         Ingin menanyakan apa?
       </div>
 
-      <div className='md:grid md:grid-cols-2 md:gap-2 md:h-60 h-96 overflow-y-scroll no-scrollbar'>
+      <div className='md:grid md:grid-cols-2 md:gap-2 md:h-60 h-96 overflow-y-scroll'>
         <div>
           {data?.left?.map((item, index) => (
             <div

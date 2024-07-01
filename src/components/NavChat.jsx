@@ -417,7 +417,7 @@ export const NavChat = ({
                 keyPrefix: 'chat.profile_menu',
               })}
             </div>
-            <div className='border-b border-b-neutral-20 text-base font-semi-bold'>
+            <div className='border-b border-b-neutral-20 text-sm font-semi-bold'>
               <div className='px-4 mb-2 text-black-darker'>
                 {t('my_account', {
                   keyPrefix: 'chat.profile_option',

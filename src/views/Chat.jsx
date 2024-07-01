@@ -344,13 +344,13 @@ export const Chat = () => {
                   <div className='border-b border-b-neutral-20 text-xs font-semi-bold'>
                     <NavLink
                       to='account'
-                      className='px-4 mb-1 text-black-darker'
+                      className='px-4 mb-2 text-black-darker'
                     >
                       {t('my_account', {
                         keyPrefix: 'chat.profile_option',
                       })}
                     </NavLink>
-                    <div className='flex justify-between items-center  mb-2'>
+                    <div className='flex justify-between items-center my-2'>
                       <div
                         className='px-4 text-black-darker'
                         onClick={() => navigate('/my-lawyer')}
@@ -361,13 +361,14 @@ export const Chat = () => {
                       </div>
                     </div>
                   </div>
+
                   <div className='px-4 mb-2 mt-2 text-xxs'>
                     {t('connected', {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
-                  <div className='flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2'>
-                    <div className='px-4 text-black-darker text-sm'>
+                  <div className='flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2 font-semi-bold'>
+                    <div className='px-4 text-black-darker text-xs'>
                       {t('wa_activation', {
                         keyPrefix: 'chat.profile_option',
                       })}
@@ -384,8 +385,8 @@ export const Chat = () => {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
-                  <div className='mb-4 flex justify-center ml-4 items-start'>
-                    <div className='text-black-darker text-sm w-full'>
+                  <div className='mb-4 flex justify-center ml-4 items-start font-semi-bold'>
+                    <div className='text-black-darker text-xs w-full'>
                       {t('menu_language', {
                         keyPrefix: 'chat.profile_option',
                       })}{' '}
@@ -418,7 +419,7 @@ export const Chat = () => {
                   data={defaultQuestion}
                   onClick={(e) => handleAddChat(e)}
                   className={`md:absolute ${
-                    isDisplayImage ? 'md:top-[20%]' : 'md:top-1/4'
+                    isDisplayImage ? 'md:top-1/3' : 'md:top-24 md:left-12'
                   }`}
                 />
 
