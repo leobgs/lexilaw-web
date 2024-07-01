@@ -64,7 +64,7 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
     <>
       <div
         className={clsx(
-          'border border-neutral-30 py-2 rounded-3xl bg-neutral-30 bg-opacity-35 pr-4',
+          'border border-neutral-30 py-2 rounded-3xl bg-[#FCFAF7] bg-opacity-35 pr-4',
           className
         )}
       >
@@ -102,10 +102,10 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
             />
           </div>
         )}
-        <div className='gap-1 flex items-center justify-between '>
-          <label htmlFor='file' className='w-1/12 ml-4 md:ml-0'>
+        <div className='gap-1 flex items-center justify-between mx-2'>
+          <label htmlFor='file' className='md:ml-0'>
             <div className='w-full flex justify-center'>
-              <div className='bg-neutral-20 rounded-full'>
+              <div className='bg-[#F8F5F1] rounded-full'>
                 <img
                   src={images.ic_attach_black}
                   alt='attach'
@@ -136,7 +136,7 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
             }}
             onSubmit={handleSubmitButton}
             disable={disable}
-            className={`max-h-20 w-full focus:outline-none bg-neutral-30 bg-opacity-0 text-sm ${
+            className={`max-h-20 w-full focus:outline-none bg-[#FCFAF7] bg-opacity-0 text-sm ${
               disable ? 'bg-neutral-10' : ''
             }`}
             placeholder={`${

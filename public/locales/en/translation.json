@@ -75,7 +75,7 @@
   "chat": {
     "placeholder_input": "Ask to Lexi",
     "profile_option": {
-      "my_account": "My account",
+      "my_account": "My Account",
       "my_lawyer": "My Lawyer",
       "wa_activation": "WhatsApp Activation",
       "menu_language": "Language"
@@ -119,7 +119,7 @@
     "save_password": "Save Password",
     "pre_change_text_finish": "Password Changed Successfully",
     "city_dropdown_placeholder": "Select city",
-    "my_account": "My account",
+    "my_account": "My Account",
     "firm_name_optional": "Company name (Optional)",
     "firm_name": "Company Name",
     "message_name_success": "Successfully send request to change name",

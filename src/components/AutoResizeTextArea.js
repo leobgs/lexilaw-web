@@ -55,7 +55,7 @@ const AutoResizeTextarea = ({
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         disabled={disable}
-        className={`max-h-20 w-full focus:outline-none bg-neutral-30 bg-opacity-0 text-sm ${
+        className={`max-h-20 w-full focus:outline-none bg-opacity-0 text-sm ${
           disable ? 'bg-neutral-10' : ''
         }`}
         rows={1}

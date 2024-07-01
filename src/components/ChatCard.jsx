@@ -36,7 +36,7 @@ export const ChatCard = ({ item, index, onClickChangeLangStyle, length }) => {
               }
               alt='profile'
               className={`object-contain ${
-                item.from === 'ai' ? 'h-12 w-12' : ''
+                item.from === '000000' ? '' : 'h-12 w-12'
               }`}
             />
 
@@ -114,9 +114,7 @@ export const ChatCard = ({ item, index, onClickChangeLangStyle, length }) => {
           </div>
         </div>
       ) : (
-        <div
-          className={`flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4`}
-        >
+        <div className='flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 rounded-3xl md:rounded-x'>
           <img
             src={
               cachedData?.data?.image_url
@@ -124,7 +122,7 @@ export const ChatCard = ({ item, index, onClickChangeLangStyle, length }) => {
                 : images.ic_avatar_placeholder
             }
             alt='profile'
-            className={`object-contain rounded-full h-11 w-11`}
+            className={`object-contain rounded-full p-1 h-12 w-12`}
           />
 
           <div className='w-full'>
