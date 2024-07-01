@@ -1,37 +1,50 @@
 const fs = require('fs')
-const packageJson = require('./package.json')
+const path = require('path')
 
-const currentVersion = packageJson.version
-let [major, minor, patch] = currentVersion.split('.')
-major = parseInt(major)
-minor = parseInt(minor)
-patch = parseInt(patch)
+const filePath = path.join(__dirname, 'version.json')
 
-let newVersion = ''
-
-if (patch === 9) {
-  let newPatch = 0
-  let newMinor = minor + 1
-  let newMajor = major
-
-  if (newMinor > 9) {
-    newMinor = 0
-    newMajor = major + 1
+fs.readFile(filePath, 'utf8', (err, data) => {
+  if (err) {
+    console.error('Error reading version.json:', err)
+    return
   }
 
-  newVersion = `${newMajor}.${newMinor}.${newPatch}`
-} else {
-  let newPatch = patch + 1
-  let newMinor = minor
-  let newMajor = major
+  const versionData = JSON.parse(data)
+  const versionParts = versionData.version.split('.').map(Number)
 
-  newVersion = `${newMajor}.${newMinor}.${newPatch}`
-}
+  // Increment the patch version
+  versionParts[2] += 1
 
-if (newVersion !== currentVersion) {
-  packageJson.version = newVersion
-  fs.writeFileSync('./package.json', JSON.stringify(packageJson, null, 2))
-  console.log(`Version updated to ${newVersion}`)
-} else {
-  console.log('No version update required')
-}
+  // If patch version reaches 10, reset it and increment minor version
+  if (versionParts[2] === 10) {
+    versionParts[2] = 0
+    versionParts[1] += 1
+
+    // If minor version reaches 10, reset it and increment major version
+    if (versionParts[1] === 10) {
+      versionParts[1] = 0
+      versionParts[0] += 1
+    }
+  }
+
+  versionData.version = versionParts.join('.')
+
+  fs.writeFile(
+    filePath,
+    JSON.stringify(versionData, null, 2),
+    'utf8',
+    (err) => {
+      if (err) {
+        console.error('Error writing version.json:', err)
+        return
+      }
+      console.log(
+        `Version incremented successfully to ${JSON.stringify(
+          versionData,
+          null,
+          2
+        )}`
+      )
+    }
+  )
+})

@@ -1,6 +1,6 @@
 {
   "name": "Lexi-web-app",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "private": true,
   "engines": {
     "node": "20.x"
@@ -38,9 +38,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "prebuild": "node ./public/update-version.js",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "node ./public/update-version.js & react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
