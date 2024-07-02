@@ -66,7 +66,7 @@ const AutoResizeTextarea = ({
           minHeight: '30px',
           boxSizing: 'border-box',
           padding: '8px',
-          fontSize: '16px',
+          fontSize: '14px',
         }}
       />
       <div
