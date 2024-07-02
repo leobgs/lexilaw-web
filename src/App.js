@@ -61,8 +61,7 @@ const ProtectedRoute = ({ wrapperContent = true }) => {
 }
 
 function App() {
-  const version = useVersioning('/version.json')
-  console.log(version)
+  useVersioning('/version.json')
 
   return (
     <BrowserRouter>

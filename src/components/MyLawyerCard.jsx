@@ -22,7 +22,7 @@ export const MyLawyerCard = ({ data, className, onClick = () => {} }) => {
             <div className='text-xs'>{data.city}</div>
           </div>
         </div>
-        <img src={images.ic_vector_green} alt='arrow' />
+        <img src={images.ic_vector_green} alt='arrows' />
       </div>
 
       <div className='max-h-44 overflow-y-scroll scroll-smooth my-4 rounded-xl'>
