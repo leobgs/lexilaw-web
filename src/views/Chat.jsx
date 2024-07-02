@@ -374,7 +374,7 @@ export const Chat = () => {
                       })}
                     </div>
                     <img
-                      src={images.ic_arrow_cornering}
+                      src={images.ic_vector_green}
                       alt='arrow'
                       className='h-2.5 w-2.5'
                     />
