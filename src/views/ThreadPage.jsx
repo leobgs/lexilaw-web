@@ -87,13 +87,7 @@ export const ThreadPage = () => {
       getData(`${API.MESSAGE_THUMBS}${params}/thumbs`, { reaction }),
     {
       onSettled: (respond, err, variables) => {
-        const { data } = respond
-        const newRenderedMessage = renderedMessage?.map((itm) => ({
-          ...itm,
-          isRespondWasSent: itm?.uuid === variables?.params,
-          respond_type: itm?.uuid === variables?.params && data?.reaction,
-        }))
-        setRenderedMessage(newRenderedMessage)
+        queryClient.invalidateQueries('thread_detail')
       },
     }
   )
@@ -164,7 +158,11 @@ export const ThreadPage = () => {
               renderedMessage &&
                 setRenderedMessage((prevArray) => [
                   ...prevArray,
-                  { type: '', message: 'Answer on queued', from: '000000' },
+                  {
+                    type: 'queued',
+                    message: 'Answer on queued',
+                    from: '000000',
+                  },
                 ])
             }
           }

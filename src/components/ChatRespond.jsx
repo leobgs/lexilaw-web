@@ -202,24 +202,24 @@ export const ChatRespond = ({
         <div className='flex'>
           <img
             src={
-              item.isRespondWasSent && item.respond_type === true
-                ? images.ic_active_like
-                : images.ic_like
+              item.reaction === true ? images.ic_active_like : images.ic_like
             }
             alt='like'
             className='h-7 w-7 mx-1 shadow-sm rounded-full'
-            onClick={item.isRespondWasSent ? void 0 : () => onLike()}
+            // onClick={item.reaction ? void 0 : () => onLike()}
+            onClick={() => onLike()}
           />
 
           <img
             src={
-              item.isRespondWasSent && item.respond_type === false
+              item.reaction === false
                 ? images.ic_active_dislike
                 : images.ic_dislike
             }
             alt='dislike'
             className='h-7 w-7 mx-1 shadow-sm rounded-full'
-            onClick={item.isRespondWasSent ? void 0 : () => onDislike()}
+            // onClick={item.reaction ? void 0 : () => onDislike()}
+            onClick={() => onDislike()}
           />
         </div>
 
