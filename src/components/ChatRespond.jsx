@@ -200,27 +200,29 @@ export const ChatRespond = ({
 
       <div className='flex md:justify-between items-center float-end'>
         <div className='flex'>
-          <img
-            src={
-              item.reaction === true ? images.ic_active_like : images.ic_like
-            }
-            alt='like'
-            className='h-7 w-7 mx-1 shadow-sm rounded-full'
-            // onClick={item.reaction ? void 0 : () => onLike()}
-            onClick={() => onLike()}
-          />
+          {(item.reaction === true || item.reaction === null) && (
+            <img
+              src={
+                item.reaction === true ? images.ic_active_like : images.ic_like
+              }
+              alt='like'
+              className='h-7 w-7 mx-1 shadow-sm rounded-full'
+              onClick={item.reaction === true ? void 0 : () => onLike()}
+            />
+          )}
 
-          <img
-            src={
-              item.reaction === false
-                ? images.ic_active_dislike
-                : images.ic_dislike
-            }
-            alt='dislike'
-            className='h-7 w-7 mx-1 shadow-sm rounded-full'
-            // onClick={item.reaction ? void 0 : () => onDislike()}
-            onClick={() => onDislike()}
-          />
+          {(item.reaction === false || item.reaction === null) && (
+            <img
+              src={
+                item.reaction === false
+                  ? images.ic_active_dislike
+                  : images.ic_dislike
+              }
+              alt='dislike'
+              className='h-7 w-7 mx-1 shadow-sm rounded-full'
+              onClick={item.reaction === true ? void 0 : () => onDislike()}
+            />
+          )}
         </div>
 
         <div
