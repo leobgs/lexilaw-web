@@ -82,6 +82,16 @@ export const ThreadPage = () => {
     }
   )
 
+  const { mutate: sendReaction } = useMutation(
+    ({ params, reaction }) =>
+      getData(`${API.MESSAGE_THUMBS}${params}/thumbs`, { reaction }),
+    {
+      onSettled: (respond, err, variables) => {
+        queryClient.invalidateQueries('thread_detail')
+      },
+    }
+  )
+
   useQuery(
     ['respond_chat', threadMessageIdtoRespond.thread_id],
     () =>
@@ -148,7 +158,11 @@ export const ThreadPage = () => {
               renderedMessage &&
                 setRenderedMessage((prevArray) => [
                   ...prevArray,
-                  { type: '', message: 'Answer on queued', from: '000000' },
+                  {
+                    type: 'queued',
+                    message: 'Answer on queued',
+                    from: '000000',
+                  },
                 ])
             }
           }
@@ -185,6 +199,10 @@ export const ThreadPage = () => {
     setThreadMessageIdtoRespond({ message_id: '', thread_id: '' })
   }
 
+  const handleReaction = (uuid, reaction) => {
+    sendReaction({ params: uuid, reaction })
+  }
+
   return (
     <div className='flex h-full flex-col select-text relative mb-2 '>
       <AutoScrollingDiv
@@ -202,6 +220,8 @@ export const ThreadPage = () => {
                   document: '',
                 })
               }
+              onLike={(e) => handleReaction(itms.uuid, e)}
+              onDislike={(e) => handleReaction(itms.uuid, e)}
             />
           ))
         }

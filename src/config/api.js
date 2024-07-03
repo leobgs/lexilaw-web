@@ -21,6 +21,7 @@ export const API = {
   MESSAGE_SEND: '/api/app/v1.0.0/chat/conversation',
   MESSAGE_RESPONSE: '/api/app/v1.0.0/chat/conversation/',
   MESSAGE_STATUS: '/api/app/v1.0.0/chat/',
+  MESSAGE_THUMBS: '/api/app/v1.0.0/thread_chat/',
 
   USER_DETAIL: '/user/app/v1.0.0/user/detail',
   UPDATE_NAME: '/user/app/v1.0.0/user/request/change-name',
