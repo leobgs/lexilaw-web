@@ -1,4 +1,5 @@
 import images from 'assets/images'
+import clsx from 'clsx'
 import React, { useState, useRef, useEffect } from 'react'
 
 const AutoResizeTextarea = ({
@@ -47,7 +48,12 @@ const AutoResizeTextarea = ({
   }
 
   return (
-    <div className='w-full text-xs flex justify-center items-center'>
+    <div
+      className={clsx(
+        'w-full text-xs flex justify-center items-center',
+        className
+      )}
+    >
       <textarea
         ref={textareaRef}
         value={textareaValue}
@@ -55,7 +61,7 @@ const AutoResizeTextarea = ({
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         disabled={disable}
-        className={`max-h-20 w-full focus:outline-none bg-opacity-0 text-sm ${
+        className={`max-h-20 w-full focus:outline-none md:bg-opacity-0 bg-[#FCFAF7] text-sm ${
           disable ? 'bg-neutral-10' : ''
         }`}
         rows={1}
@@ -79,7 +85,7 @@ const AutoResizeTextarea = ({
             }, 600)
           }
         }}
-        className='md:hidden bg-blue-dark px-2 py-1.5 rounded-3xl flex items-center h-8'
+        className='bg-blue-dark px-2 py-1.5 rounded-3xl flex items-center h-8'
       >
         <img src={images.ic_send} alt='kirim' />
       </div>
