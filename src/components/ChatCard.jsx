@@ -5,7 +5,14 @@ import Markdown from 'markdown-to-jsx'
 import { useQueryClient } from 'react-query'
 import { useEffect, useRef } from 'react'
 
-export const ChatCard = ({ item, index, onClickChangeLangStyle, length }) => {
+export const ChatCard = ({
+  item,
+  index,
+  onClickChangeLangStyle,
+  length,
+  onLike = (e) => {},
+  onDislike = (e) => {},
+}) => {
   const queryClient = useQueryClient()
   const cachedData = queryClient.getQueryData('user')
 
@@ -14,6 +21,7 @@ export const ChatCard = ({ item, index, onClickChangeLangStyle, length }) => {
 
   useEffect(() => {
     const animate = () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       angle = (angle + 1) % 360
       boxRef.current?.style.setProperty('--angle', `${angle}deg`)
       requestAnimationFrame(animate)
@@ -109,6 +117,8 @@ export const ChatCard = ({ item, index, onClickChangeLangStyle, length }) => {
                 index={index}
                 onClickChangeLangStyle={(e) => onClickChangeLangStyle(e)}
                 isLast={index === length - 1}
+                onLike={() => onLike(1)}
+                onDislike={() => onDislike(0)}
               />
             )}
           </div>

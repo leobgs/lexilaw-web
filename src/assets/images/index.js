@@ -59,7 +59,7 @@ import ic_forum from './ic_forum.png'
 import ic_time_sand from './ic_time_sand.png'
 import ic_handycam from './ic_handycam.png'
 import ic_case from './ic_case.png'
-import ic_menu_down_darker from './ic_menu_down_darker.png'
+import ic_menu_down_darker from './ic_menu_down_darker.svg'
 import ic_copy_button from './ic_copy_button.png'
 import ic_file from './ic_file.png'
 import ic_calendar_white_outline from './ic_calendar_white_outline.png'
@@ -69,6 +69,8 @@ import ic_like from './ic_like.svg'
 import ic_search_black from './ic_search_black.png'
 import ic_add_convo2 from './ic_add_convo2.svg'
 import ic_attach_black_sm from './ic_attach_black_sm.svg'
+import ic_active_like from './ic_active_like.svg'
+import ic_active_dislike from './ic_active_dislike.svg'
 
 const images = {
   bg_register_login,
@@ -142,6 +144,8 @@ const images = {
   ic_search_black,
   ic_add_convo2,
   ic_attach_black_sm,
+  ic_active_like,
+  ic_active_dislike,
 }
 
 export default images

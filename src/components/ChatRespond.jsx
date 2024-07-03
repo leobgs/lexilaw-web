@@ -13,6 +13,8 @@ export const ChatRespond = ({
   index,
   onClickChangeLangStyle,
   isLast,
+  onLike = () => {},
+  onDislike = () => {},
 }) => {
   const [showLawyerRecommendation, setLawyerRecommendation] = useState(false)
   const { t } = useTranslation()
@@ -103,44 +105,6 @@ export const ChatRespond = ({
                   </div>
                 </button>
               </div>
-
-              <div className='flex items-center'>
-                <div className='flex'>
-                  <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mr-1.5 shadow-sm'>
-                    <img
-                      src={images.ic_like}
-                      alt='redo'
-                      className='h-4 w-4 m-0.5 mx-2 my-1'
-                    />
-                  </div>
-                  <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm'>
-                    <img
-                      src={images.ic_dislike}
-                      alt='redo'
-                      className='h-4 w-4 m-0.5 mx-2 my-1'
-                    />
-                  </div>
-                </div>
-
-                <div
-                  className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mx-1.5 shadow-sm'
-                  onClick={() => copyToClipboard({ text: item.message })}
-                >
-                  <img
-                    src={images.ic_copy}
-                    alt='copy'
-                    className='h-4 w-4 m-0.5 mx-2 my-1'
-                  />
-                </div>
-
-                <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm'>
-                  <img
-                    src={images.ic_redo}
-                    alt='redo'
-                    className='h-4 w-4 m-0.5 mx-2 my-1'
-                  />
-                </div>
-              </div>
             </div>
 
             <LawyerRecommendation
@@ -221,70 +185,65 @@ export const ChatRespond = ({
                     keyPrefix: 'chat.chat_text',
                   })}
                 </div>
-
-                {/* <Button
-                  onClick={() =>
-                    onClickChangeLangStyle(
-                      t('fit_lang', {
-                        keyPrefix: 'chat.chat_text',
-                      })
-                    )
-                  }
-                  className='border-[#E0DBD1] border rounded-3xl bg-white gap-2 !py-0 !font-regular !h-[2rem]'
-                  iconLeft={images.ic_change_style_lang}
-                  iconClassName='!h-4 !w-3'
-                  label={t('fit_lang', {
-                    keyPrefix: 'chat.chat_text',
-                  })}
-                /> */}
               </div>
             ) : (
               <div></div>
             )}
-
-            <div className='flex md:justify-between items-center'>
-              <div className='flex'>
-                <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mr-1.5 shadow-sm'>
-                  <img
-                    src={images.ic_like}
-                    alt='redo'
-                    className='h-4 w-4 m-0.5 mx-2 my-1'
-                  />
-                </div>
-                <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm'>
-                  <img
-                    src={images.ic_dislike}
-                    alt='redo'
-                    className='h-4 w-4 m-0.5 mx-2 my-1'
-                  />
-                </div>
-              </div>
-
-              <div
-                className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mx-1.5 shadow-sm'
-                onClick={() => copyToClipboard({ text: item.message })}
-              >
-                <img
-                  src={images.ic_copy}
-                  alt='copy'
-                  className='h-4 w-4 m-0.5 mx-2 my-1'
-                />
-              </div>
-
-              {isLast && (
-                <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm'>
-                  <img
-                    src={images.ic_redo}
-                    alt='redo'
-                    className='h-4 w-4 m-0.5 mx-2 my-1'
-                  />
-                </div>
-              )}
-            </div>
           </div>
         )
     }
   }
 
-  return <>{renderMessage(item.type)}</>
+  return (
+    <>
+      {renderMessage(item.type)}
+
+      <div className='flex md:justify-between items-center float-end'>
+        <div className='flex'>
+          <img
+            src={
+              item.isRespondWasSent && item.respond_type === true
+                ? images.ic_active_like
+                : images.ic_like
+            }
+            alt='like'
+            className='h-7 w-7 mx-1 shadow-sm rounded-full'
+            onClick={item.isRespondWasSent ? void 0 : () => onLike()}
+          />
+
+          <img
+            src={
+              item.isRespondWasSent && item.respond_type === false
+                ? images.ic_active_dislike
+                : images.ic_dislike
+            }
+            alt='dislike'
+            className='h-7 w-7 mx-1 shadow-sm rounded-full'
+            onClick={item.isRespondWasSent ? void 0 : () => onDislike()}
+          />
+        </div>
+
+        <div
+          className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mx-1.5 shadow-sm'
+          onClick={() => copyToClipboard({ text: item.message })}
+        >
+          <img
+            src={images.ic_copy}
+            alt='copy'
+            className='h-4 w-4 m-0.5 mx-2 my-1'
+          />
+        </div>
+
+        {(isLast || item.type === 'recommendation') && (
+          <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm'>
+            <img
+              src={images.ic_redo}
+              alt='redo'
+              className='h-4 w-4 m-0.5 mx-2 my-1'
+            />
+          </div>
+        )}
+      </div>
+    </>
+  )
 }
