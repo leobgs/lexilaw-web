@@ -30,7 +30,7 @@ const ScheduleItem = ({ schedule }) => {
       <img
         src={images.ic_change_style_lang}
         alt="change style"
-        className="h-4 w-3"
+        className="w-3"
       />
       <span className="whitespace-nowrap overflow-hidden">{schedule}</span>
     </div>
