@@ -136,7 +136,7 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
             }}
             onSubmit={handleSubmitButton}
             disable={disable}
-            className={`max-h-20 w-full focus:outline-none bg-[#FCFAF7] bg-opacity-0 text-sm ${
+            className={`max-h-20 w-full focus:outline-none bg-[#FCFAF7] md:bg-opacity-0 text-sm ${
               disable ? 'bg-neutral-10' : ''
             }`}
             placeholder={`${

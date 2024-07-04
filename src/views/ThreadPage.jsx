@@ -41,6 +41,7 @@ export const ThreadPage = () => {
     thread_id: '',
     message_id: '',
   })
+  const [isScrolled, setScrolled] = useState(true)
 
   const lastPostRef = useRef(null)
   // const { ref, entry } = useIntersection({
@@ -214,9 +215,8 @@ export const ThreadPage = () => {
     }
   )
 
-  console.log(renderedMessage)
-
   const handleAddChat = (e) => {
+    setScrolled(true)
     const dataMessage = {
       message: e.message,
       thread_id: state?.thread_id ? state?.thread_id : collection?.thread_id,
@@ -235,12 +235,14 @@ export const ThreadPage = () => {
   }
 
   const handleReaction = (uuid, reaction) => {
+    setScrolled(false)
     sendReaction({ params: uuid, reaction })
   }
 
   return (
     <div className='flex h-full flex-col select-text relative mb-2 '>
       <AutoScrollingDiv
+        shouldScrol={isScrolled}
         content={
           renderedMessage?.length !== 0 &&
           renderedMessage?.map((itms, index) => (
