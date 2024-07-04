@@ -249,7 +249,7 @@ export const NavChat = ({
                 </div>
               </div>
 
-              {showSearchNav && (
+              {/* {showSearchNav && (
                 <div className='flex justify-between gap-2'>
                   <Input
                     onChange={(e) => setSearch(e.value)}
@@ -275,7 +275,7 @@ export const NavChat = ({
                     />
                   </div>
                 </div>
-              )}
+              )} */}
 
               {dataLatest?.map((item, index) => {
                 if (item.type === 'koleksi') {
@@ -323,7 +323,7 @@ export const NavChat = ({
                                   setShowNav(false)
                                 }}
                               >
-                                {itms.title}
+                                {itms.message}
                               </div>
                             ))}
                         </div>
@@ -418,7 +418,10 @@ export const NavChat = ({
               })}
             </div>
             <div className='border-b border-b-neutral-20 text-sm font-semi-bold'>
-              <div className='px-4 mb-2 text-black-darker'>
+              <div
+                className='px-4 mb-2 text-black-darker'
+                onClick={() => navigate('/account')}
+              >
                 {t('my_account', {
                   keyPrefix: 'chat.profile_option',
                 })}

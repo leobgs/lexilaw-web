@@ -119,6 +119,12 @@ export const ThreadPage = () => {
     }
   )
 
+  // useEffect(() => {
+  //   if (entry?.isIntersecting) {
+  //     fetchNextPage()
+  //   }
+  // }, [entry])
+
   useQuery(
     ['respond_chat', threadMessageIdtoRespond.thread_id],
     () =>
