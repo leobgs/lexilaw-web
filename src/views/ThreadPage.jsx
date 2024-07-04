@@ -1,4 +1,3 @@
-// import { useIntersection } from '@mantine/hooks'
 import axios from 'axios'
 import { InputChat } from 'components'
 import { AutoScrollingDiv } from 'components/AutoScrollDiv'
