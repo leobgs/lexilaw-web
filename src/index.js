@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import axios from 'axios'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { googleOauthClientId } from 'config/app'
+import { ReactQueryDevtools } from 'react-query-devtools'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
@@ -28,6 +29,7 @@ root.render(
             <App />
           </GoogleOAuthProvider>
         </AppProvider>
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </React.Suspense>
   </React.StrictMode>
