@@ -149,8 +149,9 @@ export const LawyerRecommendation = ({
                   keyPrefix: 'lawyer_recommendation',
                 })}
                 iconRight={images.ic_briefcase}
+                iconClassName='aspect-square !h-4 !w-4 '
                 className={
-                  'btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8'
+                  'btn-secondary-hover w-full mt-1 rounded-full relative px-8 !font-regular'
                 }
               />
             </div>
@@ -236,7 +237,7 @@ export const LawyerRecommendation = ({
               })}
               iconRight={images.ic_briefcase}
               className={
-                'btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8'
+                'btn-secondary-hover w-full mt-1 rounded-full relative px-8'
               }
             />
           </div>

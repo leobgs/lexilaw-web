@@ -1,14 +1,29 @@
+import axios from 'axios'
 import { InputChat } from 'components'
 import { AutoScrollingDiv } from 'components/AutoScrollDiv'
 import { ChatCard } from 'components/ChatCard'
 import { API } from 'config/api'
+import { apiURLQuery } from 'config/app'
 import { useGlobalContext } from 'hooks/context'
 import { getData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
-import { useEffect, useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useEffect, useRef, useState } from 'react'
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from 'react-query'
 import { useLocation, useParams } from 'react-router-dom'
 import { RIWAYAT_OROLAN } from 'utils/dummy'
+
+export const fetchMessage = async ({ pageParam }, URL) => {
+  const respond = await axios
+    .get(`${apiURLQuery + URL}?page=${pageParam}`)
+    .then((res) => res)
+    .catch((error) => error.response)
+  return respond.data
+}
 
 export const ThreadPage = () => {
   const { collection } = useGlobalContext()
@@ -26,6 +41,12 @@ export const ThreadPage = () => {
     thread_id: '',
     message_id: '',
   })
+
+  const lastPostRef = useRef(null)
+  // const { ref, entry } = useIntersection({
+  //   root: lastPostRef.current,
+  //   threshold: 1,
+  // })
 
   useEffect(() => {
     if (params.uuid === '63926537') {
@@ -53,7 +74,8 @@ export const ThreadPage = () => {
             thread_id: data.thread_id,
             message_id: data.message_id,
           })
-          refetchDetail()
+          // refetchDetail()
+          fetchDetail()
         } else {
           notifyError(datas?.message)
           setDisableInput(false)
@@ -62,23 +84,28 @@ export const ThreadPage = () => {
     }
   )
 
-  const { refetch: refetchDetail } = useQuery(
+  const {
+    refetch: fetchDetail,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
     ['thread_detail', params.uuid],
     () => getData(`${API.THREAD_DETAIL + params.uuid}?limit=1200`),
     {
-      onSettled: (datas) => {
-        if (datas?.status === 'Success') {
-          const { data } = datas
-          setRenderedMessage(data)
-        } else if (datas?.status === 'Not Found') {
-          refetchDetail()
-        } else {
-          notifyError(datas?.message)
-        }
+      onSettled: (datas, dat) => {
+        let tmp = []
+        datas.pages?.map((item) =>
+          item.data?.forEach((items) => {
+            tmp.push(items)
+          })
+        )
+        setRenderedMessage(tmp)
+      },
+      getNextPageParam: (lastpage) => {
+        const nextPage = parseInt(lastpage?.meta?.page) + 1
+        return nextPage
       },
       enabled: !!params.uuid && params.uuid !== '63926537',
-      cacheTime: 0,
-      staleTime: 0,
     }
   )
 
@@ -91,6 +118,12 @@ export const ThreadPage = () => {
       },
     }
   )
+
+  // useEffect(() => {
+  //   if (entry?.isIntersecting) {
+  //     fetchNextPage()
+  //   }
+  // }, [entry])
 
   useQuery(
     ['respond_chat', threadMessageIdtoRespond.thread_id],
@@ -144,7 +177,7 @@ export const ThreadPage = () => {
           } else if (data.status === 'in_progress') {
             setDisableInput(true)
 
-            // console.log(data.thread_id, collection?.thread_id) ini nanti harusnya dibuat diluar biar tiap load halaman loading lgsg nampil
+            // (data.thread_id, collection?.thread_id) ini nanti harusnya dibuat diluar biar tiap load halaman loading lgsg nampil
             if (!isLoading && data.thread_id === collection?.thread_id) {
               renderedMessage &&
                 setRenderedMessage((prevArray) => [
@@ -180,6 +213,8 @@ export const ThreadPage = () => {
       staleTime: 0,
     }
   )
+
+  console.log(renderedMessage)
 
   const handleAddChat = (e) => {
     const dataMessage = {
