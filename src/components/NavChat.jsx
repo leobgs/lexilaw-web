@@ -84,11 +84,11 @@ export const NavChat = ({
               keyPrefix: 'chat.chat_text',
             })}
             rowed='w-2/3 mx-auto'
-            iconClassName='!w-[13.81px] !h-[13.81px]'
+            iconClassName='!w-[13.81px] !h-[13.81px] aspect-square mt-0.5'
             icon={images.ic_search_black}
           />
           <div
-            className='bg-neutral-20 w-2/12 rounded-full outline outline-neutral-30 py-1 flex items-center'
+            className='bg-[#F0EDE8] w-2/12 rounded-full outline outline-[#E0DBD1] py-1 flex items-center'
             onClick={() => onHeaderClick()}
           >
             <img
@@ -234,7 +234,7 @@ export const NavChat = ({
       {showNav && (
         <div className='md:hidden h-full w-full absolute flex z-50 '>
           <div className='bg-neutral-50 w-3/4 h-full px-2 pt-4'>
-            <div className='h-[92%] overflow-y-auto pb-4'>
+            <div className='h-[92%] overflow-y-auto pb-4 no-scrollbar'>
               <div className='flex justify-between items-center'>
                 <img
                   src={images.logo_lexilaw}
