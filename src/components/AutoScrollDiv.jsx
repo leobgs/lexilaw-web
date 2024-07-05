@@ -9,8 +9,6 @@ export const AutoScrollingDiv = ({ content, shouldScrol }) => {
     }
   }, [content, shouldScrol])
 
-  if (divRef.current) console.log(divRef.current.scrollHeight)
-
   return (
     <div
       ref={divRef}

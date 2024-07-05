@@ -211,7 +211,11 @@ export default function AuthLayout() {
   }
 
   return (
-    <div className='bg-contain bg-center h-screen bg_auth flex items-center flex-col relative'>
+    <div
+      className={`bg-contain bg-center bg_auth flex items-center flex-col relative ${
+        location?.pathname === '/auth/register' ? 'md:h-screen' : 'h-screen'
+      }`}
+    >
       <AuthLoader />
 
       {isOnMobileSize && isOnAuthPage && (
