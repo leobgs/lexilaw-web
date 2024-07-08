@@ -109,8 +109,7 @@ export const RIWAYAT_OROLAN = [
       {
         message:
           "Booking berhasil Kamu sudah bersama **Calvin Koss↗️** cek Pengacara Saya pada menu kanan atas untuk melihat dan meng-kontak pengacara kamu.\n Kamu dapat melakukan diskusi selama **1 jam** kapan bersama **Calvin Koss↗**?  \n*Opsi schedule berikut hanya berlaku 16 jam setelah Kamu melakukan booking.*",
-        schedules: ["Jumat 9AM", "Minggu 9AM", "Minggu 1PM", "Selasa 9AM"],
-        calendyURL: "",
+        lawyer_uuid: "4c136e74-bcf4-4c4e-b160-e14a0bd5f61a",
         from: "000000",
         uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
         type: "schedule",
