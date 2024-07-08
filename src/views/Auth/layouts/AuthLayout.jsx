@@ -14,7 +14,6 @@ import './Login.scss'
 import { AppleSignInButton } from 'components/Button/AppleSiginInButton'
 import { AuthLoader } from 'components/AuthLoader'
 import { GoogleSignInButton } from 'components/Button/GoogleSignInButton'
-import { GoogleLogin } from '@react-oauth/google'
 
 export default function AuthLayout() {
   const { t } = useTranslation()
@@ -192,16 +191,6 @@ export default function AuthLayout() {
                 'md:hidden bg-outline bg-white text-green-900 w-full lg:mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
               }
             />
-
-            <p className='text-center text-gray-400 font-medium md:hidden'>
-              {t('not_have_account', { keyPrefix: 'auth.login' })}
-              <NavLink
-                className='font-bold text-white underline ms-1'
-                to='/auth/register'
-              >
-                {t('register', { keyPrefix: 'auth.login' })}
-              </NavLink>
-            </p>
           </div>
         )
 
@@ -212,8 +201,8 @@ export default function AuthLayout() {
 
   return (
     <div
-      className={`bg-contain bg-center bg_auth flex items-center flex-col relative ${
-        location?.pathname === '/auth/register' ? 'md:h-screen' : 'h-screen'
+      className={`bg_auth flex items-center flex-col relative bg-[#001a0f] ${
+        location?.pathname === '/auth/register' ? 'xl:h-full' : 'h-screen'
       }`}
     >
       <AuthLoader />
@@ -223,9 +212,9 @@ export default function AuthLayout() {
           <Button
             label={handleLabelHeader(location.pathname)}
             iconLeft={images.chevron_left}
-            iconClassName={'w-[20px] h-[20px] me-2'}
+            iconClassName='w-[20px] h-[20px] me-2'
             onClick={handleBackLogin}
-            className='text-white bg-transparent'
+            className='text-white bg-transparent cursor-default'
           />
         </div>
       )}

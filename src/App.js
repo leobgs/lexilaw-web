@@ -67,6 +67,7 @@ function App() {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route path='/auth' element={<AuthLayout />}>
+            <Route index element={<Login />} />
             <Route path='login' element={<Login />} />
             <Route path='register' element={<Register />} />
             <Route path='register/otp' element={<RegisterOTP />} />
