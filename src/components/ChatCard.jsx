@@ -3,7 +3,7 @@ import { byteConversion } from 'utils/byteConversion'
 import { ChatRespond } from './ChatRespond'
 import Markdown from 'markdown-to-jsx'
 import { useQueryClient } from 'react-query'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 export const ChatCard = React.memo(
   ({
@@ -19,6 +19,12 @@ export const ChatCard = React.memo(
 
     const boxRef = useRef(null)
     let angle = useRef(0).current
+    const [responseText, setResponseText] = useState('')
+
+    useEffect(() => {
+      const cleanText = item?.message?.replace(/【\d+:\d+†source】/g, '')
+      setResponseText(cleanText)
+    }, [item.message])
 
     useEffect(() => {
       const animate = () => {
@@ -78,7 +84,7 @@ export const ChatCard = React.memo(
               </div>
 
               <div className='whitespace-pre-line text-sm'>
-                <Markdown>{item.message}</Markdown>
+                <Markdown>{responseText}</Markdown>
               </div>
 
               {item.file && (
