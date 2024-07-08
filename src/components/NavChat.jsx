@@ -131,7 +131,7 @@ export const NavChat = ({
           if (item.type === 'koleksi') {
             return (
               <div key={`${index}-k`}>
-                {item.data.length !== 0 && (
+                {/* {item.data.length !== 0 && (
                   <div className='flex justify-between items-end mr-2 my-4'>
                     <div className='text-[#AEB3BF] text-sm'>
                       {t('collection', {
@@ -184,7 +184,7 @@ export const NavChat = ({
                           </div>
                         ))}
                     </div>
-                  ))}
+                  ))} */}
               </div>
             )
           } else if (item.type === 'terkini') {
@@ -282,7 +282,7 @@ export const NavChat = ({
                 if (item.type === 'koleksi') {
                   return (
                     <div key={index}>
-                      {item.data.length !== 0 && (
+                      {/* {item.data.length !== 0 && (
                         <div className='flex justify-between items-end mr-2 my-4'>
                           <div className='text-neutral-40'>Koleksi</div>
                           <img
@@ -328,7 +328,7 @@ export const NavChat = ({
                               </div>
                             ))}
                         </div>
-                      ))}
+                      ))} */}
                     </div>
                   )
                 } else if (item.type === 'terkini') {
