@@ -183,5 +183,9 @@
       "title": "Pembayaran gagal",
       "message": "Periksa kembali details yang sudah kamu masukkan dan pastikan kamu terhubung dengan internet."
     }
+  },
+  "schedule": {
+    "header": "Jadwal",
+    "success": "Penjadwalan Berhasil"
   }
 }

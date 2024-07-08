@@ -183,5 +183,9 @@
       "title": "Payment Failed",
       "message": "Please check the details you have entered and ensure you are connected to the internet."
     }
+  },
+  "schedule": {
+    "header": "Schedule",
+    "success": "Scheduling Successful"
   }
 }
