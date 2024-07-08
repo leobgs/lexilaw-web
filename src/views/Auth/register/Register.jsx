@@ -12,7 +12,7 @@ import { API } from 'config/api'
 import { useMutation, useQuery } from 'react-query'
 import { getData } from 'hooks/useRequest'
 
-export default function Register() {
+export const Register = () => {
   const { t } = useTranslation()
   const { registerForm, registerFormReducer } = useGlobalContext()
   const [errorText, setErrorText] = useState('')
@@ -37,7 +37,12 @@ export default function Register() {
         })
         setOptionCity([...tmp])
       } else {
-        setOptionCity([{ label: t('city_not_found', { keyPrefix: 'auth.register' }), value: 0 }])
+        setOptionCity([
+          {
+            label: t('city_not_found', { keyPrefix: 'auth.register' }),
+            value: 0,
+          },
+        ])
       }
     },
   })
@@ -64,7 +69,7 @@ export default function Register() {
   const fullName = registerForm.first_name + ' ' + registerForm.last_name
 
   const validateName = (value) => {
-    const nameRegex = /^[a-zA-Z\s.',]*$/;
+    const nameRegex = /^[a-zA-Z\s.',]*$/
     return nameRegex.test(value)
   }
 
@@ -74,7 +79,8 @@ export default function Register() {
   }
 
   const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/
     return passwordRegex.test(password)
   }
 
@@ -82,9 +88,13 @@ export default function Register() {
     switch (name) {
       case 'first_name':
       case 'last_name':
-        return validateName(value) ? '' : t('validate_name_format', { keyPrefix: 'auth.register' })
+        return validateName(value)
+          ? ''
+          : t('validate_name_format', { keyPrefix: 'auth.register' })
       case 'email':
-        return validateEmail(value) ? '' : t('validate_email_format', { keyPrefix: 'auth.register' })
+        return validateEmail(value)
+          ? ''
+          : t('validate_email_format', { keyPrefix: 'auth.register' })
       default:
         return ''
     }
@@ -127,7 +137,9 @@ export default function Register() {
               setError({
                 ...error,
                 password: '',
-                password_confirm: t('password_match', { keyPrefix: 'auth.register' }),
+                password_confirm: t('password_match', {
+                  keyPrefix: 'auth.register',
+                }),
               })
             } else {
               setError({ ...error, password: '' })
@@ -135,9 +147,10 @@ export default function Register() {
           } else {
             setError({
               ...error,
-              password_confirm: t('password_match', { keyPrefix: 'auth.register' }),
-              password:
-                t('validate_password', { keyPrefix: 'auth.register' }),
+              password_confirm: t('password_match', {
+                keyPrefix: 'auth.register',
+              }),
+              password: t('validate_password', { keyPrefix: 'auth.register' }),
             })
           }
         } else {
@@ -151,30 +164,39 @@ export default function Register() {
           ? setError({ ...error, password: '' })
           : setError({
               ...error,
-            password_confirm: t('password_match', { keyPrefix: 'auth.register' }),
-              password:
-              t('validate_password', { keyPrefix: 'auth.register' }),
+              password_confirm: t('password_match', {
+                keyPrefix: 'auth.register',
+              }),
+              password: t('validate_password', { keyPrefix: 'auth.register' }),
             })
       }
     } else if (name === 'password_confirm') {
       if (registerForm.password) {
         if (value !== registerForm.password) {
-          setError({ ...error, password_confirm: t('password_match', { keyPrefix: 'auth.register' }) })
+          setError({
+            ...error,
+            password_confirm: t('password_match', {
+              keyPrefix: 'auth.register',
+            }),
+          })
         } else if (value === registerForm.password) {
           if (validatePassword(value)) {
             setError({ ...error, password_confirm: '' })
           } else {
             setError({
               ...error,
-              password_confirm:
-                t('validate_password', { keyPrefix: 'auth.register' }),
+              password_confirm: t('validate_password', {
+                keyPrefix: 'auth.register',
+              }),
             })
           }
         }
       } else {
         setError({
           ...error,
-          password_confirm: t('input_password_first', { keyPrefix: 'auth.register' }),
+          password_confirm: t('input_password_first', {
+            keyPrefix: 'auth.register',
+          }),
         })
       }
     }
@@ -196,7 +218,7 @@ export default function Register() {
   }
 
   const handleImageChange = (newImage) => {
-    registerFormReducer(['image'], newImage) 
+    registerFormReducer(['image'], newImage)
   }
 
   const onSubmit = () => {
