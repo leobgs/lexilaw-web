@@ -1,6 +1,10 @@
 import { Header } from "components";
+import { API } from "config/api";
+import { getData } from "hooks/useRequest";
+import { notifyError } from "hooks/useToas";
 import { useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation, useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const loadCalendlyScript = (onLoad) => {
@@ -18,7 +22,8 @@ export const Schedule = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const schedulingUrl = location.state;
+  const schedulingUrl = location.state.scheduling_url_event;
+  const lawyer_uuid = location.state.lawyer_uuid;
   const calendlyInitialized = useRef(false);
   const [isScheduled, setIsScheduled] = useState(false);
   const calendlyWidgetContainer = useRef(null);
@@ -48,7 +53,7 @@ export const Schedule = () => {
       ) {
         console.log("Event name:", e.data.event);
         if (e.data.event === "calendly.event_scheduled") {
-          setIsScheduled(true);
+          hookCalendy();
         }
       }
     };
@@ -63,6 +68,20 @@ export const Schedule = () => {
       calendlyInitialized.current = false;
     };
   }, [schedulingUrl]);
+
+  const { mutate: hookCalendy } = useMutation(
+    ["calendy_hook"],
+    () => getData(API.CALENDY_WEBHOOK + `/` + lawyer_uuid),
+    {
+      onSettled: (data) => {
+        if (data.status === "Success") {
+          setIsScheduled(true);
+        } else {
+          notifyError(data?.message);
+        }
+      },
+    }
+  );
 
   const handleBackEvent = () => {
     if (window.history.state && window.history.state.idx > 0 && !isScheduled) {

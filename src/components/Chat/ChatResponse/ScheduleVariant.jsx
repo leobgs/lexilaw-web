@@ -27,8 +27,13 @@ export const ScheduleVariant = ({ item }) => {
     }
   );
 
-  const handleSetSchedule = () => {
-    navigate(`/schedule`, { state: schedules.scheduling_url_event });
+  const handleSetSchedule = (url) => {
+    navigate(`/schedule`, {
+      state: {
+        scheduling_url_event: url,
+        lawyer_uuid: item.lawyer_uuid,
+      },
+    });
   };
 
   return (
@@ -36,14 +41,18 @@ export const ScheduleVariant = ({ item }) => {
       {<div className="border-t border-neutral-30 px-2 md:hidden pb-1.5" />}
       <div className="my-1.5 flex flex-wrap items-start gap-x-3 gap-y-1.5">
         {schedules?.availability_schedules?.map((scheduleItem, index) => (
-          <ScheduleItem key={index} schedule={scheduleItem} />
+          <ScheduleItem
+            key={index}
+            schedule={scheduleItem}
+            lawyer_uuid={item.lawyer_uuid}
+          />
         ))}
       </div>
 
       {schedules && (
         <button
           className="border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-sm px-2.5"
-          onClick={() => handleSetSchedule()}
+          onClick={() => handleSetSchedule(schedules.scheduling_url_event)}
         >
           <img src={images.ic_arrow_cornering} alt="place order" />
           <div>{t("set_yourself", { keyPrefix: "chat_respond" })}</div>
@@ -53,9 +62,24 @@ export const ScheduleVariant = ({ item }) => {
   );
 };
 
-const ScheduleItem = ({ schedule }) => {
+const ScheduleItem = ({ schedule, lawyer_uuid }) => {
+  const navigate = useNavigate();
+
+  const handleSetSchedule = () => {
+    navigate(`/schedule`, {
+      state: {
+        scheduling_url_event: schedule.scheduling_url,
+        lawyer_uuid: lawyer_uuid,
+      },
+    });
+  };
   return (
-    <div className="border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-2.5 text-center cursor-pointer whitespace-nowrap overflow-hidden">
+    <div
+      className="border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-2.5 text-center cursor-pointer whitespace-nowrap overflow-hidden"
+      onClick={() => {
+        handleSetSchedule(schedule.scheduling_url);
+      }}
+    >
       <img
         src={images.ic_change_style_lang}
         alt="change style"
