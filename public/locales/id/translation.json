@@ -143,7 +143,8 @@
   },
   "chat_respond": {
     "place_an_order": "Lakukan Pemesanan",
-    "another_option": "Opsi lain"
+    "another_option": "Opsi lain",
+    "set_yourself": "Atur Sendiri"
   },
   "input_chat": {
     "ask_lexi": "Tanyakan ke Lexi",
@@ -182,5 +183,9 @@
       "title": "Pembayaran gagal",
       "message": "Periksa kembali details yang sudah kamu masukkan dan pastikan kamu terhubung dengan internet."
     }
+  },
+  "schedule": {
+    "header": "Jadwal",
+    "success": "Penjadwalan Berhasil"
   }
 }
