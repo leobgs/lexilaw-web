@@ -1648,6 +1648,11 @@
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
 
+"@mantine/hooks@^7.11.1":
+  version "7.11.1"
+  resolved "https://registry.npmjs.org/@mantine/hooks/-/hooks-7.11.1.tgz"
+  integrity sha512-28WS/U6QL4jaIHf1uFpny5Tglu9MoyyM4bWLmIcAQHtOD3YHpuNvs9OTWLqKAQs6VN+kydlxvjvT+w1LBWEpQg==
+
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
   resolved "https://registry.npmjs.org/@nicolo-ribaudo/eslint-scope-5-internals/-/eslint-scope-5-internals-5.1.1-v1.tgz"

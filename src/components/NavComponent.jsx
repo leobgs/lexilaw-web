@@ -8,7 +8,7 @@ import { KOLEKSI_CHAT } from 'utils/dummy'
 import { useGlobalContext } from 'hooks/context'
 import { useMutation, useQueryClient } from 'react-query'
 import { API } from 'config/api'
-import { patchData } from 'hooks/useRequest'
+import { deleteData, patchData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useTranslation } from 'react-i18next'
 
@@ -29,6 +29,21 @@ export const NavComponent = ({ item, onClick }) => {
   const { mutate: updateTitle } = useMutation(
     (text) =>
       patchData(API.THREAD_EDIT + collection.uuid + '/edit', { title: text }),
+    {
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          queryClient.invalidateQueries('newest_thread')
+          collectionSetEdit({ ...item, editState: 'stop' })
+          setShowModal(false)
+        } else {
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
+
+  const { mutate: deleteThread } = useMutation(
+    (uuid) => deleteData(API.THREAD_DETAIL + uuid),
     {
       onSettled: (data) => {
         if (data.status === 'Success') {
@@ -66,6 +81,7 @@ export const NavComponent = ({ item, onClick }) => {
   }, [])
 
   const onDeleteClick = () => {
+    deleteThread(item.uuid)
     setShow1st(false)
     collectionDelete(item)
   }

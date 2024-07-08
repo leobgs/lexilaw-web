@@ -17,15 +17,14 @@ import {
   BookLawyer,
   Account,
   MyLawyer,
+  Register,
 } from "views";
 import { ModalAlert } from "components";
 import { ToastContainer } from "react-toastify";
 import AuthLayout from "views/Auth/layouts/AuthLayout";
-import Register from "views/Auth/register/Register";
+
 import RegisterOTP from "views/Auth/register/RegisterOTP";
 import { ThreadPage } from "views/ThreadPage";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import useVersioning from "hooks/versioning";
 import { Schedule } from "views/Schedule";
 
@@ -70,8 +69,8 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/auth" element={<AuthLayout />}>
             <Route index element={<Login />} />
-            <Route path="login" Component={Login} />
-            <Route path="register" Component={Register} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
             <Route path="register/otp" element={<RegisterOTP />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route
