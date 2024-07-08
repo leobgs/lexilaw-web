@@ -12,6 +12,7 @@ import { API } from 'config/api'
 import { notifyError } from 'hooks/useToas'
 import { deleteData } from 'hooks/useRequest'
 import { useGlobalContext } from 'hooks/context'
+import { ModalSearch } from './ModalSearch'
 
 export const NavChat = ({
   onHeaderClick,
@@ -483,6 +484,11 @@ export const NavChat = ({
           </div>
         </div>
       )}
+
+      <ModalSearch
+        show={showSearchNav}
+        onHide={() => setShowSearchNav(false)}
+      />
     </nav>
   )
 }

@@ -1,16 +1,15 @@
 import { useRef, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 
-export const AutoScrollingDiv = ({ content }) => {
+export const AutoScrollingDiv = ({ content, shouldScrol }) => {
   const divRef = useRef(null)
-  const { pathname } = useLocation()
 
   useEffect(() => {
-    if (divRef.current) {
+    if (shouldScrol && divRef.current) {
       divRef.current.scrollTop = divRef.current.scrollHeight
-      console.log(divRef.current.scrollHeight)
     }
-  }, [pathname])
+  }, [content, shouldScrol])
+
+  if (divRef.current) console.log(divRef.current.scrollHeight)
 
   return (
     <div
