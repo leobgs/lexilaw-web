@@ -4,8 +4,8 @@ import {
   Outlet,
   Route,
   Routes,
-} from 'react-router-dom'
-import { isLogin } from 'utils/auth'
+} from "react-router-dom";
+import { isLogin } from "utils/auth";
 import {
   Login,
   Components,
@@ -17,92 +17,94 @@ import {
   BookLawyer,
   Account,
   MyLawyer,
-} from 'views'
-import { ModalAlert } from 'components'
-import { ToastContainer } from 'react-toastify'
-import AuthLayout from 'views/Auth/layouts/AuthLayout'
-import Register from 'views/Auth/register/Register'
-import RegisterOTP from 'views/Auth/register/RegisterOTP'
-import { ThreadPage } from 'views/ThreadPage'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import useVersioning from 'hooks/versioning'
+} from "views";
+import { ModalAlert } from "components";
+import { ToastContainer } from "react-toastify";
+import AuthLayout from "views/Auth/layouts/AuthLayout";
+import Register from "views/Auth/register/Register";
+import RegisterOTP from "views/Auth/register/RegisterOTP";
+import { ThreadPage } from "views/ThreadPage";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import useVersioning from "hooks/versioning";
+import { Schedule } from "views/Schedule";
 
 export const PrivateRoute = ({ wrapperContent = true }) => {
   if (!isLogin()) {
-    return <Navigate to='/auth' replace />
+    return <Navigate to="/auth" replace />;
   }
 
   return wrapperContent ? (
-    <div className={'content'} id='content'>
+    <div className={"content"} id="content">
       <Outlet />
     </div>
   ) : (
-    <div className='content_nowrap' id='content_nowrap'>
+    <div className="content_nowrap" id="content_nowrap">
       <Outlet />
     </div>
-  )
-}
+  );
+};
 
 const ProtectedRoute = ({ wrapperContent = true }) => {
   if (isLogin()) {
-    return <Navigate to='/' replace />
+    return <Navigate to="/" replace />;
   }
 
   return wrapperContent ? (
-    <div className='content' id='content'>
+    <div className="content" id="content">
       <Outlet />
     </div>
   ) : (
-    <div className='content_nowrap' id='content_nowrap'>
+    <div className="content_nowrap" id="content_nowrap">
       <Outlet />
     </div>
-  )
-}
+  );
+};
 
 function App() {
-  useVersioning('/version.json')
+  useVersioning("/version.json");
 
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<ProtectedRoute />}>
-          <Route path='/auth' element={<AuthLayout />}>
+          <Route path="/auth" element={<AuthLayout />}>
             <Route index element={<Login />} />
-            <Route path='login' Component={Login} />
-            <Route path='register' Component={Register} />
-            <Route path='register/otp' element={<RegisterOTP />} />
-            <Route path='forgot-password' element={<ForgotPassword />} />
+            <Route path="login" Component={Login} />
+            <Route path="register" Component={Register} />
+            <Route path="register/otp" element={<RegisterOTP />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
             <Route
-              path='prechanged-password/:uuid'
+              path="prechanged-password/:uuid"
               element={<PreChangePassword />}
             />
-            <Route path='changed-password' element={<ChangePassword />} />
+            <Route path="changed-password" element={<ChangePassword />} />
           </Route>
         </Route>
 
         {/* page without header component */}
         <Route element={<PrivateRoute />}>
-          <Route path='/' element={<Chat />}>
-            <Route path='/thread/:uuid' element={<ThreadPage />} />
+          <Route path="/" element={<Chat />}>
+            <Route path="/thread/:uuid" element={<ThreadPage />} />
           </Route>
-          <Route path='/account' element={<Account />} />
+          <Route path="/account" element={<Account />} />
         </Route>
 
         {/* with header component */}
         <Route element={<PrivateRoute wrapperContent={false} />}>
-          <Route path='/book-lawyer' element={<BookLawyer />} />
-          <Route path='/my-lawyer' element={<MyLawyer />} />
+          <Route path="/book-lawyer" element={<BookLawyer />} />
+          <Route path="/my-lawyer" element={<MyLawyer />} />
+          <Route path="/schedule" element={<Schedule />} />
         </Route>
 
-        <Route path='/components' element={<Components />} />
-        <Route path='/404' element={<NotFound />} />
-        <Route path='*' element={<Navigate to='/404' />} />
+        <Route path="/components" element={<Components />} />
+        <Route path="/404" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="/404" />} />
       </Routes>
       <ModalAlert />
       <ToastContainer />
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
