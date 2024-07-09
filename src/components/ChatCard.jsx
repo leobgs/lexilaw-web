@@ -1,9 +1,9 @@
-import images from "assets/images";
-import { byteConversion } from "utils/byteConversion";
-import { ChatRespond } from "./ChatRespond";
-import Markdown from "markdown-to-jsx";
-import { useQueryClient } from "react-query";
-import React, { useEffect, useRef, useState } from "react";
+import images from 'assets/images'
+import { byteConversion } from 'utils/byteConversion'
+import { ChatRespond } from './ChatRespond'
+import Markdown from 'markdown-to-jsx'
+import { useQueryClient } from 'react-query'
+import React, { useEffect, useRef, useState } from 'react'
 
 export const ChatCard = React.memo(
   ({
@@ -14,97 +14,103 @@ export const ChatCard = React.memo(
     onLike = (e) => {},
     onDislike = (e) => {},
   }) => {
-    const queryClient = useQueryClient();
-    const cachedData = queryClient.getQueryData("user");
+    const queryClient = useQueryClient()
+    const cachedData = queryClient.getQueryData('user')
+    const [responseText, setResponseText] = useState('')
 
-    const boxRef = useRef(null);
-    let angle = useRef(0).current;
+    useEffect(() => {
+      const cleanText = item?.message?.replace(/【\d+:\d+†source】/g, '')
+      setResponseText(cleanText)
+    }, [item.message])
+
+    const boxRef = useRef(null)
+    let angle = useRef(0).current
 
     useEffect(() => {
       const animate = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        angle = (angle + 1) % 360;
-        boxRef.current?.style.setProperty("--angle", `${angle}deg`);
-        requestAnimationFrame(animate);
-      };
-      requestAnimationFrame(animate);
+        angle = (angle + 1) % 360
+        boxRef.current?.style.setProperty('--angle', `${angle}deg`)
+        requestAnimationFrame(animate)
+      }
+      requestAnimationFrame(animate)
 
-      return () => cancelAnimationFrame(animate);
-    }, [angle]);
+      return () => cancelAnimationFrame(animate)
+    }, [angle])
 
     return (
       <>
-        {item.from === "000000" && item.type === "loading" ? (
-          <div className="card-animated-chat ml-4 mb-2 pt-1" ref={boxRef}>
-            <div className="bg-white rounded-lg flex gap-2 px-4">
+        {item.from === '000000' && item.type === 'loading' ? (
+          <div className='card-animated-chat ml-4 mb-2 pt-1' ref={boxRef}>
+            <div className='bg-white rounded-lg flex gap-2 px-4'>
               <img
                 src={
-                  item.from === "000000"
+                  item.from === '000000'
                     ? images.ic_profile_lexi
                     : images.ic_thumbnail_profile
                 }
-                alt="profile"
+                alt='profile'
                 className={`object-contain ${
-                  item.from === "000000" ? "" : "h-12 w-12"
+                  item.from === '000000' ? '' : 'h-12 w-12'
                 }`}
               />
 
-              <div className="">
-                <div className="font-futura-bold text-secondary-base text-sm">
-                  {item.from === "000000" ? "Lexi" : "You"}
+              <div className=''>
+                <div className='font-futura-bold text-secondary-base text-sm'>
+                  {item.from === '000000' ? 'Lexi' : 'You'}
                 </div>
-                <div className="flex gap-2 mt-2">
-                  <div className="h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30" />
-                  <div className="h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30" />
-                  <div className="h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30" />
+                <div className='flex gap-2 mt-2'>
+                  <div className='h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30' />
+                  <div className='h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30' />
+                  <div className='h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30' />
                 </div>
               </div>
             </div>
           </div>
-        ) : item.from === "000000" ? (
+        ) : item.from === '000000' ? (
           <div
             className={`flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 bg-neutral-70 rounded-3xl md:rounded-xl border border-neutral-70`}
           >
             <img
               src={images.ic_profile_lexi}
-              alt="profile"
+              alt='profile'
               className={`object-contain ${
-                item.from === "ai" ? "h-12 w-12" : ""
+                item.from === 'ai' ? 'h-12 w-12' : ''
               }`}
             />
-            <div className="w-full">
-              <div className="font-futura-bold text-secondary-base text-sm ">
-                {"Lexi"}
+            <div className='w-full'>
+              <div className='font-futura-bold text-secondary-base text-sm '>
+                {'Lexi'}
               </div>
 
-              <div className="whitespace-pre-line text-sm">
+              <div className='whitespace-pre-line text-sm'>
                 <Markdown>{responseText}</Markdown>
               </div>
 
               {item.file && (
                 <>
-                  <p className="text-xs mt-2 mb-0.5 text-neutral-40 ml-2 hidden md:inline-block">
+                  <p className='text-xs mt-2 mb-0.5 text-neutral-40 ml-2 hidden md:inline-block'>
                     Attached
                   </p>
-                  <div className="w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0">
-                    {item.content_type === "IMAGE" ? (
+                  <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
+                    {item.content_type === 'IMAGE' ? (
                       <img
                         src={item.images}
-                        alt="displayed file"
-                        className="w-12 h-12 aspect-auto m-2 rounded-lg shadow"
+                        alt='displayed file'
+                        className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
                       />
                     ) : (
                       <img
                         src={images.ic_pdf_thumbnail}
-                        alt="displayed pdf"
-                        className="w-12 h-12 aspect-auto m-2 rounded-sm shadow"
+                        alt='displayed pdf'
+                        className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
                       />
                     )}
-                    <div className="text-xs">
-                      <p className="text-sm font-semi-bold text-secondary-base line-clamp-2">
+                    <div className='text-xs'>
+                      <p className='text-sm font-semi-bold text-secondary-base line-clamp-2'>
                         {item.caption}
                       </p>
-                      <p className="text-neutral-40">
+                      <p className='text-neutral-40'>
                         {byteConversion(item.file?.size)}
                       </p>
                     </div>
@@ -112,7 +118,7 @@ export const ChatCard = React.memo(
                 </>
               )}
 
-              {item.type !== "loading" && (
+              {item.type !== 'loading' && (
                 <ChatRespond
                   item={item}
                   index={index}
@@ -125,48 +131,48 @@ export const ChatCard = React.memo(
             </div>
           </div>
         ) : (
-          <div className="flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 rounded-3xl md:rounded-x">
+          <div className='flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 rounded-3xl md:rounded-x'>
             <img
               src={
                 cachedData?.data?.image_url
                   ? cachedData?.data?.image_url
                   : images.ic_avatar_placeholder
               }
-              alt="profile"
+              alt='profile'
               className={`object-contain rounded-full p-1 h-12 w-12`}
             />
 
-            <div className="w-full">
-              <div className="font-futura-bold text-secondary-base text-sm">
-                {"You"}
+            <div className='w-full'>
+              <div className='font-futura-bold text-secondary-base text-sm'>
+                {'You'}
               </div>
 
-              <div className="whitespace-pre-line text-sm">{item.message}</div>
+              <div className='whitespace-pre-line text-sm'>{item.message}</div>
 
               {item.file && (
                 <>
-                  <p className="text-xs mt-2 mb-0.5 text-neutral-40 ml-2 hidden md:inline-block">
+                  <p className='text-xs mt-2 mb-0.5 text-neutral-40 ml-2 hidden md:inline-block'>
                     Attached
                   </p>
-                  <div className="w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0">
-                    {item.content_type === "IMAGE" ? (
+                  <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
+                    {item.content_type === 'IMAGE' ? (
                       <img
                         src={item.images}
-                        alt="displayed file"
-                        className="w-12 h-12 aspect-auto m-2 rounded-lg shadow"
+                        alt='displayed file'
+                        className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
                       />
                     ) : (
                       <img
                         src={images.ic_pdf_thumbnail}
-                        alt="displayed pdf"
-                        className="w-12 h-12 aspect-auto m-2 rounded-sm shadow"
+                        alt='displayed pdf'
+                        className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
                       />
                     )}
-                    <div className="text-xs">
-                      <p className="text-sm font-semi-bold text-secondary-base line-clamp-2">
+                    <div className='text-xs'>
+                      <p className='text-sm font-semi-bold text-secondary-base line-clamp-2'>
                         {item.caption}
                       </p>
-                      <p className="text-neutral-40">
+                      <p className='text-neutral-40'>
                         {byteConversion(item.file?.size)}
                       </p>
                     </div>
@@ -177,6 +183,6 @@ export const ChatCard = React.memo(
           </div>
         )}
       </>
-    );
+    )
   }
-);
+)
