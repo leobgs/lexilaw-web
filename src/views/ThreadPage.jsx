@@ -55,6 +55,8 @@ export const ThreadPage = () => {
         (item) => item.uuid === '63926537'
       )
       setRenderedMessage(dataFiltered?.chat)
+    } else {
+      setRenderedMessage([])
     }
 
     if (state) {
@@ -240,7 +242,11 @@ export const ThreadPage = () => {
   }
 
   return (
-    <div className='flex h-full flex-col select-text relative mb-2 '>
+    <div className='flex h-full flex-col select-text relative mb-2'>
+      {/* <div className='w-full'>
+        <div className='bg-secondary-base absolute w-1/3 h-1 animate-right transition-transform' />
+      </div> */}
+
       <AutoScrollingDiv
         shouldScrol={isScrolled}
         content={

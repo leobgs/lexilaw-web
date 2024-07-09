@@ -19,7 +19,7 @@ export const NavChat = ({
   dataLatest = [],
   headerText,
   userDetail,
-  onExpand,
+  onDeleted = () => {},
 }) => {
   const { collection } = useGlobalContext()
   const { t } = useTranslation()
@@ -27,7 +27,7 @@ export const NavChat = ({
   const [showNav, setShowNav] = useState(false)
   const [showSearchNav, setShowSearchNav] = useState(false)
   const [showSetting, setShowSetting] = useState(false)
-  const [showColetion, setShowColetion] = useState(true)
+
   const storage = new LocalStorage()
   const navigate = useNavigate()
 
@@ -203,7 +203,11 @@ export const NavChat = ({
 
                 {item.data.length !== 0 &&
                   item.data?.map((itms) => (
-                    <NavComponent item={itms} key={itms.uuid} />
+                    <NavComponent
+                      item={itms}
+                      key={itms.uuid}
+                      onDeleted={() => onDeleted()}
+                    />
                   ))}
               </div>
             )
@@ -223,7 +227,7 @@ export const NavChat = ({
                     <NavComponent
                       item={items}
                       key={items.uuid}
-                      // onEdit={(e) => onEdit(e)}
+                      onDeleted={() => onDeleted()}
                     />
                   ))}
               </div>
@@ -232,6 +236,7 @@ export const NavChat = ({
         })}
       </div>
 
+      {/* ============================ responsive mobile ============================*/}
       {showNav && (
         <div className='md:hidden h-full w-full absolute flex z-50 '>
           <div className='bg-neutral-50 w-3/4 h-full px-2 pt-4'>
@@ -347,6 +352,7 @@ export const NavChat = ({
                             item={itms}
                             key={itms.uuid}
                             onClick={() => setShowNav(false)}
+                            onDeleted={() => onDeleted()}
                           />
                         ))}
                     </div>
@@ -366,6 +372,7 @@ export const NavChat = ({
                             item={items}
                             key={items.uuid}
                             onClick={() => setShowNav(false)}
+                            onDeleted={() => onDeleted()}
                           />
                         ))}
                     </div>

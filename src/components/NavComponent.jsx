@@ -11,9 +11,11 @@ import { API } from 'config/api'
 import { deleteData, patchData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
-export const NavComponent = ({ item, onClick }) => {
+export const NavComponent = ({ item, onDeleted }) => {
   const queryClient = useQueryClient()
+
   const { collectionClick, collectionDelete, collectionSetEdit, collection } =
     useGlobalContext()
   const [tooltipPlace, setTooltipPlace] = useState('right')
@@ -49,7 +51,9 @@ export const NavComponent = ({ item, onClick }) => {
         if (data.status === 'Success') {
           queryClient.invalidateQueries('newest_thread')
           collectionSetEdit({ ...item, editState: 'stop' })
-          setShowModal(false)
+          collectionDelete(item)
+          onDeleted()
+          console.log(item)
         } else {
           notifyError(data?.message)
         }
@@ -83,7 +87,6 @@ export const NavComponent = ({ item, onClick }) => {
   const onDeleteClick = () => {
     deleteThread(item.uuid)
     setShow1st(false)
-    collectionDelete(item)
   }
 
   return (
