@@ -16,10 +16,11 @@ export const Profile = ({ userData }) => {
     const [optionCity, setOptionCity] = useState([])
     const [selectedCity, setSelectedCity] = useState(null);
     const [errorText, setErrorText] = useState('')
-    const [cityId, setCityId] = useState(''); 
+    const [cityId, setCityId] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [form, setForm] = useState({ email: '', city_id: '', company_name: '', image: '' })
     const [error, setError] = useState({ email: '', city_id: '', company_name: '', image: '' })
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -28,7 +29,7 @@ export const Profile = ({ userData }) => {
             setImageUrl(userData.image_url);
             setCityId(userData.city_id);
         }
-    }, [userData]);  
+    }, [userData]);
 
     useQuery(['city_list'], () => getData(API.LIST_CITY), {
         onSettled: (datas) => {
@@ -59,10 +60,10 @@ export const Profile = ({ userData }) => {
         }
     }, [cityId, optionCity]);
 
-    const handleChangeCity = (selectedOption) => { 
+    const handleChangeCity = (selectedOption) => {
         setSelectedCity(selectedOption);
         setForm({ ...form, city_id: selectedOption.value });
-        setError({ ...error, city_id: '' });  
+        setError({ ...error, city_id: '' });
     };
 
     const validationForm = () => {
@@ -95,7 +96,7 @@ export const Profile = ({ userData }) => {
             setForm({ ...form, [name]: value })
             setError({ email: '', city_id: '', company_name: '' })
         }
-    } 
+    }
 
     const { mutate: changeProfile } = useMutation(
         (form) => {
@@ -108,6 +109,7 @@ export const Profile = ({ userData }) => {
         },
         {
             onSettled: (data) => {
+                setIsLoading(false);
                 if (data.status === 'Success') {
                     openAlert({
                         title: t('message_success_update_info', { keyPrefix: 'my_account' }),
@@ -126,17 +128,20 @@ export const Profile = ({ userData }) => {
                     let timeOut = setTimeout(() => {
                         closeAlert({ isConfirm: false, showLoading: false })
                     }, 1000)
-                    return () => clearTimeout(timeOut) 
+                    return () => clearTimeout(timeOut)
                 }
             },
         }
     )
 
     const onSubmit = () => {
+        if (isLoading) return;
+
         const findErrors = validationForm()
         if (Object.values(findErrors).some((err) => err !== '')) {
             setError(findErrors)
         } else {
+            setIsLoading(true);
             changeProfile(form)
         }
         setErrorText('')
@@ -153,7 +158,7 @@ export const Profile = ({ userData }) => {
                 value={form.email}
                 onChange={handleChangeForm}
                 rowed="w-full"
-                error={error.email} 
+                error={error.email}
             />
             <div className="mt-3">
                 <p className='font-bold mb-2'>
@@ -167,7 +172,7 @@ export const Profile = ({ userData }) => {
                     options={optionCity}
                     value={selectedCity}
                     isSearchable
-                    error={error.city_id} 
+                    error={error.city_id}
                 />
             </div>
             <Input
@@ -178,9 +183,9 @@ export const Profile = ({ userData }) => {
                 className='w-full flex flex-col mt-3'
                 inputClass='font-medium !text-neutral-700 text-base'
                 placeholder={t('firm_name_optional', { keyPrefix: 'my_account' })}
-                rowed="w-full" 
+                rowed="w-full"
                 value={form.company_name}
-            />  
+            />
             <InputImage
                 className="mt-5"
                 name='image'
@@ -194,9 +199,8 @@ export const Profile = ({ userData }) => {
                 className={
                     'btn-secondary-hover  mt-8 rounded-full font-medium ml-auto px-6 w-full md:w-fit'
                 }
+                disabled={isLoading}
             />
         </div>
-
-
     )
 }
