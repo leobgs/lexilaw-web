@@ -67,6 +67,40 @@ export const ChatCard = React.memo(
               </div>
             </div>
           </div>
+        ) : item.from === '000000' && item.type === 'error' ? (
+          <div
+            className={`flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 bg-neutral-70 rounded-3xl border-b-4 border-b-error-lighter md:w-3/4 md:mx-4 md:rounded-xl `}
+          >
+            <img
+              src={images.ic_profile_lexi}
+              alt='profile'
+              className={`object-contain ${
+                item.from === 'ai' ? 'h-12 w-12' : ''
+              }`}
+            />
+            <div className='w-full'>
+              <div className='font-futura-bold text-secondary-base text-sm '>
+                {'Lexi'}
+              </div>
+
+              <div className='flex justify-between'>
+                <div className='whitespace-pre-line text-sm text-error-lighter'>
+                  <Markdown>{responseText}</Markdown>
+                </div>
+
+                {item.type !== 'loading' && (
+                  <ChatRespond
+                    item={item}
+                    index={index}
+                    onClickChangeLangStyle={(e) => onClickChangeLangStyle(e)}
+                    isLast={index === length - 1}
+                    onLike={() => onLike(1)}
+                    onDislike={() => onDislike(0)}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
         ) : item.from === '000000' ? (
           <div
             className={`flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 bg-neutral-70 rounded-3xl md:rounded-xl border border-neutral-70`}
