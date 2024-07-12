@@ -4,153 +4,96 @@ import { ChatRespond } from './ChatRespond'
 import Markdown from 'markdown-to-jsx'
 import { useQueryClient } from 'react-query'
 import React, { useEffect, useRef, useState } from 'react'
+import clsx from 'clsx'
 
-export const ChatCard = React.memo(
-  ({
-    item,
-    index,
-    onClickChangeLangStyle,
-    length,
-    onLike = (e) => {},
-    onDislike = (e) => {},
-  }) => {
-    const queryClient = useQueryClient()
-    const cachedData = queryClient.getQueryData('user')
-    const [responseText, setResponseText] = useState('')
+export const ChatCard = ({
+  item,
+  index,
+  onClickChangeLangStyle,
+  length,
+  onLike = (e) => {},
+  onDislike = (e) => {},
+  className,
+}) => {
+  const queryClient = useQueryClient()
+  const cachedData = queryClient.getQueryData('user')
+  const [responseText, setResponseText] = useState('')
 
-    useEffect(() => {
-      const cleanText = item?.message?.replace(/【\d+:\d+†source】/g, '')
-      setResponseText(cleanText)
-    }, [item.message])
+  useEffect(() => {
+    const cleanText = item?.message?.replace(/【\d+:\d+†source】/g, '')
+    setResponseText(cleanText)
+  }, [item.message])
 
-    const boxRef = useRef(null)
-    let angle = useRef(0).current
+  const boxRef = useRef(null)
+  let angle = useRef(0).current
 
-    useEffect(() => {
-      const animate = () => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        angle = (angle + 1) % 360
-        boxRef.current?.style.setProperty('--angle', `${angle}deg`)
-        requestAnimationFrame(animate)
-      }
+  useEffect(() => {
+    const animate = () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      angle = (angle + 1) % 360
+      boxRef.current?.style.setProperty('--angle', `${angle}deg`)
       requestAnimationFrame(animate)
+    }
+    requestAnimationFrame(animate)
 
-      return () => cancelAnimationFrame(animate)
-    }, [angle])
+    return () => cancelAnimationFrame(animate)
+  }, [angle])
 
-    return (
-      <>
-        {item.from === '000000' && item.type === 'loading' ? (
-          <div className='card-animated-chat ml-4 mb-2 pt-1' ref={boxRef}>
-            <div className='bg-white rounded-lg flex gap-2 px-4'>
-              <img
-                src={
-                  item.from === '000000'
-                    ? images.ic_profile_lexi
-                    : images.ic_thumbnail_profile
-                }
-                alt='profile'
-                className={`object-contain ${
-                  item.from === '000000' ? '' : 'h-12 w-12'
-                }`}
-              />
+  return (
+    <>
+      {item.from === '000000' && item.type === 'loading' ? (
+        <div
+          className={clsx('card-animated-chat ml-4 mb-2 pt-1', className)}
+          ref={boxRef}
+        >
+          <div className='bg-white rounded-lg flex gap-2 px-4'>
+            <img
+              src={
+                item.from === '000000'
+                  ? images.ic_profile_lexi
+                  : images.ic_thumbnail_profile
+              }
+              alt='profile'
+              className={`object-contain ${
+                item.from === '000000' ? '' : 'h-12 w-12'
+              }`}
+            />
 
-              <div className=''>
-                <div className='font-futura-bold text-secondary-base text-sm'>
-                  {item.from === '000000' ? 'Lexi' : 'You'}
-                </div>
-                <div className='flex gap-2 mt-2'>
-                  <div className='h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30' />
-                  <div className='h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30' />
-                  <div className='h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30' />
-                </div>
+            <div className=''>
+              <div className='font-futura-bold text-secondary-base text-sm'>
+                {item.from === '000000' ? 'Lexi' : 'You'}
+              </div>
+              <div className='flex gap-2 mt-2'>
+                <div className='h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30' />
+                <div className='h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30' />
+                <div className='h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30' />
               </div>
             </div>
           </div>
-        ) : item.from === '000000' && item.type === 'error' ? (
-          <div
-            className={`flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 bg-neutral-70 rounded-3xl border-b-4 border-b-error-lighter md:w-3/4 md:mx-4 md:rounded-xl `}
-          >
-            <img
-              src={images.ic_profile_lexi}
-              alt='profile'
-              className={`object-contain ${
-                item.from === 'ai' ? 'h-12 w-12' : ''
-              }`}
-            />
-            <div className='w-full'>
-              <div className='font-futura-bold text-secondary-base text-sm '>
-                {'Lexi'}
-              </div>
-
-              <div className='flex justify-between'>
-                <div className='whitespace-pre-line text-sm text-error-lighter'>
-                  <Markdown>{responseText}</Markdown>
-                </div>
-
-                {item.type !== 'loading' && (
-                  <ChatRespond
-                    item={item}
-                    index={index}
-                    onClickChangeLangStyle={(e) => onClickChangeLangStyle(e)}
-                    isLast={index === length - 1}
-                    onLike={() => onLike(1)}
-                    onDislike={() => onDislike(0)}
-                  />
-                )}
-              </div>
+        </div>
+      ) : item.from === '000000' && item.type === 'error' ? (
+        <div
+          className={clsx(
+            `flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 bg-neutral-70 rounded-3xl border-b-4 border-b-error-lighter md:w-3/4 md:mx-4 md:rounded-xl`,
+            className
+          )}
+        >
+          <img
+            src={images.ic_profile_lexi}
+            alt='profile'
+            className={`object-contain ${
+              item.from === 'ai' ? 'h-12 w-12' : ''
+            }`}
+          />
+          <div className='w-full'>
+            <div className='font-futura-bold text-secondary-base text-sm '>
+              {'Lexi'}
             </div>
-          </div>
-        ) : item.from === '000000' ? (
-          <div
-            className={`flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 bg-neutral-70 rounded-3xl md:rounded-xl border border-neutral-70`}
-          >
-            <img
-              src={images.ic_profile_lexi}
-              alt='profile'
-              className={`object-contain ${
-                item.from === 'ai' ? 'h-12 w-12' : ''
-              }`}
-            />
-            <div className='w-full'>
-              <div className='font-futura-bold text-secondary-base text-sm '>
-                {'Lexi'}
-              </div>
 
-              <div className='whitespace-pre-line text-sm'>
+            <div className='flex justify-between'>
+              <div className='whitespace-pre-line text-sm text-error-lighter'>
                 <Markdown>{responseText}</Markdown>
               </div>
-
-              {item.file && (
-                <>
-                  <p className='text-xs mt-2 mb-0.5 text-neutral-40 ml-2 hidden md:inline-block'>
-                    Attached
-                  </p>
-                  <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
-                    {item.content_type === 'IMAGE' ? (
-                      <img
-                        src={item.images}
-                        alt='displayed file'
-                        className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
-                      />
-                    ) : (
-                      <img
-                        src={images.ic_pdf_thumbnail}
-                        alt='displayed pdf'
-                        className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
-                      />
-                    )}
-                    <div className='text-xs'>
-                      <p className='text-sm font-semi-bold text-secondary-base line-clamp-2'>
-                        {item.caption}
-                      </p>
-                      <p className='text-neutral-40'>
-                        {byteConversion(item.file?.size)}
-                      </p>
-                    </div>
-                  </div>
-                </>
-              )}
 
               {item.type !== 'loading' && (
                 <ChatRespond
@@ -164,59 +107,130 @@ export const ChatCard = React.memo(
               )}
             </div>
           </div>
-        ) : (
-          <div className='flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 rounded-3xl md:rounded-x'>
-            <img
-              src={
-                cachedData?.data?.image_url
-                  ? cachedData?.data?.image_url
-                  : images.ic_avatar_placeholder
-              }
-              alt='profile'
-              className={`object-contain rounded-full p-1 h-12 w-12`}
-            />
-
-            <div className='w-full'>
-              <div className='font-futura-bold text-secondary-base text-sm'>
-                {'You'}
-              </div>
-
-              <div className='whitespace-pre-line text-sm'>{item.message}</div>
-
-              {item.file && (
-                <>
-                  <p className='text-xs mt-2 mb-0.5 text-neutral-40 ml-2 hidden md:inline-block'>
-                    Attached
-                  </p>
-                  <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
-                    {item.content_type === 'IMAGE' ? (
-                      <img
-                        src={item.images}
-                        alt='displayed file'
-                        className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
-                      />
-                    ) : (
-                      <img
-                        src={images.ic_pdf_thumbnail}
-                        alt='displayed pdf'
-                        className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
-                      />
-                    )}
-                    <div className='text-xs'>
-                      <p className='text-sm font-semi-bold text-secondary-base line-clamp-2'>
-                        {item.caption}
-                      </p>
-                      <p className='text-neutral-40'>
-                        {byteConversion(item.file?.size)}
-                      </p>
-                    </div>
-                  </div>
-                </>
-              )}
+        </div>
+      ) : item.from === '000000' ? (
+        <div
+          className={clsx(
+            `flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 bg-neutral-70 rounded-3xl md:rounded-xl border border-neutral-70`,
+            className
+          )}
+        >
+          <img
+            src={images.ic_profile_lexi}
+            alt='profile'
+            className={`object-contain ${
+              item.from === 'ai' ? 'h-12 w-12' : ''
+            }`}
+          />
+          <div className='w-full'>
+            <div className='font-futura-bold text-secondary-base text-sm '>
+              {'Lexi'}
             </div>
+
+            <div className='whitespace-pre-line text-sm'>
+              <Markdown>{responseText}</Markdown>
+            </div>
+
+            {item.file && (
+              <>
+                <p className='text-xs mt-2 mb-0.5 text-neutral-40 ml-2 hidden md:inline-block'>
+                  Attached
+                </p>
+                <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
+                  {item.content_type === 'IMAGE' ? (
+                    <img
+                      src={item.images}
+                      alt='displayed file'
+                      className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
+                    />
+                  ) : (
+                    <img
+                      src={images.ic_pdf_thumbnail}
+                      alt='displayed pdf'
+                      className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
+                    />
+                  )}
+                  <div className='text-xs'>
+                    <p className='text-sm font-semi-bold text-secondary-base line-clamp-2'>
+                      {item.caption}
+                    </p>
+                    <p className='text-neutral-40'>
+                      {byteConversion(item.file?.size)}
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {item.type !== 'loading' && (
+              <ChatRespond
+                item={item}
+                index={index}
+                onClickChangeLangStyle={(e) => onClickChangeLangStyle(e)}
+                isLast={index === length - 1}
+                onLike={() => onLike(1)}
+                onDislike={() => onDislike(0)}
+              />
+            )}
           </div>
-        )}
-      </>
-    )
-  }
-)
+        </div>
+      ) : (
+        <div
+          className={clsx(
+            'flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 rounded-3xl md:rounded-x',
+            className
+          )}
+        >
+          <img
+            src={
+              cachedData?.data?.image_url
+                ? cachedData?.data?.image_url
+                : images.ic_avatar_placeholder
+            }
+            alt='profile'
+            className={`object-contain rounded-full p-1 h-12 w-12`}
+          />
+
+          <div className='w-full'>
+            <div className='font-futura-bold text-secondary-base text-sm'>
+              {'You'}
+            </div>
+
+            <div className='whitespace-pre-line text-sm'>{item.message}</div>
+
+            {item.file && (
+              <>
+                <p className='text-xs mt-2 mb-0.5 text-neutral-40 ml-2 hidden md:inline-block'>
+                  Attached
+                </p>
+                <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
+                  {item.content_type === 'IMAGE' ? (
+                    <img
+                      src={item.images}
+                      alt='displayed file'
+                      className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
+                    />
+                  ) : (
+                    <img
+                      src={images.ic_pdf_thumbnail}
+                      alt='displayed pdf'
+                      className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
+                    />
+                  )}
+                  <div className='text-xs'>
+                    <p className='text-sm font-semi-bold text-secondary-base line-clamp-2'>
+                      {item.caption}
+                    </p>
+                    <p className='text-neutral-40'>
+                      {byteConversion(item.file?.size)}
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
