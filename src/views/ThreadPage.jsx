@@ -177,7 +177,10 @@ export const ThreadPage = () => {
               thread_id: data.thread_id,
               message_id: data.message_id,
             })
-          } else if (data.status === 'in_progress') {
+          } else if (
+            data.status === 'in_progress' ||
+            data.status === 'queued'
+          ) {
             setDisableInput(true)
 
             // (data.thread_id, collection?.thread_id) ini nanti harusnya dibuat diluar biar tiap load halaman loading lgsg nampil
@@ -189,14 +192,14 @@ export const ThreadPage = () => {
                 ])
             }
           } else {
-            setDisableInput(true)
+            // setDisableInput(true)
             if (!isLoading) {
               renderedMessage &&
                 setRenderedMessage((prevArray) => [
                   ...prevArray,
                   {
-                    type: 'queued',
-                    message: 'Answer on queued',
+                    type: 'error',
+                    message: 'Failed to get respond please try again',
                     from: '000000',
                   },
                 ])
@@ -205,13 +208,16 @@ export const ThreadPage = () => {
         }
       },
       refetchInterval: (query) => {
-        if (query?.data?.status !== 'in_progress') {
-          return false
-        } else {
+        if (
+          query?.data?.status === 'in_progress' ||
+          query?.data?.status === 'queued'
+        ) {
           return 3000
+        } else {
+          return false
         }
       },
-      onError: (e) => console.log('eh error', e),
+      onError: (e) => notifyError(e),
       enabled: !!threadMessageId.thread_id && !!threadMessageId.message_id,
       staleTime: 0,
     }
