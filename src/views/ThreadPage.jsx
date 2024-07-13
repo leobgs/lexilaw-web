@@ -253,10 +253,8 @@ export const ThreadPage = () => {
         <div className='bg-secondary-base absolute w-1/3 h-1 animate-right transition-transform' />
       </div> */}
 
-      <AutoScrollingDiv
-        shouldScrol={isScrolled}
-        content={
-          renderedMessage?.length !== 0 &&
+      <AutoScrollingDiv shouldScrol={isScrolled}>
+        {renderedMessage?.length !== 0 &&
           renderedMessage?.map((itms, index) => (
             <ChatCard
               key={index}
@@ -269,12 +267,12 @@ export const ThreadPage = () => {
                   document: '',
                 })
               }
+              className='flex-none'
               onLike={(e) => handleReaction(itms.uuid, e)}
               onDislike={(e) => handleReaction(itms.uuid, e)}
             />
-          ))
-        }
-      />
+          ))}
+      </AutoScrollingDiv>
 
       <div>
         <InputChat
