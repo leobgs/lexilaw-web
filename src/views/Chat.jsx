@@ -225,7 +225,6 @@ export const Chat = () => {
   const handleAddChat = (e) => {
     const dataMessage = {
       message: e.message,
-      thread_id: collection.thread_id,
       document: e.file,
     }
     setHeaderText(e?.message)

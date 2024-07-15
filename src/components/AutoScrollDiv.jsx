@@ -8,7 +8,7 @@ export const AutoScrollingDiv = ({ children, shouldScrol }) => {
       if (shouldScrol && divRef.current) {
         divRef.current.scrollTop = divRef.current.scrollHeight
       }
-    }, 10) // Adjust delay if necessary
+    }, 10)
 
     return () => clearTimeout(timer)
   }, [children, shouldScrol])
