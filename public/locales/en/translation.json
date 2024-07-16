@@ -156,7 +156,9 @@
     "delete": "Delete",
     "new_collection": "New Collection",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "create": "Create",
+    "placeholder_create": "Colection Name"
   },
   "booking_lawyer": {
     "pay_button": "Pay",

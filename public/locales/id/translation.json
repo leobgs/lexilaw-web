@@ -156,7 +156,9 @@
     "delete": "Hapus",
     "new_collection": "Koleksi Baru",
     "save": "Simpan",
-    "cancel": "Batal"
+    "cancel": "Batal",
+    "create": "Buat",
+    "placeholder_create": "Nama Koleksi"
   },
   "booking_lawyer": {
     "pay_button": "Bayar",

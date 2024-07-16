@@ -18,7 +18,7 @@ import ic_menu_down from './ic_menu_down.png'
 import ic_folder_colection from './ic_folder_colection.png'
 import ic_folder_colection_active from './ic_folder_colection_active.png'
 import ic_dots from './ic_dots.png'
-import ic_folder_colections from './ic_folder_colections.png'
+import ic_folder_colections from './ic_folder_colections.svg'
 import ic_right_toogle from './ic_right_toogle.png'
 import ic_profile_lexi from './ic_profile_lexi.png'
 import ic_change_style_lang from './ic_change_style_lang.png'
@@ -70,6 +70,7 @@ import ic_search_black from './ic_search_black.png'
 import ic_add_convo2 from './ic_add_convo2.svg'
 import ic_attach_black_sm from './ic_attach_black_sm.svg'
 import ic_active_like from './ic_active_like.svg'
+import ic_new_collection from './ic_new_collection.svg'
 import ic_active_dislike from './ic_active_dislike.svg'
 
 const images = {
@@ -146,6 +147,7 @@ const images = {
   ic_attach_black_sm,
   ic_active_like,
   ic_active_dislike,
+  ic_new_collection,
 }
 
 export default images

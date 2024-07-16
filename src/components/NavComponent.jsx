@@ -8,14 +8,13 @@ import { KOLEKSI_CHAT } from 'utils/dummy'
 import { useGlobalContext } from 'hooks/context'
 import { useMutation, useQueryClient } from 'react-query'
 import { API } from 'config/api'
-import { deleteData, patchData } from 'hooks/useRequest'
+import { deleteData, getData, patchData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 
 export const NavComponent = ({ item, onDeleted }) => {
   const queryClient = useQueryClient()
-
+  const collectionList = queryClient.getQueryData('collection')
   const { collectionClick, collectionDelete, collectionSetEdit, collection } =
     useGlobalContext()
   const [tooltipPlace, setTooltipPlace] = useState('right')
@@ -26,6 +25,8 @@ export const NavComponent = ({ item, onDeleted }) => {
   const [show2nd, setShow2nd] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [text, setText] = useState('')
+  const [showModalCreateCollection, setShowModalCreateCollection] =
+    useState(false)
   const { t } = useTranslation()
 
   const { mutate: updateTitle } = useMutation(
@@ -44,6 +45,20 @@ export const NavComponent = ({ item, onDeleted }) => {
     }
   )
 
+  const { mutate: createCollection } = useMutation(
+    (form) => getData(API.COLLECTION_CREATE, form),
+    {
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          queryClient.invalidateQueries('collection')
+          setShowModalCreateCollection(false)
+        } else {
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
+
   const { mutate: deleteThread } = useMutation(
     (uuid) => deleteData(API.THREAD_DETAIL + uuid),
     {
@@ -53,7 +68,6 @@ export const NavComponent = ({ item, onDeleted }) => {
           collectionSetEdit({ ...item, editState: 'stop' })
           collectionDelete(item)
           onDeleted()
-          console.log(item)
         } else {
           notifyError(data?.message)
         }
@@ -119,11 +133,15 @@ export const NavComponent = ({ item, onDeleted }) => {
       <ReactTooltip
         id={`tool-tips-${item.uuid}`}
         place={tooltipPlace}
-        effect='solid'
         noArrow
+        opacity={1}
         isOpen={show1st}
         openOnClick={true}
-        globalCloseEvents={{ resize: true, clickOutsideAnchor: true }}
+        globalCloseEvents={{
+          resize: true,
+          clickOutsideAnchor: true,
+          scroll: true,
+        }}
         setIsOpen={(e) => {
           setShow1st(e)
         }}
@@ -142,7 +160,7 @@ export const NavComponent = ({ item, onDeleted }) => {
           {t('change_name', { keyPrefix: 'nav_component' })}
         </div>
         <div
-          className='border-b border-neutral-20 -mx-4 px-4 py-1 hidden md:inline-block w-52'
+          className='border-b border-neutral-50 -mx-4 px-4 py-1 hidden md:inline-block w-52'
           onClick={() => {
             setShow1st(false)
             collectionSetEdit({ ...item, editState: 'start' })
@@ -155,7 +173,10 @@ export const NavComponent = ({ item, onDeleted }) => {
 
         <div
           className='flex -mx-4 px-4 py-1 md:w-52 justify-between'
-          onClick={() => setShow2nd(true)}
+          onClick={() => {
+            setShow2nd(true)
+            console.log('click', item.uuid)
+          }}
           data-tooltip-id={`tool-tips2-${item.uuid}`}
         >
           <div>{t('move_to', { keyPrefix: 'nav_component' })}</div>
@@ -172,33 +193,46 @@ export const NavComponent = ({ item, onDeleted }) => {
       <ReactTooltip
         id={`tool-tips2-${item.uuid}`}
         place={tooltipPlace2}
-        effect='solid'
-        noArrow
+        opacity={1}
         isOpen={show2nd}
         openOnClick={true}
-        globalCloseEvents={{ resize: true, clickOutsideAnchor: true }}
+        globalCloseEvents={{
+          resize: true,
+          clickOutsideAnchor: true,
+          scroll: true,
+          escape: true,
+        }}
         setIsOpen={(e) => {
           setShow2nd(e)
         }}
         clickable={true}
         offset={tooltipOffset2}
-        className='shadow-md !bg-white font-semi-bold !w-2/3 !rounded-lg md:mb-0 md:!w-52'
+        className='shadow-md !bg-white font-semi-bold !w-2/3 !rounded-lg md:mb-0 md:!w-52 z-50'
       >
-        {KOLEKSI_CHAT?.map((item, index) => (
+        {collectionList?.data?.length !== 0 &&
+          collectionList?.data?.map((item, index) => (
+            <div
+              key={index}
+              className='flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 border-b border-b-neutral-50 -mx-4 px-4 pb-1'
+            >
+              <img
+                src={images.ic_folder_colections}
+                alt='ic_folder_colection'
+                className='h-3 w-[13.76px]'
+              />
+              <div className='text-[#121212] text-xs'>{item.name}</div>
+            </div>
+          ))}
+        <div className='flex justify-start gap-2 items-center'>
+          <img
+            src={images.ic_new_collection}
+            alt='ic_folder_colection'
+            className='h-3.5 w-4'
+          />
           <div
-            key={index}
-            className='flex justify-start gap-2 items-center text-base text-neutral-40 mb-2'
+            className='text-[#121212] text-xs'
+            onClick={() => setShowModalCreateCollection(true)}
           >
-            <img
-              src={images.ic_folder_colections}
-              alt='ic_folder_colection'
-              className='h-4'
-            />
-            {item.label}
-          </div>
-        ))}
-        <div>
-          <div className='!text-neutral-40 text-base'>
             {t('new_collection', { keyPrefix: 'nav_component' })}
           </div>
         </div>
@@ -231,6 +265,43 @@ export const NavComponent = ({ item, onDeleted }) => {
               } rounded-3xl !h-10`}
               disabled={!text}
               onClick={() => updateTitle(text)}
+            />
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        show={showModalCreateCollection}
+        onHide={() => setShowModalCreateCollection(false)}
+        dialogClassName='w-11/12 md:w-1/2 lg:w-1/3'
+      >
+        <div className='bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full'>
+          <Input
+            name='text'
+            onChange={(e) => setText(e.value)}
+            value={text}
+            className='!w-full text-neutral-40'
+            placeholder={t('placeholder_create', {
+              keyPrefix: 'nav_component',
+            })}
+            inputClass='!py-2 bg-white !w-full !rounded-lg'
+            rowed='w-full'
+          />
+          <div className='self-end flex gap-2 mt-4 mb-6'>
+            <Button
+              label={t('cancel', { keyPrefix: 'nav_component' })}
+              className='text-black-dark !h-10'
+              onClick={() => setShowModalCreateCollection(false)}
+            />
+            <Button
+              label={t('create', { keyPrefix: 'nav_component' })}
+              className={`${
+                text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
+              } rounded-3xl !h-10`}
+              disabled={!text}
+              onClick={() =>
+                createCollection({ name: text, threadId: item.uuid })
+              }
             />
           </div>
         </div>
