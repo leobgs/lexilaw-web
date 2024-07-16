@@ -6,7 +6,7 @@ import { API } from 'config/api'
 import { apiURLQuery } from 'config/app'
 import { useGlobalContext } from 'hooks/context'
 import { getData } from 'hooks/useRequest'
-import { notifyError } from 'hooks/useToas'
+// import { notifyError } from 'hooks/useToas'
 import { useEffect, useRef, useState } from 'react'
 import {
   useInfiniteQuery,
@@ -77,11 +77,19 @@ export const ThreadPage = () => {
             thread_id: data.thread_id,
             message_id: data.message_id,
           })
-          // refetchDetail()
+
           fetchDetail()
         } else {
-          notifyError(datas?.message)
+          // notifyError(datas?.message)
           setDisableInput(false)
+          setRenderedMessage((prevArray) => [
+            ...prevArray,
+            {
+              type: 'error',
+              message: 'Asisten Lexi gagal generate respon',
+              from: '000000',
+            },
+          ])
         }
       },
     }
@@ -188,7 +196,11 @@ export const ThreadPage = () => {
               renderedMessage &&
                 setRenderedMessage((prevArray) => [
                   ...prevArray,
-                  { type: 'loading', from: '000000' },
+                  {
+                    type: 'loading',
+                    from: '000000',
+                    message: 'Asisten Lexi gagal generate respon',
+                  },
                 ])
             }
           } else {
@@ -199,7 +211,7 @@ export const ThreadPage = () => {
                   ...prevArray,
                   {
                     type: 'error',
-                    message: 'Failed to get respond please try again',
+                    message: 'Asisten Lexi gagal generate respon',
                     from: '000000',
                   },
                 ])
@@ -217,7 +229,15 @@ export const ThreadPage = () => {
           return false
         }
       },
-      onError: (e) => notifyError(e),
+      onError: (e) =>
+        setRenderedMessage((prevArray) => [
+          ...prevArray,
+          {
+            type: 'error',
+            message: 'Asisten Lexi gagal generate respon',
+            from: '000000',
+          },
+        ]),
       enabled: !!threadMessageId.thread_id && !!threadMessageId.message_id,
       staleTime: 0,
     }
@@ -225,6 +245,11 @@ export const ThreadPage = () => {
 
   const handleAddChat = (e) => {
     setScrolled(true)
+    setRenderedMessage((prevArray) => [
+      ...prevArray,
+      { from: '', message: e.message },
+    ])
+
     const dataMessage = {
       message: e.message,
       thread_id: state?.thread_id ? state?.thread_id : collection?.thread_id,

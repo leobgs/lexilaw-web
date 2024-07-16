@@ -3,8 +3,9 @@ import { byteConversion } from 'utils/byteConversion'
 import { ChatRespond } from './ChatRespond'
 import Markdown from 'markdown-to-jsx'
 import { useQueryClient } from 'react-query'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
+import { Button } from './Button/Button'
 
 export const ChatCard = ({
   item,
@@ -72,41 +73,41 @@ export const ChatCard = ({
           </div>
         </div>
       ) : item.from === '000000' && item.type === 'error' ? (
-        <div
-          className={clsx(
-            `flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 bg-neutral-70 rounded-3xl border-b-4 border-b-error-lighter md:w-3/4 md:mx-4 md:rounded-xl`,
-            className
-          )}
-        >
-          <img
-            src={images.ic_profile_lexi}
-            alt='profile'
-            className={`object-contain ${
-              item.from === 'ai' ? 'h-12 w-12' : ''
-            }`}
-          />
-          <div className='w-full'>
-            <div className='font-futura-bold text-secondary-base text-sm '>
-              {'Lexi'}
-            </div>
-
-            <div className='flex justify-between'>
-              <div className='whitespace-pre-line text-sm text-error-lighter'>
-                <Markdown>{responseText}</Markdown>
+        <div className='md:w-3/4'>
+          <div
+            className={clsx(
+              `flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 bg-[#FFF5DB] rounded-3xl border border-[#FF9D0B] md:mx-4 md:rounded-xl`,
+              className
+            )}
+          >
+            <img
+              src={images.ic_profile_lexi}
+              alt='profile'
+              className={`object-contain ${
+                item.from === 'ai' ? 'h-12 w-12' : ''
+              }`}
+            />
+            <div className='w-full'>
+              <div className='font-futura-bold text-secondary-base text-sm '>
+                {'Lexi'}
               </div>
 
-              {item.type !== 'loading' && (
-                <ChatRespond
-                  item={item}
-                  index={index}
-                  onClickChangeLangStyle={(e) => onClickChangeLangStyle(e)}
-                  isLast={index === length - 1}
-                  onLike={() => onLike(1)}
-                  onDislike={() => onDislike(0)}
-                />
-              )}
+              <div className='flex justify-between'>
+                <div className='whitespace-pre-line text-sm'>
+                  <Markdown>{responseText}</Markdown>
+                </div>
+              </div>
             </div>
           </div>
+          {item.type !== 'loading' && (
+            <Button
+              className={
+                'btn-secondary-hover w-1/6 mt-6 mb-[1rem] rounded-full font-medium mx-auto'
+              }
+              label='Retry'
+              // onClick={}
+            />
+          )}
         </div>
       ) : item.from === '000000' ? (
         <div
