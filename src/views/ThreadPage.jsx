@@ -87,7 +87,7 @@ export const ThreadPage = () => {
             {
               type: 'error',
               message: 'Asisten Lexi gagal generate respon',
-              from: '000000',
+              from_display: 'SYSTEM',
             },
           ])
         }
@@ -198,7 +198,7 @@ export const ThreadPage = () => {
                   ...prevArray,
                   {
                     type: 'loading',
-                    from: '000000',
+                    from_display: 'SYSTEM',
                     message: 'Asisten Lexi gagal generate respon',
                   },
                 ])
@@ -212,7 +212,7 @@ export const ThreadPage = () => {
                   {
                     type: 'error',
                     message: 'Asisten Lexi gagal generate respon',
-                    from: '000000',
+                    from_display: 'SYSTEM',
                   },
                 ])
             }

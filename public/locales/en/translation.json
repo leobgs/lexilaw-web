@@ -92,7 +92,8 @@
       "collection": "Collection",
       "current": "Current Chat",
       "past_chat": "Past Chat",
-      "search": "Search"
+      "search": "Search",
+      "yes_to_recommendation": "Yes"
     }
   },
   "my_lawyer": {
