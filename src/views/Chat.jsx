@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { LocalStorage } from 'utils'
-import { DEFAULT_QUESTION, KOLEKSI_CHAT, RIWAYAT_OROLAN } from 'utils/dummy'
+import { DEFAULT_QUESTION, RIWAYAT_OROLAN } from 'utils/dummy'
 import { ThreadPage } from './ThreadPage'
 
 export const Chat = () => {
@@ -33,7 +33,7 @@ export const Chat = () => {
   const [isHeader, setIsHeader] = useState(true)
   const [isDisplayImage, setDisplayImage] = useState()
   const [disableInput, setDisableInput] = useState(false)
-  const [dataMessage, setMessage] = useState([])
+  const [dataThreadList, setThreadList] = useState([])
   const [defaultQuestion, setDefaultQuestion] = useState([])
   const [headerText, setHeaderText] = useState('Obrolan Baru')
   const [userDetail, setUserDetail] = useState({
@@ -63,16 +63,43 @@ export const Chat = () => {
   }, [])
 
   useEffect(() => {
+    let texts = ''
     switch (true) {
       case collection.clickColection:
         return onClickColection(collection.uuid)
       default:
         break
     }
+
+    if (collection.uuid) {
+      dataThreadList?.forEach((item) => {
+        if (item.type === 'koleksi') {
+          item.data.forEach((dataItem) => {
+            if (dataItem.childs) {
+              dataItem.childs.forEach((child) => {
+                if (child.uuid === collection.uuid) {
+                  texts = child.title ?? child.message
+                }
+              })
+            }
+          })
+        } else {
+          item.data.forEach((dataItem) => {
+            if (dataItem.title) {
+              if (dataItem.uuid === collection.uuid) {
+                texts = dataItem.title
+              }
+            }
+          })
+        }
+      })
+
+      setHeaderText(texts)
+    }
   }, [collection])
 
   useEffect(() => {
-    dataMessage?.forEach((item) => {
+    dataThreadList?.forEach((item) => {
       item.data?.forEach((itm) => {
         if (!itm.value) {
           if (itm.uuid === uuid) {
@@ -92,7 +119,7 @@ export const Chat = () => {
       })
     })
 
-    setMessage([...dataMessage])
+    setThreadList([...dataThreadList])
   }, [uuid])
 
   useQuery(['suggestion_list'], () => getData(API.SUGGESTION_LIST), {
@@ -144,7 +171,7 @@ export const Chat = () => {
         }
 
         const newMessage = [
-          { type: 'koleksi', data: KOLEKSI_CHAT },
+          { type: 'koleksi', data: [] },
           { type: 'terkini', data: currentData },
           { type: 'riwayat', data: [...previousData, ...RIWAYAT_OROLAN] }, // ...RIWAYAT_OROLAN nanti dihapus kalo udh full api
         ]
@@ -169,7 +196,7 @@ export const Chat = () => {
           })
         })
 
-        setMessage([...newMessage])
+        setThreadList([...newMessage])
         setHeaderText(texts)
 
         if (threadMessageId.thread_id && !uuid) {
@@ -222,6 +249,22 @@ export const Chat = () => {
     },
   })
 
+  useQuery(['collection'], () => getData(API.COLLECTION_LIST), {
+    onSettled: (datas) => {
+      if (datas?.status === 'Success') {
+        const { data } = datas
+        dataThreadList?.forEach((item) => {
+          if (item.type === 'koleksi') {
+            item.data = data
+          }
+        })
+      } else {
+        notifyError(datas?.message)
+      }
+    },
+    enabled: dataThreadList?.length !== 0,
+  })
+
   const handleAddChat = (e) => {
     const dataMessage = {
       message: e.message,
@@ -241,7 +284,7 @@ export const Chat = () => {
     setThreadMessageId({ message_id: '', thread_id: '' })
     let texts = 'Obrolan Baru'
 
-    dataMessage?.forEach((item) => {
+    dataThreadList?.forEach((item) => {
       if (item.type === 'koleksi') {
         item.data.forEach((dataItem) => {
           if (dataItem.childs) {
@@ -268,18 +311,18 @@ export const Chat = () => {
   }
 
   const onEdit = (e) => {
-    dataMessage?.forEach((item) => {
+    dataThreadList?.forEach((item) => {
       item.data?.forEach((itm) => {
         if (itm.isActive) {
           itm.title = e
         }
       })
     })
-    setMessage([...dataMessage])
+    setThreadList([...dataThreadList])
   }
 
   const handleOnExpand = (id) => {
-    dataMessage?.forEach((item) => {
+    dataThreadList?.forEach((item) => {
       if (item.type === 'koleksi') {
         item.data?.forEach((items) => {
           if (items.uuid === id) {
@@ -290,7 +333,7 @@ export const Chat = () => {
         })
       }
     })
-    setMessage([...dataMessage])
+    setThreadList([...dataThreadList])
   }
 
   return (
@@ -313,7 +356,7 @@ export const Chat = () => {
             onClickColection(item.uuid)
             console.log('clicked')
           }}
-          dataLatest={dataMessage}
+          dataLatest={dataThreadList}
           onEdit={(e) => onEdit(e)}
           headerText={headerText}
           userDetail={userDetail}

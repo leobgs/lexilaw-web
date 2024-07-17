@@ -55,4 +55,5 @@ export const colectionState = {
   uuid: null,
   thread_id: null,
   text: '',
+  activeBy: null,
 }

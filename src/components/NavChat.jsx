@@ -20,13 +20,15 @@ export const NavChat = ({
   headerText,
   userDetail,
   onDeleted = () => {},
+  onExpand = () => {},
 }) => {
-  const { collection } = useGlobalContext()
+  const { collection, collectionClick } = useGlobalContext()
   const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [showNav, setShowNav] = useState(false)
   const [showSearchNav, setShowSearchNav] = useState(false)
   const [showSetting, setShowSetting] = useState(false)
+  const [showColetion, setShowColetion] = useState(false)
 
   const storage = new LocalStorage()
   const navigate = useNavigate()
@@ -131,7 +133,7 @@ export const NavChat = ({
           if (item.type === 'koleksi') {
             return (
               <div key={`${index}-k`}>
-                {/* {item.data.length !== 0 && (
+                {item.data.length !== 0 && (
                   <div className='flex justify-between items-end mr-2 my-4'>
                     <div className='text-[#AEB3BF] text-sm'>
                       {t('collection', {
@@ -167,24 +169,36 @@ export const NavChat = ({
                           alt='ic_folder_colection'
                           className='h-7 w-7'
                         />
-                        <div>{items.label}</div>
+                        <div>{items.name}</div>
                       </div>
 
                       {items.isExpand &&
-                        items.childs?.map((itms) => (
+                        items.Threads?.map((itms) => (
                           <div
                             key={itms.uuid}
                             className='border-l-2 border-blue-sky ml-3.5 pl-5 pb-2 text-neutral-40 last:mb-4 text-sm'
                             onClick={() => {
-                              // collectionClick(itms)
+                              collectionClick({
+                                ...itms,
+                                activeBy: 'collection',
+                              })
                               setShowNav(false)
                             }}
                           >
-                            {itms.message}
+                            <div
+                              className={` ${
+                                itms.uuid === collection.uuid &&
+                                collection.activeBy === 'collection'
+                                  ? 'bg-blue-dark text-white shadow p-2 rounded-lg'
+                                  : ''
+                              }`}
+                            >
+                              {itms.name}
+                            </div>
                           </div>
                         ))}
                     </div>
-                  ))} */}
+                  ))}
               </div>
             )
           } else if (item.type === 'terkini') {
@@ -287,7 +301,7 @@ export const NavChat = ({
                 if (item.type === 'koleksi') {
                   return (
                     <div key={index}>
-                      {/* {item.data.length !== 0 && (
+                      {item.data.length !== 0 && (
                         <div className='flex justify-between items-end mr-2 my-4'>
                           <div className='text-neutral-40'>Koleksi</div>
                           <img
@@ -317,23 +331,32 @@ export const NavChat = ({
                               alt='ic_folder_colection'
                               className='h-7 w-7'
                             />
-                            <div>{items.label}</div>
+                            <div>{items.name}</div>
                           </div>
 
                           {items.isExpand &&
-                            items.childs?.map((itms) => (
+                            items.Threads?.map((itms) => (
                               <div
                                 key={itms.uuid}
-                                className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4 text-sm'
+                                className={`border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4 text-sm ${
+                                  itms.uuid === collection.uuid &&
+                                  collection.activeBy === 'collection'
+                                    ? 'bg-blue-dark text-white shadow px-2'
+                                    : ''
+                                }`}
                                 onClick={() => {
+                                  collectionClick({
+                                    ...itms,
+                                    activeBy: 'collection',
+                                  })
                                   setShowNav(false)
                                 }}
                               >
-                                {itms.message}
+                                {itms.name}
                               </div>
                             ))}
                         </div>
-                      ))} */}
+                      ))}
                     </div>
                   )
                 } else if (item.type === 'terkini') {

@@ -42,7 +42,7 @@ export const ChatCard = ({
 
   return (
     <>
-      {item.from === '000000' && item.type === 'loading' ? (
+      {item.from_display === 'SYSTEM' && item.type === 'loading' ? (
         <div
           className={clsx('card-animated-chat ml-4 mb-2 pt-1', className)}
           ref={boxRef}
@@ -50,19 +50,19 @@ export const ChatCard = ({
           <div className='bg-white rounded-lg flex gap-2 px-4'>
             <img
               src={
-                item.from === '000000'
+                item.from_display === 'SYSTEM'
                   ? images.ic_profile_lexi
                   : images.ic_thumbnail_profile
               }
               alt='profile'
               className={`object-contain ${
-                item.from === '000000' ? '' : 'h-12 w-12'
+                item.from_display === 'SYSTEM' ? '' : 'h-12 w-12'
               }`}
             />
 
             <div className=''>
               <div className='font-futura-bold text-secondary-base text-sm'>
-                {item.from === '000000' ? 'Lexi' : 'You'}
+                {item.from_display === 'SYSTEM' ? 'Lexi' : 'You'}
               </div>
               <div className='flex gap-2 mt-2'>
                 <div className='h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30' />
@@ -72,7 +72,7 @@ export const ChatCard = ({
             </div>
           </div>
         </div>
-      ) : item.from === '000000' && item.type === 'error' ? (
+      ) : item.from_display === 'SYSTEM' && item.type === 'error' ? (
         <div className='md:w-3/4'>
           <div
             className={clsx(
@@ -84,7 +84,7 @@ export const ChatCard = ({
               src={images.ic_profile_lexi}
               alt='profile'
               className={`object-contain ${
-                item.from === 'ai' ? 'h-12 w-12' : ''
+                item.from_display === 'SYSTEM' ? 'h-12 w-12' : ''
               }`}
             />
             <div className='w-full'>
@@ -109,7 +109,7 @@ export const ChatCard = ({
             />
           )}
         </div>
-      ) : item.from === '000000' ? (
+      ) : item.from_display === 'SYSTEM' ? (
         <div
           className={clsx(
             `flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 bg-neutral-70 rounded-3xl md:rounded-xl border border-neutral-70`,
@@ -120,7 +120,7 @@ export const ChatCard = ({
             src={images.ic_profile_lexi}
             alt='profile'
             className={`object-contain ${
-              item.from === 'ai' ? 'h-12 w-12' : ''
+              item.from_display === 'SYSTEM' ? 'h-12 w-12' : ''
             }`}
           />
           <div className='w-full'>
