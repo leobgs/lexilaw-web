@@ -63,11 +63,38 @@ export const Chat = () => {
   }, [])
 
   useEffect(() => {
+    let texts = ''
     switch (true) {
       case collection.clickColection:
         return onClickColection(collection.uuid)
       default:
         break
+    }
+
+    if (collection.uuid) {
+      dataThreadList?.forEach((item) => {
+        if (item.type === 'koleksi') {
+          item.data.forEach((dataItem) => {
+            if (dataItem.childs) {
+              dataItem.childs.forEach((child) => {
+                if (child.uuid === collection.uuid) {
+                  texts = child.title ?? child.message
+                }
+              })
+            }
+          })
+        } else {
+          item.data.forEach((dataItem) => {
+            if (dataItem.title) {
+              if (dataItem.uuid === collection.uuid) {
+                texts = dataItem.title
+              }
+            }
+          })
+        }
+      })
+
+      setHeaderText(texts)
     }
   }, [collection])
 
@@ -308,8 +335,6 @@ export const Chat = () => {
     })
     setThreadList([...dataThreadList])
   }
-
-  console.log(dataThreadList)
 
   return (
     <div className='bg-primary-base w-full h-screen flex flex-col'>

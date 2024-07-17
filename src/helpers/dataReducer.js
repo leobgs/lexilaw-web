@@ -48,6 +48,7 @@ export const colectionReducer = (state, action) => {
   switch (action.type) {
     case colectionType.CLICK:
       return {
+        activeBy: action.activeBy,
         editColection: false,
         clickColection: true,
         deleteColection: false,
@@ -58,6 +59,7 @@ export const colectionReducer = (state, action) => {
 
     case colectionType.SET:
       return {
+        ...state,
         editColection: false,
         clickColection: false,
         deleteColection: false,
@@ -68,6 +70,7 @@ export const colectionReducer = (state, action) => {
 
     case colectionType.EDIT:
       return {
+        ...state,
         editColection: true,
         clickColection: false,
         deleteColection: false,
@@ -78,6 +81,7 @@ export const colectionReducer = (state, action) => {
 
     case colectionType.DELETE:
       return {
+        activeBy: null,
         editColection: false,
         clickColection: false,
         deleteColection: true,
@@ -106,6 +110,7 @@ export const colectionReducer = (state, action) => {
         uuid: null,
         thread_id: null,
         text: '',
+        activeBy: null,
       }
 
     default:

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { Modal } from './Modal'
 import { Input } from './Input'
 import { Button } from './Button/Button'
-import { KOLEKSI_CHAT } from 'utils/dummy'
 import { useGlobalContext } from 'hooks/context'
 import { useMutation, useQueryClient } from 'react-query'
 import { API } from 'config/api'
@@ -106,18 +105,26 @@ export const NavComponent = ({ item, onDeleted }) => {
   return (
     <div
       className={`h-9 rounded-lg flex justify-between items-center text-sm 
-      ${item.isActive ? 'bg-blue-dark text-white shadow px-2' : ''}`}
+      ${
+        item.isActive
+          ? collection.activeBy === 'thread' ||
+            (collection.uuid && !collection.activeBy)
+            ? 'bg-blue-dark text-white shadow px-2'
+            : 'border-blue-dark border px-2'
+          : ''
+      }`}
     >
       <>
         <div
           className='line-clamp-1 w-full'
           onClick={() => {
-            collectionClick(item)
+            collectionClick({ ...item, activeBy: 'thread' })
           }}
         >
           {item.title}
         </div>
-        {item.isActive && (
+        {((item.isActive && collection.activeBy === 'thread') ||
+          (collection.uuid && !collection.activeBy)) && (
           <div className=''>
             <img
               src={images.ic_dots}

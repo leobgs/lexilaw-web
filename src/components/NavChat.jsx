@@ -22,7 +22,7 @@ export const NavChat = ({
   onDeleted = () => {},
   onExpand = () => {},
 }) => {
-  const { collection } = useGlobalContext()
+  const { collection, collectionClick } = useGlobalContext()
   const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [showNav, setShowNav] = useState(false)
@@ -178,11 +178,23 @@ export const NavChat = ({
                             key={itms.uuid}
                             className='border-l-2 border-blue-sky ml-3.5 pl-5 pb-2 text-neutral-40 last:mb-4 text-sm'
                             onClick={() => {
-                              // collectionClick(itms)
+                              collectionClick({
+                                ...itms,
+                                activeBy: 'collection',
+                              })
                               setShowNav(false)
                             }}
                           >
-                            {itms.name}
+                            <div
+                              className={` ${
+                                itms.uuid === collection.uuid &&
+                                collection.activeBy === 'collection'
+                                  ? 'bg-blue-dark text-white shadow p-2 rounded-lg'
+                                  : ''
+                              }`}
+                            >
+                              {itms.name}
+                            </div>
                           </div>
                         ))}
                     </div>
@@ -326,8 +338,17 @@ export const NavChat = ({
                             items.Threads?.map((itms) => (
                               <div
                                 key={itms.uuid}
-                                className='border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4 text-sm'
+                                className={`border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4 text-sm ${
+                                  itms.uuid === collection.uuid &&
+                                  collection.activeBy === 'collection'
+                                    ? 'bg-blue-dark text-white shadow px-2'
+                                    : ''
+                                }`}
                                 onClick={() => {
+                                  collectionClick({
+                                    ...itms,
+                                    activeBy: 'collection',
+                                  })
                                   setShowNav(false)
                                 }}
                               >
