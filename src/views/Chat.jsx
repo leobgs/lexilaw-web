@@ -74,7 +74,7 @@ export const Chat = () => {
     if (collection.uuid) {
       dataThreadList?.forEach((item) => {
         if (item.type === 'koleksi') {
-          item.data.forEach((dataItem) => {
+          item.data?.forEach((dataItem) => {
             if (dataItem.childs) {
               dataItem.childs.forEach((child) => {
                 if (child.uuid === collection.uuid) {
@@ -84,7 +84,7 @@ export const Chat = () => {
             }
           })
         } else {
-          item.data.forEach((dataItem) => {
+          item.data?.forEach((dataItem) => {
             if (dataItem.title) {
               if (dataItem.uuid === collection.uuid) {
                 texts = dataItem.title
@@ -170,8 +170,18 @@ export const Chat = () => {
           bookingLawyerReducer(['thread_uuid'], null)
         }
 
+        const isThereAnyCollection = dataThreadList?.find(
+          (item) => item.type === 'koleksi'
+        )
+
         const newMessage = [
-          { type: 'koleksi', data: [] },
+          {
+            type: 'koleksi',
+            data:
+              isThereAnyCollection?.data?.length !== 0
+                ? isThereAnyCollection?.data
+                : [],
+          },
           { type: 'terkini', data: currentData },
           { type: 'riwayat', data: [...previousData, ...RIWAYAT_OROLAN] }, // ...RIWAYAT_OROLAN nanti dihapus kalo udh full api
         ]
@@ -286,7 +296,7 @@ export const Chat = () => {
 
     dataThreadList?.forEach((item) => {
       if (item.type === 'koleksi') {
-        item.data.forEach((dataItem) => {
+        item.data?.forEach((dataItem) => {
           if (dataItem.childs) {
             dataItem.childs.forEach((child) => {
               if (child.uuid === id) {
@@ -296,7 +306,7 @@ export const Chat = () => {
           }
         })
       } else {
-        item.data.forEach((dataItem) => {
+        item.data?.forEach((dataItem) => {
           if (dataItem.title) {
             if (dataItem.uuid === id) {
               texts = dataItem.title

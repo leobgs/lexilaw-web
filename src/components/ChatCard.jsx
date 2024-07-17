@@ -6,6 +6,7 @@ import { useQueryClient } from 'react-query'
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import { Button } from './Button/Button'
+import { useTranslation } from 'react-i18next'
 
 export const ChatCard = ({
   item,
@@ -19,9 +20,12 @@ export const ChatCard = ({
   const queryClient = useQueryClient()
   const cachedData = queryClient.getQueryData('user')
   const [responseText, setResponseText] = useState('')
+  const { t } = useTranslation()
 
   useEffect(() => {
-    const cleanText = item?.message?.replace(/【\d+:\d+†source】/g, '')
+    let cleanText = item?.message?.replace(/【\d+:\d+†source】/g, '')
+    cleanText = cleanText.replace(/consult\s*=\s*true/g, '<ConsultButton />')
+
     setResponseText(cleanText)
   }, [item.message])
 
@@ -39,6 +43,23 @@ export const ChatCard = ({
 
     return () => cancelAnimationFrame(animate)
   }, [angle])
+
+  const ConsultButton = () => (
+    <div
+      className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center md:w-fit cursor-pointer mt-2'
+      onClick={() =>
+        onClickChangeLangStyle(
+          t('yes_to_recommendation', {
+            keyPrefix: 'chat.chat_text',
+          })
+        )
+      }
+    >
+      {t('yes_to_recommendation', {
+        keyPrefix: 'chat.chat_text',
+      })}
+    </div>
+  )
 
   return (
     <>
@@ -94,11 +115,22 @@ export const ChatCard = ({
 
               <div className='flex justify-between'>
                 <div className='whitespace-pre-line text-sm'>
-                  <Markdown>{responseText}</Markdown>
+                  <Markdown
+                    options={{
+                      overrides: {
+                        ConsultButton: {
+                          component: ConsultButton,
+                        },
+                      },
+                    }}
+                  >
+                    {responseText}
+                  </Markdown>
                 </div>
               </div>
             </div>
           </div>
+
           {item.type !== 'loading' && (
             <Button
               className={
@@ -129,7 +161,17 @@ export const ChatCard = ({
             </div>
 
             <div className='whitespace-pre-line text-sm'>
-              <Markdown>{responseText}</Markdown>
+              <Markdown
+                options={{
+                  overrides: {
+                    ConsultButton: {
+                      component: ConsultButton,
+                    },
+                  },
+                }}
+              >
+                {responseText}
+              </Markdown>
             </div>
 
             {item.file && (

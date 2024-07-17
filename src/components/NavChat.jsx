@@ -133,7 +133,7 @@ export const NavChat = ({
           if (item.type === 'koleksi') {
             return (
               <div key={`${index}-k`}>
-                {item.data.length !== 0 && (
+                {item.data?.length !== 0 && (
                   <div className='flex justify-between items-end mr-2 my-4'>
                     <div className='text-[#AEB3BF] text-sm'>
                       {t('collection', {
@@ -205,9 +205,9 @@ export const NavChat = ({
             return (
               <div
                 key={`${index}-t`}
-                className={`${item.data.length !== 0 ? 'my-4' : ''}`}
+                className={`${item.data?.length !== 0 ? 'my-4' : ''}`}
               >
-                {item.data.length !== 0 && (
+                {item.data?.length !== 0 && (
                   <div className='text-[#AEB3BF] mt-4 text-sm'>
                     {t('current', {
                       keyPrefix: 'chat.chat_text',
@@ -215,7 +215,7 @@ export const NavChat = ({
                   </div>
                 )}
 
-                {item.data.length !== 0 &&
+                {item.data?.length !== 0 &&
                   item.data?.map((itms) => (
                     <NavComponent
                       item={itms}
@@ -228,7 +228,7 @@ export const NavChat = ({
           } else if (item.type === 'riwayat') {
             return (
               <div key={`${index}-r`}>
-                {item.data.length !== 0 && (
+                {item.data?.length !== 0 && (
                   <div className='text-[#AEB3BF] mt-4 text-sm'>
                     {t('past_chat', {
                       keyPrefix: 'chat.chat_text',
@@ -236,7 +236,7 @@ export const NavChat = ({
                   </div>
                 )}
 
-                {item.data.length !== 0 &&
+                {item.data?.length !== 0 &&
                   item.data?.map((items) => (
                     <NavComponent
                       item={items}
@@ -301,7 +301,7 @@ export const NavChat = ({
                 if (item.type === 'koleksi') {
                   return (
                     <div key={index}>
-                      {item.data.length !== 0 && (
+                      {item.data?.length !== 0 && (
                         <div className='flex justify-between items-end mr-2 my-4'>
                           <div className='text-neutral-40'>Koleksi</div>
                           <img
@@ -363,13 +363,13 @@ export const NavChat = ({
                   return (
                     <div
                       key={index}
-                      className={`${item.data.length !== 0 ? 'my-4' : ''}`}
+                      className={`${item.data?.length !== 0 ? 'my-4' : ''}`}
                     >
-                      {item.data.length !== 0 && (
+                      {item.data?.length !== 0 && (
                         <div className='text-neutral-40 mt-4'>Terkini</div>
                       )}
 
-                      {item.data.length !== 0 &&
+                      {item.data?.length !== 0 &&
                         item.data?.map((itms) => (
                           <NavComponent
                             item={itms}
@@ -383,13 +383,13 @@ export const NavChat = ({
                 } else if (item.type === 'riwayat') {
                   return (
                     <div key={index}>
-                      {item.data.length !== 0 && (
+                      {item.data?.length !== 0 && (
                         <div className='text-neutral-40 mt-4'>
                           Obrolan Lampau
                         </div>
                       )}
 
-                      {item.data.length !== 0 &&
+                      {item.data?.length !== 0 &&
                         item.data?.map((items) => (
                           <NavComponent
                             item={items}
