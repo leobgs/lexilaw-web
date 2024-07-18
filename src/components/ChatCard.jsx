@@ -29,9 +29,27 @@ export const ChatCard = ({
   const [dataLawyer, setDataLawyer] = useState([])
   const [isJsonAvailable, setJsonAvailable] = useState(false)
   const navigate = useNavigate()
+  const [fileCategory, setFileCategory] = useState('')
 
   const boxRef = useRef(null)
   let angle = useRef(0).current
+
+  useEffect(() => {
+    if (item.filename) {
+      const extension = item.filename.split('.').pop().toLowerCase()
+
+      const imageExtensions = ['png', 'jpeg', 'jpg']
+      const documentExtensions = ['pdf', 'xls', 'doc']
+
+      if (imageExtensions.includes(extension)) {
+        setFileCategory('IMAGE')
+      } else if (documentExtensions.includes(extension)) {
+        setFileCategory('DOKUMEN')
+      } else {
+        setFileCategory('UNKNOWN')
+      }
+    }
+  }, [item.filename])
 
   useEffect(() => {
     let cleanText = item?.message?.replace(/【[^】]+】/g, '')
@@ -183,7 +201,16 @@ export const ChatCard = ({
 
             <div className=''>
               <div className='font-futura-bold text-secondary-base text-sm'>
-                {item.from_display === 'SYSTEM' ? 'Lexi' : 'You'}
+                {item.from_display === 'SYSTEM' ? (
+                  <div className='flex items-center gap-0.5'>
+                    <p>{'Lexi'}</p>
+                    <p className='bg-secondary-base rounded-md text-white px-1 text-xs'>
+                      AI
+                    </p>
+                  </div>
+                ) : (
+                  'You'
+                )}
               </div>
               <div className='flex gap-2 mt-2'>
                 <div className='h-2 w-2 animate-pulse bg-black-lightest bg-opacity-30' />
@@ -210,7 +237,12 @@ export const ChatCard = ({
             />
             <div className='w-full'>
               <div className='font-futura-bold text-secondary-base text-sm '>
-                {'Lexi'}
+                <div className='flex items-center gap-0.5'>
+                  <p>{'Lexi'}</p>
+                  <p className='bg-secondary-base rounded-md text-white px-1 text-xs'>
+                    AI
+                  </p>
+                </div>
               </div>
 
               <div className='flex justify-between'>
@@ -265,7 +297,12 @@ export const ChatCard = ({
           />
           <div className='w-full'>
             <div className='font-futura-bold text-secondary-base text-sm '>
-              {'Lexi'}
+              <div className='flex items-center gap-0.5'>
+                <p>{'Lexi'}</p>
+                <p className='bg-secondary-base rounded-md text-white px-1 text-xs'>
+                  AI
+                </p>
+              </div>
             </div>
 
             <div className='whitespace-pre-line text-sm'>
@@ -290,15 +327,15 @@ export const ChatCard = ({
               </Markdown>
             </div>
 
-            {item.file && (
+            {item.url_file && (
               <>
-                <p className='text-xs mt-2 mb-0.5 text-neutral-40 ml-2 hidden md:inline-block'>
+                <p className='text-xs mt-2 mb-0.5 text-neutral-40 hidden md:inline-block'>
                   Attached
                 </p>
                 <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
-                  {item.content_type === 'IMAGE' ? (
+                  {fileCategory === 'IMAGE' ? (
                     <img
-                      src={item.images}
+                      src={item.url_file}
                       alt='displayed file'
                       className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
                     />
@@ -309,13 +346,14 @@ export const ChatCard = ({
                       className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
                     />
                   )}
+
                   <div className='text-xs'>
-                    <p className='text-sm font-semi-bold text-secondary-base line-clamp-2'>
+                    <p className='text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%]'>
                       {item.caption}
                     </p>
-                    <p className='text-neutral-40'>
+                    {/* <p className='text-neutral-40'>
                       {byteConversion(item.file?.size)}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </>
@@ -334,59 +372,61 @@ export const ChatCard = ({
           </div>
         </div>
       ) : (
-        <div
-          className={clsx(
-            'flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 rounded-3xl md:rounded-x',
-            className
-          )}
-        >
-          <img
-            src={
-              cachedData?.data?.image_url
-                ? cachedData?.data?.image_url
-                : images.ic_avatar_placeholder
-            }
-            alt='profile'
-            className={`object-contain rounded-full p-1 h-12 w-12`}
-          />
-
-          <div className='w-full'>
-            <div className='font-futura-bold text-secondary-base text-sm'>
-              {'You'}
-            </div>
-
-            <div className='whitespace-pre-line text-sm'>{item.message}</div>
-
-            {item.file && (
-              <>
-                <p className='text-xs mt-2 mb-0.5 text-neutral-40 ml-2 hidden md:inline-block'>
-                  Attached
-                </p>
-                <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
-                  {item.content_type === 'IMAGE' ? (
-                    <img
-                      src={item.images}
-                      alt='displayed file'
-                      className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
-                    />
-                  ) : (
-                    <img
-                      src={images.ic_pdf_thumbnail}
-                      alt='displayed pdf'
-                      className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
-                    />
-                  )}
-                  <div className='text-xs'>
-                    <p className='text-sm font-semi-bold text-secondary-base line-clamp-2'>
-                      {item.caption}
-                    </p>
-                    <p className='text-neutral-40'>
-                      {byteConversion(item.file?.size)}
-                    </p>
-                  </div>
-                </div>
-              </>
+        <div>
+          <div
+            className={clsx(
+              'flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 rounded-3xl md:rounded-x',
+              className
             )}
+          >
+            <img
+              src={
+                cachedData?.data?.image_url
+                  ? cachedData?.data?.image_url
+                  : images.ic_avatar_placeholder
+              }
+              alt='profile'
+              className={`object-contain rounded-full p-1 h-12 w-12`}
+            />
+
+            <div className='w-full'>
+              <div className='font-futura-bold text-secondary-base text-sm'>
+                {'You'}
+              </div>
+
+              <div className='whitespace-pre-line text-sm'>{item.message}</div>
+
+              {item.url_file && (
+                <>
+                  <p className='text-xs mt-2 mb-0.5 text-neutral-40 hidden md:inline-block'>
+                    Attached
+                  </p>
+                  <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
+                    {fileCategory === 'IMAGE' ? (
+                      <img
+                        src={item.url_file}
+                        alt='displayed file'
+                        className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
+                      />
+                    ) : (
+                      <img
+                        src={images.ic_pdf_thumbnail}
+                        alt='displayed pdf'
+                        className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
+                      />
+                    )}
+                    <div className='text-xs'>
+                      <p className='text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%]'>
+                        {item.filename}
+                      </p>
+                      {/* <p className='text-neutral-40'>
+                        {byteConversion(item.file?.size)}
+                      </p> */}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}

@@ -5,7 +5,7 @@ import { byteConversion } from 'utils/byteConversion'
 import { useTranslation } from 'react-i18next'
 import AutoResizeTextarea from './AutoResizeTextArea'
 
-export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
+export const InputChat = ({ onChange, className, disable }) => {
   const [displayImage, setDisplayImage] = useState()
   const [form, setForm] = useState({
     message: '',
@@ -16,22 +16,15 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
   const [inputValue, setInputValue] = useState('')
 
   useEffect(() => {
-    onDisplayImage(displayImage)
-  }, [displayImage])
+    setDisplayImage(null)
+  }, [disable])
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value)
   }
 
-  const handleSubmit = (e) => {
-    if (e.key === 'Enter') {
-      onChange({ ...form, message: e.target.value })
-      setInputValue('')
-    }
-  }
-
   const handleSubmitButton = (e) => {
-    onChange({ ...form, message: e?.replace(/\n/g, ' ').trim() })
+    onChange({ ...form, message: e?.replace(/\n+$/, '').trim() })
     setInputValue('')
   }
 
@@ -84,8 +77,8 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
                   className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
                 />
               )}
-              <div className='text-xs'>
-                <p className='text-sm font-semi-bold text-secondary-base line-clamp-2'>
+              <div className='text-xs w-full'>
+                <p className='text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%]'>
                   {form.caption}
                 </p>
                 <p className='text-neutral-40'>
@@ -132,7 +125,7 @@ export const InputChat = ({ onChange, className, onDisplayImage, disable }) => {
             value={inputValue}
             onChange={(e) => {
               handleInputChange(e)
-              handleSubmit(e)
+              // handleSubmit(e)
             }}
             onSubmit={handleSubmitButton}
             disable={disable}
