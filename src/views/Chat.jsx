@@ -434,6 +434,7 @@ export const Chat = () => {
     setThreadList([...dataThreadList])
   }
 
+  console.log(dataThreadList, isHeader)
   return (
     <div className='bg-primary-base w-full h-screen flex flex-col'>
       <div className='md:px-4 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
@@ -451,9 +452,6 @@ export const Chat = () => {
             onResetThread()
             setHeaderText('Obrolan Baru')
             navigate('/')
-          }}
-          onClickNav={(item) => {
-            onClickColection(item.uuid)
           }}
           dataLatest={dataThreadList}
           onEdit={(e) => onEdit(e)}

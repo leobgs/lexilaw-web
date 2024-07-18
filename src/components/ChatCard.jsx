@@ -35,7 +35,7 @@ export const ChatCard = ({
 
   useEffect(() => {
     let cleanText = item?.message?.replace(/【[^】]+】/g, '')
-    cleanText = cleanText?.replace(/consult\s*=\s*true/g, '<ConsultButton />')
+    cleanText = cleanText?.replace(/consult\s*=\s*true/gi, '<ConsultButton />')
 
     const possibleJson = item.message
       .substring(item.message.lastIndexOf('\n') + 1)

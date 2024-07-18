@@ -51,6 +51,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
       onSettled: (data) => {
         if (data.status === 'Success') {
           queryClient.invalidateQueries('collection')
+          queryClient.invalidateQueries('newest_thread')
           setShowModalCreateCollection(false)
         } else {
           notifyError(data?.message)
@@ -60,11 +61,28 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
   )
 
   const { mutate: deleteThread } = useMutation(
-    (uuid) => deleteData(API.THREAD_DETAIL + uuid),
+    (uuid) => deleteData(API.THREAD_LIST_DELETE + uuid),
     {
       onSettled: (data) => {
         if (data.status === 'Success') {
           queryClient.invalidateQueries('newest_thread')
+          queryClient.invalidateQueries('collection')
+          collectionSetEdit({ ...item, editState: 'stop' })
+          collectionDelete(item)
+          onDeleted()
+        } else {
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
+
+  const { mutate: deleteThreadCollection } = useMutation(
+    (uuid) => deleteData(API.COLLECTION_DELETE_THREAD + uuid),
+    {
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          queryClient.invalidateQueries('collection')
           collectionSetEdit({ ...item, editState: 'stop' })
           collectionDelete(item)
           onDeleted()
@@ -112,7 +130,9 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
   }
 
   const onDeleteClick = () => {
-    deleteThread(item.uuid)
+    collection.activeBy === 'thread'
+      ? deleteThread(item.uuid)
+      : deleteThreadCollection(item.uuid)
     setShow1st(false)
   }
 
@@ -131,7 +151,9 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
         <div
           className='line-clamp-1 w-full'
           onClick={() => {
-            collectionClick({ ...item, activeBy: 'thread' })
+            item.isActive
+              ? void 0
+              : collectionClick({ ...item, activeBy: 'thread' })
           }}
         >
           {item.title}

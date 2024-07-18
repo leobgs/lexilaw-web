@@ -17,6 +17,7 @@ export const API = {
   THREAD_LIST: '/api/app/v1.0.0/chat/threads',
   THREAD_DETAIL: '/api/app/v1.0.0/chat/threads/',
   THREAD_EDIT: '/api/app/v1.0.0/threads/',
+  THREAD_LIST_DELETE: '/api/app/v1.0.0/thread/',
 
   MESSAGE_SEND: '/api/app/v1.0.0/chat/conversation',
   MESSAGE_RESPONSE: '/api/app/v1.0.0/chat/conversation/',
@@ -43,6 +44,7 @@ export const API = {
   COLLECTION_CREATE: '/api/app/v1.0.0/collection',
   COLLECTION_CREATE_ASSIGN: '/api/app/v1.0.0/collection/thread',
   COLLECTION_DELETE: '/api/app/v1.0.0/collection/',
+  COLLECTION_DELETE_THREAD: '/api/app/v1.0.0/collection/thread/',
   COLLECTION_CHANGE_NAME: '/api/app/v1.0.0/collection/',
 
   //SCHEDULE - CALENDY

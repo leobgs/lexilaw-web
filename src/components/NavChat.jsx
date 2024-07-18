@@ -22,7 +22,6 @@ export const NavChat = ({
   userDetail,
   onDeleted = () => {},
   onExpand = () => {},
-  onDeleteCollection = () => {},
 }) => {
   const queryClient = useQueryClient()
   const { collection, collectionClick } = useGlobalContext()
@@ -49,7 +48,7 @@ export const NavChat = ({
   })
 
   const { mutate: deleteCollection } = useMutation(
-    (uuid) => deleteData(API.COLLECTION_DELETE + uuid),
+    (uuid) => deleteData(`${API.COLLECTION_DELETE}${uuid}`),
     {
       onSettled: (data) => {
         if (data.status === 'Success') {
@@ -174,7 +173,6 @@ export const NavChat = ({
                         items={items}
                         onDeleteCollection={() => deleteCollection(items.uuid)}
                         onExpand={() => onExpand(items.uuid)}
-                        onEdit={(e) => console.log(e)}
                       />
                       {/* <div
                         className={`flex justify-between gap-2 items-center text-sm text-neutral-40 mb-2 pr-2 py-1 ${
@@ -334,7 +332,9 @@ export const NavChat = ({
                         <div key={items.uuid}>
                           <NavCollection
                             items={items}
-                            onDeleteCollection={() => console.log(items.uuid)}
+                            onDeleteCollection={() =>
+                              deleteCollection(items.uuid)
+                            }
                             onExpand={() => onExpand(items.uuid)}
                           />
 
