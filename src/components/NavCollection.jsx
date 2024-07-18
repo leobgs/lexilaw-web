@@ -67,7 +67,7 @@ export const NavCollection = ({
       }`}
     >
       <div
-        className='justify-start flex items-center gap-2 w-11/12'
+        className='justify-start flex items-center gap-2 w-10/12'
         onClick={() => onExpand(items.uuid)}
       >
         <img
@@ -83,13 +83,17 @@ export const NavCollection = ({
       </div>
 
       {items.isExpand && (
-        <img
-          src={images.ic_dots_white}
-          alt='dots_white'
-          className='h-3.5 w-3.5'
-          data-tooltip-id={`tool-tips-${items.uuid}`}
+        <div
+          className='flex justify-end w-2/12'
           onClick={() => setShow1st(true)}
-        />
+        >
+          <img
+            src={images.ic_dots_white}
+            alt='dots_white'
+            className='h-3.5 w-3.5'
+            data-tooltip-id={`tool-tips-${items.uuid}`}
+          />
+        </div>
       )}
 
       <ReactTooltip
