@@ -145,7 +145,8 @@
   "chat_respond": {
     "place_an_order": "Lakukan Pemesanan",
     "another_option": "Opsi lain",
-    "set_yourself": "Atur Sendiri"
+    "set_yourself": "Atur Sendiri",
+    "attached": "Lampiran"
   },
   "input_chat": {
     "ask_lexi": "Tanyakan ke Lexi",
