@@ -61,6 +61,11 @@ export const Chat = () => {
       navigate('/')
       return () => clearTimeout(timeOut)
     }
+
+    if (uuid) {
+      navigate(`/thread/${uuid}`)
+      setIsHeader(false)
+    }
   }, [])
 
   useEffect(() => {

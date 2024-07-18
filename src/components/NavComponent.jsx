@@ -59,23 +59,6 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
     }
   )
 
-  const { mutate: deleteCollection } = useMutation(
-    (uuid) => deleteData(API.COLLECTION_DELETE + uuid),
-    {
-      onSettled: (data) => {
-        if (data.status === 'Success') {
-          queryClient.invalidateQueries('collection')
-
-          collectionSetEdit({ ...item, editState: 'stop' })
-          collectionDelete(item)
-          onDeleted()
-        } else {
-          notifyError(data?.message)
-        }
-      },
-    }
-  )
-
   const { mutate: deleteThread } = useMutation(
     (uuid) => deleteData(API.THREAD_DETAIL + uuid),
     {
@@ -139,8 +122,8 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
       ${
         item.isActive
           ? isActivated
-            ? 'bg-blue-dark text-white shadow px-2'
-            : 'border-blue-dark border px-2'
+            ? 'bg-blue-dark text-white shadow pl-2'
+            : 'border-blue-dark border pl-2'
           : ''
       }`}
     >
@@ -158,7 +141,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
             <img
               src={images.ic_dots}
               alt='dots'
-              className='h-3 step-2'
+              className='h-3 step-2 pr-2'
               data-tooltip-id={`tool-tips-${item.uuid}`}
               onClick={() => setShow1st(true)}
             />
@@ -254,10 +237,6 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
                   collection_uuid: item.uuid,
                   thread_uuid: collection.uuid,
                 })
-                console.log({
-                  collection_uuid: item.uuid,
-                  thread_uuid: collection.uuid,
-                })
               }}
             >
               <img
@@ -307,7 +286,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
               label={t('save', { keyPrefix: 'nav_component' })}
               className={`${
                 text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
-              } rounded-3xl !h-10`}
+              } rounded-3xl !h-10 text-white`}
               disabled={!text}
               onClick={() => updateTitle(text)}
             />
@@ -342,7 +321,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
               label={t('create', { keyPrefix: 'nav_component' })}
               className={`${
                 text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
-              } rounded-3xl !h-10`}
+              } rounded-3xl !h-10 text-white`}
               disabled={!text}
               onClick={() =>
                 createCollection({ name: text, threadId: item.uuid })

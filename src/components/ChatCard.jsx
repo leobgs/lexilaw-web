@@ -34,8 +34,8 @@ export const ChatCard = ({
   let angle = useRef(0).current
 
   useEffect(() => {
-    let cleanText = item?.message?.replace(/【\d+:\d+†source】/g, '')
-    cleanText = cleanText.replace(/consult\s*=\s*true/g, '<ConsultButton />')
+    let cleanText = item?.message?.replace(/【[^】]+】/g, '')
+    cleanText = cleanText?.replace(/consult\s*=\s*true/g, '<ConsultButton />')
 
     const possibleJson = item.message
       .substring(item.message.lastIndexOf('\n') + 1)

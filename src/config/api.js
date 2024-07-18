@@ -43,6 +43,7 @@ export const API = {
   COLLECTION_CREATE: '/api/app/v1.0.0/collection',
   COLLECTION_CREATE_ASSIGN: '/api/app/v1.0.0/collection/thread',
   COLLECTION_DELETE: '/api/app/v1.0.0/collection/',
+  COLLECTION_CHANGE_NAME: '/api/app/v1.0.0/collection/',
 
   //SCHEDULE - CALENDY
   AVAILABLE_SCHEDULES:

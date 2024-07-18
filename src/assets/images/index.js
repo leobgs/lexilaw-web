@@ -72,6 +72,7 @@ import ic_attach_black_sm from './ic_attach_black_sm.svg'
 import ic_active_like from './ic_active_like.svg'
 import ic_new_collection from './ic_new_collection.svg'
 import ic_active_dislike from './ic_active_dislike.svg'
+import ic_dots_white from './ic_dots_white.svg'
 
 const images = {
   bg_register_login,
@@ -148,6 +149,7 @@ const images = {
   ic_active_like,
   ic_active_dislike,
   ic_new_collection,
+  ic_dots_white,
 }
 
 export default images
