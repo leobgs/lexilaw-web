@@ -7,11 +7,11 @@ import { Button } from './Button/Button'
 import { useGlobalContext } from 'hooks/context'
 import { useMutation, useQueryClient } from 'react-query'
 import { API } from 'config/api'
-import { deleteData, getData, patchData } from 'hooks/useRequest'
+import { deleteData, getData, patchData, putData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useTranslation } from 'react-i18next'
 
-export const NavComponent = ({ item, onDeleted }) => {
+export const NavComponent = ({ item, onDeleted, isActivated }) => {
   const queryClient = useQueryClient()
   const collectionList = queryClient.getQueryData('collection')
   const { collectionClick, collectionDelete, collectionSetEdit, collection } =
@@ -35,6 +35,7 @@ export const NavComponent = ({ item, onDeleted }) => {
       onSettled: (data) => {
         if (data.status === 'Success') {
           queryClient.invalidateQueries('newest_thread')
+          queryClient.invalidateQueries('collection')
           collectionSetEdit({ ...item, editState: 'stop' })
           setShowModal(false)
         } else {
@@ -58,6 +59,23 @@ export const NavComponent = ({ item, onDeleted }) => {
     }
   )
 
+  const { mutate: deleteCollection } = useMutation(
+    (uuid) => deleteData(API.COLLECTION_DELETE + uuid),
+    {
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          queryClient.invalidateQueries('collection')
+
+          collectionSetEdit({ ...item, editState: 'stop' })
+          collectionDelete(item)
+          onDeleted()
+        } else {
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
+
   const { mutate: deleteThread } = useMutation(
     (uuid) => deleteData(API.THREAD_DETAIL + uuid),
     {
@@ -74,28 +92,41 @@ export const NavComponent = ({ item, onDeleted }) => {
     }
   )
 
-  useEffect(() => {
-    function handleResize() {
-      const screenWidth = window.innerWidth
-      if (screenWidth < 768) {
-        setTooltipPlace('top-start')
-        setTooltipPlace2('top')
-        setToolOffset(15)
-        setToolOffset2(-52)
-      } else {
-        setTooltipPlace('right')
-        setTooltipPlace2('right-start')
-        setToolOffset(14)
-        setToolOffset2(1)
-      }
+  const { mutate: assignCollection } = useMutation(
+    (form) => putData(API.COLLECTION_CREATE_ASSIGN, form),
+    {
+      onSettled: (data) => {
+        if (data?.status === 'Success') {
+          queryClient.invalidateQueries('collection')
+        } else {
+          notifyError(data?.message)
+        }
+      },
     }
+  )
 
+  useEffect(() => {
     handleResize()
     window.addEventListener('resize', handleResize)
     return () => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
+  function handleResize() {
+    const screenWidth = window.innerWidth
+    if (screenWidth < 768) {
+      setTooltipPlace('top-start')
+      setTooltipPlace2('top')
+      setToolOffset(15)
+      setToolOffset2(-52)
+    } else {
+      setTooltipPlace('right')
+      setTooltipPlace2('right-start')
+      setToolOffset(14)
+      setToolOffset2(1)
+    }
+  }
 
   const onDeleteClick = () => {
     deleteThread(item.uuid)
@@ -107,8 +138,7 @@ export const NavComponent = ({ item, onDeleted }) => {
       className={`h-9 rounded-lg flex justify-between items-center text-sm 
       ${
         item.isActive
-          ? collection.activeBy === 'thread' ||
-            (collection.uuid && !collection.activeBy)
+          ? isActivated
             ? 'bg-blue-dark text-white shadow px-2'
             : 'border-blue-dark border px-2'
           : ''
@@ -123,8 +153,7 @@ export const NavComponent = ({ item, onDeleted }) => {
         >
           {item.title}
         </div>
-        {((item.isActive && collection.activeBy === 'thread') ||
-          (collection.uuid && !collection.activeBy)) && (
+        {item.isActive && isActivated && (
           <div className=''>
             <img
               src={images.ic_dots}
@@ -182,7 +211,6 @@ export const NavComponent = ({ item, onDeleted }) => {
           className='flex -mx-4 px-4 py-1 md:w-52 justify-between'
           onClick={() => {
             setShow2nd(true)
-            console.log('click', item.uuid)
           }}
           data-tooltip-id={`tool-tips2-${item.uuid}`}
         >
@@ -221,6 +249,16 @@ export const NavComponent = ({ item, onDeleted }) => {
             <div
               key={index}
               className='flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 border-b border-b-neutral-50 -mx-4 px-4 pb-1'
+              onClick={() => {
+                assignCollection({
+                  collection_uuid: item.uuid,
+                  thread_uuid: collection.uuid,
+                })
+                console.log({
+                  collection_uuid: item.uuid,
+                  thread_uuid: collection.uuid,
+                })
+              }}
             >
               <img
                 src={images.ic_folder_colections}

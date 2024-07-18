@@ -182,19 +182,17 @@ export const NavChat = ({
                                 ...itms,
                                 activeBy: 'collection',
                               })
-                              setShowNav(false)
                             }}
                           >
-                            <div
-                              className={` ${
-                                itms.uuid === collection.uuid &&
-                                collection.activeBy === 'collection'
-                                  ? 'bg-blue-dark text-white shadow p-2 rounded-lg'
-                                  : ''
-                              }`}
-                            >
-                              {itms.name}
-                            </div>
+                            <NavComponent
+                              item={{ ...itms, title: itms.name }}
+                              key={itms.uuid}
+                              onDeleted={() => onDeleted()}
+                              isActivated={
+                                collection.activeBy === 'collection' ||
+                                (collection.uuid && !collection.activeBy)
+                              }
+                            />
                           </div>
                         ))}
                     </div>
@@ -221,6 +219,10 @@ export const NavChat = ({
                       item={itms}
                       key={itms.uuid}
                       onDeleted={() => onDeleted()}
+                      isActivated={
+                        collection.activeBy === 'thread' ||
+                        (collection.uuid && !collection.activeBy)
+                      }
                     />
                   ))}
               </div>
@@ -242,6 +244,10 @@ export const NavChat = ({
                       item={items}
                       key={items.uuid}
                       onDeleted={() => onDeleted()}
+                      isActivated={
+                        collection.activeBy === 'thread' ||
+                        (collection.uuid && !collection.activeBy)
+                      }
                     />
                   ))}
               </div>
@@ -268,34 +274,6 @@ export const NavChat = ({
                   <img src={images.ic_search} alt='search' className='h-4' />
                 </div>
               </div>
-
-              {/* {showSearchNav && (
-                <div className='flex justify-between gap-2'>
-                  <Input
-                    onChange={(e) => setSearch(e.value)}
-                    value={search}
-                    name='search'
-                    className='w-10/12'
-                    inputClass='!rounded-full'
-                    placeholder={t('search', {
-                      keyPrefix: 'chat.chat_text',
-                    })}
-                    rowed
-                    iconClassName='!w-4 !h-4'
-                    icon={images.ic_search_black}
-                  />
-                  <div
-                    className='bg-neutral-20 w-2/12 rounded-xl'
-                    onClick={() => onHeaderClick(true)}
-                  >
-                    <img
-                      src={images.ic_add_convo}
-                      alt='add converstaion'
-                      className='my-2 mx-auto'
-                    />
-                  </div>
-                </div>
-              )} */}
 
               {dataLatest?.map((item, index) => {
                 if (item.type === 'koleksi') {
@@ -338,21 +316,31 @@ export const NavChat = ({
                             items.Threads?.map((itms) => (
                               <div
                                 key={itms.uuid}
-                                className={`border-l-2 border-blue-sky ml-3.5 pl-4 pb-2 text-neutral-40 last:mb-4 text-sm ${
-                                  itms.uuid === collection.uuid &&
-                                  collection.activeBy === 'collection'
-                                    ? 'bg-blue-dark text-white shadow px-2'
-                                    : ''
-                                }`}
+                                className='border-l-2 border-blue-sky ml-3.5 pl-5 pb-2 text-neutral-40 last:mb-4 text-sm'
                                 onClick={() => {
                                   collectionClick({
                                     ...itms,
                                     activeBy: 'collection',
                                   })
-                                  setShowNav(false)
+                                  // setShowNav(false)
                                 }}
                               >
-                                {itms.name}
+                                <NavComponent
+                                  item={{ ...itms, title: itms.name }}
+                                  key={items.uuid}
+                                  onClick={() => {
+                                    setShowNav(false)
+                                    collectionClick({
+                                      ...itms,
+                                      activeBy: 'collection',
+                                    })
+                                  }}
+                                  onDeleted={() => onDeleted()}
+                                  isActivated={
+                                    collection.activeBy === 'collection' ||
+                                    (collection.uuid && !collection.activeBy)
+                                  }
+                                />
                               </div>
                             ))}
                         </div>
@@ -374,8 +362,12 @@ export const NavChat = ({
                           <NavComponent
                             item={itms}
                             key={itms.uuid}
-                            onClick={() => setShowNav(false)}
+                            // onClick={() => setShowNav(false)} tambah div di parent agar onClick nya jalan
                             onDeleted={() => onDeleted()}
+                            isActivated={
+                              collection.activeBy === 'thread' ||
+                              (collection.uuid && !collection.activeBy)
+                            }
                           />
                         ))}
                     </div>
@@ -394,8 +386,12 @@ export const NavChat = ({
                           <NavComponent
                             item={items}
                             key={items.uuid}
-                            onClick={() => setShowNav(false)}
+                            // onClick={() => setShowNav(false)} tambah div di parent agar onClick nya jalan
                             onDeleted={() => onDeleted()}
+                            isActivated={
+                              collection.activeBy === 'thread' ||
+                              (collection.uuid && !collection.activeBy)
+                            }
                           />
                         ))}
                     </div>

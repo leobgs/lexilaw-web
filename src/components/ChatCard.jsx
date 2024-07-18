@@ -47,21 +47,22 @@ export const ChatCard = ({
     if (isValidJson(possibleJson)) {
       const parsedLawyers = JSON.parse(possibleJson)
       const lawyer = parsedLawyers[0]
+
       setDataLawyer(parsedLawyers)
       setJsonAvailable(true)
 
       // Ubah JSON menjadi teks Markdown yang sesuai
       const markdownLawyers = `<div className="custom-lawyer" data-uuid="${
-        lawyer.uuid
+        lawyer?.uuid
       }">
               <img src="${
-                lawyer.image_url
+                lawyer?.image_url
               }" className="h-9 w-9 rounded-full aspect-square object-cover" alt="lawyer" />
               <div className="flex items-center">
                 <div className="flex items-center">
                   <p className="text-base text-secondary-base font-semi-bold" >${
-                    lawyer.first_name
-                  } ${lawyer.last_name}</p>
+                    lawyer?.first_name
+                  } ${lawyer?.last_name}</p>
                 </div>
                 <div>
                   <p className="font-semi-bold text-neutral-40 hidden md:inline-block">+${
@@ -140,7 +141,7 @@ export const ChatCard = ({
   )
 
   const ConsultButton = () => (
-    <div
+    <span
       className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center md:w-fit cursor-pointer mt-2'
       onClick={() =>
         onClickChangeLangStyle(
@@ -153,7 +154,7 @@ export const ChatCard = ({
       {t('yes_to_recommendation', {
         keyPrefix: 'chat.chat_text',
       })}
-    </div>
+    </span>
   )
 
   return (
