@@ -126,6 +126,25 @@ export const Chat = () => {
     },
   })
 
+  const { mutate: sendMessage } = useMutation(
+    (form) => getData(API.MESSAGE_SEND, form),
+    {
+      onSettled: (datas) => {
+        if (datas?.status === 'Success') {
+          const { data } = datas
+          setThreadMessageId({
+            thread_id: data?.thread_id,
+            message_id: data?.message_id,
+          })
+
+          queryClient.invalidateQueries('newest_thread')
+        } else {
+          notifyError(datas?.message)
+        }
+      },
+    }
+  )
+
   useQuery(['newest_thread'], () => getData(`${API.THREAD_LIST}?limit=100`), {
     onSettled: (datas) => {
       if (datas?.status === 'Success') {
@@ -155,7 +174,7 @@ export const Chat = () => {
           (item) => item.type === 'koleksi'
         )
 
-        setHasKoleksiData(isThereAnyCollection?.data?.length !== 0)
+        setHasKoleksiData(true)
         const newMessage = [
           {
             type: 'koleksi',
@@ -277,25 +296,6 @@ export const Chat = () => {
       }
     },
   })
-
-  const { mutate: sendMessage } = useMutation(
-    (form) => getData(API.MESSAGE_SEND, form),
-    {
-      onSettled: (datas) => {
-        if (datas?.status === 'Success') {
-          const { data } = datas
-          setThreadMessageId({
-            thread_id: data?.thread_id,
-            message_id: data?.message_id,
-          })
-
-          queryClient.invalidateQueries('newest_thread')
-        } else {
-          notifyError(datas?.message)
-        }
-      },
-    }
-  )
 
   useQuery(['user'], () => getData(API.USER_DETAIL), {
     onSettled: (datas) => {
