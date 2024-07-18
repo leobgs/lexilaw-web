@@ -72,7 +72,11 @@ export const ChatCard = ({
             </div>`
 
       // Gabungkan kembali teks dan hasil parsing JSON
-      setResponseText(`${stringBeforeJson}\n\n${markdownLawyers}`)
+      setResponseText(
+        `${stringBeforeJson}\n\n${
+          parsedLawyers.length !== 0 ? markdownLawyers : ''
+        }`
+      )
     } else {
       setResponseText(cleanText)
     }
