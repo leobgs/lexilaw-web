@@ -47,6 +47,7 @@ export const Chat = () => {
   })
   const { openAlert, closeAlert } = useGlobalContext()
   const location = useLocation()
+  const [hasKoleksiData, setHasKoleksiData] = useState(false)
 
   useEffect(() => {
     if (location?.state?.isScheduled) {
@@ -59,6 +60,11 @@ export const Chat = () => {
       }, 2000)
       navigate('/')
       return () => clearTimeout(timeOut)
+    }
+
+    if (uuid) {
+      navigate(`/thread/${uuid}`)
+      setIsHeader(false)
     }
   }, [])
 
@@ -75,8 +81,8 @@ export const Chat = () => {
       dataThreadList?.forEach((item) => {
         if (item.type === 'koleksi') {
           item.data?.forEach((dataItem) => {
-            if (dataItem.childs) {
-              dataItem.childs.forEach((child) => {
+            if (dataItem.Threads) {
+              dataItem.Threads.forEach((child) => {
                 if (child.uuid === collection.uuid) {
                   texts = child.title ?? child.message
                 }
@@ -97,30 +103,6 @@ export const Chat = () => {
       setHeaderText(texts)
     }
   }, [collection])
-
-  useEffect(() => {
-    dataThreadList?.forEach((item) => {
-      item.data?.forEach((itm) => {
-        if (!itm.value) {
-          if (itm.uuid === uuid) {
-            itm.isActive = true
-          } else {
-            itm.isActive = false
-          }
-        } else if (itm.value) {
-          itm.childs?.forEach((itms) => {
-            if (itms.uuid === uuid) {
-              itms.isActive = true
-            } else {
-              itms.isActive = false
-            }
-          })
-        }
-      })
-    })
-
-    setThreadList([...dataThreadList])
-  }, [uuid])
 
   useQuery(['suggestion_list'], () => getData(API.SUGGESTION_LIST), {
     onSettled: (datas) => {
@@ -174,6 +156,7 @@ export const Chat = () => {
           (item) => item.type === 'koleksi'
         )
 
+        setHasKoleksiData(isThereAnyCollection?.data?.length !== 0)
         const newMessage = [
           {
             type: 'koleksi',
@@ -186,29 +169,6 @@ export const Chat = () => {
           { type: 'riwayat', data: [...previousData, ...RIWAYAT_OROLAN] }, // ...RIWAYAT_OROLAN nanti dihapus kalo udh full api
         ]
 
-        newMessage?.forEach((item) => {
-          item.data?.forEach((itm) => {
-            if (!itm.value) {
-              if (itm.uuid === uuid) {
-                itm.isActive = true
-              } else {
-                itm.isActive = false
-              }
-            } else if (itm.value) {
-              itm.childs?.forEach((itms) => {
-                if (itms.uuid === uuid) {
-                  itms.isActive = true
-                } else {
-                  itms.isActive = false
-                }
-              })
-            }
-          })
-        })
-
-        setThreadList([...newMessage])
-        setHeaderText(texts)
-
         if (threadMessageId.thread_id && !uuid) {
           const selectedThread = data?.find(
             (item) => item.open_thread_id === threadMessageId.thread_id
@@ -217,13 +177,101 @@ export const Chat = () => {
           navigate(`/thread/${selectedThread?.uuid}`, {
             state: threadMessageId,
           })
+
+          newMessage?.forEach((item) => {
+            item.data?.forEach((itm) => {
+              if (!itm.Threads) {
+                if (itm.uuid === selectedThread?.uuid) {
+                  itm.isActive = true
+                } else {
+                  itm.isActive = false
+                }
+              } else if (itm.Threads) {
+                itm.Threads?.forEach((itms) => {
+                  if (itms.uuid === selectedThread?.uuid) {
+                    itms.isActive = true
+                  } else {
+                    itms.isActive = false
+                  }
+                })
+              }
+            })
+          })
+
+          dataThreadList?.forEach((item) => {
+            if (item.type === 'koleksi') {
+              item.data?.forEach((dataItem) => {
+                if (dataItem.Threads) {
+                  dataItem.Threads.forEach((child) => {
+                    if (child.uuid === uuid) {
+                      texts = child.title ?? child.name
+                    }
+                  })
+                }
+              })
+            } else {
+              item.data?.forEach((dataItem) => {
+                if (dataItem.title) {
+                  if (dataItem.uuid === uuid) {
+                    texts = dataItem.title
+                  }
+                }
+              })
+            }
+          })
+
+          setHeaderText(texts)
+          setThreadList([...newMessage])
           setIsHeader(false)
           setDisableInput(false)
           collectionSet(selectedThread)
         } else if (!threadMessageId.thread_id && uuid) {
           const selectedThread = data?.find((item) => item.uuid === uuid)
-          onClickColection(uuid)
+
           collectionSet(selectedThread)
+          newMessage?.forEach((item) => {
+            item.data?.forEach((itm) => {
+              if (!itm.Threads) {
+                if (itm.uuid === uuid) {
+                  itm.isActive = true
+                } else {
+                  itm.isActive = false
+                }
+              } else if (itm.Threads) {
+                itm.Threads?.forEach((itms) => {
+                  if (itms.uuid === uuid) {
+                    itms.isActive = true
+                  } else {
+                    itms.isActive = false
+                  }
+                })
+              }
+            })
+          })
+
+          setThreadList([...newMessage])
+        } else {
+          newMessage?.forEach((item) => {
+            item.data?.forEach((itm) => {
+              if (!itm.Threads) {
+                if (itm.uuid === uuid) {
+                  itm.isActive = true
+                } else {
+                  itm.isActive = false
+                }
+              } else if (itm.Threads) {
+                itm.Threads?.forEach((itms) => {
+                  if (itms.uuid === uuid) {
+                    itms.isActive = true
+                  } else {
+                    itms.isActive = false
+                  }
+                })
+              }
+            })
+          })
+
+          setThreadList([...newMessage])
         }
       } else {
         notifyError(datas?.message)
@@ -266,13 +314,16 @@ export const Chat = () => {
         dataThreadList?.forEach((item) => {
           if (item.type === 'koleksi') {
             item.data = data
+          } else {
+            return item
           }
         })
+        setThreadList([...dataThreadList])
       } else {
         notifyError(datas?.message)
       }
     },
-    enabled: dataThreadList?.length !== 0,
+    enabled: hasKoleksiData,
   })
 
   const handleAddChat = (e) => {
@@ -297,10 +348,10 @@ export const Chat = () => {
     dataThreadList?.forEach((item) => {
       if (item.type === 'koleksi') {
         item.data?.forEach((dataItem) => {
-          if (dataItem.childs) {
-            dataItem.childs.forEach((child) => {
+          if (dataItem.Threads) {
+            dataItem.Threads.forEach((child) => {
               if (child.uuid === id) {
-                texts = child.title ?? child.message
+                texts = child.title ?? child.name
               }
             })
           }
@@ -316,6 +367,27 @@ export const Chat = () => {
       }
     })
 
+    dataThreadList?.forEach((item) => {
+      item.data?.forEach((itm) => {
+        if (!itm.Threads) {
+          if (itm.uuid === id) {
+            itm.isActive = true
+          } else {
+            itm.isActive = false
+          }
+        } else if (itm.Threads) {
+          itm.Threads?.forEach((itms) => {
+            if (itms.uuid === id) {
+              itms.isActive = true
+            } else {
+              itms.isActive = false
+            }
+          })
+        }
+      })
+    })
+
+    setThreadList([...dataThreadList])
     setHeaderText(texts)
     setIsHeader(false)
   }
@@ -346,6 +418,23 @@ export const Chat = () => {
     setThreadList([...dataThreadList])
   }
 
+  const onResetThread = () => {
+    dataThreadList?.forEach((item) => {
+      item.data?.forEach((itm) => {
+        if (!itm.Threads) {
+          itm.isActive = false
+        } else if (itm.Threads) {
+          itm.Threads?.forEach((itms) => {
+            itms.isActive = false
+          })
+        }
+      })
+    })
+
+    setThreadList([...dataThreadList])
+  }
+
+  console.log(dataThreadList, isHeader)
   return (
     <div className='bg-primary-base w-full h-screen flex flex-col'>
       <div className='md:px-4 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
@@ -353,18 +442,16 @@ export const Chat = () => {
           onDeleted={() => {
             setIsHeader(true)
             collectionReset()
+            onResetThread()
             setHeaderText('Obrolan Baru')
             navigate('/')
           }}
           onHeaderClick={() => {
             setIsHeader(true)
             collectionReset()
+            onResetThread()
             setHeaderText('Obrolan Baru')
             navigate('/')
-          }}
-          onClickNav={(item) => {
-            onClickColection(item.uuid)
-            console.log('clicked')
           }}
           dataLatest={dataThreadList}
           onEdit={(e) => onEdit(e)}

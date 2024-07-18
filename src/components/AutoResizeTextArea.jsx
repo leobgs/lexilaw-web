@@ -31,22 +31,6 @@ const AutoResizeTextarea = ({
     setForm(e.target.value)
   }
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      const trimmedValue = textareaValue.replace(/\n/g, ' ').trim()
-      if (trimmedValue.trim() !== '') {
-        if (onChange) {
-          e.target.value = trimmedValue
-          onChange(e)
-        }
-        setTimeout(() => {
-          setTextareaValue('')
-        }, 100)
-      }
-    }
-  }
-
   return (
     <div
       className={clsx(
@@ -58,7 +42,6 @@ const AutoResizeTextarea = ({
         ref={textareaRef}
         value={textareaValue}
         onChange={handleChange}
-        onKeyDown={handleKeyDown}
         placeholder={placeholder}
         disabled={disable}
         className={`max-h-20 w-full focus:outline-none md:bg-opacity-0 bg-[#FCFAF7] text-sm ${

@@ -7,11 +7,11 @@ import { Button } from './Button/Button'
 import { useGlobalContext } from 'hooks/context'
 import { useMutation, useQueryClient } from 'react-query'
 import { API } from 'config/api'
-import { deleteData, getData, patchData } from 'hooks/useRequest'
+import { deleteData, getData, patchData, putData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useTranslation } from 'react-i18next'
 
-export const NavComponent = ({ item, onDeleted }) => {
+export const NavComponent = ({ item, onDeleted, isActivated }) => {
   const queryClient = useQueryClient()
   const collectionList = queryClient.getQueryData('collection')
   const { collectionClick, collectionDelete, collectionSetEdit, collection } =
@@ -35,6 +35,7 @@ export const NavComponent = ({ item, onDeleted }) => {
       onSettled: (data) => {
         if (data.status === 'Success') {
           queryClient.invalidateQueries('newest_thread')
+          queryClient.invalidateQueries('collection')
           collectionSetEdit({ ...item, editState: 'stop' })
           setShowModal(false)
         } else {
@@ -50,6 +51,7 @@ export const NavComponent = ({ item, onDeleted }) => {
       onSettled: (data) => {
         if (data.status === 'Success') {
           queryClient.invalidateQueries('collection')
+          queryClient.invalidateQueries('newest_thread')
           setShowModalCreateCollection(false)
         } else {
           notifyError(data?.message)
@@ -59,11 +61,12 @@ export const NavComponent = ({ item, onDeleted }) => {
   )
 
   const { mutate: deleteThread } = useMutation(
-    (uuid) => deleteData(API.THREAD_DETAIL + uuid),
+    (uuid) => deleteData(API.THREAD_LIST_DELETE + uuid),
     {
       onSettled: (data) => {
         if (data.status === 'Success') {
           queryClient.invalidateQueries('newest_thread')
+          queryClient.invalidateQueries('collection')
           collectionSetEdit({ ...item, editState: 'stop' })
           collectionDelete(item)
           onDeleted()
@@ -74,22 +77,36 @@ export const NavComponent = ({ item, onDeleted }) => {
     }
   )
 
-  useEffect(() => {
-    function handleResize() {
-      const screenWidth = window.innerWidth
-      if (screenWidth < 768) {
-        setTooltipPlace('top-start')
-        setTooltipPlace2('top')
-        setToolOffset(15)
-        setToolOffset2(-52)
-      } else {
-        setTooltipPlace('right')
-        setTooltipPlace2('right-start')
-        setToolOffset(14)
-        setToolOffset2(1)
-      }
+  const { mutate: deleteThreadCollection } = useMutation(
+    (uuid) => deleteData(API.COLLECTION_DELETE_THREAD + uuid),
+    {
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          queryClient.invalidateQueries('collection')
+          collectionSetEdit({ ...item, editState: 'stop' })
+          collectionDelete(item)
+          onDeleted()
+        } else {
+          notifyError(data?.message)
+        }
+      },
     }
+  )
 
+  const { mutate: assignCollection } = useMutation(
+    (form) => putData(API.COLLECTION_CREATE_ASSIGN, form),
+    {
+      onSettled: (data) => {
+        if (data?.status === 'Success') {
+          queryClient.invalidateQueries('collection')
+        } else {
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
+
+  useEffect(() => {
     handleResize()
     window.addEventListener('resize', handleResize)
     return () => {
@@ -97,8 +114,25 @@ export const NavComponent = ({ item, onDeleted }) => {
     }
   }, [])
 
+  function handleResize() {
+    const screenWidth = window.innerWidth
+    if (screenWidth < 768) {
+      setTooltipPlace('top-start')
+      setTooltipPlace2('top')
+      setToolOffset(15)
+      setToolOffset2(-52)
+    } else {
+      setTooltipPlace('right')
+      setTooltipPlace2('right-start')
+      setToolOffset(14)
+      setToolOffset2(1)
+    }
+  }
+
   const onDeleteClick = () => {
-    deleteThread(item.uuid)
+    collection.activeBy === 'thread'
+      ? deleteThread(item.uuid)
+      : deleteThreadCollection(item.uuid)
     setShow1st(false)
   }
 
@@ -107,10 +141,9 @@ export const NavComponent = ({ item, onDeleted }) => {
       className={`h-9 rounded-lg flex justify-between items-center text-sm 
       ${
         item.isActive
-          ? collection.activeBy === 'thread' ||
-            (collection.uuid && !collection.activeBy)
-            ? 'bg-blue-dark text-white shadow px-2'
-            : 'border-blue-dark border px-2'
+          ? isActivated
+            ? 'bg-blue-dark text-white shadow pl-2'
+            : 'border-blue-dark border pl-2'
           : ''
       }`}
     >
@@ -118,18 +151,19 @@ export const NavComponent = ({ item, onDeleted }) => {
         <div
           className='line-clamp-1 w-full'
           onClick={() => {
-            collectionClick({ ...item, activeBy: 'thread' })
+            item.isActive
+              ? void 0
+              : collectionClick({ ...item, activeBy: 'thread' })
           }}
         >
           {item.title}
         </div>
-        {((item.isActive && collection.activeBy === 'thread') ||
-          (collection.uuid && !collection.activeBy)) && (
+        {item.isActive && isActivated && (
           <div className=''>
             <img
               src={images.ic_dots}
               alt='dots'
-              className='h-3 step-2'
+              className='h-3 step-2 pr-2'
               data-tooltip-id={`tool-tips-${item.uuid}`}
               onClick={() => setShow1st(true)}
             />
@@ -182,7 +216,6 @@ export const NavComponent = ({ item, onDeleted }) => {
           className='flex -mx-4 px-4 py-1 md:w-52 justify-between'
           onClick={() => {
             setShow2nd(true)
-            console.log('click', item.uuid)
           }}
           data-tooltip-id={`tool-tips2-${item.uuid}`}
         >
@@ -221,6 +254,12 @@ export const NavComponent = ({ item, onDeleted }) => {
             <div
               key={index}
               className='flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 border-b border-b-neutral-50 -mx-4 px-4 pb-1'
+              onClick={() => {
+                assignCollection({
+                  collection_uuid: item.uuid,
+                  thread_uuid: collection.uuid,
+                })
+              }}
             >
               <img
                 src={images.ic_folder_colections}
@@ -269,7 +308,7 @@ export const NavComponent = ({ item, onDeleted }) => {
               label={t('save', { keyPrefix: 'nav_component' })}
               className={`${
                 text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
-              } rounded-3xl !h-10`}
+              } rounded-3xl !h-10 text-white`}
               disabled={!text}
               onClick={() => updateTitle(text)}
             />
@@ -304,7 +343,7 @@ export const NavComponent = ({ item, onDeleted }) => {
               label={t('create', { keyPrefix: 'nav_component' })}
               className={`${
                 text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
-              } rounded-3xl !h-10`}
+              } rounded-3xl !h-10 text-white`}
               disabled={!text}
               onClick={() =>
                 createCollection({ name: text, threadId: item.uuid })
