@@ -132,6 +132,7 @@ export const BookLawyer = () => {
       services: selectedServiceUUIDs,
     }
 
+    console.log(payload)
     bookLawyer(payload)
   }
 
@@ -247,8 +248,12 @@ export const BookLawyer = () => {
               )}
             </div>
 
-            {dataLawyer?.service_price?.map((item) => (
-              <PriceItem data={item} onDelete={() => handleDelete(item.uuid)} />
+            {dataLawyer?.service_price?.map((item, index) => (
+              <PriceItem
+                data={item}
+                onDelete={() => handleDelete(item.uuid)}
+                key={index}
+              />
             ))}
           </div>
           <div className='bg-white rounded-2xl p-4 mt-4'>
@@ -272,11 +277,12 @@ export const BookLawyer = () => {
               <div className='font-futura-bold text-sm my-2'>
                 {t('service_tax', { keyPrefix: 'booking_lawyer' })}
               </div>
-              {summaryPrices.jasa_pajak?.map((item) =>
+              {summaryPrices.jasa_pajak?.map((item, index) =>
                 renderLabel({
                   text: item.name,
                   value: item.price,
                   className: 'md:text-sm text-[#B8B8B8]',
+                  indx: index,
                 })
               )}
             </div>
@@ -285,11 +291,12 @@ export const BookLawyer = () => {
               <div className='font-futura-bold text-sm my-2'>
                 {t('transaction_fee', { keyPrefix: 'booking_lawyer' })}
               </div>
-              {summaryPrices?.transaction_price?.map((item) =>
+              {summaryPrices?.transaction_price?.map((item, index) =>
                 renderLabel({
                   text: item.name,
                   value: item.price,
                   className: 'md:text-sm text-[#B8B8B8]',
+                  indx: index,
                 })
               )}
             </div>

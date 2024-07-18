@@ -303,7 +303,7 @@ export const ThreadPage = () => {
         <InputChat
           onChange={(e) => handleAddChat(e)}
           onDisplayImage={(e) => setDisplayImage(e)}
-          className='w-full md:w-3/4'
+          className='w-full md:w-3/4 ml-4'
           disable={disableInput}
         />
       </div>
