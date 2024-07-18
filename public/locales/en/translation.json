@@ -145,7 +145,8 @@
   "chat_respond": {
     "place_an_order": "Place an order",
     "another_option": "Another option",
-    "set_yourself": "Set Yourself"
+    "set_yourself": "Set Yourself",
+    "attached": "Attachment"
   },
   "input_chat": {
     "ask_lexi": "Ask Lexi",

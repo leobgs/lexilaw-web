@@ -31,7 +31,6 @@ export const Chat = () => {
   const { uuid } = useParams()
   const queryClient = useQueryClient()
   const [isHeader, setIsHeader] = useState(true)
-  const [isDisplayImage, setDisplayImage] = useState()
   const [disableInput, setDisableInput] = useState(false)
   const [dataThreadList, setThreadList] = useState([])
   const [defaultQuestion, setDefaultQuestion] = useState([])
@@ -289,6 +288,7 @@ export const Chat = () => {
             thread_id: data?.thread_id,
             message_id: data?.message_id,
           })
+
           queryClient.invalidateQueries('newest_thread')
         } else {
           notifyError(datas?.message)
@@ -434,7 +434,6 @@ export const Chat = () => {
     setThreadList([...dataThreadList])
   }
 
-  console.log(dataThreadList, isHeader)
   return (
     <div className='bg-primary-base w-full h-screen flex flex-col'>
       <div className='md:px-4 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
@@ -579,14 +578,11 @@ export const Chat = () => {
                 <QuestionCard
                   data={defaultQuestion}
                   onClick={(e) => handleAddChat(e)}
-                  className={`md:absolute ${
-                    isDisplayImage ? 'md:top-1/3' : 'md:top-24 md:left-12'
-                  }`}
+                  className='md:top-10 md:left-12 md:absolute'
                 />
 
                 <InputChat
                   onChange={(e) => handleAddChat(e)}
-                  onDisplayImage={(e) => setDisplayImage(e)}
                   className='w-full md:w-3/4 bottom-1 absolute ml-4'
                   disable={disableInput}
                 />

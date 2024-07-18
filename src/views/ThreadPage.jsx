@@ -31,7 +31,6 @@ export const ThreadPage = () => {
   const { state } = useLocation()
   const queryClient = useQueryClient()
   const [disableInput, setDisableInput] = useState(false)
-  const [isDisplayImage, setDisplayImage] = useState()
   const [renderedMessage, setRenderedMessage] = useState(null)
   const [threadMessageIdtoRespond, setThreadMessageIdtoRespond] = useState({
     thread_id: '',
@@ -77,7 +76,6 @@ export const ThreadPage = () => {
             thread_id: data.thread_id,
             message_id: data.message_id,
           })
-
           fetchDetail()
         } else {
           // notifyError(datas?.message)
@@ -302,7 +300,6 @@ export const ThreadPage = () => {
       <div>
         <InputChat
           onChange={(e) => handleAddChat(e)}
-          onDisplayImage={(e) => setDisplayImage(e)}
           className='w-full md:w-3/4 ml-4'
           disable={disableInput}
         />

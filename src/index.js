@@ -30,7 +30,7 @@ root.render(
             <App />
           </GoogleOAuthProvider>
         </AppProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </React.Suspense>
   </React.StrictMode>
