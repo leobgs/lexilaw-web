@@ -191,5 +191,8 @@
   "schedule": {
     "header": "Schedule",
     "success": "Scheduling Successful"
+  },
+  "question_card": {
+    "text": "What you can do with Lexi"
   }
 }
