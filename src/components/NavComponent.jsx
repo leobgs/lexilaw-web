@@ -55,6 +55,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
           setShowModalCreateCollection(false)
           setText('')
         } else {
+          setText('')
           notifyError(data?.message)
         }
       },
