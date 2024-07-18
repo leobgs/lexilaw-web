@@ -293,6 +293,7 @@ export const ThreadPage = () => {
               className='flex-none'
               onLike={(e) => handleReaction(itms.uuid, e)}
               onDislike={(e) => handleReaction(itms.uuid, e)}
+              disableInput={disableInput}
             />
           ))}
       </AutoScrollingDiv>

@@ -53,6 +53,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
           queryClient.invalidateQueries('collection')
           queryClient.invalidateQueries('newest_thread')
           setShowModalCreateCollection(false)
+          setText('')
         } else {
           notifyError(data?.message)
         }
@@ -159,13 +160,12 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
           {item.title}
         </div>
         {item.isActive && isActivated && (
-          <div className=''>
+          <div className='pl-3 -py-2' onClick={() => setShow1st(true)}>
             <img
               src={images.ic_dots}
               alt='dots'
               className='h-3 step-2 pr-2'
               data-tooltip-id={`tool-tips-${item.uuid}`}
-              onClick={() => setShow1st(true)}
             />
           </div>
         )}

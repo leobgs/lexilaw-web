@@ -19,6 +19,7 @@ export const ChatCard = ({
   onLike = (e) => {},
   onDislike = (e) => {},
   className,
+  disableInput,
 }) => {
   const queryClient = useQueryClient()
   const cachedData = queryClient.getQueryData('user')
@@ -30,6 +31,7 @@ export const ChatCard = ({
   const [isJsonAvailable, setJsonAvailable] = useState(false)
   const navigate = useNavigate()
   const [fileCategory, setFileCategory] = useState('')
+  const [consult, setConsult] = useState(false)
 
   const boxRef = useRef(null)
   let angle = useRef(0).current
@@ -53,7 +55,8 @@ export const ChatCard = ({
 
   useEffect(() => {
     let cleanText = item?.message?.replace(/【[^】]+】/g, '')
-    cleanText = cleanText?.replace(/consult\s*=\s*true/gi, '<ConsultButton />')
+    setConsult(/consult\s*=\s*true/gi.test(item?.message))
+    cleanText = cleanText?.replace(/consult\s*=\s*true/gi, '')
 
     const possibleJson = item.message
       .substring(item.message.lastIndexOf('\n') + 1)
@@ -162,23 +165,6 @@ export const ChatCard = ({
     </div>
   )
 
-  const ConsultButton = () => (
-    <span
-      className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center md:w-fit cursor-pointer mt-2'
-      onClick={() =>
-        onClickChangeLangStyle(
-          t('yes_to_recommendation', {
-            keyPrefix: 'chat.chat_text',
-          })
-        )
-      }
-    >
-      {t('yes_to_recommendation', {
-        keyPrefix: 'chat.chat_text',
-      })}
-    </span>
-  )
-
   return (
     <>
       {item.from_display === 'SYSTEM' && item.type === 'loading' ? (
@@ -258,9 +244,6 @@ export const ChatCard = ({
                               <DefaultDiv {...props} />
                             ),
                         },
-                        ConsultButton: {
-                          component: ConsultButton,
-                        },
                       },
                     }}
                   >
@@ -317,9 +300,6 @@ export const ChatCard = ({
                           <DefaultDiv {...props} />
                         ),
                     },
-                    ConsultButton: {
-                      component: ConsultButton,
-                    },
                   },
                 }}
               >
@@ -367,6 +347,8 @@ export const ChatCard = ({
                 isLast={index === length - 1}
                 onLike={() => onLike(1)}
                 onDislike={() => onDislike(0)}
+                disable={disableInput}
+                isButtonYes={consult}
               />
             )}
           </div>
