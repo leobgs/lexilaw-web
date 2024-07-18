@@ -12,7 +12,12 @@ export default function useVersioning(input) {
         const latestVersion = response.version
 
         if (currentVersion && currentVersion !== latestVersion) {
-          window.location.reload()
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then((registrations) => {
+              registrations.forEach((registration) => registration.unregister())
+            })
+          }
+          window.location.reload(true)
         } else {
           setCurrentVersion(latestVersion)
         }
