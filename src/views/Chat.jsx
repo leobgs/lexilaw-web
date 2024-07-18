@@ -500,7 +500,7 @@ export const Chat = () => {
                 <InputChat
                   onChange={(e) => handleAddChat(e)}
                   onDisplayImage={(e) => setDisplayImage(e)}
-                  className='w-full md:w-3/4 bottom-1 absolute'
+                  className='w-full md:w-3/4 bottom-1 absolute ml-4'
                   disable={disableInput}
                 />
               </div>

@@ -7,6 +7,9 @@ import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import { Button } from './Button/Button'
 import { useTranslation } from 'react-i18next'
+import { LawyerRecommendation } from './LawyerRecommendation'
+import { useNavigate } from 'react-router-dom'
+import { useGlobalContext } from 'hooks/context'
 
 export const ChatCard = ({
   item,
@@ -21,16 +24,58 @@ export const ChatCard = ({
   const cachedData = queryClient.getQueryData('user')
   const [responseText, setResponseText] = useState('')
   const { t } = useTranslation()
+  const { bookingLawyerReducer } = useGlobalContext()
+  const [showLawyerRecommendation, setLawyerRecommendation] = useState(false)
+  const [dataLawyer, setDataLawyer] = useState([])
+  const [isJsonAvailable, setJsonAvailable] = useState(false)
+  const navigate = useNavigate()
+
+  const boxRef = useRef(null)
+  let angle = useRef(0).current
 
   useEffect(() => {
     let cleanText = item?.message?.replace(/【\d+:\d+†source】/g, '')
     cleanText = cleanText.replace(/consult\s*=\s*true/g, '<ConsultButton />')
 
-    setResponseText(cleanText)
-  }, [item.message])
+    const possibleJson = item.message
+      .substring(item.message.lastIndexOf('\n') + 1)
+      .trim()
+    const stringBeforeJson = item.message
+      .substring(0, item.message.lastIndexOf('\n'))
+      .trim()
 
-  const boxRef = useRef(null)
-  let angle = useRef(0).current
+    if (isValidJson(possibleJson)) {
+      const parsedLawyers = JSON.parse(possibleJson)
+      const lawyer = parsedLawyers[0]
+      setDataLawyer(parsedLawyers)
+      setJsonAvailable(true)
+
+      // Ubah JSON menjadi teks Markdown yang sesuai
+      const markdownLawyers = `<div className="custom-lawyer" data-uuid="${
+        lawyer.uuid
+      }">
+              <img src="${
+                lawyer.image_url
+              }" className="h-9 w-9 rounded-full aspect-square object-cover" alt="lawyer" />
+              <div className="flex items-center">
+                <div className="flex items-center">
+                  <p className="text-base text-secondary-base font-semi-bold" >${
+                    lawyer.first_name
+                  } ${lawyer.last_name}</p>
+                </div>
+                <div>
+                  <p className="font-semi-bold text-neutral-40 hidden md:inline-block">+${
+                    parsedLawyers.length - 1
+                  } more</p>
+                </div>
+            </div>`
+
+      // Gabungkan kembali teks dan hasil parsing JSON
+      setResponseText(`${stringBeforeJson}\n\n${markdownLawyers}`)
+    } else {
+      setResponseText(cleanText)
+    }
+  }, [item.message])
 
   useEffect(() => {
     const animate = () => {
@@ -43,6 +88,56 @@ export const ChatCard = ({
 
     return () => cancelAnimationFrame(animate)
   }, [angle])
+
+  const isValidJson = (str) => {
+    try {
+      JSON.parse(str)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
+
+  // div component overrides
+  const CustomDiv = ({ children, ...props }) => (
+    <div {...props}>
+      <div
+        className='bg-[#EFEDE8] p-4 rounded-lg md:w-3/4 flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md my-2'
+        // onClick={() => console.log('Div clicked', props['data-uuid'])}
+        onClick={() => setLawyerRecommendation(true)}
+      >
+        <div className='flex items-center gap-4'>{children}</div>
+        <img src={images.ic_arrow_cornering} alt='corner tag' />
+      </div>
+
+      <div className='mb-2 mt-4 flex flex-row justi gap-2 border-t border-t-[#D8D8D8] pt-4 md:border-none md:pt-0'>
+        <button
+          className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-sm px-2'
+          onClick={() => {
+            navigate('/book-lawyer', { state: dataLawyer[0] })
+            bookingLawyerReducer(['selected_lawyer'], dataLawyer[0])
+          }}
+        >
+          <img src={images.ic_arrow_cornering} alt='place order' />
+          <div>{t('place_an_order', { keyPrefix: 'chat_respond' })}</div>
+        </button>
+
+        <button
+          className='border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-sm px-2'
+          onClick={() => setLawyerRecommendation(true)}
+        >
+          <img src={images.ic_arrow_cornering} alt='place order' />
+          <div>{t('another_option', { keyPrefix: 'chat_respond' })}</div>
+        </button>
+      </div>
+    </div>
+  )
+
+  const DefaultDiv = ({ children, ...props }) => (
+    <div {...props} className=''>
+      {children}
+    </div>
+  )
 
   const ConsultButton = () => (
     <div
@@ -118,6 +213,14 @@ export const ChatCard = ({
                   <Markdown
                     options={{
                       overrides: {
+                        div: {
+                          component: (props) =>
+                            props.className === 'custom-lawyer' ? (
+                              <CustomDiv {...props} />
+                            ) : (
+                              <DefaultDiv {...props} />
+                            ),
+                        },
                         ConsultButton: {
                           component: ConsultButton,
                         },
@@ -164,6 +267,14 @@ export const ChatCard = ({
               <Markdown
                 options={{
                   overrides: {
+                    div: {
+                      component: (props) =>
+                        props.className === 'custom-lawyer' ? (
+                          <CustomDiv {...props} />
+                        ) : (
+                          <DefaultDiv {...props} />
+                        ),
+                    },
                     ConsultButton: {
                       component: ConsultButton,
                     },
@@ -273,6 +384,15 @@ export const ChatCard = ({
             )}
           </div>
         </div>
+      )}
+
+      {isJsonAvailable && (
+        <LawyerRecommendation
+          isShow={showLawyerRecommendation}
+          onHide={() => setLawyerRecommendation(false)}
+          dataLawyer={dataLawyer}
+          thread_uuid={item?.thread_uuid}
+        />
       )}
     </>
   )
