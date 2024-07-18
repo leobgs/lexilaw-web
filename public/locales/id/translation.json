@@ -191,5 +191,8 @@
   "schedule": {
     "header": "Jadwal",
     "success": "Penjadwalan Berhasil"
+  },
+  "question_card": {
+    "text": "Apa yang bisa dilakukan Lexi"
   }
 }

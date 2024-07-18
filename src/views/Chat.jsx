@@ -578,7 +578,7 @@ export const Chat = () => {
                 <QuestionCard
                   data={defaultQuestion}
                   onClick={(e) => handleAddChat(e)}
-                  className='md:top-10 md:left-12 md:absolute'
+                  className='md:top-24 md:left-12 md:absolute'
                 />
 
                 <InputChat
