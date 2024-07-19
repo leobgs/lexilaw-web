@@ -230,27 +230,6 @@ export const ChatCard = ({
                   </p>
                 </div>
               </div>
-
-              <div className='flex justify-between'>
-                <div className='whitespace-pre-line text-sm'>
-                  <Markdown
-                    options={{
-                      overrides: {
-                        div: {
-                          component: (props) =>
-                            props.className === 'custom-lawyer' ? (
-                              <CustomDiv {...props} />
-                            ) : (
-                              <DefaultDiv {...props} />
-                            ),
-                        },
-                      },
-                    }}
-                  >
-                    {responseText}
-                  </Markdown>
-                </div>
-              </div>
             </div>
           </div>
 

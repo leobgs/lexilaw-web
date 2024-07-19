@@ -153,7 +153,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
         <div
           className='line-clamp-1 w-full'
           onClick={() => {
-            item.isActive
+            item.isActive && isActivated
               ? void 0
               : collectionClick({ ...item, activeBy: 'thread' })
           }}

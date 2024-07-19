@@ -78,7 +78,8 @@
       "my_account": "My Account",
       "my_lawyer": "My Lawyer",
       "wa_activation": "WhatsApp Activation",
-      "menu_language": "Language"
+      "menu_language": "Language",
+      "logout": "Logout"
     },
     "profile_menu": {
       "main_menu": "Main Menu",

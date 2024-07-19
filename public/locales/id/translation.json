@@ -78,7 +78,8 @@
       "my_account": "Akun Saya",
       "my_lawyer": "Pengacara Saya",
       "wa_activation": "Aktivasi WhatsApp",
-      "menu_language": "Bahasa Menu"
+      "menu_language": "Bahasa Menu",
+      "logout": "Keluar"
     },
     "profile_menu": {
       "main_menu": "Menu Utama",
