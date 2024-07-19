@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { LawyerRecommendation } from './LawyerRecommendation'
 import { useNavigate } from 'react-router-dom'
 import { useGlobalContext } from 'hooks/context'
+import './ChatCard.scss'
 
 export const ChatCard = ({
   item,
@@ -267,7 +268,7 @@ export const ChatCard = ({
               </div>
             </div>
 
-            <div className='whitespace-pre-line text-sm'>
+            <div className='chat-wrap text-sm'>
               <Markdown
                 options={{
                   overrides: {
@@ -280,6 +281,8 @@ export const ChatCard = ({
                         ),
                     },
                   },
+                  wrapper: 'main',
+                  forceWrapper: true,
                 }}
               >
                 {responseText}
