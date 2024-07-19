@@ -14,6 +14,7 @@ import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { LocalStorage } from 'utils'
 import { DEFAULT_QUESTION, RIWAYAT_OROLAN } from 'utils/dummy'
 import { ThreadPage } from './ThreadPage'
+import { Disclaimer } from 'components/Disclaimer'
 
 export const Chat = () => {
   const { t } = useTranslation()
@@ -592,6 +593,10 @@ export const Chat = () => {
             )}
           </div>
         </main>
+
+        <Disclaimer />
+
+
       </div>
     </div>
   )
