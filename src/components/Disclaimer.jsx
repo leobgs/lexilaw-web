@@ -29,10 +29,10 @@ export const Disclaimer = () => {
 
     return (
         <>
-            <Modal show={showModal} className="!bg-[#000] opacity-60" contentClassName="px-8  md:!w-[720px]">
+            <Modal show={showModal} className="!bg-[#000] opacity-60" contentClassName="px-4 md:px-8  md:!w-[720px]">
                 <div className="py-4 sm:py-8 px-4 sm:px-8 md:px-12 bg-[#F6F6F6] border border-[#F3E8D0] drop-shadow-lg rounded-xl">
-                    <p className='mb-8 text-center text-dark-50 text-2xl font-futura-bold'>Disclaimer</p>
-                    <div className="h-[480px] overflow-y-auto text-base text-gray-200 font-medium relative">
+                    <p className='mb-3 md:mb-8 text-center text-dark-50 text-2xl font-futura-bold'>Disclaimer</p>
+                    <div className="h-[300px] md:h-[480px] lg:h-[320px] overflow-y-auto text-base text-gray-200 font-medium relative">
                         <p className='mb-3'><strong>Syarat Layanan dan Kebijakan</strong></p>
                         <p className='mb-3'>Selamat datang di Lexilaw. Dengan mengakses atau menggunakan platform kami, Anda setuju untuk mematuhi dan terikat oleh syarat layanan dan kebijakan berikut. Harap baca dengan cermat.</p>
                         <ol>
@@ -49,9 +49,8 @@ export const Disclaimer = () => {
                     </div>
                     <InputCheckbox
                         name='checkbox'
-                        className='w-full !justify-center mt-3'
-                        inputClass="w-4 h-4 accent-[#F6F6F6]"
-                        labeblClassName="w-auto ms-3 text-md !text-[#2E2C2B]"
+                        className='w-full !justify-center mt-3' 
+                        labeblClassName="w-auto ms-3 text-md !text-[#2E2C2B] font-medium"
                         value={isCheckboxChecked}
                         label="Saya setuju"
                         onChange={handleCheckboxChange}
