@@ -140,20 +140,20 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
 
   return (
     <div
-      className={`h-9 rounded-lg flex justify-between items-center text-sm 
+      className={`h-9 rounded-lg flex justify-between items-center text-sm pl-2
       ${
         item.isActive
           ? isActivated
-            ? 'bg-blue-dark text-white shadow pl-2'
+            ? 'bg-blue-dark text-white shadow pl-1 bg-selected-lawyer-left'
             : 'border-blue-dark border pl-2'
           : ''
       }`}
     >
       <>
         <div
-          className='line-clamp-1 w-full'
+          className={`line-clamp-1 w-full`}
           onClick={() => {
-            item.isActive
+            item.isActive && isActivated
               ? void 0
               : collectionClick({ ...item, activeBy: 'thread' })
           }}

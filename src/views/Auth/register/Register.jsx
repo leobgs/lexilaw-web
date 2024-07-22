@@ -36,6 +36,12 @@ export const Register = () => {
           tmp.push({ label: item.name, value: item.id })
         })
         setOptionCity([...tmp])
+
+        setSelectedCity(
+          registerForm?.city
+            ? tmp.find((item) => item.value === registerForm?.city)
+            : null
+        )
       } else {
         setOptionCity([
           {
@@ -47,11 +53,12 @@ export const Register = () => {
     },
   })
 
-  const { mutate: registerData } = useMutation(
+  const { mutate: registerData, isLoading: loadingRegister } = useMutation(
     (form) => getData(API.REGISTER, form),
     {
       onSettled: (data) => {
         if (data.status === 'Success') {
+          registerFormReducer('RESET')
           navigate('/auth/register/otp', {
             state: {
               email: registerForm.email,
@@ -206,7 +213,6 @@ export const Register = () => {
 
   const handleChangeForm = (e) => {
     const { name, value } = e
-
     if (name === 'password_confirm' || name === 'password') {
       validatePasswordMatch(e)
       registerFormReducer(name, value)
@@ -346,7 +352,7 @@ export const Register = () => {
           onClick={onSubmit}
           iconRight={images.chevron_right}
           iconClassName={'absolute right-4'}
-          disabled={!isValidForm}
+          disabled={!isValidForm || loadingRegister}
           className={
             'btn-secondary-hover w-full mt-1 rounded-full font-medium relative'
           }

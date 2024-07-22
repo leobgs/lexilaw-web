@@ -314,7 +314,16 @@ export const Chat = () => {
         const { data } = datas
         dataThreadList?.forEach((item) => {
           if (item.type === 'koleksi') {
-            item.data = data
+            return (item.data = data.map((item) => {
+              const hasMatchingThread = item.Threads.some(
+                (thread) => thread.uuid === uuid
+              )
+
+              return {
+                ...item,
+                isExpand: hasMatchingThread,
+              }
+            }))
           } else {
             return item
           }
@@ -437,7 +446,7 @@ export const Chat = () => {
 
   return (
     <div className='bg-primary-base w-full h-screen flex flex-col'>
-      <div className='md:px-4 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
+      <div className='md:pr-4 md:pl-2 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
         <NavChat
           onDeleted={() => {
             setIsHeader(true)
@@ -470,18 +479,20 @@ export const Chat = () => {
                   className='h-5 w-5'
                 />
               )}
-              <div className='font-futura-bold'>{headerText}</div>
+              <div className='font-futura-bold text-xl'>{headerText}</div>
             </div>
 
-            <div className='flex items-center gap-2'>
-              <p className='font-bold'>
+            <div
+              className='flex items-center gap-2'
+              data-tooltip-id='profile-tooltip'
+            >
+              <p className='font-futura-bold text-sm'>
                 {userDetail.first_name} {userDetail.last_name}
               </p>
               <img
                 className='size-10 rounded-full ring-1 ring-[#C9BBA0] drop-shadow-[2px_2px_2px_rgba(240, 237, 232, 1)]'
                 src={userDetail.image_url}
                 alt='profile'
-                data-tooltip-id='profile-tooltip'
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null
                   currentTarget.src = images.ic_avatar_placeholder
@@ -546,8 +557,8 @@ export const Chat = () => {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
-                  <div className='mb-4 flex justify-center ml-4 items-start font-semi-bold'>
-                    <div className='text-black-darker text-xs w-full'>
+                  <div className='mb-2 flex justify-center ml-4 items-start font-semi-bold'>
+                    <div className='text-black-darker text-xs w-full mt-1'>
                       {t('menu_language', {
                         keyPrefix: 'chat.profile_option',
                       })}{' '}
@@ -563,10 +574,12 @@ export const Chat = () => {
                   </div>
 
                   <div
-                    className='font-semi-bold text-error-base px-4 bg-error-lighter bg-opacity-10 py-2 -mb-2.5 rounded-b-lg text-sm'
+                    className='font-semi-bold text-error-base px-4 bg-[#F0EDE8] py-2 -mb-2.5 rounded-b-lg text-sm'
                     onClick={onLogout}
                   >
-                    Logout
+                    {t('logout', {
+                      keyPrefix: 'chat.profile_option',
+                    })}
                   </div>
                 </div>
               }

@@ -22,7 +22,7 @@ export const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState({ email: '', password: '' })
 
-  const { mutate: loginInput } = useMutation(
+  const { mutate: loginInput, isLoading: loadingLogin } = useMutation(
     (form) => getData(API.LOGIN, form),
     {
       onSettled: (data) => {
@@ -125,7 +125,12 @@ export const Login = () => {
         onClick={onSubmit}
         iconRight={images.chevron_right}
         iconClassName={'absolute right-4'}
-        disabled={!form.password || !form.email || !validateEmail(form.email)}
+        disabled={
+          !form.password ||
+          !form.email ||
+          !validateEmail(form.email) ||
+          loadingLogin
+        }
         className={
           'btn-secondary-hover w-full mt-[2rem] mb-[1rem] rounded-full font-medium relative'
         }

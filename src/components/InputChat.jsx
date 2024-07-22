@@ -33,18 +33,15 @@ export const InputChat = ({ onChange, className, disable }) => {
     let url = URL.createObjectURL(file)
     let type = file.type.substring(0, file.type.lastIndexOf('/')).toUpperCase()
 
-    if (file.size < 2000000) {
-      setDisplayImage(url)
-      setForm({
-        ...form,
-        file: e.target.files[0],
-        caption: file.name,
-        images: url,
-        content_type: type === 'IMAGE' ? 'IMAGE' : 'DOCUMENT',
-      })
-    } else if (file.size > 2000000) {
-      setError('Maksimum Ukuran File 2 Mb')
-    }
+    setDisplayImage(url)
+    setForm({
+      ...form,
+      file: e.target.files[0],
+      caption: file.name,
+      images: url,
+      content_type: type === 'IMAGE' ? 'IMAGE' : 'DOCUMENT',
+    })
+
     e.target.value = null
   }
 
@@ -57,7 +54,7 @@ export const InputChat = ({ onChange, className, disable }) => {
     <>
       <div
         className={clsx(
-          'border border-neutral-30 py-2 rounded-3xl bg-[#FCFAF7] bg-opacity-35 pr-4',
+          'border border-neutral-30 py-2 rounded-3xl bg-[#FCFAF7] bg-opacity-35 pr-4 mt-2',
           className
         )}
       >
