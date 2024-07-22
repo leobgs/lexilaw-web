@@ -313,7 +313,16 @@ export const Chat = () => {
         const { data } = datas
         dataThreadList?.forEach((item) => {
           if (item.type === 'koleksi') {
-            item.data = data
+            return (item.data = data.map((item) => {
+              const hasMatchingThread = item.Threads.some(
+                (thread) => thread.uuid === uuid
+              )
+
+              return {
+                ...item,
+                isExpand: hasMatchingThread,
+              }
+            }))
           } else {
             return item
           }
@@ -436,7 +445,7 @@ export const Chat = () => {
 
   return (
     <div className='bg-primary-base w-full h-screen flex flex-col'>
-      <div className='md:px-4 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
+      <div className='md:pr-4 md:pl-2 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
         <NavChat
           onDeleted={() => {
             setIsHeader(true)

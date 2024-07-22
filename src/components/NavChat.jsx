@@ -157,7 +157,7 @@ export const NavChat = ({
             return (
               <div key={`${index}-k`}>
                 {item.data?.length !== 0 && (
-                  <div className='flex justify-between items-end mr-2 my-4'>
+                  <div className='flex justify-between items-end mr-2 my-4 pl-1'>
                     <div className='text-[#AEB3BF] text-sm'>
                       {t('collection', {
                         keyPrefix: 'chat.chat_text',
@@ -185,7 +185,7 @@ export const NavChat = ({
                         items.Threads?.map((itms) => (
                           <div
                             key={itms.uuid}
-                            className='border-l-2 border-blue-sky ml-3.5 pl-5 pb-2 text-neutral-40 last:mb-4 text-sm'
+                            className='border-l-2 border-blue-sky ml-5 pl-3 pb-2 text-neutral-40 last:mb-4 text-sm'
                             onClick={() => {
                               collectionClick({
                                 ...itms,
@@ -215,7 +215,7 @@ export const NavChat = ({
                 className={`${item.data?.length !== 0 ? 'my-4' : ''}`}
               >
                 {item.data?.length !== 0 && (
-                  <div className='text-[#AEB3BF] mt-4 text-sm mb-3'>
+                  <div className='text-[#AEB3BF] mt-4 text-sm mb-3 pl-1'>
                     {t('current', {
                       keyPrefix: 'chat.chat_text',
                     })}
@@ -240,7 +240,7 @@ export const NavChat = ({
             return (
               <div key={`${index}-r`}>
                 {item.data?.length !== 0 && (
-                  <div className='text-[#AEB3BF] mt-4 text-sm mb-3'>
+                  <div className='text-[#AEB3BF] mt-4 text-sm mb-3 pl-1'>
                     {t('past_chat', {
                       keyPrefix: 'chat.chat_text',
                     })}
@@ -289,7 +289,7 @@ export const NavChat = ({
                   return (
                     <div key={index}>
                       {item.data?.length !== 0 && (
-                        <div className='flex justify-between items-end mr-2 my-4'>
+                        <div className='flex justify-between items-center mr-2 mt-4'>
                           <div className='text-neutral-40 mb-3'>
                             {t('collection', {
                               keyPrefix: 'chat.chat_text',
@@ -313,11 +313,12 @@ export const NavChat = ({
                             onExpand={() => onExpand(items.uuid)}
                           />
 
+                          {/* ==========================Mobile========================== */}
                           {items.isExpand &&
                             items.Threads?.map((itms) => (
                               <div
                                 key={itms.uuid}
-                                className='border-l-2 border-blue-sky ml-3.5 pl-5 pb-2 text-neutral-40 last:mb-4 text-sm'
+                                className='border-l-2 border-blue-sky ml-5 pl-2.5 pb-2 text-neutral-40 last:mb-4 text-sm'
                                 onClick={() => {
                                   collectionClick({
                                     ...itms,

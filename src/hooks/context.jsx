@@ -63,6 +63,10 @@ export const AppProvider = ({ children }) => {
   }, [currentLanguage])
 
   const registerFormReducer = (fieldName, newValue) => {
+    if (fieldName === 'RESET') {
+      return setRegisterForm({})
+    }
+
     return setRegisterForm({
       ...registerForm,
       [fieldName]: newValue,

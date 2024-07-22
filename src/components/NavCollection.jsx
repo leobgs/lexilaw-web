@@ -62,8 +62,8 @@ export const NavCollection = ({
 
   return (
     <div
-      className={`flex justify-between gap-2 items-center text-sm text-neutral-40 mb-2 pr-2 py-1 ${
-        items.isExpand ? 'bg-blue-sky rounded-lg pl-2 -ml-2' : ''
+      className={`flex justify-between gap-2 items-center text-sm text-neutral-40 mb-2 px-2 py-1 ${
+        items.isExpand ? 'bg-blue-sky rounded-lg' : ''
       }`}
     >
       <div
