@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { LawyerRecommendation } from './LawyerRecommendation'
 import { useNavigate } from 'react-router-dom'
 import { useGlobalContext } from 'hooks/context'
+import './ChatCard.scss'
 
 export const ChatCard = ({
   item,
@@ -230,27 +231,6 @@ export const ChatCard = ({
                   </p>
                 </div>
               </div>
-
-              <div className='flex justify-between'>
-                <div className='whitespace-pre-line text-sm'>
-                  <Markdown
-                    options={{
-                      overrides: {
-                        div: {
-                          component: (props) =>
-                            props.className === 'custom-lawyer' ? (
-                              <CustomDiv {...props} />
-                            ) : (
-                              <DefaultDiv {...props} />
-                            ),
-                        },
-                      },
-                    }}
-                  >
-                    {responseText}
-                  </Markdown>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -288,7 +268,7 @@ export const ChatCard = ({
               </div>
             </div>
 
-            <div className='whitespace-pre-line text-sm'>
+            <div className='chat-wrap text-sm'>
               <Markdown
                 options={{
                   overrides: {
@@ -301,6 +281,8 @@ export const ChatCard = ({
                         ),
                     },
                   },
+                  wrapper: 'main',
+                  forceWrapper: true,
                 }}
               >
                 {responseText}
