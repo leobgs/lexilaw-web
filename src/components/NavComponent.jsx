@@ -144,7 +144,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
       ${
         item.isActive
           ? isActivated
-            ? 'bg-blue-dark text-white shadow pl-1'
+            ? 'bg-blue-dark text-white shadow pl-1 bg-selected-lawyer-left'
             : 'border-blue-dark border pl-2'
           : ''
       }`}
