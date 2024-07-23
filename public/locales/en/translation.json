@@ -94,7 +94,8 @@
       "current": "Current Chat",
       "past_chat": "Past Chat",
       "search": "Search",
-      "yes_to_recommendation": "Yes"
+      "yes_to_recommendation": "Yes",
+      "error_text": "Lexi Assistance failed to generate respon"
     }
   },
   "my_lawyer": {

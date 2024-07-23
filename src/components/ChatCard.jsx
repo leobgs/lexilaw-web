@@ -231,6 +231,7 @@ export const ChatCard = ({
                   </p>
                 </div>
               </div>
+              <div className='chat-wrap text-sm'>{responseText}</div>
             </div>
           </div>
 
