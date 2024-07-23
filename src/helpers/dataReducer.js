@@ -110,7 +110,7 @@ export const colectionReducer = (state, action) => {
         uuid: null,
         thread_id: null,
         text: '',
-        activeBy: null,
+        activeBy: 'thread',
       }
 
     default:

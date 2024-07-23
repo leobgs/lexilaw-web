@@ -10,6 +10,7 @@ import { API } from 'config/api'
 import { deleteData, getData, patchData, putData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 export const NavComponent = ({ item, onDeleted, isActivated }) => {
   const queryClient = useQueryClient()
