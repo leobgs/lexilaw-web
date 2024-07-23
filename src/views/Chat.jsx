@@ -192,7 +192,7 @@ export const Chat = () => {
           const selectedThread = data?.find(
             (item) => item.open_thread_id === threadMessageId.thread_id
           )
-          setHeaderText(selectedThread.title)
+          setHeaderText(selectedThread?.title)
           navigate(`/thread/${selectedThread?.uuid}`, {
             state: threadMessageId,
           })

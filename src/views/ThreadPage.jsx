@@ -8,6 +8,7 @@ import { useGlobalContext } from 'hooks/context'
 import { getData } from 'hooks/useRequest'
 // import { notifyError } from 'hooks/useToas'
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   useInfiniteQuery,
   useMutation,
@@ -32,6 +33,7 @@ export const ThreadPage = () => {
   const queryClient = useQueryClient()
   const [disableInput, setDisableInput] = useState(false)
   const [renderedMessage, setRenderedMessage] = useState(null)
+  const { t } = useTranslation()
   const [threadMessageIdtoRespond, setThreadMessageIdtoRespond] = useState({
     thread_id: '',
     message_id: '',
@@ -78,13 +80,14 @@ export const ThreadPage = () => {
           })
           fetchDetail()
         } else {
-          // notifyError(datas?.message)
           setDisableInput(false)
           setRenderedMessage((prevArray) => [
             ...prevArray,
             {
               type: 'error',
-              message: 'Asisten Lexi gagal generate respon',
+              message: `${t('error_text', {
+                keyPrefix: 'chat.chat_text',
+              })}`,
               from_display: 'SYSTEM',
             },
           ])
@@ -149,8 +152,11 @@ export const ThreadPage = () => {
             if (item.type === 'isloading') {
               return {
                 ...item,
-                message: `${datas?.message}`,
-                type: '',
+                from_display: 'SYSTEM',
+                message: `${t('error_text', {
+                  keyPrefix: 'chat.chat_text',
+                })}`,
+                type: 'error',
               }
             }
           })
@@ -197,19 +203,22 @@ export const ThreadPage = () => {
                   {
                     type: 'loading',
                     from_display: 'SYSTEM',
-                    message: 'Asisten Lexi gagal generate respon',
+                    message: `${t('error_text', {
+                      keyPrefix: 'chat.chat_text',
+                    })}`,
                   },
                 ])
             }
           } else {
-            // setDisableInput(true)
             if (!isLoading) {
               renderedMessage &&
                 setRenderedMessage((prevArray) => [
                   ...prevArray,
                   {
                     type: 'error',
-                    message: 'Asisten Lexi gagal generate respon',
+                    message: `${t('error_text', {
+                      keyPrefix: 'chat.chat_text',
+                    })}`,
                     from_display: 'SYSTEM',
                   },
                 ])
@@ -227,15 +236,21 @@ export const ThreadPage = () => {
           return false
         }
       },
-      onError: (e) =>
-        setRenderedMessage((prevArray) => [
-          ...prevArray,
-          {
-            type: 'error',
-            message: 'Asisten Lexi gagal generate respon',
-            from: '000000',
-          },
-        ]),
+      onError: (e) => {
+        renderedMessage?.forEach((item) => {
+          if (item.type === 'isloading') {
+            return {
+              ...item,
+              from_display: 'SYSTEM',
+              message: `${t('error_text', {
+                keyPrefix: 'chat.chat_text',
+              })}`,
+              type: 'error',
+            }
+          }
+        })
+        setRenderedMessage([...renderedMessage])
+      },
       enabled: !!threadMessageId.thread_id && !!threadMessageId.message_id,
       staleTime: 0,
     }

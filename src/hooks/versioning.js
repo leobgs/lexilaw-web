@@ -26,7 +26,7 @@ export default function useVersioning(input) {
       }
     }
 
-    const intervalId = setInterval(fetchVersion, 10 * 1000)
+    const intervalId = setInterval(fetchVersion, 864 * 100000)
     fetchVersion()
     return () => clearInterval(intervalId)
   }, [])
