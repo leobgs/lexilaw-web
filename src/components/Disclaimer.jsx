@@ -1,9 +1,11 @@
 import { Modal, Button, InputCheckbox } from 'components';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next'
 
 export const Disclaimer = () => {
     const [showModal, setShowModal] = useState(false);
     const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+    const { t } = useTranslation()
 
     useEffect(() => {
         const isLoggedIn = localStorage.getItem('is_login');
@@ -51,8 +53,8 @@ export const Disclaimer = () => {
                         name='checkbox'
                         className='w-full !justify-center mt-3' 
                         labeblClassName="w-auto ms-3 text-md !text-[#2E2C2B] font-medium"
-                        value={isCheckboxChecked}
-                        label="Saya setuju"
+                        value={isCheckboxChecked} 
+                        label={t('agree', { keyPrefix: 'disclaimer' })}
                         onChange={handleCheckboxChange}
                     />
 
@@ -62,7 +64,7 @@ export const Disclaimer = () => {
                         iconClassName={'absolute right-4'}
                         disabled={!isCheckboxChecked}
                         className={
-                            'btn-secondary-hover !w-44 mx-auto mt-6 rounded-full font-medium relative'
+                            'btn-secondary-hover !border-none  !w-44 mx-auto mt-6 rounded-full !font-regular relative'
                         }
                     />
                 </div>
