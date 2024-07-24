@@ -91,6 +91,7 @@ export const NavChat = ({
         showNav ? '' : 'py-4'
       }`}
     >
+      {showNav && <div className='pb-4 pt-3.5' />}
       <div className='hidden md:inline'>
         <img src={images.logo_lexilaw} alt='LexiLaw' className='' />
         <div className='flex justify-between gap-2 mr-4 mt-4 w-full'>
@@ -128,7 +129,7 @@ export const NavChat = ({
 
       <div
         className={`md:hidden flex justify-between px-4 items-center gap-4 ${
-          showNav ? ' hidden' : ' inline-block'
+          showNav ? ' ' : ' inline-block'
         }`}
       >
         <img
@@ -276,11 +277,26 @@ export const NavChat = ({
                   alt='LexiLaw'
                   className='my-4 w-1/2'
                 />
-                <div
-                  className='p-2 bg-white rounded-full flex justify-center border border-neutral-20'
-                  onClick={() => setShowSearchNav(!showSearchNav)}
-                >
-                  <img src={images.ic_search} alt='search' className='h-4' />
+                <div className='flex justify-between'>
+                  <div
+                    className='p-2 bg-white rounded-full flex justify-center border border-neutral-20 w-1/2'
+                    onClick={() => setShowSearchNav(!showSearchNav)}
+                  >
+                    <img src={images.ic_search} alt='search' className='h-4' />
+                  </div>
+                  <div
+                    className='p-2 bg-white rounded-full flex justify-center border border-neutral-20 w-1/2'
+                    onClick={() => {
+                      setShowNav(false)
+                      onHeaderClick()
+                    }}
+                  >
+                    <img
+                      src={images.ic_add_convo3}
+                      alt='add convo'
+                      className='h-5 w-[20.11px]'
+                    />
+                  </div>
                 </div>
               </div>
 

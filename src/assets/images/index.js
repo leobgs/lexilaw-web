@@ -68,6 +68,7 @@ import ic_dislike from './ic_dislike.svg'
 import ic_like from './ic_like.svg'
 import ic_search_black from './ic_search_black.png'
 import ic_add_convo2 from './ic_add_convo2.svg'
+import ic_add_convo3 from './ic_add_convo3.svg'
 import ic_attach_black_sm from './ic_attach_black_sm.svg'
 import ic_active_like from './ic_active_like.svg'
 import ic_new_collection from './ic_new_collection.svg'
@@ -150,6 +151,7 @@ const images = {
   ic_active_dislike,
   ic_new_collection,
   ic_dots_white,
+  ic_add_convo3,
 }
 
 export default images
