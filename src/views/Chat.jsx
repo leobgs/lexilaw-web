@@ -597,7 +597,7 @@ export const Chat = () => {
 
                 <InputChat
                   onChange={(e) => handleAddChat(e)}
-                  className='w-full md:w-3/4 bottom-1 absolute ml-4'
+                  className='w-full md:w-3/4 bottom-1 absolute md:ml-4'
                   disable={disableInput}
                 />
               </div>

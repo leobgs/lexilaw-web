@@ -54,7 +54,7 @@ export const InputChat = ({ onChange, className, disable }) => {
     <>
       <div
         className={clsx(
-          'border border-neutral-30 py-2 rounded-3xl bg-[#FCFAF7] bg-opacity-35 pr-4 mt-2',
+          'border border-neutral-30 py-2 rounded-3xl bg-[#FCFAF7] bg-opacity-35 pr-1.5 mt-2',
           className
         )}
       >
@@ -92,8 +92,8 @@ export const InputChat = ({ onChange, className, disable }) => {
             />
           </div>
         )}
-        <div className='gap-1 flex items-center justify-between mx-2'>
-          <label htmlFor='file' className='md:ml-0'>
+        <div className='gap-1 flex items-center justify-between'>
+          <label htmlFor='file' className='md:ml-2 '>
             <div className='w-full flex justify-center'>
               <div className='bg-[#F8F5F1] rounded-full'>
                 <img

@@ -68,9 +68,9 @@ const AutoResizeTextarea = ({
             }, 600)
           }
         }}
-        className='bg-blue-dark px-2 py-1.5 rounded-3xl flex items-center h-8'
+        className='bg-blue-dark px-4 py-1.5 rounded-3xl flex items-center h-8 w-[52px]'
       >
-        <img src={images.ic_send} alt='kirim' />
+        <img src={images.ic_send} alt='kirim' className='w-[22.5px] h-[18px]' />
       </div>
     </div>
   )
