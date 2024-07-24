@@ -277,7 +277,7 @@ export const NavChat = ({
                   alt='LexiLaw'
                   className='my-4 w-1/2'
                 />
-                <div className='flex justify-between'>
+                <div className='flex justify-between gap-1'>
                   <div
                     className='p-2 bg-white rounded-full flex justify-center border border-neutral-20 w-1/2'
                     onClick={() => setShowSearchNav(!showSearchNav)}
@@ -285,7 +285,7 @@ export const NavChat = ({
                     <img src={images.ic_search} alt='search' className='h-4' />
                   </div>
                   <div
-                    className='p-2 bg-white rounded-full flex justify-center border border-neutral-20 w-1/2'
+                    className='p-2 bg-[#F0EDE8] rounded-full flex justify-center border border-neutral-20 w-1/2'
                     onClick={() => {
                       setShowNav(false)
                       onHeaderClick()
