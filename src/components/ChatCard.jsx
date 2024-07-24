@@ -1,5 +1,4 @@
 import images from 'assets/images'
-import { byteConversion } from 'utils/byteConversion'
 import { ChatRespond } from './ChatRespond'
 import Markdown from 'markdown-to-jsx'
 import { useQueryClient } from 'react-query'

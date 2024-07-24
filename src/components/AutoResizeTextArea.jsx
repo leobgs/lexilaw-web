@@ -45,7 +45,7 @@ const AutoResizeTextarea = ({
         placeholder={placeholder}
         disabled={disable}
         className={`max-h-20 w-full focus:outline-none md:bg-opacity-0 bg-[#FCFAF7] text-sm ${
-          disable ? 'md:bg-neutral-10 ' : ''
+          disable ? 'md:bg-neutral-10' : ''
         }`}
         rows={1}
         style={{
