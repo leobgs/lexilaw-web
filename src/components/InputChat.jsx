@@ -95,7 +95,7 @@ export const InputChat = ({ onChange, className, disable }) => {
         <div className='gap-1 flex items-center justify-between'>
           <label htmlFor='file' className='md:ml-2 '>
             <div className='w-full flex justify-center'>
-              <div className='bg-[#F8F5F1] rounded-full'>
+              <div className='bg-[#F8F5F1] rounded-full ml-1.5 md:ml-0'>
                 <img
                   src={images.ic_attach_black}
                   alt='attach'
@@ -126,9 +126,7 @@ export const InputChat = ({ onChange, className, disable }) => {
             }}
             onSubmit={handleSubmitButton}
             disable={disable}
-            className={`max-h-20 w-full focus:outline-none bg-[#FCFAF7] md:bg-opacity-0 text-sm ${
-              disable ? 'bg-neutral-10' : ''
-            }`}
+            className='max-h-20 w-full focus:outline-none bg-[#FCFAF7] md:bg-opacity-0 text-sm'
             placeholder={`${
               disable
                 ? t('Wait_for_lexi_to_answer', { keyPrefix: 'input_chat' })
