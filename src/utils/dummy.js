@@ -549,3 +549,32 @@ export const LAWYER_SCHEDULE = [
     url: 'https://meet.google.com/tsl-192',
   },
 ]
+
+export const FILE_LAWYER = [
+  {
+    from: 'SYSTEM',
+    data: [
+      {
+        id: 1,
+        name: 'Draft Kontrak Over Kredit.pdf',
+        file: '/dummy/draft_kontrak.pdf',
+      },
+    ],
+  },
+  {
+    from: 'USER',
+    data: [
+      { id: 2, name: 'Legal Memorandum', file: '' },
+      {
+        id: 3,
+        name: 'Dokumen Hukum',
+        file: '/dummy/draft_lexilaw.png',
+      },
+      {
+        id: 4,
+        name: 'Opini Hukum',
+        file: '',
+      },
+    ],
+  },
+]

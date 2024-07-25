@@ -247,7 +247,7 @@ export const ChatCard = ({
       ) : item.from_display === 'SYSTEM' ? (
         <div
           className={clsx(
-            `flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 bg-neutral-70 rounded-3xl md:rounded-xl border border-neutral-70`,
+            `flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:mx-4 bg-neutral-70 rounded-3xl md:rounded-xl border border-neutral-70`,
             className
           )}
         >

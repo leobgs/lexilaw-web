@@ -148,3 +148,13 @@ body {
     content: var(--angle);
   }
 }
+
+.bg-gradient-card-file {
+  background: url('../assets/images/ic_card_file.svg') no-repeat top left 100%,
+    linear-gradient(
+      to right top,
+      rgba(224, 219, 209, 0.8),
+      rgba(224, 219, 209, 0.5)
+    );
+  border: 1px solid #eadfca;
+}

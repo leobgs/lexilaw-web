@@ -74,6 +74,9 @@ import ic_active_like from './ic_active_like.svg'
 import ic_new_collection from './ic_new_collection.svg'
 import ic_active_dislike from './ic_active_dislike.svg'
 import ic_dots_white from './ic_dots_white.svg'
+import ic_sand_time from './ic_sand_time.svg'
+import ic_info_file from './ic_info_file.svg'
+import ic_two_check from './ic_two_check.svg'
 
 const images = {
   bg_register_login,
@@ -152,6 +155,9 @@ const images = {
   ic_new_collection,
   ic_dots_white,
   ic_add_convo3,
+  ic_sand_time,
+  ic_info_file,
+  ic_two_check,
 }
 
 export default images
