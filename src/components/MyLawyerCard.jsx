@@ -2,7 +2,6 @@ import images from 'assets/images'
 import clsx from 'clsx'
 
 export const MyLawyerCard = ({ data, className, onClick = () => {} }) => {
-  // console.log(data)
   return (
     <div
       className={clsx('bg-[#F2F1EC] px-3 pt-3 pb-1 rounded-2xl', className)}

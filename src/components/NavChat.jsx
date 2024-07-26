@@ -21,6 +21,7 @@ export const NavChat = ({
   userDetail,
   onDeleted = () => {},
   onExpand = () => {},
+  onClickFile = () => {},
 }) => {
   const queryClient = useQueryClient()
   const { collection, collectionClick } = useGlobalContext()
@@ -147,6 +148,7 @@ export const NavChat = ({
               src={images.ic_attachment_upload}
               alt='upload'
               className='h-7 w-8'
+              onClick={() => onClickFile()}
             />
           </div>
         </div>

@@ -7,6 +7,7 @@ import AutoResizeTextarea from './AutoResizeTextArea'
 
 export const InputChat = ({ onChange, className, disable }) => {
   const [displayImage, setDisplayImage] = useState()
+  const [displayExt, setDisplayExt] = useState()
   const [form, setForm] = useState({
     message: '',
     file: null,
@@ -32,15 +33,35 @@ export const InputChat = ({ onChange, className, disable }) => {
     let file = e.target.files[0]
     let url = URL.createObjectURL(file)
     let type = file.type.substring(0, file.type.lastIndexOf('/')).toUpperCase()
+    const extension = file.name.split('.').pop()
+    const allowedExt = [
+      'png',
+      'jpeg',
+      'jpg',
+      'pdf',
+      'xls',
+      'doc',
+      'xlsx',
+      'docx',
+    ]
 
-    setDisplayImage(url)
-    setForm({
-      ...form,
-      file: e.target.files[0],
-      caption: file.name,
-      images: url,
-      content_type: type === 'IMAGE' ? 'IMAGE' : 'DOCUMENT',
-    })
+    if (type && allowedExt.includes(extension)) {
+      setDisplayImage(url)
+      setDisplayExt(extension.toUpperCase())
+      setForm({
+        ...form,
+        file: e.target.files[0],
+        caption: file.name,
+        images: url,
+        content_type: type,
+      })
+      setError(null)
+    } else {
+      setError('Type file tidak didukung')
+      setTimeout(() => {
+        setError(null)
+      }, 2000)
+    }
 
     e.target.value = null
   }
@@ -68,11 +89,9 @@ export const InputChat = ({ onChange, className, disable }) => {
                   className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
                 />
               ) : (
-                <img
-                  src={images.ic_pdf_thumbnail}
-                  alt='displayed pdf'
-                  className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
-                />
+                <div className='px-2 max-w-12 h-12 text-sm bg-secondary-base bg-opacity-90 text-white font-futura-bold items-center flex justify-center m-2 shadow rounded-sm'>
+                  {displayExt}
+                </div>
               )}
               <div className='text-xs w-full'>
                 <p className='text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%]'>
@@ -109,7 +128,7 @@ export const InputChat = ({ onChange, className, disable }) => {
               </div>
             </div>
             <input
-              accept='image/*, application/pdf'
+              accept='*'
               type='file'
               name='file'
               onChange={changeHandler}
@@ -137,9 +156,9 @@ export const InputChat = ({ onChange, className, disable }) => {
       </div>
 
       {error && (
-        <div className='flex items-center mt-1 ml-1'>
+        <div className='flex items-center mt-2 ml-5'>
           <img className='w-3 h-3' src={images.ic_invalid} alt='' />
-          <div className='text-error text-xs ml-1'>{error}</div>
+          <div className='text-error text-xs ml-1 text-error-base'>{error}</div>
         </div>
       )}
     </>

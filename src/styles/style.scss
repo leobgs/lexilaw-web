@@ -26,23 +26,23 @@ li {
   @apply mb-2;
 }
 
-@import "./font";
+@import './font';
 
 @layer base {
   html {
-    font-family: "Inter Regular";
+    font-family: 'Inter Regular';
   }
 
-  input[type="password"] {
+  input[type='password'] {
     font-family: Verdana;
     letter-spacing: 0.125em;
 
     &::placeholder {
-      font-family: "Inter Regular";
+      font-family: 'Inter Regular';
       letter-spacing: normal;
     }
   }
-  input[type="number"] {
+  input[type='number'] {
     -moz-appearance: textfield;
   }
   input::-webkit-outer-spin-button,
@@ -109,7 +109,7 @@ body {
 }
 
 .bg-selected-lawyer {
-  background-image: url("../assets/images/bg_selected_lawyer.png");
+  background-image: url('../assets/images/bg_selected_lawyer.png');
   background-position: top;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -123,22 +123,22 @@ body {
 }
 
 .bg-img-detail {
-  background-image: url("../assets/images/bg_lawyer_detail.png");
+  background-image: url('../assets/images/bg_lawyer_detail.png');
   background-position: top right;
   background-repeat: no-repeat;
   background-size: 70% 100%;
 }
 
 @property --angle {
-  syntax: "<angle>";
+  syntax: '<angle>';
   inherits: true;
   initial-value: -180deg;
 }
 
 .card-animated-chat {
-  background:
-    linear-gradient(white, white, white, white) padding-box,
-    conic-gradient(from var(--angle), #dfdfdf, #00aa8b, #dfdfdf, #00aa8b) border-box;
+  background: linear-gradient(white, white, white, white) padding-box,
+    conic-gradient(from var(--angle), #dfdfdf, #00aa8b, #dfdfdf, #00aa8b)
+      border-box;
   border: 3px solid transparent;
   border-radius: 12px;
   width: fit-content;
@@ -149,8 +149,28 @@ body {
   }
 }
 
+.bg-gradient-card-file {
+  background: url('../assets/images/ic_card_file.svg') no-repeat top left 100%,
+    linear-gradient(
+      to right top,
+      rgba(224, 219, 209, 0.8),
+      rgba(224, 219, 209, 0.5)
+    );
+  border: 1px solid #eadfca;
+}
+
+.shadow-card-file {
+  box-shadow: 2px 3px 0px 0px rgba(0, 66, 37, 1);
+  -webkit-box-shadow: 2px 3px 0px 0px rgba(0, 66, 37, 1);
+  -moz-box-shadow: 2px 3px 0px 0px rgba(0, 66, 37, 1);
+}
+
 .bg-gradient {
-  background: linear-gradient(180deg, rgb(246 246 246 / 40%) 46%, rgba(246, 246, 246, 1) 86%);
+  background: linear-gradient(
+    180deg,
+    rgb(246 246 246 / 40%) 46%,
+    rgba(246, 246, 246, 1) 86%
+  );
 }
 
 .input-checkbox {
@@ -176,7 +196,7 @@ body {
 }
 
 .input-checkbox span::after {
-  content: "";
+  content: '';
   position: absolute;
   top: -5px;
   right: 0;

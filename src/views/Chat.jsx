@@ -1,6 +1,14 @@
 import images from 'assets/images'
 
-import { InputChat, NavChat, Tooltips, QuestionCard } from 'components'
+import {
+  InputChat,
+  NavChat,
+  Tooltips,
+  QuestionCard,
+  CardFile,
+  SwipeableDiv,
+  CardFileMobile,
+} from 'components'
 import { Toggle } from 'components/Toggle/Toggle'
 import { API } from 'config/api'
 import { StorageKey } from 'config/storage'
@@ -12,7 +20,7 @@ import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { LocalStorage } from 'utils'
-import { DEFAULT_QUESTION, RIWAYAT_OROLAN } from 'utils/dummy'
+import { DEFAULT_QUESTION, FILE_LAWYER, RIWAYAT_OROLAN } from 'utils/dummy'
 import { ThreadPage } from './ThreadPage'
 import { Disclaimer } from 'components/Disclaimer'
 
@@ -20,7 +28,6 @@ export const Chat = () => {
   const { t } = useTranslation()
   const storage = new LocalStorage()
   const navigate = useNavigate()
-
   const {
     currentLanguage,
     collection,
@@ -36,6 +43,7 @@ export const Chat = () => {
   const [dataThreadList, setThreadList] = useState([])
   const [defaultQuestion, setDefaultQuestion] = useState([])
   const [headerText, setHeaderText] = useState('Obrolan Baru')
+  const [showLayerFile, setShowLawyerFile] = useState(false)
   const [userDetail, setUserDetail] = useState({
     first_name: '-',
     last_name: '-',
@@ -448,6 +456,7 @@ export const Chat = () => {
     <div className='bg-primary-base w-full h-screen flex flex-col'>
       <div className='md:pr-4 md:pl-2 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
         <NavChat
+          onClickFile={() => setShowLawyerFile(true)}
           onDeleted={() => {
             setIsHeader(true)
             collectionReset()
@@ -586,9 +595,9 @@ export const Chat = () => {
             />
           </header>
 
-          <div className='md:h-[calc(100%-56px)] h-full'>
-            {isHeader ? (
-              <div className='relative flex h-full flex-col select-text mb-2'>
+          {isHeader ? (
+            <div className='md:h-[calc(100%-56px)] h-full w-3/4'>
+              <div className='relative flex h-full flex-col select-text mb-2 mt-1'>
                 <QuestionCard
                   data={defaultQuestion}
                   onClick={(e) => handleAddChat(e)}
@@ -597,14 +606,31 @@ export const Chat = () => {
 
                 <InputChat
                   onChange={(e) => handleAddChat(e)}
-                  className='w-full md:w-3/4 bottom-1 absolute md:ml-4'
+                  className='w-full md:w-full bottom-1 absolute md:ml-4'
                   disable={disableInput}
                 />
               </div>
-            ) : (
-              <ThreadPage />
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className='md:h-[calc(100%-56px)] h-full w-full flex gap-x-7'>
+              <ThreadPage
+                className={`${
+                  !isHeader && uuid === '63926537' ? 'md:w-9/12' : ''
+                } w-full`}
+                hasFile={!isHeader && uuid === '63926537'}
+              />
+              {!isHeader && uuid === '63926537' && (
+                <CardFile data={FILE_LAWYER} />
+              )}
+              {!isHeader && uuid === '63926537' && (
+                <CardFileMobile
+                  data={FILE_LAWYER}
+                  show={showLayerFile}
+                  onChangeVisibility={() => setShowLawyerFile(false)}
+                />
+              )}
+            </div>
+          )}
         </main>
 
         <Disclaimer />

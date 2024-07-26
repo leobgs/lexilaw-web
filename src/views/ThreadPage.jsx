@@ -1,4 +1,5 @@
 import axios from 'axios'
+import clsx from 'clsx'
 import { InputChat } from 'components'
 import { AutoScrollingDiv } from 'components/AutoScrollDiv'
 import { ChatCard } from 'components/ChatCard'
@@ -26,7 +27,7 @@ export const fetchMessage = async ({ pageParam }, URL) => {
   return respond.data
 }
 
-export const ThreadPage = () => {
+export const ThreadPage = ({ className, hasFile }) => {
   const { collection } = useGlobalContext()
   const params = useParams()
   const { state } = useLocation()
@@ -286,7 +287,12 @@ export const ThreadPage = () => {
   }
 
   return (
-    <div className='flex h-full flex-col select-text relative mb-2'>
+    <div
+      className={clsx(
+        'flex h-full flex-col select-text relative mb-2',
+        className
+      )}
+    >
       {/* <div className='w-full'>
         <div className='bg-secondary-base absolute w-1/3 h-1 animate-right transition-transform' />
       </div> */}
@@ -305,7 +311,9 @@ export const ThreadPage = () => {
                   document: '',
                 })
               }
-              className='flex-none'
+              className={`flex-none ${
+                hasFile ? '!md:w-[calc(100%-16px)]' : 'md:w-3/4 w-full'
+              }`}
               onLike={(e) => handleReaction(itms.uuid, e)}
               onDislike={(e) => handleReaction(itms.uuid, e)}
               disableInput={disableInput}
@@ -316,7 +324,7 @@ export const ThreadPage = () => {
       <div>
         <InputChat
           onChange={(e) => handleAddChat(e)}
-          className='w-full md:w-3/4 md:ml-4'
+          className={`${hasFile ? '!md:w-full' : 'md:w-3/4'} w-full md:ml-4`}
           disable={disableInput}
         />
       </div>

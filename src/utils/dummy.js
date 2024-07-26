@@ -1,3 +1,5 @@
+import images from 'assets/images'
+
 export const DEFAULT_QUESTION = {
   right: [
     { question: 'Undang-undang tentang pajak apa?', value: 1 },
@@ -547,5 +549,42 @@ export const LAWYER_SCHEDULE = [
     scheduled_at: 'Selasa, December 19',
     time_at: '10:00 – 14:00am',
     url: 'https://meet.google.com/tsl-192',
+  },
+]
+
+export const FILE_LAWYER = [
+  {
+    from: 'SYSTEM',
+    data: [
+      {
+        id: 1,
+        name: 'Draft Kontrak Over Kredit.pdf',
+        file: images.surat_menyurat,
+        seen_by_lawyer: true,
+      },
+    ],
+  },
+  {
+    from: 'USER',
+    data: [
+      {
+        id: 2,
+        name: 'Legal Memorandum',
+        file: images.surat_menyurat_2,
+        seen_by_lawyer: false,
+      },
+      {
+        id: 3,
+        name: 'Dokumen Hukum',
+        file: '',
+        seen_by_lawyer: false,
+      },
+      {
+        id: 4,
+        name: 'Opini Hukum',
+        file: '',
+        seen_by_lawyer: false,
+      },
+    ],
   },
 ]
