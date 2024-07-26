@@ -1,3 +1,5 @@
+import images from 'assets/images'
+
 export const DEFAULT_QUESTION = {
   right: [
     { question: 'Undang-undang tentang pajak apa?', value: 1 },
@@ -557,23 +559,26 @@ export const FILE_LAWYER = [
       {
         id: 1,
         name: 'Draft Kontrak Over Kredit.pdf',
-        file: '/dummy/draft_kontrak.pdf',
+        file: images.surat_menyurat,
+        seen_by_lawyer: true,
       },
     ],
   },
   {
     from: 'USER',
     data: [
-      { id: 2, name: 'Legal Memorandum', file: '' },
+      { id: 2, name: 'Legal Memorandum', file: '', seen_by_lawyer: false },
       {
         id: 3,
         name: 'Dokumen Hukum',
-        file: '/dummy/draft_lexilaw.png',
+        file: images.surat_menyurat_2,
+        seen_by_lawyer: false,
       },
       {
         id: 4,
         name: 'Opini Hukum',
         file: '',
+        seen_by_lawyer: false,
       },
     ],
   },

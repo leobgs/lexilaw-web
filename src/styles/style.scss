@@ -158,3 +158,9 @@ body {
     );
   border: 1px solid #eadfca;
 }
+
+.shadow-card-file {
+  box-shadow: 2px 3px 0px 0px rgba(0, 66, 37, 1);
+  -webkit-box-shadow: 2px 3px 0px 0px rgba(0, 66, 37, 1);
+  -moz-box-shadow: 2px 3px 0px 0px rgba(0, 66, 37, 1);
+}

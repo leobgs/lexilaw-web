@@ -77,6 +77,8 @@ import ic_dots_white from './ic_dots_white.svg'
 import ic_sand_time from './ic_sand_time.svg'
 import ic_info_file from './ic_info_file.svg'
 import ic_two_check from './ic_two_check.svg'
+import surat_menyurat from './dummy/surat_menyurat.jpg'
+import surat_menyurat_2 from './dummy/surat_menyurat_2.jpg'
 
 const images = {
   bg_register_login,
@@ -158,6 +160,8 @@ const images = {
   ic_sand_time,
   ic_info_file,
   ic_two_check,
+  surat_menyurat,
+  surat_menyurat_2,
 }
 
 export default images
