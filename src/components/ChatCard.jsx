@@ -132,7 +132,6 @@ export const ChatCard = ({
     <div {...props}>
       <div
         className='bg-[#EFEDE8] p-4 rounded-lg md:w-3/4 flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md my-2'
-        // onClick={() => console.log('Div clicked', props['data-uuid'])}
         onClick={() => setLawyerRecommendation(true)}
       >
         <div className='flex items-center gap-4'>{children}</div>
