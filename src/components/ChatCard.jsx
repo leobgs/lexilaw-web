@@ -169,7 +169,7 @@ export const ChatCard = ({
     <>
       {item.from_display === 'SYSTEM' && item.type === 'loading' ? (
         <div
-          className={clsx('card-animated-chat ml-4 mb-2 pt-1', className)}
+          className={clsx('card-animated-chat ml-4 mb-2 pt-1 w-1/3')}
           ref={boxRef}
         >
           <div className='bg-white rounded-lg flex gap-2 px-4'>
