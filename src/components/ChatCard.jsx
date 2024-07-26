@@ -31,6 +31,7 @@ export const ChatCard = ({
   const [isJsonAvailable, setJsonAvailable] = useState(false)
   const navigate = useNavigate()
   const [fileCategory, setFileCategory] = useState('')
+  const [displayExt, setDisplayExt] = useState()
   const [consult, setConsult] = useState(false)
 
   const boxRef = useRef(null)
@@ -41,13 +42,15 @@ export const ChatCard = ({
       const extension = item.filename.split('.').pop().toLowerCase()
 
       const imageExtensions = ['png', 'jpeg', 'jpg']
-      const documentExtensions = ['pdf', 'xls', 'doc']
+      const documentExtensions = ['pdf', 'xls', 'doc', 'xlsx', 'docx']
 
       if (imageExtensions.includes(extension)) {
         setFileCategory('IMAGE')
       } else if (documentExtensions.includes(extension)) {
         setFileCategory('DOKUMEN')
+        setDisplayExt(extension.toUpperCase())
       } else {
+        setDisplayExt(extension.toUpperCase())
         setFileCategory('UNKNOWN')
       }
     }
@@ -309,7 +312,7 @@ export const ChatCard = ({
                     />
                   )}
 
-                  <div className='text-xs'>
+                  <div className='text-xs '>
                     <p className='text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%]'>
                       {item.caption}
                     </p>
@@ -373,11 +376,9 @@ export const ChatCard = ({
                         className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
                       />
                     ) : (
-                      <img
-                        src={images.ic_pdf_thumbnail}
-                        alt='displayed pdf'
-                        className='w-12 h-12 aspect-auto m-2 rounded-sm shadow'
-                      />
+                      <div className='px-2 max-w-12 h-12 text-sm bg-secondary-base bg-opacity-90 text-white font-futura-bold items-center flex justify-center m-2 shadow rounded-sm'>
+                        {displayExt}
+                      </div>
                     )}
                     <div className='text-xs'>
                       <p className='text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%]'>

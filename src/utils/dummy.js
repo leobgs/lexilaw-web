@@ -567,11 +567,16 @@ export const FILE_LAWYER = [
   {
     from: 'USER',
     data: [
-      { id: 2, name: 'Legal Memorandum', file: '', seen_by_lawyer: false },
+      {
+        id: 2,
+        name: 'Legal Memorandum',
+        file: images.surat_menyurat_2,
+        seen_by_lawyer: false,
+      },
       {
         id: 3,
         name: 'Dokumen Hukum',
-        file: images.surat_menyurat_2,
+        file: '',
         seen_by_lawyer: false,
       },
       {

@@ -20,7 +20,15 @@ export const CardFileComponent = ({ item }) => {
     }
   }, [item.file])
 
-  console.log(item)
+  const handleDownload = (url, name) => {
+    const link = document.createElement('a')
+    link.href = url
+    link.download = name
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   return (
     <div className='h-full w-full'>
       {fileCategory === 'IMAGE' ? (
@@ -30,6 +38,7 @@ export const CardFileComponent = ({ item }) => {
               src={item.file}
               alt='displayed file'
               className='md:w-full md:h-full aspect-square shadow border-2 border-secondary-base rounded-md h-[72px] w-[72px]'
+              onClick={() => handleDownload(item.file, item.name)}
             />
             {item.seen_by_lawyer && (
               <div className='absolute bottom-0 backdrop-blur-2xl w-full items-center justify-center rounded-b-lg hidden md:flex'>
@@ -44,7 +53,7 @@ export const CardFileComponent = ({ item }) => {
         </div>
       ) : fileCategory === 'DOKUMEN' ? (
         <div className='flex items-center justify-start gap-2 my-2 py-2 border-b border-b-[#D7D7D7] md:border-none md:block md:mb-0 md:py-0'>
-          <div className='border-2 border-secondary-base rounded-md relative shadow-card-file md:shadow-none'>
+          <div className='border-2 border-secondary-base rounded-md relative shadow-card-file md:shadow-none md:border-[#0042251A]'>
             <iframe
               src={`${encodeURIComponent(item?.file)}#zoom=FitH`}
               title={item.name}
@@ -63,7 +72,7 @@ export const CardFileComponent = ({ item }) => {
         </div>
       ) : (
         <div className='flex items-center justify-start gap-2 my-2 py-2 border-b border-b-[#D7D7D7] md:border-none md:block md:mb-0 md:py-0'>
-          <div className='bg-[#0042250D] aspect-square border-[#0042250D] items-center justify-center flex md:w-full md:h-full h-[72px] w-[72px] border-2 border-secondary-base rounded-md relative shadow-card-file md:shadow-none'>
+          <div className='bg-[#0042250D] aspect-square border-[#0042250D] items-center justify-center flex h-[72px] w-[72px] border-2 border-secondary-base rounded-md relative shadow-card-file md:shadow-none md:w-full md:h-full md:border-[#0042251A]'>
             <img
               src={images.ic_sand_time}
               alt='displayed file'
