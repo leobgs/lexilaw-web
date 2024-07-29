@@ -58,9 +58,16 @@ export const CardFile = ({ data }) => {
           <p className='text-xs font-regular text-[#969090]'>Jakarta</p>
         </div>
         <div className='bg-blue-sky text-xs items-center flex rounded-3xl p-2 h-7'>
-          Cek Jadwal
+          {t('check_schedule', {
+            keyPrefix: 'lawyer_document',
+          })}
         </div>
       </div>
+      <p className='text-xs text-secondary-base font-thin text-center mt-1'>
+        {t('lawyer_reommend', {
+          keyPrefix: 'lawyer_document',
+        })}
+      </p>
     </div>
   )
 }

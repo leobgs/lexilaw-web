@@ -150,12 +150,19 @@ body {
 }
 
 .bg-gradient-card-file {
-  background: url('../assets/images/ic_card_file.svg') no-repeat top left 100%,
+  background: url('../assets/images/ic_card_file.svg') no-repeat top right 100%,
     linear-gradient(
       to right top,
-      rgba(224, 219, 209, 0.8),
-      rgba(224, 219, 209, 0.5)
+      rgba(239, 237, 232, 0.8),
+      rgba(239, 237, 232, 0.5)
     );
+  border: 1px solid #eadfca;
+}
+
+.bg-gradient-card-file-mobile {
+  background: url('../assets/images/ic_card_file.svg') no-repeat left top,
+    linear-gradient(rgba(239, 237, 232, 0.8), rgba(239, 237, 232, 0.5));
+  background-size: contain;
   border: 1px solid #eadfca;
 }
 

@@ -596,7 +596,7 @@ export const Chat = () => {
           </header>
 
           {isHeader ? (
-            <div className='md:h-[calc(100%-56px)] h-full w-3/4'>
+            <div className='md:h-[calc(100%-56px)] h-full w-full md:w-3/4'>
               <div className='relative flex h-full flex-col select-text mb-2 mt-1'>
                 <QuestionCard
                   data={defaultQuestion}
@@ -634,8 +634,6 @@ export const Chat = () => {
         </main>
 
         <Disclaimer />
-
-
       </div>
     </div>
   )
