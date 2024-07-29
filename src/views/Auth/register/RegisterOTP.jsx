@@ -36,8 +36,7 @@ const RegisterOTP = () => {
             access_token: data?.data,
             token_type: 'Bearer',
           })
-          storage.setItem(StorageKey.IS_LOGIN, true)
-          storage.setItem(StorageKey.DISCLAIMER_POPUP, true) 
+          storage.setItem(StorageKey.IS_LOGIN, true) 
 
           openAlert({
             title: data?.message,

@@ -53,4 +53,5 @@ export const API = {
   CALENDY_WEBHOOK: '/user/app/v1.0.0/lawyer/calendly/webhook',
 
   DISCLAIMER: '/user/app/v1.0.0/disclaimer',
+  UPDATE_DISCLAIMER: '/user/app/v1.0.0/user/disclaimer',
 }

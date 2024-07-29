@@ -15,19 +15,9 @@ export const InputCheckbox = ({
     onChange,
 }) => {
     const handleOnChange = (e) => {
-        const { name, value } = e.target;
-        onChange({ name: name, value: value });
-    };
-
-    const handleOnKeyDown = (e) => {
-        if (
-            e.target.value.length >= e.target.maxLength &&
-            e.key !== 'Backspace' &&
-            type === 'number'
-        ) {
-            e.preventDefault();
-        }
-    };
+        const { name, checked } = e.target;
+        onChange({ name: name, value: checked });
+    }; 
 
     return (
         <div className={clsx('text-sm flex items-center justify-stretch', className)}>
@@ -44,8 +34,8 @@ export const InputCheckbox = ({
                         maxLength={maxLength}
                         value={value}
                         name={name}
-                        onChange={handleOnChange}
-                        onKeyDown={handleOnKeyDown}
+                        onChange={handleOnChange} 
+                        checked={value}
                     />
                     <span></span>
                 </div>
