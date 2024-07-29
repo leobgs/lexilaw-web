@@ -51,4 +51,6 @@ export const API = {
   AVAILABLE_SCHEDULES:
     '/user/app/v1.0.0/lawyer/calendly/availability_schedules',
   CALENDY_WEBHOOK: '/user/app/v1.0.0/lawyer/calendly/webhook',
+
+  DISCLAIMER: '/user/app/v1.0.0/disclaimer',
 }
