@@ -558,7 +558,7 @@ export const FILE_LAWYER = [
     data: [
       {
         id: 1,
-        name: 'Draft Kontrak Over Kredit.pdf',
+        name: 'Draft Kontrak Over Kredit.jpg',
         file: images.surat_menyurat,
         seen_by_lawyer: true,
       },
