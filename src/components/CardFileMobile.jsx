@@ -14,12 +14,17 @@ export const CardFileMobile = ({
     <SwipeableDiv
       visibility={show}
       onChangeVisibility={() => onChangeVisibility()}
-      className=''
+      className='w-full'
     >
-      <div className='bg-gradient-card-file shadow-lg rounded-t-xl p-4 h-[92%]'>
-        <div className='overflow-y-auto no-scrollbar h-full'>
+      <div className='shadow-lg bg-gradient-card-file-mobile rounded-t-xl h-full'>
+        <div className='w-2/12 h-1.5 bg-neutral-40 bg-opacity-40 rounded-lg mx-auto mt-2' />
+        <div className='flex justify-center h-full flex-col px-4'>
           <div className='flex items-center my-4 gap-2 sticky'>
-            <img src={images.ic_info_file} alt='upload' className='h-5 w-5' />
+            <img
+              src={images.ic_attachment_upload}
+              alt='upload'
+              className='h-7 w-8'
+            />
             <p className='text-xs'>
               {t('lawyer_detail', {
                 keyPrefix: 'lawyer_document',
@@ -27,49 +32,58 @@ export const CardFileMobile = ({
             </p>
           </div>
 
-          {data?.map((item, index) =>
-            item.from === 'SYSTEM' ? (
-              <div key={`${index}-s`} className='mt-4'>
-                <p className='text-secondary-base text-sm mb-2.5'>
-                  {t('ai_result', {
-                    keyPrefix: 'lawyer_document',
-                  })}
-                </p>
+          <div className='overflow-y-auto no-scrollbar'>
+            {data?.map((item, index) =>
+              item.from === 'SYSTEM' ? (
+                <div key={`${index}-s`} className='mt-4'>
+                  <p className='text-sm mb-2.5'>
+                    {t('ai_result', {
+                      keyPrefix: 'lawyer_document',
+                    })}
+                  </p>
 
-                <div className=''>
-                  {item.data?.map((item, index) => (
-                    <CardFileComponent item={item} key={item.id} />
-                  ))}
+                  <div className=''>
+                    {item.data?.map((item, index) => (
+                      <CardFileComponent item={item} key={item.id} />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ) : item.from === 'USER' ? (
-              <div className='mt-5' key={`${index}-u`}>
-                <p className='text-secondary-base text-sm mb-2.5'>
-                  {t('lawyer_result', {
-                    keyPrefix: 'lawyer_document',
-                  })}
-                </p>
+              ) : item.from === 'USER' ? (
+                <div className='mt-5' key={`${index}-u`}>
+                  <p className='text-sm mb-2.5'>
+                    {t('lawyer_result', {
+                      keyPrefix: 'lawyer_document',
+                    })}
+                  </p>
 
-                <div className=''>
-                  {item.data?.map((item) => (
-                    <CardFileComponent item={item} key={item.id} />
-                  ))}
+                  <div className=''>
+                    {item.data?.map((item) => (
+                      <CardFileComponent item={item} key={item.id} />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              ''
-            )
-          )}
-        </div>
+              ) : (
+                ''
+              )
+            )}
+          </div>
 
-        <div className='bg-[#585858] w-full flex justify-between items-center py-2 rounded-md mt-4 px-4'>
-          <div className='text-white'>
-            <p className='font-semi-bold'>Calvin Koss .SH</p>
-            <p className='text-xs font-regular text-[#969090]'>Jakarta</p>
+          <div className='bg-[#585858] w-full flex justify-between items-center py-2 rounded-md mt-4 px-4'>
+            <div className='text-white'>
+              <p className='font-semi-bold'>Calvin Koss .SH</p>
+              <p className='text-xs font-regular text-[#969090]'>Jakarta</p>
+            </div>
+            <div className='bg-[#DCE7FF29] text-xs items-center flex rounded-3xl p-2 h-7 border border-blue-sky text-white'>
+              {t('check_schedule', {
+                keyPrefix: 'lawyer_document',
+              })}
+            </div>
           </div>
-          <div className='bg-blue-sky text-xs items-center flex rounded-3xl p-2 h-7'>
-            Cek Jadwal
-          </div>
+          <p className='text-xs text-secondary-base font-thin text-center mt-1'>
+            {t('lawyer_reommend', {
+              keyPrefix: 'lawyer_document',
+            })}
+          </p>
         </div>
       </div>
     </SwipeableDiv>

@@ -312,7 +312,7 @@ export const ThreadPage = ({ className, hasFile }) => {
                 })
               }
               className={`flex-none ${
-                hasFile ? '!md:w-[calc(100%-16px)]' : 'md:w-3/4 w-full'
+                hasFile ? '!md:w-[calc(100%-16px)]' : 'md:w-3/4 sm:w-full'
               }`}
               onLike={(e) => handleReaction(itms.uuid, e)}
               onDislike={(e) => handleReaction(itms.uuid, e)}

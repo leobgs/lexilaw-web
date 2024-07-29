@@ -14,7 +14,7 @@ export const AutoScrollingDiv = ({ children, shouldScrol }) => {
   }, [children, shouldScrol])
 
   return (
-    <div ref={divRef} className='flex-1 overflow-y-auto h-full'>
+    <div ref={divRef} className='flex-1 overflow-y-auto h-full w-full'>
       {children}
     </div>
   )
