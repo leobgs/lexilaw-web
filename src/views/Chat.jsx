@@ -48,6 +48,7 @@ export const Chat = () => {
     first_name: '-',
     last_name: '-',
     image_url: '',
+    is_disclaimer_accepted: '',
   })
   const [threadMessageId, setThreadMessageId] = useState({
     thread_id: '',
@@ -633,7 +634,7 @@ export const Chat = () => {
           )}
         </main>
 
-        <Disclaimer />
+        <Disclaimer disclaimerAgree={userDetail.is_disclaimer_accepted} />
       </div>
     </div>
   )
