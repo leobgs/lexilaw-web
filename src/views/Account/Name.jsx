@@ -103,8 +103,8 @@ export const Name = ({ userData }) => {
                     <Input
                         name='text'
                         className='w-full mt-[.5rem] mb-[4px]'
-                        inputClass='font-medium !text-red-100 text-base	'
-                        value={firstName}
+                        inputClass='font-medium !text-neutral-30 text-base	'
+                        value={lastName}
                         rowed="w-full"
                         isDisabled={true}
                     />
@@ -113,7 +113,7 @@ export const Name = ({ userData }) => {
                     <Input
                         name='old_lastName'
                         className='w-full mb-[4px] md:mt-auto'
-                        inputClass='font-medium !text-neutral-500 text-base'
+                        inputClass='font-medium !text-neutral-30 text-base'
                         value={lastName}
                         rowed="w-full "
                         isDisabled={true}
