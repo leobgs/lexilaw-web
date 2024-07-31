@@ -42,7 +42,7 @@ export const Chat = () => {
   const [disableInput, setDisableInput] = useState(false)
   const [dataThreadList, setThreadList] = useState([])
   const [defaultQuestion, setDefaultQuestion] = useState([])
-  const [headerText, setHeaderText] = useState('Obrolan Baru')
+  const [headerText, setHeaderText] = useState()
   const [showLayerFile, setShowLawyerFile] = useState(false)
   const [userDetail, setUserDetail] = useState({
     first_name: '-',

@@ -103,7 +103,7 @@ export const ChatRespond = ({
             <div className=''>
               <div className='mb-2 mt-4 flex flex-row justi gap-2 border-t border-t-[#D8D8D8] pt-4 md:border-none md:pt-0'>
                 <button
-                  className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-sm px-2'
+                  className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-xs xs:text-sm px-2'
                   onClick={() => console.log('pemesanan')}
                 >
                   <img src={images.ic_arrow_cornering} alt='place order' />
@@ -113,7 +113,7 @@ export const ChatRespond = ({
                 </button>
 
                 <button
-                  className='border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-sm px-2'
+                  className='border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-xs xs:text-sm px-2'
                   onClick={() => console.log('another option')}
                 >
                   <img src={images.ic_arrow_cornering} alt='place order' />

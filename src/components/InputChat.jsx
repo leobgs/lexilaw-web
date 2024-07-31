@@ -34,28 +34,68 @@ export const InputChat = ({ onChange, className, disable }) => {
     let url = URL.createObjectURL(file)
     let type = file.type.substring(0, file.type.lastIndexOf('/')).toUpperCase()
     const extension = file.name.split('.').pop()
+    const sizeInMB = file.size / 1024 / 1024
     const allowedExt = [
-      'png',
-      'jpeg',
-      'jpg',
-      'pdf',
-      'xls',
-      'xlsx',
-      'doc',
-      'docx',
+      '.txt',
+      '.csv',
+      '.json',
+      '.xml',
+      '.md',
+      '.docx',
+      '.doc',
+      '.pdf',
+      '.rtf',
+      '.odt',
+      '.xlsx',
+      '.jpg',
+      '.jpeg',
+      '.png',
+      '.gif',
+      '.tiff',
+      '.bmp',
+      '.mp3',
+      '.wav',
+      '.aac',
+      '.ogg',
+      '.mp4',
+      '.avi',
+      '.mov',
+      '.mkv',
+      '.zip',
+      '.rar',
+      '.tar',
+      '.7z',
+      '.go',
+      '.java',
+      '.py',
+      '.cpp',
+      '.class',
+      '.exe',
+      '.pptx',
+      '.odp',
+      '.sql',
+      '.sqlite',
+      '.sqlite3',
     ]
 
     if (type && allowedExt.includes(extension)) {
-      setDisplayImage(url)
-      setDisplayExt(extension.toUpperCase())
-      setForm({
-        ...form,
-        file: e.target.files[0],
-        caption: file.name,
-        images: url,
-        content_type: type,
-      })
-      setError(null)
+      if (sizeInMB < 100) {
+        setDisplayImage(url)
+        setDisplayExt(extension.toUpperCase())
+        setForm({
+          ...form,
+          file: e.target.files[0],
+          caption: file.name,
+          images: url,
+          content_type: type,
+        })
+        setError(null)
+      } else {
+        setError('Ukuran file tidak bisa lebih dari 100 Mb')
+        setTimeout(() => {
+          setError(null)
+        }, 3000)
+      }
     } else {
       setError('Type file tidak didukung')
       setTimeout(() => {
