@@ -32,7 +32,6 @@ export const Login = () => {
             token_type: 'Bearer',
           })
           storage.setItem(StorageKey.IS_LOGIN, true)
-          storage.setItem(StorageKey.DISCLAIMER_POPUP, true) 
           openAlert({
             title: data?.message,
             icon: images.ai_profile_thumbnail,
