@@ -84,7 +84,8 @@
     "profile_menu": {
       "main_menu": "Menu Utama",
       "connected": "Hubungkan",
-      "configure": "Konfigurasi"
+      "configure": "Konfigurasi",
+      "setting": "Pengaturan"
     },
     "chat_text": {
       "switch_lang": "Gunakan bahasa santai, dong",

@@ -84,7 +84,8 @@
     "profile_menu": {
       "main_menu": "Main Menu",
       "connected": "Connected",
-      "configure": "Configure"
+      "configure": "Configure",
+      "setting": "Settings"
     },
     "chat_text": {
       "switch_lang": "Use casual language, please",

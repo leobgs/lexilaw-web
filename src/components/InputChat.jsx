@@ -40,8 +40,8 @@ export const InputChat = ({ onChange, className, disable }) => {
       'jpg',
       'pdf',
       'xls',
-      'doc',
       'xlsx',
+      'doc',
       'docx',
     ]
 

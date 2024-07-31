@@ -122,12 +122,12 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
     if (screenWidth < 768) {
       setTooltipPlace('top-start')
       setTooltipPlace2('top')
-      setToolOffset(15)
-      setToolOffset2(-52)
+      setToolOffset(18)
+      setToolOffset2(-54)
     } else {
       setTooltipPlace('right')
       setTooltipPlace2('right-start')
-      setToolOffset(14)
+      setToolOffset(6)
       setToolOffset2(1)
     }
   }
@@ -190,7 +190,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
         }}
         clickable={true}
         offset={tooltipOffset}
-        className='shadow-md !bg-white !text-black-lightest font-semi-bold !w-2/3 !rounded-lg mr-2 !mb-2 md:mb-0 md:!w-52 z-50'
+        className='shadow-md !bg-white !text-black-lightest mx-auto font-semi-bold !w-[70%] !rounded-lg !mb-2 md:mb-0 md:!w-52 z-50'
       >
         <div
           className='border-b border-neutral-20 -mx-4 px-4 py-1 md:hidden'
@@ -234,6 +234,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
 
       <ReactTooltip
         id={`tool-tips2-${item.uuid}`}
+        noArrow
         place={tooltipPlace2}
         opacity={1}
         isOpen={show2nd}
@@ -249,7 +250,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
         }}
         clickable={true}
         offset={tooltipOffset2}
-        className='shadow-md !bg-white font-semi-bold !w-2/3 !rounded-lg md:mb-0 md:!w-52 z-50'
+        className='shadow-md !bg-white font-semi-bold !w-[70%] !rounded-lg md:mb-0 md:!w-52 z-50 mb-2'
       >
         {collectionList?.data?.length !== 0 &&
           collectionList?.data?.map((item, index) => (
