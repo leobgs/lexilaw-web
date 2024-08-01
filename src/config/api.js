@@ -35,8 +35,8 @@ export const API = {
 
   //MY LAWYER
   MY_LAWYER_LIST: '/user/app/v1.0.0/user/lawyer/list',
-  MY_LAWYER_CASE: '/api/app/v1.0.0/user/lawyer/thread',
   MY_LAWYER_DETAIL: '/user/app/v1.0.0/user/lawyer/detail/',
+  MY_LAWYER_CASE: '/api/app/v1.0.0/user/lawyer/thread',
 
   SUGGESTION_LIST: '/api/app/v1.0.0/question-suggestion/list',
 

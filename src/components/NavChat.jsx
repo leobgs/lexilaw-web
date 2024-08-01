@@ -130,7 +130,7 @@ export const NavChat = ({
 
       <div
         className={`md:hidden flex justify-between px-4 items-center gap-4 ${
-          showNav ? ' ' : ' inline-block'
+          showNav ? 'my-2 -mt-4' : ' inline-block'
         }`}
       >
         <img
@@ -140,16 +140,18 @@ export const NavChat = ({
           onClick={() => setShowNav(!showNav)}
         />
         <div className='flex w-full justify-between items-center h-10'>
-          <div className='font-futura-bold font-bold text-xl line-clamp-1 text-[#00153F]'>
+          <div className='font-futura-bold font-bold text-xl line-clamp-1 text-[#00153F] basis-10/12'>
             {headerText}
           </div>
-          <div className='bg-neutral-20 rounded-full px-1.5 py-1'>
-            <img
-              src={images.ic_attachment_upload}
-              alt='upload'
-              className='h-7 w-8'
-              onClick={() => onClickFile()}
-            />
+          <div className='mx-auto basis-2/12'>
+            <div className='bg-neutral-20 rounded-full px-1.5 py-1 w-10 h-10 mx-auto flex justify-center items-center'>
+              <img
+                src={images.ic_attachment_upload}
+                alt='upload'
+                className=''
+                onClick={() => onClickFile()}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -270,7 +272,7 @@ export const NavChat = ({
 
       {/* ============================ responsive mobile ============================*/}
       {showNav && (
-        <div className='md:hidden h-full w-full absolute flex z-50 '>
+        <div className='md:hidden h-screen w-full absolute flex z-50 '>
           <div className='bg-neutral-50 w-3/4 h-full px-2 pt-4'>
             <div className='h-[92%] overflow-y-auto pb-4 no-scrollbar'>
               <div className='flex justify-between items-center'>
@@ -455,15 +457,19 @@ export const NavChat = ({
       )}
 
       {showSetting && (
-        <div className='md:hidden absolute w-full h-full bg-white  p-4 pt-8 z-50'>
-          <div className='flex justify-start gap-4 items-center shadow-md -mx-4 px-4 pb-4'>
+        <div className='md:hidden absolute w-full h-full bg-white p-4 pt-4 z-50'>
+          <div className='flex justify-start gap-3 items-center shadow-md -mx-4 px-4 pb-4'>
             <img
               src={images.ic_chevron_left}
               alt='back'
               onClick={() => setShowSetting(false)}
               className='h-6'
             />
-            <div className='text-xl font-semi-bold'>Setting</div>
+            <div className='font-futura-bold'>
+              {t('setting', {
+                keyPrefix: 'chat.profile_menu',
+              })}
+            </div>
           </div>
 
           <div className='text-neutral-40 mt-8'>

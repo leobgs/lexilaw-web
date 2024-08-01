@@ -1,6 +1,6 @@
 import images from 'assets/images'
 import { copyToClipboard } from 'utils'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LawyerRecommendation } from './LawyerRecommendation'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -8,6 +8,7 @@ import { getData } from 'hooks/useRequest'
 import { API } from 'config/api'
 import { notifyError } from 'hooks/useToas'
 import { ScheduleVariant } from './Chat/ChatResponse/ScheduleVariant'
+import { isValidJson } from 'utils/isJsonChec'
 
 export const ChatRespond = ({
   item,
@@ -22,6 +23,19 @@ export const ChatRespond = ({
   const [showLawyerRecommendation, setLawyerRecommendation] = useState(false)
   const { t } = useTranslation()
   const [dataLawyer, setDataLawyer] = useState([])
+  const [isSpecificWords, setSpecificWord] = useState(false)
+
+  useEffect(() => {
+    const possibleJson = item.message
+      .substring(item.message.lastIndexOf('\n') + 1)
+      .trim()
+
+    if (isValidJson(possibleJson)) {
+      setSpecificWord(true)
+    } else {
+      setSpecificWord(false)
+    }
+  }, [item.message])
 
   useQuery(
     ['lawyer_recomendation'],
@@ -121,17 +135,19 @@ export const ChatRespond = ({
 
       case 'schedule':
         return <ScheduleVariant item={item} />
+
       default:
         return (
-          <div className=' -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2 flex justify-between flex-col md:flex-row'>
-            {
+          <div className='mb-1 -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2 flex justify-between flex-col md:flex-row'>
+            {!isSpecificWords && (
               <div className='border-t border-neutral-30 px-2 md:hidden pb-1.5' />
-            }
+            )}
+
             {index === 1 ? (
-              <div className='my-4 flex justify-between items-center gap-2'>
+              <div className='flex justify-start items-center gap-2'>
                 {isButtonYes && (
                   <div
-                    className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-4 text-center md:w-fit cursor-pointer ${
+                    className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-4 text-center md:w-fit cursor-pointer ml-2 ${
                       disable ? 'bg-neutral-40 bg-opacity-45' : 'bg-blue-sky'
                     }`}
                     onClick={() =>
@@ -154,8 +170,9 @@ export const ChatRespond = ({
                     })}
                   </div>
                 )}
+
                 <div
-                  className={`border-blue-dark border rounded-3xl gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center md:w-full cursor-pointer ${
+                  className={`border-blue-dark border rounded-3xl gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center cursor-pointer ml-3 md:w-full md:ml-0 ${
                     disable ? 'bg-neutral-40 bg-opacity-45' : 'bg-blue-sky'
                   }`}
                   onClick={() =>
@@ -224,7 +241,7 @@ export const ChatRespond = ({
               <div>
                 {isButtonYes && (
                   <div
-                    className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-4 text-center md:w-fit cursor-pointer ${
+                    className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-4 text-center w-fit cursor-pointer ml-2 ${
                       disable ? 'bg-neutral-40 bg-opacity-45' : 'bg-blue-sky'
                     }`}
                     onClick={() =>
@@ -242,6 +259,7 @@ export const ChatRespond = ({
                       alt='change style'
                       className='h-4 w-3'
                     />
+
                     {t('yes_to_recommendation', {
                       keyPrefix: 'chat.chat_text',
                     })}
@@ -255,57 +273,63 @@ export const ChatRespond = ({
   }
 
   return (
-    <>
+    <div className='flex justify-between flex-col md:flex-row'>
       {renderMessage(item.type)}
 
-      <div className='flex md:justify-between items-center float-end'>
-        <div className='flex'>
-          {(item.reaction === true || item.reaction === null) && (
-            <img
-              src={
-                item.reaction === true ? images.ic_active_like : images.ic_like
-              }
-              alt='like'
-              className='h-7 w-7 mx-1 shadow-sm rounded-full'
-              onClick={item.reaction === true ? void 0 : () => onLike()}
-            />
-          )}
+      {!isSpecificWords &&
+        item.type !== 'schedule' &&
+        item.type !== 'recommendation' && (
+          <div className='flex items-center -ml-14 mt-1 md:float-end md:justify-between md:ml-0 md:-mt-0'>
+            <div className='flex'>
+              {(item.reaction === true || item.reaction === null) && (
+                <img
+                  src={
+                    item.reaction === true
+                      ? images.ic_active_like
+                      : images.ic_like
+                  }
+                  alt='like'
+                  className='h-7 w-7 mx-1 shadow-sm rounded-full'
+                  onClick={item.reaction === true ? void 0 : () => onLike()}
+                />
+              )}
 
-          {(item.reaction === false || item.reaction === null) && (
-            <img
-              src={
-                item.reaction === false
-                  ? images.ic_active_dislike
-                  : images.ic_dislike
-              }
-              alt='dislike'
-              className='h-7 w-7 mx-1 shadow-sm rounded-full'
-              onClick={item.reaction === true ? void 0 : () => onDislike()}
-            />
-          )}
-        </div>
+              {(item.reaction === false || item.reaction === null) && (
+                <img
+                  src={
+                    item.reaction === false
+                      ? images.ic_active_dislike
+                      : images.ic_dislike
+                  }
+                  alt='dislike'
+                  className='h-7 w-7 mx-1 shadow-sm rounded-full'
+                  onClick={item.reaction === true ? void 0 : () => onDislike()}
+                />
+              )}
+            </div>
 
-        <div
-          className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mx-1.5 shadow-sm'
-          onClick={() => copyToClipboard({ text: item.message })}
-        >
-          <img
-            src={images.ic_copy}
-            alt='copy'
-            className='h-4 w-4 m-0.5 mx-2 my-1'
-          />
-        </div>
+            <div
+              className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mx-1.5 shadow-sm'
+              onClick={() => copyToClipboard({ text: item.message })}
+            >
+              <img
+                src={images.ic_copy}
+                alt='copy'
+                className='h-4 w-4 m-0.5 mx-2 my-1'
+              />
+            </div>
 
-        {(isLast || item.type === 'recommendation') && (
-          <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm'>
-            <img
-              src={images.ic_redo}
-              alt='redo'
-              className='h-4 w-4 m-0.5 mx-2 my-1'
-            />
+            {(isLast || item.type === 'recommendation') && (
+              <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm'>
+                <img
+                  src={images.ic_redo}
+                  alt='redo'
+                  className='h-4 w-4 m-0.5 mx-2 my-1'
+                />
+              </div>
+            )}
           </div>
         )}
-      </div>
-    </>
+    </div>
   )
 }
