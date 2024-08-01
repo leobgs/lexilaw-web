@@ -4,8 +4,6 @@ export const appName = env('REACT_APP_TITLE', 'TPID Apps')
 
 export const debug = env('REACT_APP_DEBUG', false)
 
-export const apiURL = env('REACT_APP_API_URL', '/')
-
 export const apiURLQuery = env('REACT_APP_API_URL_REACT_QUERY', '')
 
 export const authKey = env('REACT_APP_ACCESS_TOKEN', 'access_token')
@@ -21,6 +19,8 @@ export const passwordSecret = env('REACT_APP_CLIENT_PASSWORD_SECRET', '')
 export const appleClientId = env('REACT_APP_APPLE_CLIENT_ID', '')
 
 export const redirectURL = env('REACT_APP_APPLE_REDIRECT_URL', '')
+
+export const _TEMP_API = env('REACT_APP_API_URL_REACT_TEMPORARY', '')
 
 export const googleOauthClientId = env(
   'REACT_APP_GOOGLE_OAUTH_CLIENT_ID_WEB',

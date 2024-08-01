@@ -6,7 +6,6 @@ import {
   Tooltips,
   QuestionCard,
   CardFile,
-  SwipeableDiv,
   CardFileMobile,
 } from 'components'
 import { Toggle } from 'components/Toggle/Toggle'
@@ -42,7 +41,7 @@ export const Chat = () => {
   const [disableInput, setDisableInput] = useState(false)
   const [dataThreadList, setThreadList] = useState([])
   const [defaultQuestion, setDefaultQuestion] = useState([])
-  const [headerText, setHeaderText] = useState('Obrolan Baru')
+  const [headerText, setHeaderText] = useState()
   const [showLayerFile, setShowLawyerFile] = useState(false)
   const [userDetail, setUserDetail] = useState({
     first_name: '-',
@@ -50,10 +49,7 @@ export const Chat = () => {
     image_url: '',
     is_disclaimer_accepted: '',
   })
-  const [threadMessageId, setThreadMessageId] = useState({
-    thread_id: '',
-    message_id: '',
-  })
+  const [messageUUID, setMessageUUID] = useState(null)
   const { openAlert, closeAlert } = useGlobalContext()
   const location = useLocation()
   const [hasKoleksiData, setHasKoleksiData] = useState(false)
@@ -142,11 +138,7 @@ export const Chat = () => {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
           const { data } = datas
-          setThreadMessageId({
-            thread_id: data?.thread_id,
-            message_id: data?.message_id,
-          })
-
+          setMessageUUID(data?.thread_uuid)
           queryClient.invalidateQueries('newest_thread')
         } else {
           notifyError(datas?.message)
@@ -197,13 +189,11 @@ export const Chat = () => {
           { type: 'riwayat', data: [...previousData, ...RIWAYAT_OROLAN] }, // ...RIWAYAT_OROLAN nanti dihapus kalo udh full api
         ]
 
-        if (threadMessageId.thread_id && !uuid) {
-          const selectedThread = data?.find(
-            (item) => item.open_thread_id === threadMessageId.thread_id
-          )
+        if (messageUUID && !uuid) {
+          const selectedThread = data?.find((item) => item.uuid === messageUUID)
           setHeaderText(selectedThread?.title)
           navigate(`/thread/${selectedThread?.uuid}`, {
-            state: threadMessageId,
+            state: messageUUID,
           })
 
           newMessage?.forEach((item) => {
@@ -253,7 +243,7 @@ export const Chat = () => {
           setIsHeader(false)
           setDisableInput(false)
           collectionSet(selectedThread)
-        } else if (!threadMessageId.thread_id && uuid) {
+        } else if (!messageUUID && uuid) {
           const selectedThread = data?.find((item) => item.uuid === uuid)
 
           collectionSet(selectedThread)
@@ -324,7 +314,7 @@ export const Chat = () => {
         dataThreadList?.forEach((item) => {
           if (item.type === 'koleksi') {
             return (item.data = data.map((item) => {
-              const hasMatchingThread = item.Threads.some(
+              const hasMatchingThread = item.Threads?.some(
                 (thread) => thread.uuid === uuid
               )
 
@@ -361,7 +351,7 @@ export const Chat = () => {
 
   const onClickColection = (id) => {
     navigate(`/thread/${id}`)
-    setThreadMessageId({ message_id: '', thread_id: '' })
+    setMessageUUID(null)
     let texts = 'Obrolan Baru'
 
     dataThreadList?.forEach((item) => {

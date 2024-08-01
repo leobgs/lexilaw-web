@@ -25,7 +25,7 @@ export const LawyerCard = ({ data, className, onClick = () => {} }) => {
           className='h-10 w-10 rounded-full object-cover aspect-square'
         />
         <div className='md:mt-2 lg:mt-0 md:w-9/12'>
-          <div className='font-semi-bold w-1/3 md:w-3/4 break-words'>
+          <div className='font-semi-bold w-2/3 md:w-3/4 break-words'>
             {data.first_name} {data.last_name}
           </div>
           <div className='text-neutral-40 text-xs'>{data.city_name}</div>

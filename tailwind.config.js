@@ -19,6 +19,7 @@ module.exports = {
       dropShadow: {
         primary: '0 3px 12px rgba(255, 218, 0, 0.25)',
       },
+      screens: { xs: '380px' },
     },
     colors: {
       transparent: 'transparent',
