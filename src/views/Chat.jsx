@@ -6,7 +6,6 @@ import {
   Tooltips,
   QuestionCard,
   CardFile,
-  SwipeableDiv,
   CardFileMobile,
 } from 'components'
 import { Toggle } from 'components/Toggle/Toggle'
@@ -324,7 +323,7 @@ export const Chat = () => {
         dataThreadList?.forEach((item) => {
           if (item.type === 'koleksi') {
             return (item.data = data.map((item) => {
-              const hasMatchingThread = item.Threads.some(
+              const hasMatchingThread = item.Threads?.some(
                 (thread) => thread.uuid === uuid
               )
 

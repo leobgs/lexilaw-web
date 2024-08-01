@@ -27,9 +27,7 @@ export const ChatCard = ({
   const [responseText, setResponseText] = useState('')
   const { t } = useTranslation()
   const { bookingLawyerReducer } = useGlobalContext()
-  const [showLawyerRecommendation, setLawyerRecommendation] = useState(false)
   const [dataLawyer, setDataLawyer] = useState([])
-  const [isJsonAvailable, setJsonAvailable] = useState(false)
   const navigate = useNavigate()
   const [fileCategory, setFileCategory] = useState('')
   const [displayExt, setDisplayExt] = useState()
@@ -72,7 +70,6 @@ export const ChatCard = ({
     if (isValidJson(possibleJson)) {
       const parsedLawyers = JSON.parse(possibleJson)
       setDataLawyer(parsedLawyers)
-      setJsonAvailable(true)
 
       // Gabungkan kembali teks dan hasil parsing JSON
       setResponseText(
@@ -94,46 +91,6 @@ export const ChatCard = ({
 
     return () => cancelAnimationFrame(animate)
   }, [angle])
-
-  // div component overrides
-  const CustomDiv = ({ children, ...props }) => (
-    <div {...props}>
-      <div
-        className='bg-[#EFEDE8] p-4 rounded-lg md:w-3/4 flex gap-3 items-start justify-between border border-neutral-30 shadow-md my-2 '
-        onClick={() => setLawyerRecommendation(true)}
-      >
-        <div className='flex items-center gap-4'>{children}</div>
-        <img src={images.ic_arrow_cornering} alt='corner tag' />
-      </div>
-
-      <div className='mb-2 mt-4 flex flex-row justi gap-2 border-t border-t-[#D8D8D8] pt-4 -ml-12 md:border-none md:pt-0 md:ml-0'>
-        <button
-          className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-xs xs:text-sm px-2'
-          onClick={() => {
-            navigate('/book-lawyer', { state: dataLawyer[0] })
-            bookingLawyerReducer(['selected_lawyer'], dataLawyer[0])
-          }}
-        >
-          <img src={images.ic_arrow_cornering} alt='place order' />
-          <div>{t('place_an_order', { keyPrefix: 'chat_respond' })}</div>
-        </button>
-
-        <button
-          className='border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-xs xs:text-sm px-2'
-          onClick={() => setLawyerRecommendation(true)}
-        >
-          <img src={images.ic_arrow_cornering} alt='place order' />
-          <div>{t('another_option', { keyPrefix: 'chat_respond' })}</div>
-        </button>
-      </div>
-    </div>
-  )
-
-  const DefaultDiv = ({ children, ...props }) => (
-    <div {...props} className=''>
-      {children}
-    </div>
-  )
 
   return (
     <>
@@ -241,16 +198,6 @@ export const ChatCard = ({
             <div className='chat-wrap text-sm'>
               <Markdown
                 options={{
-                  overrides: {
-                    div: {
-                      component: (props) =>
-                        props.className === 'custom-lawyer' ? (
-                          <CustomDiv {...props} />
-                        ) : (
-                          <DefaultDiv {...props} />
-                        ),
-                    },
-                  },
                   wrapper: 'main',
                   forceWrapper: true,
                 }}
@@ -361,15 +308,6 @@ export const ChatCard = ({
             </div>
           </div>
         </div>
-      )}
-
-      {isJsonAvailable && (
-        <LawyerRecommendation
-          isShow={showLawyerRecommendation}
-          onHide={() => setLawyerRecommendation(false)}
-          dataLawyer={dataLawyer}
-          thread_uuid={item?.thread_uuid}
-        />
       )}
     </>
   )
