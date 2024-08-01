@@ -5,13 +5,12 @@ import { API } from 'config/api';
 import { getData, putData } from 'hooks/useRequest';
 import { useQuery } from 'react-query';
 import { useGlobalContext } from 'hooks/context';
-import { useMutation } from "react-query";
-
+import { useMutation, useQueryClient } from "react-query";
 
 export const Disclaimer = ({ disclaimerAgree }) => {
     const [showModal, setShowModal] = useState(false);
-    const [isCheckboxChecked, setIsCheckboxChecked] = useState(false); 
-
+    const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+    const queryClient = useQueryClient();
     const { t } = useTranslation();
 
     const [disclaimerContent, setDisclaimerContent] = useState('');
@@ -38,8 +37,9 @@ export const Disclaimer = ({ disclaimerAgree }) => {
             }),
         {
             onSettled: (data) => {
-                if (data.status === "Success") { 
+                if (data.status === "Success") {
                     setShowModal(false);
+                    queryClient.invalidateQueries('user')
                 }
             },
         }
@@ -77,7 +77,7 @@ export const Disclaimer = ({ disclaimerAgree }) => {
                         labeblClassName="w-auto ms-3 text-md !text-[#2E2C2B] font-medium"
                         value={isCheckboxChecked}
                         label={t('agree', { keyPrefix: 'disclaimer' })}
-                        onChange={handleCheckboxChange} 
+                        onChange={handleCheckboxChange}
                     />
 
                     <Button
