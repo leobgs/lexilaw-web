@@ -6,7 +6,7 @@ import { ChatCard } from 'components/ChatCard'
 import { API } from 'config/api'
 import { apiURLQuery } from 'config/app'
 import { useGlobalContext } from 'hooks/context'
-import { _tempGetData, getData } from 'hooks/useRequest'
+import { getData } from 'hooks/useRequest'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {

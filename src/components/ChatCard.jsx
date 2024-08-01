@@ -71,36 +71,12 @@ export const ChatCard = ({
 
     if (isValidJson(possibleJson)) {
       const parsedLawyers = JSON.parse(possibleJson)
-      const lawyer = parsedLawyers[0]
-
       setDataLawyer(parsedLawyers)
       setJsonAvailable(true)
 
-      // Ubah JSON menjadi teks Markdown yang sesuai
-      const markdownLawyers = `<div className="custom-lawyer" data-uuid="${
-        lawyer?.uuid
-      }">
-              <img src="${
-                lawyer?.image_url
-              }" className="h-9 w-9 rounded-full aspect-square object-cover" alt="lawyer" />
-              <div className="flex items-center">
-                <div className="flex items-center">
-                  <p className="text-base text-secondary-base font-semi-bold" >${
-                    lawyer?.first_name
-                  } ${lawyer?.last_name}</p>
-                </div>
-                <div>
-                  <p className="font-semi-bold text-neutral-40 hidden md:inline-block">+${
-                    parsedLawyers.length - 1
-                  } more</p>
-                </div>
-            </div>`
-
       // Gabungkan kembali teks dan hasil parsing JSON
       setResponseText(
-        `${stringBeforeJson}\n\n${
-          parsedLawyers.length !== 0 ? markdownLawyers : ''
-        }`
+        `${stringBeforeJson}\n\n${parsedLawyers.length !== 0 ? '' : ''}`
       )
     } else {
       setResponseText(cleanText)
@@ -132,7 +108,7 @@ export const ChatCard = ({
 
       <div className='mb-2 mt-4 flex flex-row justi gap-2 border-t border-t-[#D8D8D8] pt-4 -ml-12 md:border-none md:pt-0 md:ml-0'>
         <button
-          className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-sm px-2'
+          className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-xs xs:text-sm px-2'
           onClick={() => {
             navigate('/book-lawyer', { state: dataLawyer[0] })
             bookingLawyerReducer(['selected_lawyer'], dataLawyer[0])
@@ -143,7 +119,7 @@ export const ChatCard = ({
         </button>
 
         <button
-          className='border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-sm px-2'
+          className='border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-xs xs:text-sm px-2'
           onClick={() => setLawyerRecommendation(true)}
         >
           <img src={images.ic_arrow_cornering} alt='place order' />

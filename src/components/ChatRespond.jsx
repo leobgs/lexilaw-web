@@ -24,6 +24,8 @@ export const ChatRespond = ({
   const { t } = useTranslation()
   const [dataLawyer, setDataLawyer] = useState([])
   const [isSpecificWords, setSpecificWord] = useState(false)
+  const [currLawyer, setLawyer] = useState(null)
+  const [allLawyer, setAllLawyer] = useState([])
 
   useEffect(() => {
     const possibleJson = item.message
@@ -31,6 +33,9 @@ export const ChatRespond = ({
       .trim()
 
     if (isValidJson(possibleJson)) {
+      const parsedLawyers = JSON.parse(possibleJson)
+      setLawyer(parsedLawyers[0])
+      setAllLawyer(parsedLawyers)
       setSpecificWord(true)
     } else {
       setSpecificWord(false)
@@ -59,6 +64,8 @@ export const ChatRespond = ({
     }
   )
 
+  console.log(isSpecificWords, currLawyer)
+
   const renderMessage = (type) => {
     switch (type) {
       case 'recommendation':
@@ -67,7 +74,7 @@ export const ChatRespond = ({
         return (
           <div className='mx-4 -ml-10 px-4 md:border-t-0 md:-mx-4 mt-2'>
             <div
-              className='bg-[#EFEDE8] p-4 rounded-lg md:w-2/3 flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md'
+              className='bg-[#EFEDE8] p-4 rounded-lg md:w-3/4 flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md'
               onClick={() => setLawyerRecommendation(true)}
             >
               <div className='flex items-center'>
@@ -138,8 +145,8 @@ export const ChatRespond = ({
 
       default:
         return (
-          <div className='mb-1 -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2 flex justify-between flex-col md:flex-row'>
-            {!isSpecificWords && (
+          <div className='mb-1 -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2 flex justify-between flex-col md:flex-row md:w-full md:justify-start'>
+            {isSpecificWords && currLawyer !== null && (
               <div className='border-t border-neutral-30 px-2 md:hidden pb-1.5' />
             )}
 
@@ -265,6 +272,34 @@ export const ChatRespond = ({
                     })}
                   </div>
                 )}
+              </div>
+            )}
+
+            {isSpecificWords && currLawyer !== null && (
+              <div
+                className='bg-[#EFEDE8] p-4 rounded-lg md:w-2/3 flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md'
+                onClick={() => setLawyerRecommendation(true)}
+              >
+                <div className='flex items-center'>
+                  <img
+                    src={currLawyer?.image_url}
+                    alt='lawyer'
+                    className='h-9 w-9 rounded-full'
+                  />
+                  <div className='ml-3'>
+                    <div className='flex items-center'>
+                      <div className='text-secondary-base font-semi-bold'>
+                        {currLawyer?.first_name} {currLawyer?.last_name}
+                      </div>
+                      {allLawyer > 0 && (
+                        <div className='ml-3 font-semi-bold text-neutral-40 hidden md:inline-block'>
+                          +{allLawyer} more
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <img src={images.ic_arrow_cornering} alt='' />
               </div>
             )}
           </div>
