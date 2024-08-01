@@ -113,7 +113,10 @@ export const ChatRespond = ({
               <div className='mb-2 mt-4 flex flex-row justi gap-2 border-t border-t-[#D8D8D8] pt-4 md:border-none md:pt-0'>
                 <button
                   className='border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-xs xs:text-sm px-2'
-                  onClick={() => console.log('pemesanan')}
+                  onClick={() => {
+                    navigate('/book-lawyer', { state: dataLawyer[0] })
+                    bookingLawyerReducer(['selected_lawyer'], dataLawyer[0])
+                  }}
                 >
                   <img src={images.ic_arrow_cornering} alt='place order' />
                   <div>
@@ -123,7 +126,7 @@ export const ChatRespond = ({
 
                 <button
                   className='border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-xs xs:text-sm px-2'
-                  onClick={() => console.log('another option')}
+                  onClick={() => setLawyerRecommendation(true)}
                 >
                   <img src={images.ic_arrow_cornering} alt='place order' />
                   <div>
@@ -148,7 +151,7 @@ export const ChatRespond = ({
       default:
         return (
           <div className='mb-1 -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2 flex justify-between flex-col md:flex-row md:w-full md:justify-start'>
-            {isSpecificWords && currLawyer !== null && (
+            {allLawyer?.length !== 0 && (
               <div className='border-t border-neutral-30 px-2 md:hidden pb-1.5' />
             )}
 
@@ -277,7 +280,7 @@ export const ChatRespond = ({
               </div>
             )}
 
-            {isSpecificWords && currLawyer !== null && (
+            {allLawyer?.length !== 0 && (
               <div className='w-full'>
                 <div
                   className='bg-[#EFEDE8] p-4 rounded-lg md:w-2/3 flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md'
@@ -402,7 +405,7 @@ export const ChatRespond = ({
           </div>
         )}
 
-      {isSpecificWords && currLawyer !== null && (
+      {allLawyer?.length !== 0 && (
         <LawyerRecommendation
           isShow={showLawyerRecommendation}
           onHide={() => setLawyerRecommendation(false)}

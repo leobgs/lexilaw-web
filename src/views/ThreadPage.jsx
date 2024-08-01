@@ -27,21 +27,14 @@ export const fetchMessage = async ({ pageParam }, URL) => {
 }
 
 export const ThreadPage = ({ className, hasFile }) => {
-  const { collection } = useGlobalContext()
   const params = useParams()
   const { state } = useLocation()
   const queryClient = useQueryClient()
   const [disableInput, setDisableInput] = useState(false)
   const [renderedMessage, setRenderedMessage] = useState(null)
   const { t } = useTranslation()
-  const [threadMessageIdtoRespond, setThreadMessageIdtoRespond] = useState({
-    thread_id: '',
-    message_id: '',
-  })
-  const [threadMessageId, setThreadMessageId] = useState({
-    thread_id: '',
-    message_id: '',
-  })
+  const [messageUUIDtoRespond, setMessageUUIDtoRespond] = useState(null)
+  const [messageUUID, setMessageUUID] = useState(null)
   const [isScrolled, setScrolled] = useState(true)
 
   const lastPostRef = useRef(null)
@@ -61,10 +54,7 @@ export const ThreadPage = ({ className, hasFile }) => {
     }
 
     if (state) {
-      setThreadMessageId({
-        thread_id: state.thread_id,
-        message_id: state.message_id,
-      })
+      setMessageUUID(state)
     }
   }, [params.uuid, state])
 
@@ -74,10 +64,7 @@ export const ThreadPage = ({ className, hasFile }) => {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
           const { data } = datas
-          setThreadMessageId({
-            thread_id: data.thread_id,
-            message_id: data.message_id,
-          })
+          setMessageUUID(data.thread_uuid)
           fetchDetail()
         } else {
           setDisableInput(false)
@@ -138,11 +125,8 @@ export const ThreadPage = ({ className, hasFile }) => {
   // }, [entry])
 
   useQuery(
-    ['respond_chat', threadMessageIdtoRespond.thread_id],
-    () =>
-      getData(
-        `${API.MESSAGE_RESPONSE}${threadMessageIdtoRespond.thread_id}/${threadMessageIdtoRespond.message_id}`
-      ),
+    ['respond_chat', messageUUIDtoRespond],
+    () => getData(`${API.MESSAGE_RESPONSE}${messageUUIDtoRespond}`),
     {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
@@ -163,18 +147,14 @@ export const ThreadPage = ({ className, hasFile }) => {
           setRenderedMessage([...renderedMessage])
         }
       },
-      enabled: !!threadMessageIdtoRespond.thread_id,
+      enabled: !!messageUUIDtoRespond,
       staleTime: 0,
     }
   )
 
   useQuery(
-    ['check_status', threadMessageId],
-    () =>
-      getData(
-        API.MESSAGE_STATUS +
-          `${threadMessageId.thread_id}/${threadMessageId.message_id}/status`
-      ),
+    ['check_status', messageUUID],
+    () => getData(API.MESSAGE_STATUS + `${messageUUID}/status`),
     {
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
@@ -182,13 +162,11 @@ export const ThreadPage = ({ className, hasFile }) => {
             (item) => item.type === 'loading'
           )
           const { data } = datas
+
           if (data.status === 'completed') {
             queryClient.invalidateQueries('respond_chat')
             setDisableInput(false)
-            setThreadMessageIdtoRespond({
-              thread_id: data.thread_id,
-              message_id: data.message_id,
-            })
+            setMessageUUIDtoRespond(data.thread_uuid)
           } else if (
             data.status === 'in_progress' ||
             data.status === 'queued'
@@ -196,7 +174,8 @@ export const ThreadPage = ({ className, hasFile }) => {
             setDisableInput(true)
 
             // (data.thread_id, collection?.thread_id) ini nanti harusnya dibuat diluar biar tiap load halaman loading lgsg nampil
-            if (!isLoading && data.thread_id === collection?.thread_id) {
+            if (!isLoading && data.thread_uuid === params?.uuid) {
+              console.log('keloading')
               renderedMessage &&
                 setRenderedMessage((prevArray) => [
                   ...prevArray,
@@ -210,6 +189,7 @@ export const ThreadPage = ({ className, hasFile }) => {
                 ])
             }
           } else {
+            console.log('error')
             if (!isLoading) {
               renderedMessage &&
                 setRenderedMessage((prevArray) => [
@@ -251,7 +231,7 @@ export const ThreadPage = ({ className, hasFile }) => {
         })
         setRenderedMessage([...renderedMessage])
       },
-      enabled: !!threadMessageId.thread_id && !!threadMessageId.message_id,
+      enabled: !!messageUUID,
       staleTime: 0,
     }
   )
@@ -265,7 +245,7 @@ export const ThreadPage = ({ className, hasFile }) => {
 
     const dataMessage = {
       message: e.message,
-      thread_id: state?.thread_id ? state?.thread_id : collection?.thread_id,
+      thread_uuid: params.uuid,
       document: e.file,
     }
 
@@ -276,8 +256,8 @@ export const ThreadPage = ({ className, hasFile }) => {
 
     sendMessage(bodyFormData)
     setDisableInput(true)
-    setThreadMessageId({ message_id: '', thread_id: '' })
-    setThreadMessageIdtoRespond({ message_id: '', thread_id: '' })
+    setMessageUUID(null)
+    setMessageUUIDtoRespond(null)
   }
 
   const handleReaction = (uuid, reaction) => {
