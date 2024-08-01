@@ -5,7 +5,6 @@ import { AutoScrollingDiv } from 'components/AutoScrollDiv'
 import { ChatCard } from 'components/ChatCard'
 import { API } from 'config/api'
 import { apiURLQuery } from 'config/app'
-import { useGlobalContext } from 'hooks/context'
 import { getData } from 'hooks/useRequest'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -55,6 +54,8 @@ export const ThreadPage = ({ className, hasFile }) => {
 
     if (state) {
       setMessageUUID(state)
+    } else {
+      setMessageUUID(params.uuid)
     }
   }, [params.uuid, state])
 
@@ -91,13 +92,14 @@ export const ThreadPage = ({ className, hasFile }) => {
     ['thread_detail', params.uuid],
     () => getData(`${API.THREAD_DETAIL + params.uuid}?limit=1200`),
     {
-      onSettled: (datas, dat) => {
+      onSettled: (datas) => {
         let tmp = []
         datas.pages?.map((item) =>
           item.data?.forEach((items) => {
             tmp.push(items)
           })
         )
+        console.log(datas)
         setRenderedMessage(tmp)
       },
       getNextPageParam: (lastpage) => {
