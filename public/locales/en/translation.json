@@ -74,6 +74,7 @@
   },
   "chat": {
     "placeholder_input": "Ask to Lexi",
+    "new_chat": "New Chat",
     "profile_option": {
       "my_account": "My Account",
       "my_lawyer": "My Lawyer",

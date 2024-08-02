@@ -66,7 +66,16 @@ export const ThreadPage = ({ className, hasFile }) => {
         if (datas?.status === 'Success') {
           const { data } = datas
           setMessageUUID(data.thread_uuid)
-          fetchDetail()
+          setRenderedMessage((prevArray) => [
+            ...prevArray,
+            {
+              type: 'loading',
+              from_display: 'SYSTEM',
+              message: `${t('error_text', {
+                keyPrefix: 'chat.chat_text',
+              })}`,
+            },
+          ])
         } else {
           setDisableInput(false)
           setRenderedMessage((prevArray) => [
@@ -85,6 +94,7 @@ export const ThreadPage = ({ className, hasFile }) => {
   )
 
   const {
+    isLoading: loadingThreadDetail,
     refetch: fetchDetail,
     fetchNextPage,
     hasNextPage,
@@ -99,7 +109,6 @@ export const ThreadPage = ({ className, hasFile }) => {
             tmp.push(items)
           })
         )
-        console.log(datas)
         setRenderedMessage(tmp)
       },
       getNextPageParam: (lastpage) => {
@@ -126,7 +135,7 @@ export const ThreadPage = ({ className, hasFile }) => {
   //   }
   // }, [entry])
 
-  useQuery(
+  const { isFetching: loadingRespondChat } = useQuery(
     ['respond_chat', messageUUIDtoRespond],
     () => getData(`${API.MESSAGE_RESPONSE}${messageUUIDtoRespond}`),
     {
@@ -134,19 +143,21 @@ export const ThreadPage = ({ className, hasFile }) => {
         if (datas?.status === 'Success') {
           queryClient.invalidateQueries('thread_detail')
         } else {
-          renderedMessage?.forEach((item) => {
-            if (item.type === 'isloading') {
-              return {
-                ...item,
-                from_display: 'SYSTEM',
-                message: `${t('error_text', {
-                  keyPrefix: 'chat.chat_text',
-                })}`,
-                type: 'error',
+          if (messageUUIDtoRespond === params.uuid) {
+            renderedMessage?.forEach((item) => {
+              if (item.type === 'loading') {
+                return {
+                  ...item,
+                  from_display: 'SYSTEM',
+                  message: `${t('error_text', {
+                    keyPrefix: 'chat.chat_text',
+                  })}`,
+                  type: 'error',
+                }
               }
-            }
-          })
-          setRenderedMessage([...renderedMessage])
+            })
+            setRenderedMessage([...renderedMessage])
+          }
         }
       },
       enabled: !!messageUUIDtoRespond,
@@ -177,7 +188,6 @@ export const ThreadPage = ({ className, hasFile }) => {
 
             // (data.thread_id, collection?.thread_id) ini nanti harusnya dibuat diluar biar tiap load halaman loading lgsg nampil
             if (!isLoading && data.thread_uuid === params?.uuid) {
-              console.log('keloading')
               renderedMessage &&
                 setRenderedMessage((prevArray) => [
                   ...prevArray,
@@ -191,7 +201,6 @@ export const ThreadPage = ({ className, hasFile }) => {
                 ])
             }
           } else {
-            console.log('error')
             if (!isLoading) {
               renderedMessage &&
                 setRenderedMessage((prevArray) => [
@@ -220,7 +229,7 @@ export const ThreadPage = ({ className, hasFile }) => {
       },
       onError: (e) => {
         renderedMessage?.forEach((item) => {
-          if (item.type === 'isloading') {
+          if (item.type === 'loading') {
             return {
               ...item,
               from_display: 'SYSTEM',

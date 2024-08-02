@@ -86,8 +86,8 @@ export const Chat = () => {
       dataThreadList?.forEach((item) => {
         if (item.type === 'koleksi') {
           item.data?.forEach((dataItem) => {
-            if (dataItem.Threads) {
-              dataItem.Threads.forEach((child) => {
+            if (dataItem.threads) {
+              dataItem.threads.forEach((child) => {
                 if (child.uuid === collection.uuid) {
                   texts = child.title ?? child.message
                 }
@@ -151,7 +151,9 @@ export const Chat = () => {
     onSettled: (datas) => {
       if (datas?.status === 'Success') {
         const { data } = datas
-        let texts = 'Obrolan Baru'
+        let texts = t('new_chat', {
+          keyPrefix: 'chat',
+        })
 
         const previousData =
           data?.filter((item) => item.moment === 'Previous') || []
@@ -198,14 +200,14 @@ export const Chat = () => {
 
           newMessage?.forEach((item) => {
             item.data?.forEach((itm) => {
-              if (!itm.Threads) {
+              if (!itm.threads) {
                 if (itm.uuid === selectedThread?.uuid) {
                   itm.isActive = true
                 } else {
                   itm.isActive = false
                 }
-              } else if (itm.Threads) {
-                itm.Threads?.forEach((itms) => {
+              } else if (itm.threads) {
+                itm.threads?.forEach((itms) => {
                   if (itms.uuid === selectedThread?.uuid) {
                     itms.isActive = true
                   } else {
@@ -219,8 +221,8 @@ export const Chat = () => {
           dataThreadList?.forEach((item) => {
             if (item.type === 'koleksi') {
               item.data?.forEach((dataItem) => {
-                if (dataItem.Threads) {
-                  dataItem.Threads.forEach((child) => {
+                if (dataItem.threads) {
+                  dataItem.threads.forEach((child) => {
                     if (child.uuid === uuid) {
                       texts = child.title ?? child.name
                     }
@@ -249,14 +251,14 @@ export const Chat = () => {
           collectionSet(selectedThread)
           newMessage?.forEach((item) => {
             item.data?.forEach((itm) => {
-              if (!itm.Threads) {
+              if (!itm.threads) {
                 if (itm.uuid === uuid) {
                   itm.isActive = true
                 } else {
                   itm.isActive = false
                 }
-              } else if (itm.Threads) {
-                itm.Threads?.forEach((itms) => {
+              } else if (itm.threads) {
+                itm.threads?.forEach((itms) => {
                   if (itms.uuid === uuid) {
                     itms.isActive = true
                   } else {
@@ -271,14 +273,14 @@ export const Chat = () => {
         } else {
           newMessage?.forEach((item) => {
             item.data?.forEach((itm) => {
-              if (!itm.Threads) {
+              if (!itm.threads) {
                 if (itm.uuid === uuid) {
                   itm.isActive = true
                 } else {
                   itm.isActive = false
                 }
-              } else if (itm.Threads) {
-                itm.Threads?.forEach((itms) => {
+              } else if (itm.threads) {
+                itm.threads?.forEach((itms) => {
                   if (itms.uuid === uuid) {
                     itms.isActive = true
                   } else {
@@ -314,7 +316,7 @@ export const Chat = () => {
         dataThreadList?.forEach((item) => {
           if (item.type === 'koleksi') {
             return (item.data = data.map((item) => {
-              const hasMatchingThread = item.Threads?.some(
+              const hasMatchingThread = item.threads?.some(
                 (thread) => thread.uuid === uuid
               )
 
@@ -352,13 +354,15 @@ export const Chat = () => {
   const onClickColection = (id) => {
     navigate(`/thread/${id}`)
     setMessageUUID(null)
-    let texts = 'Obrolan Baru'
+    let texts = t('new_chat', {
+      keyPrefix: 'chat',
+    })
 
     dataThreadList?.forEach((item) => {
       if (item.type === 'koleksi') {
         item.data?.forEach((dataItem) => {
-          if (dataItem.Threads) {
-            dataItem.Threads.forEach((child) => {
+          if (dataItem.threads) {
+            dataItem.threads.forEach((child) => {
               if (child.uuid === id) {
                 texts = child.title ?? child.name
               }
@@ -378,14 +382,14 @@ export const Chat = () => {
 
     dataThreadList?.forEach((item) => {
       item.data?.forEach((itm) => {
-        if (!itm.Threads) {
+        if (!itm.threads) {
           if (itm.uuid === id) {
             itm.isActive = true
           } else {
             itm.isActive = false
           }
-        } else if (itm.Threads) {
-          itm.Threads?.forEach((itms) => {
+        } else if (itm.threads) {
+          itm.threads?.forEach((itms) => {
             if (itms.uuid === id) {
               itms.isActive = true
             } else {
@@ -430,10 +434,10 @@ export const Chat = () => {
   const onResetThread = () => {
     dataThreadList?.forEach((item) => {
       item.data?.forEach((itm) => {
-        if (!itm.Threads) {
+        if (!itm.threads) {
           itm.isActive = false
-        } else if (itm.Threads) {
-          itm.Threads?.forEach((itms) => {
+        } else if (itm.threads) {
+          itm.threads?.forEach((itms) => {
             itms.isActive = false
           })
         }
@@ -443,6 +447,11 @@ export const Chat = () => {
     setThreadList([...dataThreadList])
   }
 
+  console.log(
+    t('new_chat', {
+      keyPrefix: 'chat',
+    })
+  )
   return (
     <div className='bg-primary-base w-full h-screen flex flex-col'>
       <div className='md:pr-4 md:pl-2 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
@@ -452,14 +461,22 @@ export const Chat = () => {
             setIsHeader(true)
             collectionReset()
             onResetThread()
-            setHeaderText('Obrolan Baru')
+            setHeaderText(
+              t('new_chat', {
+                keyPrefix: 'chat',
+              })
+            )
             navigate('/')
           }}
           onHeaderClick={() => {
             setIsHeader(true)
             collectionReset()
             onResetThread()
-            setHeaderText('Obrolan Baru')
+            setHeaderText(
+              t('new_chat', {
+                keyPrefix: 'chat',
+              })
+            )
             navigate('/')
           }}
           dataLatest={dataThreadList}
@@ -472,14 +489,18 @@ export const Chat = () => {
         <main className='md:h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border border-neutral-20 border-opacity-80 h-[calc(100%-76px)]'>
           <header className='hidden justify-between items-center md:border-b md:border-b-neutral-30 md:flex md:pb-4 md:-mx-4 md:px-8'>
             <div className='flex gap-2 items-center'>
-              {headerText === 'Obrolan Baru' && (
+              {(headerText === 'New Chat' || headerText === 'Obrolan Baru') && (
                 <img
                   src={images.ic_obrolan}
                   alt='obrolan'
                   className='h-5 w-5'
                 />
               )}
-              <div className='font-futura-bold text-xl'>{headerText}</div>
+              <div className='font-futura-bold text-xl'>
+                {t('new_chat', {
+                  keyPrefix: 'chat',
+                })}
+              </div>
             </div>
 
             <div
