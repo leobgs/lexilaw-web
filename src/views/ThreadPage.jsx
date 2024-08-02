@@ -57,7 +57,6 @@ export const ThreadPage = ({ className, hasFile }) => {
     } else {
       setMessageUUID(params.uuid)
     }
-    console.log(params.uuid)
   }, [params.uuid, state])
 
   const { mutate: sendMessage } = useMutation(
@@ -95,6 +94,7 @@ export const ThreadPage = ({ className, hasFile }) => {
   )
 
   const {
+    isLoading: loadingThreadDetail,
     refetch: fetchDetail,
     fetchNextPage,
     hasNextPage,
@@ -164,25 +164,6 @@ export const ThreadPage = ({ className, hasFile }) => {
       staleTime: 0,
     }
   )
-
-  useEffect(() => {
-    const isLoading = renderedMessage?.find((item) => item.type === 'loading')
-
-    if (loadingRespondChat && !isLoading) {
-      renderedMessage?.forEach((item) => {
-        if (item.type === 'loading') {
-          return {
-            ...item,
-            from_display: 'SYSTEM',
-            message: `${t('error_text', {
-              keyPrefix: 'chat.chat_text',
-            })}`,
-            type: 'error',
-          }
-        }
-      })
-    }
-  }, [loadingRespondChat])
 
   useQuery(
     ['check_status', messageUUID],

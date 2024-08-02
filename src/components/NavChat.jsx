@@ -95,15 +95,15 @@ export const NavChat = ({
       {showNav && <div className='pb-4 pt-3.5' />}
       <div className='hidden md:inline'>
         <img src={images.logo_lexilaw} alt='LexiLaw' className='' />
-        <div className='flex justify-between gap-2 mr-4 mt-4 w-full'>
-          <div className='!rounded-full !border-gray-100 focus:outline-none focus:ring-none ring-none w-full py-2.5 border-2 bg-white flex items-center gap-2 px-4'>
+        <div className='flex gap-2'>
+          <div className='!rounded-full !border-gray-100 focus:outline-none py-2.5 border-2 bg-white flex items-center gap-2 px-4 basis-10/12'>
             <img
               className='!w-[13.81px] !h-[13.81px] aspect-square mt-0.5 left-3'
               src={images.ic_search_black}
               alt=''
             />
             <input
-              className='placeholder:text-sm'
+              className='placeholder:text-sm w-1/2'
               type='text'
               placeholder={t('search', {
                 keyPrefix: 'chat.chat_text',
@@ -116,7 +116,7 @@ export const NavChat = ({
           </div>
 
           <div
-            className='bg-[#F0EDE8] w-2/12 rounded-full outline outline-[#E0DBD1] py-1 flex items-center'
+            className='bg-[#F0EDE8] basis-2/12 rounded-full outline outline-[#E0DBD1] py-1 flex items-center'
             onClick={() => onHeaderClick()}
           >
             <img
@@ -187,7 +187,7 @@ export const NavChat = ({
                       />
 
                       {items.isExpand &&
-                        items.Threads?.map((itms) => (
+                        items.threads?.map((itms) => (
                           <div
                             key={itms.uuid}
                             className='border-l-2 border-blue-sky ml-5 pl-3 pb-2 text-neutral-40 last:mb-4 text-sm'
@@ -335,7 +335,7 @@ export const NavChat = ({
 
                           {/* ==========================Mobile========================== */}
                           {items.isExpand &&
-                            items.Threads?.map((itms) => (
+                            items.threads?.map((itms) => (
                               <div
                                 key={itms.uuid}
                                 className='border-l-2 border-blue-sky ml-5 pl-2.5 pb-2 text-neutral-40 last:mb-4 text-sm'
@@ -344,7 +344,6 @@ export const NavChat = ({
                                     ...itms,
                                     activeBy: 'collection',
                                   })
-                                  // setShowNav(false)
                                 }}
                               >
                                 <NavComponent

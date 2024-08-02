@@ -86,8 +86,8 @@ export const Chat = () => {
       dataThreadList?.forEach((item) => {
         if (item.type === 'koleksi') {
           item.data?.forEach((dataItem) => {
-            if (dataItem.Threads) {
-              dataItem.Threads.forEach((child) => {
+            if (dataItem.threads) {
+              dataItem.threads.forEach((child) => {
                 if (child.uuid === collection.uuid) {
                   texts = child.title ?? child.message
                 }
@@ -198,14 +198,14 @@ export const Chat = () => {
 
           newMessage?.forEach((item) => {
             item.data?.forEach((itm) => {
-              if (!itm.Threads) {
+              if (!itm.threads) {
                 if (itm.uuid === selectedThread?.uuid) {
                   itm.isActive = true
                 } else {
                   itm.isActive = false
                 }
-              } else if (itm.Threads) {
-                itm.Threads?.forEach((itms) => {
+              } else if (itm.threads) {
+                itm.threads?.forEach((itms) => {
                   if (itms.uuid === selectedThread?.uuid) {
                     itms.isActive = true
                   } else {
@@ -219,8 +219,8 @@ export const Chat = () => {
           dataThreadList?.forEach((item) => {
             if (item.type === 'koleksi') {
               item.data?.forEach((dataItem) => {
-                if (dataItem.Threads) {
-                  dataItem.Threads.forEach((child) => {
+                if (dataItem.threads) {
+                  dataItem.threads.forEach((child) => {
                     if (child.uuid === uuid) {
                       texts = child.title ?? child.name
                     }
@@ -249,14 +249,14 @@ export const Chat = () => {
           collectionSet(selectedThread)
           newMessage?.forEach((item) => {
             item.data?.forEach((itm) => {
-              if (!itm.Threads) {
+              if (!itm.threads) {
                 if (itm.uuid === uuid) {
                   itm.isActive = true
                 } else {
                   itm.isActive = false
                 }
-              } else if (itm.Threads) {
-                itm.Threads?.forEach((itms) => {
+              } else if (itm.threads) {
+                itm.threads?.forEach((itms) => {
                   if (itms.uuid === uuid) {
                     itms.isActive = true
                   } else {
@@ -271,14 +271,14 @@ export const Chat = () => {
         } else {
           newMessage?.forEach((item) => {
             item.data?.forEach((itm) => {
-              if (!itm.Threads) {
+              if (!itm.threads) {
                 if (itm.uuid === uuid) {
                   itm.isActive = true
                 } else {
                   itm.isActive = false
                 }
-              } else if (itm.Threads) {
-                itm.Threads?.forEach((itms) => {
+              } else if (itm.threads) {
+                itm.threads?.forEach((itms) => {
                   if (itms.uuid === uuid) {
                     itms.isActive = true
                   } else {
@@ -314,7 +314,7 @@ export const Chat = () => {
         dataThreadList?.forEach((item) => {
           if (item.type === 'koleksi') {
             return (item.data = data.map((item) => {
-              const hasMatchingThread = item.Threads?.some(
+              const hasMatchingThread = item.threads?.some(
                 (thread) => thread.uuid === uuid
               )
 
@@ -357,8 +357,8 @@ export const Chat = () => {
     dataThreadList?.forEach((item) => {
       if (item.type === 'koleksi') {
         item.data?.forEach((dataItem) => {
-          if (dataItem.Threads) {
-            dataItem.Threads.forEach((child) => {
+          if (dataItem.threads) {
+            dataItem.threads.forEach((child) => {
               if (child.uuid === id) {
                 texts = child.title ?? child.name
               }
@@ -378,14 +378,14 @@ export const Chat = () => {
 
     dataThreadList?.forEach((item) => {
       item.data?.forEach((itm) => {
-        if (!itm.Threads) {
+        if (!itm.threads) {
           if (itm.uuid === id) {
             itm.isActive = true
           } else {
             itm.isActive = false
           }
-        } else if (itm.Threads) {
-          itm.Threads?.forEach((itms) => {
+        } else if (itm.threads) {
+          itm.threads?.forEach((itms) => {
             if (itms.uuid === id) {
               itms.isActive = true
             } else {
@@ -430,10 +430,10 @@ export const Chat = () => {
   const onResetThread = () => {
     dataThreadList?.forEach((item) => {
       item.data?.forEach((itm) => {
-        if (!itm.Threads) {
+        if (!itm.threads) {
           itm.isActive = false
-        } else if (itm.Threads) {
-          itm.Threads?.forEach((itms) => {
+        } else if (itm.threads) {
+          itm.threads?.forEach((itms) => {
             itms.isActive = false
           })
         }

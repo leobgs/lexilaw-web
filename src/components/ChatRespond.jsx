@@ -354,7 +354,7 @@ export const ChatRespond = ({
         item.type !== 'schedule' &&
         item.type !== 'recommendation' && (
           <div className='flex items-center -ml-14 mt-1 md:float-end md:justify-between md:ml-0 md:-mt-0'>
-            <div className='flex'>
+            <div className='flex md:mr-3'>
               {(item.reaction === true || item.reaction === null) && (
                 <img
                   src={
