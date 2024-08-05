@@ -35,8 +35,8 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
     {
       onSettled: (data) => {
         if (data.status === 'Success') {
-          queryClient.invalidateQueries('newest_thread')
           queryClient.invalidateQueries('collection')
+          queryClient.invalidateQueries('newest_thread')
           collectionSetEdit({ ...item, editState: 'stop' })
           setShowModal(false)
         } else {
