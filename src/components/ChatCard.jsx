@@ -210,7 +210,7 @@ export const ChatCard = ({
                 <p className='text-xs mt-2 mb-0.5 text-neutral-40 hidden md:inline-block'>
                   {t('attached', { keyPrefix: 'chat_respond' })}
                 </p>
-                <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
+                <div className='w-full md:w-2/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
                   {fileCategory === 'IMAGE' ? (
                     <img
                       src={item.url_file}
@@ -281,7 +281,7 @@ export const ChatCard = ({
                   <p className='text-xs mt-2 mb-0.5 text-neutral-40 hidden md:inline-block'>
                     {t('attached', { keyPrefix: 'chat_respond' })}
                   </p>
-                  <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
+                  <div className='w-full md:w-2/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
                     {fileCategory === 'IMAGE' ? (
                       <img
                         src={item.url_file}
@@ -294,7 +294,7 @@ export const ChatCard = ({
                       </div>
                     )}
                     <div className='text-xs'>
-                      <p className='text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%]'>
+                      <p className='text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%] style-card'>
                         {item.filename}
                       </p>
                       {/* <p className='text-neutral-40'>
