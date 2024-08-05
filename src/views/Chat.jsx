@@ -41,7 +41,11 @@ export const Chat = () => {
   const [disableInput, setDisableInput] = useState(false)
   const [dataThreadList, setThreadList] = useState([])
   const [defaultQuestion, setDefaultQuestion] = useState([])
-  const [headerText, setHeaderText] = useState()
+  const [headerText, setHeaderText] = useState(
+    t('new_chat', {
+      keyPrefix: 'chat',
+    })
+  )
   const [showLayerFile, setShowLawyerFile] = useState(false)
   const [userDetail, setUserDetail] = useState({
     first_name: '-',
