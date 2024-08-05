@@ -86,6 +86,7 @@
   p {
     display: block;
     margin-top: 1em;
+    font-size: 14px;
     margin-bottom: 1em;
     margin-left: 0;
     margin-right: 0;
@@ -93,5 +94,25 @@
 
   li {
     display: list-item;
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .style-card {
+    max-inline-size: 180px;
+    min-inline-size: 100px;
+    overflow-wrap: break-word;
+  }
+
+  .style-card-chat {
+    inline-size: 200px;
+    overflow-wrap: break-word;
+  }
+}
+
+.style-card-chat {
+  main {
+    font-size: 14px;
   }
 }

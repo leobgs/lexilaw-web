@@ -484,18 +484,31 @@ export const Chat = () => {
         <main className='md:h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border border-neutral-20 border-opacity-80 h-[calc(100%-76px)]'>
           <header className='hidden justify-between items-center md:border-b md:border-b-neutral-30 md:flex md:pb-4 md:-mx-4 md:px-8'>
             <div className='flex gap-2 items-center'>
-              {(headerText === 'New Chat' || headerText === 'Obrolan Baru') && (
-                <img
-                  src={images.ic_obrolan}
-                  alt='obrolan'
-                  className='h-5 w-5'
-                />
+              {headerText === 'New Chat' || headerText === 'Obrolan Baru' ? (
+                <>
+                  <img
+                    src={images.ic_obrolan}
+                    alt='obrolan'
+                    className='h-5 w-5'
+                  />
+
+                  <div className='font-futura-bold text-xl'>
+                    {t('new_chat', {
+                      keyPrefix: 'chat',
+                    })}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <img
+                    src={images.ic_obrolan}
+                    alt='obrolan'
+                    className='h-5 w-5'
+                  />
+
+                  <div className='font-futura-bold text-xl'>{headerText}</div>
+                </>
               )}
-              <div className='font-futura-bold text-xl'>
-                {t('new_chat', {
-                  keyPrefix: 'chat',
-                })}
-              </div>
             </div>
 
             <div

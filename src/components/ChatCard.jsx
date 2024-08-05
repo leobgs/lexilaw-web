@@ -194,7 +194,7 @@ export const ChatCard = ({
               </div>
             </div>
 
-            <div className='chat-wrap text-sm'>
+            <div className='chat-wrap text-sm-chat style-card-chat'>
               <Markdown
                 options={{
                   wrapper: 'main',
@@ -210,7 +210,7 @@ export const ChatCard = ({
                 <p className='text-xs mt-2 mb-0.5 text-neutral-40 hidden md:inline-block'>
                   {t('attached', { keyPrefix: 'chat_respond' })}
                 </p>
-                <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
+                <div className='w-1/2 md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
                   {fileCategory === 'IMAGE' ? (
                     <img
                       src={item.url_file}
@@ -225,8 +225,8 @@ export const ChatCard = ({
                     />
                   )}
 
-                  <div className='text-xs '>
-                    <p className='text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%]'>
+                  <div className='text-xs w-full'>
+                    <p className='text-sm font-semi-bold text-secondary-base break-words w-full'>
                       {item.caption}
                     </p>
                     {/* <p className='text-neutral-40'>
@@ -255,7 +255,7 @@ export const ChatCard = ({
         <div>
           <div
             className={clsx(
-              'flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 md:w-3/4 md:mx-4 rounded-3xl md:rounded-x',
+              'flex gap-2 first:mt-4 mb-4 items-start py-2 px-4 w-10/12 md:w-3/4 md:mx-4 rounded-3xl md:rounded-x',
               className
             )}
           >
@@ -281,7 +281,7 @@ export const ChatCard = ({
                   <p className='text-xs mt-2 mb-0.5 text-neutral-40 hidden md:inline-block'>
                     {t('attached', { keyPrefix: 'chat_respond' })}
                   </p>
-                  <div className='w-full md:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
+                  <div className='w-10/12 xs:w-8/12 md:w-3/4 lg:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0'>
                     {fileCategory === 'IMAGE' ? (
                       <img
                         src={item.url_file}
@@ -293,14 +293,14 @@ export const ChatCard = ({
                         {displayExt}
                       </div>
                     )}
-                    <div className='text-xs'>
-                      <p className='text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%]'>
-                        {item.filename}
-                      </p>
-                      {/* <p className='text-neutral-40'>
+                    {/* <div className='text-xs'> */}
+                    <p className='text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%] style-card'>
+                      {item.filename}
+                    </p>
+                    {/* <p className='text-neutral-40'>
                         {byteConversion(item.file?.size)}
                       </p> */}
-                    </div>
+                    {/* </div> */}
                   </div>
                 </>
               )}

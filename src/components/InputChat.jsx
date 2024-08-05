@@ -134,7 +134,7 @@ export const InputChat = ({ onChange, className, disable }) => {
                 </div>
               )}
               <div className='text-xs w-full'>
-                <p className='text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%]'>
+                <p className='text-sm font-semi-bold text-secondary-base break-words size max-w-[60%]'>
                   {form.caption}
                 </p>
                 <p className='text-neutral-40'>
