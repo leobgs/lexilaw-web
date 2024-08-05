@@ -19,6 +19,7 @@ export const NavChat = ({
   dataLatest = [],
   headerText,
   userDetail,
+  isDisable,
   onDeleted = () => {},
   onExpand = () => {},
   onClickFile = () => {},
@@ -86,6 +87,7 @@ export const NavChat = ({
     })
   }, [search])
 
+  console.log(isDisable)
   return (
     <nav
       className={`md:w-3/12 md:py-1 md:h-full flex flex-col ${
@@ -94,7 +96,7 @@ export const NavChat = ({
     >
       {showNav && <div className='pb-4 pt-3.5' />}
       <div className='hidden md:inline'>
-        <img src={images.logo_lexilaw} alt='LexiLaw' className='' />
+        <img src={images.logo_lexilaw} alt='LexiLaw' className='mb-8' />
         <div className='flex gap-2'>
           <div className='!rounded-full !border-gray-100 focus:outline-none py-2.5 border-2 bg-white flex items-center gap-2 px-4 basis-10/12'>
             <img
@@ -144,12 +146,20 @@ export const NavChat = ({
             {headerText}
           </div>
           <div className='mx-auto basis-2/12'>
-            <div className='bg-neutral-20 rounded-full px-1.5 py-1 w-10 h-10 mx-auto flex justify-center items-center'>
+            <div
+              className={`rounded-full px-1.5 py-1 w-10 h-10 mx-auto flex justify-center items-center ${
+                isDisable ? 'bg-neutral-10' : 'bg-neutral-20 '
+              }`}
+            >
               <img
-                src={images.ic_attachment_upload}
+                src={
+                  isDisable
+                    ? images.ic_attachment_upload_disabled
+                    : images.ic_attachment_upload
+                }
                 alt='upload'
                 className=''
-                onClick={() => onClickFile()}
+                onClick={isDisable ? void 0 : () => onClickFile()}
               />
             </div>
           </div>

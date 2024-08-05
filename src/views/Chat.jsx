@@ -451,6 +451,7 @@ export const Chat = () => {
     <div className='bg-primary-base w-full h-screen flex flex-col'>
       <div className='md:pr-4 md:pl-2 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
         <NavChat
+          isDisable={uuid !== '63926537'}
           onClickFile={() => setShowLawyerFile(true)}
           onDeleted={() => {
             setIsHeader(true)
@@ -639,6 +640,7 @@ export const Chat = () => {
                 } w-full`}
                 hasFile={!isHeader && uuid === '63926537'}
               />
+
               {!isHeader && uuid === '63926537' && (
                 <CardFile data={FILE_LAWYER} />
               )}
