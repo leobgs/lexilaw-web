@@ -283,7 +283,7 @@ export const ChatRespond = ({
             {allLawyer?.length !== 0 && (
               <div className='w-full'>
                 <div
-                  className='bg-[#EFEDE8] p-4 rounded-lg md:w-2/3 flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md'
+                  className='bg-[#EFEDE8] p-4 rounded-lg md:w-2/3 flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md cursor-pointer'
                   onClick={() => setLawyerRecommendation(true)}
                 >
                   <div className='flex items-center'>
@@ -363,7 +363,7 @@ export const ChatRespond = ({
                       : images.ic_like
                   }
                   alt='like'
-                  className='h-7 w-7 mx-1 shadow-sm rounded-full'
+                  className='h-7 w-7 mx-1 shadow-sm rounded-full cursor-pointer'
                   onClick={item.reaction === true ? void 0 : () => onLike()}
                 />
               )}
@@ -376,14 +376,14 @@ export const ChatRespond = ({
                       : images.ic_dislike
                   }
                   alt='dislike'
-                  className='h-7 w-7 mx-1 shadow-sm rounded-full'
+                  className='h-7 w-7 mx-1 shadow-sm rounded-full cursor-pointer'
                   onClick={item.reaction === true ? void 0 : () => onDislike()}
                 />
               )}
             </div>
 
             <div
-              className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mx-1.5 shadow-sm'
+              className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center mx-1.5 shadow-sm cursor-pointer'
               onClick={() => copyToClipboard({ text: item.message })}
             >
               <img
@@ -394,7 +394,7 @@ export const ChatRespond = ({
             </div>
 
             {(isLast || item.type === 'recommendation') && (
-              <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm'>
+              <div className='bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm cursor-pointer'>
                 <img
                   src={images.ic_redo}
                   alt='redo'

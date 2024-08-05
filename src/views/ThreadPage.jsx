@@ -156,6 +156,7 @@ export const ThreadPage = ({ className, hasFile }) => {
                 }
               }
             })
+            console.log(renderedMessage)
             setRenderedMessage([...renderedMessage])
           }
         }

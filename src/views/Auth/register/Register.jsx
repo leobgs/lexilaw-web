@@ -367,7 +367,7 @@ export const Register = () => {
         <div className='text-center font-medium flex justify-center text-sm'>
           <p>{t('already_have_account', { keyPrefix: 'auth.register' })}</p>
           <p
-            className='font-bold text-gray-900 underline ms-1'
+            className='font-bold text-gray-900 underline ms-1 cursor-pointer'
             onClick={() => navigate('/auth/login')}
           >
             {t('login', { keyPrefix: 'common' })}

@@ -238,7 +238,7 @@ export const BookLawyer = () => {
               ) : (
                 <div
                   onClick={handleEditList}
-                  className='bg-blue-sky rounded-full flex items-center'
+                  className='bg-blue-sky rounded-full flex items-center cursor-pointer'
                 >
                   <div className='text-black-dark hidden md:ml-4 md:inline-block'>
                     {t('adjust', { keyPrefix: 'booking_lawyer' })}
@@ -313,7 +313,7 @@ export const BookLawyer = () => {
 
           <div className='border-t border-t-neutral-30 md:border-t-blue-sky md:border-opacity-15 py-4 mb-6 md:px-4'>
             <div
-              className='btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8 py-2.5'
+              className='btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8 py-2.5 cursor-pointer'
               onClick={() => {
                 handleBookLawyer()
                 // setPaymentMethodModal(!isShowPaymentMethodModal);

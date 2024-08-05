@@ -58,20 +58,28 @@ const AutoResizeTextarea = ({
           fontSize: '14px',
         }}
       />
-      <div
-        onClick={() => {
-          if (textareaValue.trim() !== '') {
-            onSubmit(form)
-            setTimeout(() => {
-              setTextareaValue('')
-              setForm('')
-            }, 600)
-          }
-        }}
-        className='bg-blue-dark px-4 py-1.5 rounded-3xl flex items-center h-8 w-[52px]'
-      >
-        <img src={images.ic_send} alt='kirim' className='w-[22.5px] h-[18px]' />
-      </div>
+      {!disable && (
+        <div
+          onClick={() => {
+            if (textareaValue.trim() !== '') {
+              onSubmit(form)
+              setTimeout(() => {
+                setTextareaValue('')
+                setForm('')
+              }, 600)
+            }
+          }}
+          className={`px-4 py-1.5 rounded-3xl flex items-center h-8 w-[52px] cursor-pointer ${
+            !form ? 'bg-neutral-40 ' : 'bg-blue-dark'
+          }`}
+        >
+          <img
+            src={images.ic_send}
+            alt='kirim'
+            className='w-[22.5px] h-[18px]'
+          />
+        </div>
+      )}
     </div>
   )
 }

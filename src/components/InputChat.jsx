@@ -146,7 +146,7 @@ export const InputChat = ({ onChange, className, disable }) => {
             <img
               src={images.ic_close_black}
               alt='hapus gambar'
-              className='-right-0 top-0 -ml-4 -mt-2 z-10 opacity-75 w-8 h-8'
+              className='-right-0 top-0 -ml-4 -mt-2 z-10 opacity-75 w-8 h-8 cursor-pointer'
               onClick={handleDeleteImageDetail}
             />
           </div>
@@ -158,7 +158,7 @@ export const InputChat = ({ onChange, className, disable }) => {
                 <img
                   src={images.ic_attach_black}
                   alt='attach'
-                  className='w-3 h-4 hidden md:inline-block m-2'
+                  className='w-3 h-4 hidden md:inline-block m-2 cursor-pointer'
                 />
                 <img
                   src={images.ic_attach_black_sm}

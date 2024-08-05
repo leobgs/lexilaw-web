@@ -141,7 +141,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
 
   return (
     <div
-      className={`h-9 rounded-lg flex justify-between items-center text-sm pl-2
+      className={`h-9 rounded-lg flex justify-between items-center text-sm pl-2 cursor-pointer
       ${
         item.isActive
           ? isActivated

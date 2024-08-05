@@ -447,11 +447,6 @@ export const Chat = () => {
     setThreadList([...dataThreadList])
   }
 
-  console.log(
-    t('new_chat', {
-      keyPrefix: 'chat',
-    })
-  )
   return (
     <div className='bg-primary-base w-full h-screen flex flex-col'>
       <div className='md:pr-4 md:pl-2 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
@@ -511,7 +506,7 @@ export const Chat = () => {
                 {userDetail.first_name} {userDetail.last_name}
               </p>
               <img
-                className='size-10 rounded-full ring-1 ring-[#C9BBA0] drop-shadow-[2px_2px_2px_rgba(240, 237, 232, 1)]'
+                className='size-10 rounded-full ring-1 ring-[#C9BBA0] drop-shadow-[2px_2px_2px_rgba(240, 237, 232, 1)] cursor-pointer'
                 src={userDetail.image_url}
                 alt='profile'
                 onError={({ currentTarget }) => {
@@ -545,7 +540,7 @@ export const Chat = () => {
                     </NavLink>
                     <div className='flex justify-between items-center my-2'>
                       <div
-                        className='px-4 text-black-darker'
+                        className='px-4 text-black-darker cursor-pointer'
                         onClick={() => navigate('/my-lawyer')}
                       >
                         {t('my_lawyer', {
@@ -555,13 +550,13 @@ export const Chat = () => {
                     </div>
                   </div>
 
-                  <div className='px-4 mb-2 mt-2 text-xxs'>
+                  <div className='px-4 mb-2 mt-2 text-xxs '>
                     {t('connected', {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
                   <div className='flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2 font-semi-bold'>
-                    <div className='px-4 text-black-darker text-xs'>
+                    <div className='px-4 text-black-darker text-xs cursor-pointer'>
                       {t('wa_activation', {
                         keyPrefix: 'chat.profile_option',
                       })}
@@ -579,7 +574,7 @@ export const Chat = () => {
                     })}
                   </div>
                   <div className='mb-2 flex justify-center ml-4 items-start font-semi-bold'>
-                    <div className='text-black-darker text-xs w-full mt-1'>
+                    <div className='text-black-darker text-xs w-full mt-1 cursor-pointer'>
                       {t('menu_language', {
                         keyPrefix: 'chat.profile_option',
                       })}{' '}
@@ -595,7 +590,7 @@ export const Chat = () => {
                   </div>
 
                   <div
-                    className='font-semi-bold text-error-base px-4 bg-[#F0EDE8] py-2 -mb-2.5 rounded-b-lg text-sm'
+                    className='font-semi-bold text-error-base px-4 bg-[#F0EDE8] py-2 -mb-2.5 rounded-b-lg text-sm cursor-pointer'
                     onClick={onLogout}
                   >
                     {t('logout', {

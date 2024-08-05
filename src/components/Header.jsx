@@ -19,7 +19,7 @@ export const Header = ({
       <img
         src={images.ic_back}
         alt='back'
-        className=''
+        className='cursor-pointer'
         onClick={() => {
           onBackClick()
         }}
@@ -32,7 +32,7 @@ export const Header = ({
           onClick={() => {
             onBackClick()
           }}
-          className=''
+          className='cursor-pointer'
         />
       )}
     </div>

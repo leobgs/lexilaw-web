@@ -38,7 +38,7 @@ export const Toggle = ({ className, labelClassName, hideText }) => {
         <label
           htmlFor='check1'
           className={clsx(
-            'toggle-label block w-[53px] h-6 rounded-full transition-color duration-150 ease-out',
+            'toggle-label block w-[53px] h-6 rounded-full transition-color duration-150 ease-out cursor-pointer',
             labelClassName
           )}
         />
