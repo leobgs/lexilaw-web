@@ -22,7 +22,7 @@ export const Button = ({
   return (
     <button
       className={clsx(
-        'flex items-center justify-center w-fit h-[3rem] font-semi-bold py-3 px-4 transition duration-150 ease-in-out text-sm',
+        'flex items-center justify-center w-fit h-[3rem] font-semi-bold py-3 px-4 transition duration-150 ease-in-out text-sm cursor-pointer',
         className,
         disabled ? 'disabled' : ''
       )}

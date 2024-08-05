@@ -116,7 +116,7 @@ export const NavChat = ({
           </div>
 
           <div
-            className='bg-[#F0EDE8] basis-2/12 rounded-full outline outline-[#E0DBD1] py-1 flex items-center'
+            className='bg-[#F0EDE8] basis-2/12 rounded-full outline outline-[#E0DBD1] py-1 flex items-center cursor-pointer'
             onClick={() => onHeaderClick()}
           >
             <img
@@ -171,7 +171,9 @@ export const NavChat = ({
                     <img
                       src={images.ic_menu_down}
                       alt='dropdown'
-                      className={`h-6 ${showColetion ? '' : 'rotate-180'}`}
+                      className={`h-6 cursor-pointer ${
+                        showColetion ? '' : 'rotate-180'
+                      }`}
                       onClick={() => setShowColetion(!showColetion)}
                     />
                   </div>
@@ -479,7 +481,7 @@ export const NavChat = ({
             </div>
             <div className='border-b border-b-neutral-20 text-sm font-semi-bold'>
               <div
-                className='px-4 mb-2 text-black-darker'
+                className='px-4 mb-2 text-black-darker cursor-pointer'
                 onClick={() => navigate('/account')}
               >
                 {t('my_account', {
@@ -488,7 +490,7 @@ export const NavChat = ({
               </div>
               <div className='flex justify-between items-center mb-2'>
                 <div
-                  className='px-4 text-black-darker'
+                  className='px-4 text-black-darker cursor-pointer'
                   onClick={() => navigate('/my-lawyer')}
                 >
                   {t('my_lawyer', {

@@ -15,7 +15,10 @@ export const LawyerCard = ({ data, className, onClick = () => {} }) => {
 
   return (
     <div
-      className={clsx('w-full rounded-lg p-4 relative bg-[#FBFBFB]', className)}
+      className={clsx(
+        'w-full rounded-lg p-4 relative bg-[#FBFBFB] cursor-pointer',
+        className
+      )}
       onClick={() => onClick()}
     >
       <div className='flex gap-2 h-24 md:flex-col lg:flex-row'>

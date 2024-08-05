@@ -50,7 +50,7 @@ export const InputPassword = ({
       )}
       <div className='relative'>
         <img
-          className={`absolute translate-y-1/2 right-4 ${
+          className={`absolute translate-y-1/2 right-4 cursor-pointer ${
             isPINVisible ? 'w-5 h-4 top-[0.55rem]' : 'w-4 h-3.5 top-[0.75rem]'
           }`}
           src={isPINVisible ? images.ic_eye : images.ic_eye_strike}
