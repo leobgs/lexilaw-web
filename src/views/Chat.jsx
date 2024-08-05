@@ -507,7 +507,7 @@ export const Chat = () => {
               </p>
               <img
                 className='size-10 rounded-full ring-1 ring-[#C9BBA0] drop-shadow-[2px_2px_2px_rgba(240, 237, 232, 1)] cursor-pointer'
-                src={userDetail.image_url}
+                src={userDetail.image_url ? userDetail.image_url : images.ic_avatar_placeholder}
                 alt='profile'
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null
