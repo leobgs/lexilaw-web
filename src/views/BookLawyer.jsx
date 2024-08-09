@@ -216,7 +216,7 @@ export const BookLawyer = () => {
         onNavigate={() => {
           setIsShowPaymentSuccessModal(false);
           bookingLawyerReducer(["selected_lawyer"], null);
-          navigate("/");
+          navigate(`/thread/${bookingLawyerPayload.thread_uuid}`, { replace: true });
         }}
       />
 
