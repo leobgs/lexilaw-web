@@ -1,13 +1,6 @@
 import images from 'assets/images'
 
-import {
-  InputChat,
-  NavChat,
-  Tooltips,
-  QuestionCard,
-  CardFile,
-  CardFileMobile,
-} from 'components'
+import { InputChat, NavChat, Tooltips, QuestionCard, CardFile, CardFileMobile } from 'components'
 import { Toggle } from 'components/Toggle/Toggle'
 import { API } from 'config/api'
 import { StorageKey } from 'config/storage'
@@ -27,14 +20,8 @@ export const Chat = () => {
   const { t } = useTranslation()
   const storage = new LocalStorage()
   const navigate = useNavigate()
-  const {
-    currentLanguage,
-    collection,
-    bookingLawyerPayload,
-    bookingLawyerReducer,
-    collectionReset,
-    collectionSet,
-  } = useGlobalContext()
+  const { currentLanguage, collection, bookingLawyerPayload, bookingLawyerReducer, collectionReset, collectionSet } =
+    useGlobalContext()
   const { uuid } = useParams()
   const queryClient = useQueryClient()
   const [isHeader, setIsHeader] = useState(true)
@@ -57,6 +44,9 @@ export const Chat = () => {
   const { openAlert, closeAlert } = useGlobalContext()
   const location = useLocation()
   const [hasKoleksiData, setHasKoleksiData] = useState(false)
+
+  const { pathname } = useLocation()
+  const [isFirstTimeChat, setIsFirstTimeChat] = useState(false)
 
   useEffect(() => {
     if (location?.state?.isScheduled) {
@@ -136,20 +126,17 @@ export const Chat = () => {
     },
   })
 
-  const { mutate: sendMessage } = useMutation(
-    (form) => getData(API.MESSAGE_SEND, form),
-    {
-      onSettled: (datas) => {
-        if (datas?.status === 'Success') {
-          const { data } = datas
-          setMessageUUID(data?.thread_uuid)
-          queryClient.invalidateQueries('newest_thread')
-        } else {
-          notifyError(datas?.message)
-        }
-      },
-    }
-  )
+  const { mutate: sendMessage } = useMutation((form) => getData(API.MESSAGE_SEND, form), {
+    onSettled: (datas) => {
+      if (datas?.status === 'Success') {
+        const { data } = datas
+        setMessageUUID(data?.thread_uuid)
+        queryClient.invalidateQueries('newest_thread')
+      } else {
+        notifyError(datas?.message)
+      }
+    },
+  })
 
   useQuery(['newest_thread'], () => getData(`${API.THREAD_LIST}?limit=100`), {
     onSettled: (datas) => {
@@ -159,37 +146,37 @@ export const Chat = () => {
           keyPrefix: 'chat',
         })
 
-        const previousData =
-          data?.filter((item) => item.moment === 'Previous') || []
-        const currentData =
-          data?.filter((item) => item.moment === 'Current') || []
+        const previousData = data?.filter((item) => item.moment === 'Previous') || []
+        const currentData = data?.filter((item) => item.moment === 'Current') || []
         let activeCollection = currentData[0]
 
         if (bookingLawyerPayload?.thread_uuid) {
-          activeCollection = currentData.find(
-            (item) => item.uuid === bookingLawyerPayload.thread_uuid
-          )
+          activeCollection = currentData.find((item) => item.uuid === bookingLawyerPayload.thread_uuid)
           if (!activeCollection) {
             activeCollection =
-              previousData.find(
-                (item) => item.uuid === bookingLawyerPayload.thread_uuid
-              ) || currentData[0]
+              previousData.find((item) => item.uuid === bookingLawyerPayload.thread_uuid) || currentData[0]
           }
           bookingLawyerReducer(['thread_uuid'], null)
         }
 
-        const isThereAnyCollection = dataThreadList?.find(
-          (item) => item.type === 'koleksi'
-        )
+        const isThereAnyCollection = dataThreadList?.find((item) => item.type === 'koleksi')
 
         setHasKoleksiData(true)
+
+        if (pathname === '/') {
+          setHeaderText(texts)
+        } else {
+          setHeaderText(currentData[0]?.title ?? texts)
+        }
+
+        if (isFirstTimeChat) {
+          currentData[0].title = texts
+        }
+
         const newMessage = [
           {
             type: 'koleksi',
-            data:
-              isThereAnyCollection?.data?.length !== 0
-                ? isThereAnyCollection?.data
-                : [],
+            data: isThereAnyCollection?.data?.length !== 0 ? isThereAnyCollection?.data : [],
           },
           { type: 'terkini', data: currentData },
           { type: 'riwayat', data: [...previousData, ...RIWAYAT_OROLAN] }, // ...RIWAYAT_OROLAN nanti dihapus kalo udh full api
@@ -320,9 +307,7 @@ export const Chat = () => {
         dataThreadList?.forEach((item) => {
           if (item.type === 'koleksi') {
             return (item.data = data.map((item) => {
-              const hasMatchingThread = item.threads?.some(
-                (thread) => thread.uuid === uuid
-              )
+              const hasMatchingThread = item.threads?.some((thread) => thread.uuid === uuid)
 
               return {
                 ...item,
@@ -346,12 +331,20 @@ export const Chat = () => {
       message: e.message,
       document: e.file,
     }
-    setHeaderText(e?.message)
+    let texts = t('new_chat', {
+      keyPrefix: 'chat',
+    })
     const bodyFormData = new FormData()
     for (const [key, value] of Object.entries(dataMessage)) {
       bodyFormData.append(key, value)
     }
     sendMessage(bodyFormData)
+    if (pathname === '/') {
+      setIsFirstTimeChat((prev) => !prev)
+    } else {
+      texts = e?.message
+    }
+    setHeaderText(texts)
     setDisableInput(true)
   }
 
@@ -452,8 +445,8 @@ export const Chat = () => {
   }
 
   return (
-    <div className='bg-primary-base w-full h-screen flex flex-col'>
-      <div className='md:pr-4 md:pl-2 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1'>
+    <div className="bg-primary-base w-full h-screen flex flex-col">
+      <div className="md:pr-4 md:pl-2 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1">
         <NavChat
           isDisable={uuid !== '63926537'}
           onClickFile={() => setShowLawyerFile(true)}
@@ -486,18 +479,14 @@ export const Chat = () => {
           onExpand={(e) => handleOnExpand(e)}
         />
 
-        <main className='md:h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border border-neutral-20 border-opacity-80 h-[calc(100%-76px)]'>
-          <header className='hidden justify-between items-center md:border-b md:border-b-neutral-30 md:flex md:pb-4 md:-mx-4 md:px-8'>
-            <div className='flex gap-2 items-center'>
+        <main className="md:h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border border-neutral-20 border-opacity-80 h-[calc(100%-76px)]">
+          <header className="hidden justify-between items-center md:border-b md:border-b-neutral-30 md:flex md:pb-4 md:-mx-4 md:px-8">
+            <div className="flex gap-2 items-center">
               {headerText === 'New Chat' || headerText === 'Obrolan Baru' ? (
                 <>
-                  <img
-                    src={images.ic_obrolan}
-                    alt='obrolan'
-                    className='h-5 w-5'
-                  />
+                  <img src={images.ic_obrolan} alt="obrolan" className="h-5 w-5" />
 
-                  <div className='font-futura-bold text-xl'>
+                  <div className="font-futura-bold text-xl">
                     {t('new_chat', {
                       keyPrefix: 'chat',
                     })}
@@ -505,28 +494,21 @@ export const Chat = () => {
                 </>
               ) : (
                 <>
-                  <img
-                    src={images.ic_obrolan}
-                    alt='obrolan'
-                    className='h-5 w-5'
-                  />
+                  <img src={images.ic_obrolan} alt="obrolan" className="h-5 w-5" />
 
-                  <div className='font-futura-bold text-xl'>{headerText}</div>
+                  <div className="font-futura-bold text-xl">{headerText}</div>
                 </>
               )}
             </div>
 
-            <div
-              className='flex items-center gap-2'
-              data-tooltip-id='profile-tooltip'
-            >
-              <p className='font-futura-bold text-sm'>
+            <div className="flex items-center gap-2" data-tooltip-id="profile-tooltip">
+              <p className="font-futura-bold text-sm">
                 {userDetail.first_name} {userDetail.last_name}
               </p>
               <img
-                className='size-10 rounded-full ring-1 ring-[#C9BBA0] drop-shadow-[2px_2px_2px_rgba(240, 237, 232, 1)] cursor-pointer'
+                className="size-10 rounded-full ring-1 ring-[#C9BBA0] drop-shadow-[2px_2px_2px_rgba(240, 237, 232, 1)] cursor-pointer"
                 src={userDetail.image_url ? userDetail.image_url : images.ic_avatar_placeholder}
-                alt='profile'
+                alt="profile"
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null
                   currentTarget.src = images.ic_avatar_placeholder
@@ -535,32 +517,26 @@ export const Chat = () => {
             </div>
 
             <Tooltips
-              idToolTips='profile-tooltip'
-              tooltipEffect='solid'
-              tooltipPlace='bottom-end'
-              className='bg-secondary-base hidden md:inline-block z-50'
+              idToolTips="profile-tooltip"
+              tooltipEffect="solid"
+              tooltipPlace="bottom-end"
+              className="bg-secondary-base hidden md:inline-block z-50"
               children={
-                <div className='text-neutral-40 -mx-4'>
-                  <div className='bg-blue-dark w-full h-2 -mt-2 rounded-t-md' />
-                  <div className='px-4 my-2 text-xxs'>
+                <div className="text-neutral-40 -mx-4">
+                  <div className="bg-blue-dark w-full h-2 -mt-2 rounded-t-md" />
+                  <div className="px-4 my-2 text-xxs">
                     {t('main_menu', {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
-                  <div className='border-b border-b-neutral-20 text-xs font-semi-bold'>
-                    <NavLink
-                      to='account'
-                      className='px-4 mb-2 text-black-darker'
-                    >
+                  <div className="border-b border-b-neutral-20 text-xs font-semi-bold">
+                    <NavLink to="account" className="px-4 mb-2 text-black-darker">
                       {t('my_account', {
                         keyPrefix: 'chat.profile_option',
                       })}
                     </NavLink>
-                    <div className='flex justify-between items-center my-2'>
-                      <div
-                        className='px-4 text-black-darker cursor-pointer'
-                        onClick={() => navigate('/my-lawyer')}
-                      >
+                    <div className="flex justify-between items-center my-2">
+                      <div className="px-4 text-black-darker cursor-pointer" onClick={() => navigate('/my-lawyer')}>
                         {t('my_lawyer', {
                           keyPrefix: 'chat.profile_option',
                         })}
@@ -568,47 +544,39 @@ export const Chat = () => {
                     </div>
                   </div>
 
-                  <div className='px-4 mb-2 mt-2 text-xxs '>
+                  <div className="px-4 mb-2 mt-2 text-xxs ">
                     {t('connected', {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
-                  <div className='flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2 font-semi-bold'>
-                    <div className='px-4 text-black-darker text-xs cursor-pointer'>
+                  <div className="flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2 font-semi-bold">
+                    <div className="px-4 text-black-darker text-xs cursor-pointer">
                       {t('wa_activation', {
                         keyPrefix: 'chat.profile_option',
                       })}
                     </div>
-                    <img
-                      src={images.ic_vector_green}
-                      alt='arrow'
-                      className='h-2.5 w-2.5'
-                    />
+                    <img src={images.ic_vector_green} alt="arrow" className="h-2.5 w-2.5" />
                   </div>
 
-                  <div className='px-4 my-2 text-xxs'>
+                  <div className="px-4 my-2 text-xxs">
                     {t('configure', {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
-                  <div className='mb-2 flex justify-center ml-4 items-start font-semi-bold'>
-                    <div className='text-black-darker text-xs w-full mt-1 cursor-pointer'>
+                  <div className="mb-2 flex justify-center ml-4 items-start font-semi-bold">
+                    <div className="text-black-darker text-xs w-full mt-1 cursor-pointer">
                       {t('menu_language', {
                         keyPrefix: 'chat.profile_option',
                       })}{' '}
                       {currentLanguage === 'id' ? '(ID)' : '(EN)'}
                     </div>
-                    <div className='mr-2.5'>
-                      <Toggle
-                        labelClassName='!w-[50px]'
-                        className='!my-0'
-                        hideText={true}
-                      />
+                    <div className="mr-2.5">
+                      <Toggle labelClassName="!w-[50px]" className="!my-0" hideText={true} />
                     </div>
                   </div>
 
                   <div
-                    className='font-semi-bold text-error-base px-4 bg-[#F0EDE8] py-2 -mb-2.5 rounded-b-lg text-sm cursor-pointer'
+                    className="font-semi-bold text-error-base px-4 bg-[#F0EDE8] py-2 -mb-2.5 rounded-b-lg text-sm cursor-pointer"
                     onClick={onLogout}
                   >
                     {t('logout', {
@@ -621,33 +589,31 @@ export const Chat = () => {
           </header>
 
           {isHeader ? (
-            <div className='md:h-[calc(100%-56px)] h-full w-full md:w-3/4'>
-              <div className='relative flex h-full flex-col select-text mb-2 mt-1'>
+            <div className="md:h-[calc(100%-56px)] h-full w-full md:w-3/4">
+              <div className="relative flex h-full flex-col select-text mb-2 mt-1">
                 <QuestionCard
                   data={defaultQuestion}
                   onClick={(e) => handleAddChat(e)}
-                  className='md:top-24 md:left-12 md:absolute'
+                  className="md:top-24 md:left-12 md:absolute"
                 />
 
                 <InputChat
                   onChange={(e) => handleAddChat(e)}
-                  className='w-full md:w-full bottom-1 absolute md:ml-4'
+                  className="w-full md:w-full bottom-1 absolute md:ml-4"
                   disable={disableInput}
                 />
               </div>
             </div>
           ) : (
-            <div className='md:h-[calc(100%-56px)] h-full w-full flex gap-x-7'>
+            <div className="md:h-[calc(100%-56px)] h-full w-full flex gap-x-7">
               <ThreadPage
-                className={`${
-                  !isHeader && uuid === '63926537' ? 'md:w-9/12' : ''
-                } w-full`}
+                className={`${!isHeader && uuid === '63926537' ? 'md:w-9/12' : ''} w-full`}
                 hasFile={!isHeader && uuid === '63926537'}
+                isFirstTimeChat={isFirstTimeChat}
+                setIsFirstTimeChat={setIsFirstTimeChat}
               />
 
-              {!isHeader && uuid === '63926537' && (
-                <CardFile data={FILE_LAWYER} />
-              )}
+              {!isHeader && uuid === '63926537' && <CardFile data={FILE_LAWYER} />}
               {!isHeader && uuid === '63926537' && (
                 <CardFileMobile
                   data={FILE_LAWYER}
