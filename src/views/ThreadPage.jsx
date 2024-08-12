@@ -20,7 +20,7 @@ export const fetchMessage = async ({ pageParam }, URL) => {
   return respond.data
 }
 
-export const ThreadPage = ({ className, hasFile, setIsFirstTimeChat, isFirstTimeChat }) => {
+export const ThreadPage = ({ className, hasFile, isFirstTimeChat, onFirstTimeChat }) => {
   const params = useParams()
   const { state } = useLocation()
   const queryClient = useQueryClient()
@@ -162,7 +162,7 @@ export const ThreadPage = ({ className, hasFile, setIsFirstTimeChat, isFirstTime
           setDisableInput(false)
           setMessageUUIDtoRespond(data.thread_uuid)
           if (isFirstTimeChat) {
-            setIsFirstTimeChat((prev) => !prev)
+            onFirstTimeChat()
             queryClient.invalidateQueries('newest_thread')
           }
         } else if (data.status === 'in_progress' || data.status === 'queued') {

@@ -610,7 +610,7 @@ export const Chat = () => {
                 className={`${!isHeader && uuid === '63926537' ? 'md:w-9/12' : ''} w-full`}
                 hasFile={!isHeader && uuid === '63926537'}
                 isFirstTimeChat={isFirstTimeChat}
-                setIsFirstTimeChat={setIsFirstTimeChat}
+                onFirstTimeChat={() => setIsFirstTimeChat((prev) => !prev)}
               />
 
               {!isHeader && uuid === '63926537' && <CardFile data={FILE_LAWYER} />}
