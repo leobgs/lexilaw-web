@@ -21,15 +21,8 @@ export const BookLawyer = () => {
   const { bookingLawyerPayload, bookingLawyerReducer } = useGlobalContext();
   const navigate = useNavigate();
   const [dataLawyer, setDataLawyer] = useState({});
-  const [summaryPrices, setSummaryPrices] = useState({
-    transaction_price: [
-      {
-        id: 1,
-        name: t("platform_fee", { keyPrefix: "booking_lawyer" }),
-        price: 5000,
-      },
-    ],
-  });
+  const [taxRate, setTaxRate] = useState(1);
+  const [summaryPrices, setSummaryPrices] = useState({});
   const [isEdit, setEdit] = useState(false);
   const [isShowPaymentMethodModal, setPaymentMethodModal] = useState(false);
   const [isShowPaymentSuccessModal, setIsShowPaymentSuccessModal] =
@@ -61,20 +54,19 @@ export const BookLawyer = () => {
         },
         {
           id: 1,
-          name: t("vat_fee", { keyPrefix: "booking_lawyer" }),
-          price: totalServicePrice * 0.11,
+          name: t("vat_fee", { keyPrefix: "booking_lawyer", rate: `${taxRate}` }),
+          price: totalServicePrice * (taxRate / 100),
         },
       ];
 
       setSummaryPrices({ ...summaryPrices, jasa_pajak: newServicePrices });
     }
-  }, [dataLawyer?.service_price]);
+  }, [dataLawyer?.service_price, taxRate]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const statusCode = params.get("status_code");
     const statusCodeNumber = parseInt(statusCode, 10);
-
     if (statusCodeNumber === 200) {
       setIsShowPaymentSuccessModal(true);
     } else if (statusCodeNumber >= 400 && statusCodeNumber < 600) {
@@ -115,6 +107,38 @@ export const BookLawyer = () => {
       },
     }
   );
+
+  useQuery(
+    ["tax_fee"],
+    () =>
+      getData(
+        API.TAX_FEE
+      ),
+    {
+      onSettled: (response) => {
+        if (response?.status === "Success") {
+          handleNewPlatformFee(response.data?.platform_fee ?? 1)
+          setTaxRate(response?.data?.tax ?? 1);
+        } else {
+          notifyError(response?.message);
+        }
+      },
+    }
+  );
+
+  const handleNewPlatformFee = (fee) => {
+    const platformFee = fee ?? 0;
+
+    setSummaryPrices({
+      ...summaryPrices, transaction_price: [
+        {
+          id: 1,
+          name: t("platform_fee", { keyPrefix: "booking_lawyer" }),
+          price: platformFee,
+        },
+      ],
+    });
+  }
 
   const handleBookLawyer = () => {
     if (redirectURL !== "") {
@@ -192,7 +216,7 @@ export const BookLawyer = () => {
         onNavigate={() => {
           setIsShowPaymentSuccessModal(false);
           bookingLawyerReducer(["selected_lawyer"], null);
-          navigate("/");
+          navigate(`/thread/${bookingLawyerPayload.thread_uuid}`, { replace: true });
         }}
       />
 

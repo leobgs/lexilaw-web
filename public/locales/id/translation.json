@@ -185,7 +185,7 @@
     "back_to_start": "Kembali ke Awal",
     "finished": "Selesai",
     "service_rate": "Rate Jasa",
-    "vat_fee": "Biaya PPN (11%)",
+    "vat_fee": "Biaya PPN ({{rate}}%)",
     "success_modal": {
       "connect_with": "Kamu terhubung dengan",
       "payment_success": "Pembayaran Berhasil",

@@ -185,7 +185,7 @@
     "back_to_start": "Back to Start",
     "finished": "Finished",
     "service_rate": "Service Rate",
-    "vat_fee": "VAT Fee (11%)",
+    "vat_fee": "VAT Fee ({{rate}}%)",
     "success_modal": {
       "connect_with": "You are connected with",
       "payment_success": "Payment Successful",
