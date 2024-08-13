@@ -496,7 +496,13 @@ export const Chat = () => {
                 <>
                   <img src={images.ic_obrolan} alt="obrolan" className="h-5 w-5" />
 
-                  <div className="font-futura-bold text-xl">{headerText}</div>
+                  <div className="font-futura-bold text-xl">
+                    {headerText === ''
+                      ? t('new_chat', {
+                          keyPrefix: 'chat',
+                        })
+                      : headerText}
+                  </div>
                 </>
               )}
             </div>
@@ -589,7 +595,7 @@ export const Chat = () => {
           </header>
 
           {isHeader ? (
-            <div className="md:h-[calc(100%-56px)] h-full w-full md:w-3/4">
+            <div className="md:h-[calc(100%-56px)] h-full w-full xl:w-3/4">
               <div className="relative flex h-full flex-col select-text mb-2 mt-1">
                 <QuestionCard
                   data={defaultQuestion}
