@@ -159,7 +159,7 @@ export const ChatRespond = ({
               <div className='flex justify-start items-center gap-2'>
                 {isButtonYes && (
                   <div
-                    className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-4 text-center md:w-fit cursor-pointer ml-2 ${
+                    className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-4 text-center md:w-fit cursor-pointer ${
                       disable ? 'bg-neutral-40 bg-opacity-45' : 'bg-blue-sky'
                     }`}
                     onClick={() =>
@@ -253,7 +253,7 @@ export const ChatRespond = ({
               <div>
                 {isButtonYes && (
                   <div
-                    className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-4 text-center w-fit cursor-pointer ml-2 ${
+                    className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-4 text-center w-fit cursor-pointer ${
                       disable ? 'bg-neutral-40 bg-opacity-45' : 'bg-blue-sky'
                     }`}
                     onClick={() =>
