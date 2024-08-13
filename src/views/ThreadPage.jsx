@@ -127,6 +127,7 @@ export const ThreadPage = ({ className, hasFile, isFirstTimeChat, onFirstTimeCha
       onSettled: (datas) => {
         if (datas?.status === 'Success') {
           queryClient.invalidateQueries('thread_detail')
+          queryClient.invalidateQueries('newest_thread')
         } else {
           if (messageUUIDtoRespond === params.uuid) {
             renderedMessage?.forEach((item) => {
@@ -163,7 +164,6 @@ export const ThreadPage = ({ className, hasFile, isFirstTimeChat, onFirstTimeCha
           setMessageUUIDtoRespond(data.thread_uuid)
           if (isFirstTimeChat) {
             onFirstTimeChat()
-            queryClient.invalidateQueries('newest_thread')
           }
         } else if (data.status === 'in_progress' || data.status === 'queued') {
           setDisableInput(true)
