@@ -2,9 +2,9 @@
  * digunakan untuk mensanitasi / menghilangkan beberapa meta data seperti:
  *
  * `consult = yes`
- * 
+ *
  * `### META-LAWYER-HELP`
- * 
+ *
  * `### META-CONTENT`
  *
  * @param {string} arg
@@ -15,8 +15,7 @@ export const cleanTextFn = (arg) => {
   const patterns = [
     /###\s*META-CONTENT:\s*.*?(\r?\n|$)/gi,
     /consult\s*=\s*true/gi,
-    /###\s*META-LAWYER-HELP:\s*yes/gi,
-    /###\s*META-LAWYER-HELP:\s*no(\.)?/gi,
+    /###\s*META-LAWYER-HELP:\s*.*?(\r?\n|$)/gi,
     /【[^】]+】/g,
   ]
 
