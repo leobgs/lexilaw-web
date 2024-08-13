@@ -496,7 +496,13 @@ export const Chat = () => {
                 <>
                   <img src={images.ic_obrolan} alt="obrolan" className="h-5 w-5" />
 
-                  <div className="font-futura-bold text-xl">{headerText}</div>
+                  <div className="font-futura-bold text-xl">
+                    {headerText === ''
+                      ? t('new_chat', {
+                          keyPrefix: 'chat',
+                        })
+                      : headerText}
+                  </div>
                 </>
               )}
             </div>
