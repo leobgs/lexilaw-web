@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import { AppContext } from 'hooks/context'
+import React, { useState, useEffect, useContext } from 'react'
 
 /**
+ *
+ * Merupakan komponent yang digunakan untuk membuat animasi mengetik
  *
  * @param {Object} props
  * @param {string} props.text
@@ -12,7 +15,14 @@ const Typewriter = ({ text, delay = 100 }) => {
   const [currentText, setCurrentText] = useState('')
   const [currentIndex, setCurrentIndex] = useState(0)
 
+  const { isFirstTime } = useContext(AppContext)
+
   useEffect(() => {
+    if (!isFirstTime) {
+      setCurrentText(text)
+      return
+    }
+
     if (currentIndex < text.length) {
       const timeout = setTimeout(() => {
         setCurrentText((prevText) => prevText + text[currentIndex])
@@ -21,7 +31,7 @@ const Typewriter = ({ text, delay = 100 }) => {
 
       return () => clearTimeout(timeout)
     }
-  }, [currentIndex, delay, text])
+  }, [currentIndex, delay, text, isFirstTime])
 
   return <span>{currentText}</span>
 }
