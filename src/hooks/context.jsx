@@ -1,9 +1,4 @@
-import {
-  actionType,
-  alertState,
-  colectionState,
-  colectionType,
-} from 'config/state'
+import { actionType, alertState, colectionState, colectionType } from 'config/state'
 import { alertReducer, colectionReducer } from 'helpers/dataReducer'
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import Reducer from 'utils/reducer'
@@ -31,10 +26,7 @@ export const AppContext = React.createContext({
 
 export const AppProvider = ({ children }) => {
   const [alert, dispatchAlert] = useReducer(alertReducer, alertState)
-  const [collection, dispatchColection] = useReducer(
-    colectionReducer,
-    colectionState
-  )
+  const [collection, dispatchColection] = useReducer(colectionReducer, colectionState)
   const [authLoader, dispatchAuthLoader] = useReducer(alertReducer, alertState)
   const [currentLanguage, setLanguage] = useState(() => {
     const { CURRENT_LANGUAGE } = localServerData()
@@ -158,6 +150,8 @@ export const AppProvider = ({ children }) => {
     })
   }
 
+  const [isFirstTime, setIsFirstTime] = useState(false)
+
   return (
     <AppContext.Provider
       value={{
@@ -179,6 +173,8 @@ export const AppProvider = ({ children }) => {
         collectionReset,
         bookingLawyerPayload,
         bookingLawyerReducer,
+        isFirstTime,
+        setIsFirstTime,
       }}
     >
       {children}
