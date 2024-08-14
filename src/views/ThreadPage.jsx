@@ -5,8 +5,9 @@ import { AutoScrollingDiv } from 'components/AutoScrollDiv'
 import { ChatCard } from 'components/ChatCard'
 import { API } from 'config/api'
 import { apiURLQuery } from 'config/app'
+import { AppContext } from 'hooks/context'
 import { getData } from 'hooks/useRequest'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query'
 import { useLocation, useParams } from 'react-router-dom'
@@ -36,6 +37,8 @@ export const ThreadPage = ({ className, hasFile, isFirstTimeChat, onFirstTimeCha
   //   root: lastPostRef.current,
   //   threshold: 1,
   // })
+
+  const { setIsFirstTime } = useContext(AppContext)
 
   useEffect(() => {
     if (params.uuid === '63926537') {
@@ -164,6 +167,8 @@ export const ThreadPage = ({ className, hasFile, isFirstTimeChat, onFirstTimeCha
           setMessageUUIDtoRespond(data.thread_uuid)
           if (isFirstTimeChat) {
             onFirstTimeChat()
+            setIsFirstTime(true)
+            // setIsFirstTime((prev) => !prev)
           }
         } else if (data.status === 'in_progress' || data.status === 'queued') {
           setDisableInput(true)

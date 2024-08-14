@@ -7,7 +7,7 @@ import { StorageKey } from 'config/storage'
 import { useGlobalContext } from 'hooks/context'
 import { deleteData, getData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -15,6 +15,8 @@ import { LocalStorage } from 'utils'
 import { DEFAULT_QUESTION, FILE_LAWYER, RIWAYAT_OROLAN } from 'utils/dummy'
 import { ThreadPage } from './ThreadPage'
 import { Disclaimer } from 'components/Disclaimer'
+import { Typewriter } from 'components/Typewriter'
+import { AppContext } from 'hooks/context'
 
 export const Chat = () => {
   const { t } = useTranslation()
@@ -47,6 +49,8 @@ export const Chat = () => {
 
   const { pathname } = useLocation()
   const [isFirstTimeChat, setIsFirstTimeChat] = useState(false)
+
+  const { setIsFirstTime } = useContext(AppContext)
 
   useEffect(() => {
     if (location?.state?.isScheduled) {
@@ -341,6 +345,7 @@ export const Chat = () => {
     sendMessage(bodyFormData)
     if (pathname === '/') {
       setIsFirstTimeChat((prev) => !prev)
+      // setIsFirstTime(true)
     } else {
       texts = e?.message
     }
@@ -463,6 +468,7 @@ export const Chat = () => {
           }}
           onHeaderClick={() => {
             setIsHeader(true)
+            setIsFirstTime(false)
             collectionReset()
             onResetThread()
             setHeaderText(
@@ -497,11 +503,15 @@ export const Chat = () => {
                   <img src={images.ic_obrolan} alt="obrolan" className="h-5 w-5" />
 
                   <div className="font-futura-bold text-xl">
-                    {headerText === ''
-                      ? t('new_chat', {
-                          keyPrefix: 'chat',
-                        })
-                      : headerText}
+                    <Typewriter
+                      text={
+                        headerText === ''
+                          ? t('new_chat', {
+                              keyPrefix: 'chat',
+                            })
+                          : headerText
+                      }
+                    />
                   </div>
                 </>
               )}

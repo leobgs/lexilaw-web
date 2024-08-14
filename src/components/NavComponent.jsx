@@ -1,16 +1,17 @@
 import images from 'assets/images'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Modal } from './Modal'
 import { Input } from './Input'
 import { Button } from './Button/Button'
-import { useGlobalContext } from 'hooks/context'
+import { AppContext, useGlobalContext } from 'hooks/context'
 import { useMutation, useQueryClient } from 'react-query'
 import { API } from 'config/api'
 import { deleteData, getData, patchData, putData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { Typewriter } from './Typewriter'
 
 export const NavComponent = ({ item, onDeleted, isActivated }) => {
   const queryClient = useQueryClient()
@@ -26,6 +27,7 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
   const [text, setText] = useState('')
   const [showModalCreateCollection, setShowModalCreateCollection] = useState(false)
   const { t } = useTranslation()
+  const { setIsFirstTime, isFirstTime } = useContext(AppContext)
 
   const { mutate: updateTitle } = useMutation(
     (text) => patchData(API.THREAD_EDIT + collection.uuid + '/edit', { title: text }),
@@ -138,13 +140,26 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
           className={`line-clamp-1 w-full`}
           onClick={() => {
             item.isActive && isActivated ? void 0 : collectionClick({ ...item, activeBy: 'thread' })
+            setIsFirstTime(false)
           }}
         >
-          {item.title === ''
-            ? t('new_chat', {
-                keyPrefix: 'chat',
-              })
-            : item.title}
+          {item.isActive && isActivated && isFirstTime ? (
+            <Typewriter
+              text={
+                item.title === ''
+                  ? t('new_chat', {
+                      keyPrefix: 'chat',
+                    })
+                  : item.title
+              }
+            />
+          ) : item.title === '' ? (
+            t('new_chat', {
+              keyPrefix: 'chat',
+            })
+          ) : (
+            item.title
+          )}
         </div>
         {item.isActive && isActivated && (
           <div className="pl-3 -py-2" onClick={() => setShow1st(true)}>
