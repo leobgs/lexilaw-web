@@ -5,9 +5,9 @@ import { AutoScrollingDiv } from 'components/AutoScrollDiv'
 import { ChatCard } from 'components/ChatCard'
 import { API } from 'config/api'
 import { apiURLQuery } from 'config/app'
-import { AppContext } from 'hooks/context'
+import { useGlobalContext } from 'hooks/context'
 import { getData } from 'hooks/useRequest'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query'
 import { useLocation, useParams } from 'react-router-dom'
@@ -38,7 +38,7 @@ export const ThreadPage = ({ className, hasFile, isFirstTimeChat, onFirstTimeCha
   //   threshold: 1,
   // })
 
-  const { setIsFirstTime } = useContext(AppContext)
+  const { setIsFirstTime } = useGlobalContext()
 
   useEffect(() => {
     if (params.uuid === '63926537') {

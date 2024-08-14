@@ -44,6 +44,8 @@ export const AppProvider = ({ children }) => {
     company_name: '',
   })
 
+  const [isFirstTime, setIsFirstTime] = useState(false)
+
   const [bookingLawyerPayload, setBookingLawyerPayload] = useState(() => {
     const { BOOKING_LAWYER_PAYLOAD } = localServerData()
     return BOOKING_LAWYER_PAYLOAD || {}
@@ -149,8 +151,6 @@ export const AppProvider = ({ children }) => {
       [fieldName]: newValue,
     })
   }
-
-  const [isFirstTime, setIsFirstTime] = useState(false)
 
   return (
     <AppContext.Provider

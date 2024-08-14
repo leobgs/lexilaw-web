@@ -7,7 +7,7 @@ import { StorageKey } from 'config/storage'
 import { useGlobalContext } from 'hooks/context'
 import { deleteData, getData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -16,7 +16,6 @@ import { DEFAULT_QUESTION, FILE_LAWYER, RIWAYAT_OROLAN } from 'utils/dummy'
 import { ThreadPage } from './ThreadPage'
 import { Disclaimer } from 'components/Disclaimer'
 import { Typewriter } from 'components/Typewriter'
-import { AppContext } from 'hooks/context'
 
 export const Chat = () => {
   const { t } = useTranslation()
@@ -43,14 +42,12 @@ export const Chat = () => {
     is_disclaimer_accepted: '',
   })
   const [messageUUID, setMessageUUID] = useState(null)
-  const { openAlert, closeAlert } = useGlobalContext()
+  const { openAlert, closeAlert, setIsFirstTime } = useGlobalContext()
   const location = useLocation()
   const [hasKoleksiData, setHasKoleksiData] = useState(false)
 
   const { pathname } = useLocation()
   const [isFirstTimeChat, setIsFirstTimeChat] = useState(false)
-
-  const { setIsFirstTime } = useContext(AppContext)
 
   useEffect(() => {
     if (location?.state?.isScheduled) {

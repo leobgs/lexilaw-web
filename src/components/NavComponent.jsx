@@ -1,10 +1,10 @@
 import images from 'assets/images'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import { Modal } from './Modal'
 import { Input } from './Input'
 import { Button } from './Button/Button'
-import { AppContext, useGlobalContext } from 'hooks/context'
+import { useGlobalContext } from 'hooks/context'
 import { useMutation, useQueryClient } from 'react-query'
 import { API } from 'config/api'
 import { deleteData, getData, patchData, putData } from 'hooks/useRequest'
@@ -16,7 +16,8 @@ import { Typewriter } from './Typewriter'
 export const NavComponent = ({ item, onDeleted, isActivated }) => {
   const queryClient = useQueryClient()
   const collectionList = queryClient.getQueryData('collection')
-  const { collectionClick, collectionDelete, collectionSetEdit, collection } = useGlobalContext()
+  const { collectionClick, collectionDelete, collectionSetEdit, collection, setIsFirstTime, isFirstTime } =
+    useGlobalContext()
   const [tooltipPlace, setTooltipPlace] = useState('right')
   const [tooltipPlace2, setTooltipPlace2] = useState('right-start')
   const [tooltipOffset, setToolOffset] = useState(10)
@@ -27,7 +28,6 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
   const [text, setText] = useState('')
   const [showModalCreateCollection, setShowModalCreateCollection] = useState(false)
   const { t } = useTranslation()
-  const { setIsFirstTime, isFirstTime } = useContext(AppContext)
 
   const { mutate: updateTitle } = useMutation(
     (text) => patchData(API.THREAD_EDIT + collection.uuid + '/edit', { title: text }),
