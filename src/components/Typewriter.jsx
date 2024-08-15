@@ -19,7 +19,6 @@ const Typewriter = ({ text, delay = 100 }) => {
 
   useEffect(() => {
     if (!isFirstTime) {
-      // setCurrentText(text)
       return
     }
 
