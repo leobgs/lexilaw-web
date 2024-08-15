@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query'
 import { useLocation, useParams } from 'react-router-dom'
 import { RIWAYAT_OROLAN } from 'utils/dummy'
+import { isScheduleFn } from 'utils/isScheduleFn'
 
 export const fetchMessage = async ({ pageParam }, URL) => {
   const respond = await axios
@@ -96,6 +97,11 @@ export const ThreadPage = ({ className, hasFile, isFirstTimeChat, onFirstTimeCha
       let tmp = []
       datas.pages?.map((item) =>
         item.data?.forEach((items) => {
+          const isSchdule = isScheduleFn(items.message)
+          if (isSchdule) {
+            items.lawyer_uuid = isSchdule
+            items.type = 'schedule'
+          }
           tmp.push(items)
         })
       )
