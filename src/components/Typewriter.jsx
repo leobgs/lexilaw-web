@@ -1,5 +1,5 @@
-import { AppContext } from 'hooks/context'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useGlobalContext } from 'hooks/context'
 
 /**
  *
@@ -15,11 +15,11 @@ const Typewriter = ({ text, delay = 100 }) => {
   const [currentText, setCurrentText] = useState('')
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const { isFirstTime } = useContext(AppContext)
+  const { isFirstTime } = useGlobalContext()
 
   useEffect(() => {
     if (!isFirstTime) {
-      setCurrentText(text)
+      // setCurrentText(text)
       return
     }
 
@@ -32,6 +32,17 @@ const Typewriter = ({ text, delay = 100 }) => {
       return () => clearTimeout(timeout)
     }
   }, [currentIndex, delay, text, isFirstTime])
+
+  // Side-Effect yang digunakan untuk menjalankan kembali animasi ketika
+  // props text terubah.
+  useEffect(() => {
+    setCurrentText('')
+    setCurrentIndex(0)
+  }, [text])
+
+  if (!isFirstTime) {
+    return <span>{text}</span>
+  }
 
   return <span>{currentText}</span>
 }
