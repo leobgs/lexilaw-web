@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 export const QuestionCard = ({ data, onClick, className }) => {
   const { t } = useTranslation()
   return (
-    <div className={clsx('bg-white px-4 py-10 rounded-2xl lg:w-4/5', className)}>
+    <div className={clsx('bg-white px-4 md:px-0 py-10 rounded-2xl xl:w-4/5', className)}>
       <div className="font-futura-bold font-bold text-xl text-center text-[#087b48] mb-6 md:text-start">
         {t('text', {
           keyPrefix: 'question_card',

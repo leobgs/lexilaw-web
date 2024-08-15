@@ -15,6 +15,7 @@ import { LocalStorage } from 'utils'
 import { DEFAULT_QUESTION, FILE_LAWYER, RIWAYAT_OROLAN } from 'utils/dummy'
 import { ThreadPage } from './ThreadPage'
 import { Disclaimer } from 'components/Disclaimer'
+import { Typewriter } from 'components/Typewriter'
 
 export const Chat = () => {
   const { t } = useTranslation()
@@ -41,7 +42,7 @@ export const Chat = () => {
     is_disclaimer_accepted: '',
   })
   const [messageUUID, setMessageUUID] = useState(null)
-  const { openAlert, closeAlert } = useGlobalContext()
+  const { openAlert, closeAlert, setIsFirstTime } = useGlobalContext()
   const location = useLocation()
   const [hasKoleksiData, setHasKoleksiData] = useState(false)
 
@@ -341,6 +342,7 @@ export const Chat = () => {
     sendMessage(bodyFormData)
     if (pathname === '/') {
       setIsFirstTimeChat((prev) => !prev)
+      // setIsFirstTime(true)
     } else {
       texts = e?.message
     }
@@ -463,6 +465,7 @@ export const Chat = () => {
           }}
           onHeaderClick={() => {
             setIsHeader(true)
+            setIsFirstTime(false)
             collectionReset()
             onResetThread()
             setHeaderText(
@@ -497,11 +500,15 @@ export const Chat = () => {
                   <img src={images.ic_obrolan} alt="obrolan" className="h-5 w-5" />
 
                   <div className="font-futura-bold text-xl">
-                    {headerText === ''
-                      ? t('new_chat', {
-                          keyPrefix: 'chat',
-                        })
-                      : headerText}
+                    <Typewriter
+                      text={
+                        headerText === ''
+                          ? t('new_chat', {
+                              keyPrefix: 'chat',
+                            })
+                          : headerText
+                      }
+                    />
                   </div>
                 </>
               )}

@@ -5,12 +5,14 @@ import { AutoScrollingDiv } from 'components/AutoScrollDiv'
 import { ChatCard } from 'components/ChatCard'
 import { API } from 'config/api'
 import { apiURLQuery } from 'config/app'
+import { useGlobalContext } from 'hooks/context'
 import { getData } from 'hooks/useRequest'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query'
 import { useLocation, useParams } from 'react-router-dom'
 import { RIWAYAT_OROLAN } from 'utils/dummy'
+import { isScheduleFn } from 'utils/isScheduleFn'
 
 export const fetchMessage = async ({ pageParam }, URL) => {
   const respond = await axios
@@ -36,6 +38,8 @@ export const ThreadPage = ({ className, hasFile, isFirstTimeChat, onFirstTimeCha
   //   root: lastPostRef.current,
   //   threshold: 1,
   // })
+
+  const { setIsFirstTime } = useGlobalContext()
 
   useEffect(() => {
     if (params.uuid === '63926537') {
@@ -93,6 +97,11 @@ export const ThreadPage = ({ className, hasFile, isFirstTimeChat, onFirstTimeCha
       let tmp = []
       datas.pages?.map((item) =>
         item.data?.forEach((items) => {
+          const isSchdule = isScheduleFn(items.message)
+          if (isSchdule) {
+            items.lawyer_uuid = isSchdule
+            items.type = 'schedule'
+          }
           tmp.push(items)
         })
       )
@@ -164,6 +173,8 @@ export const ThreadPage = ({ className, hasFile, isFirstTimeChat, onFirstTimeCha
           setMessageUUIDtoRespond(data.thread_uuid)
           if (isFirstTimeChat) {
             onFirstTimeChat()
+            setIsFirstTime(true)
+            // setIsFirstTime((prev) => !prev)
           }
         } else if (data.status === 'in_progress' || data.status === 'queued') {
           setDisableInput(true)

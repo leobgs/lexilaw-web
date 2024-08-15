@@ -11,11 +11,13 @@ import { deleteData, getData, patchData, putData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { Typewriter } from './Typewriter'
 
 export const NavComponent = ({ item, onDeleted, isActivated }) => {
   const queryClient = useQueryClient()
   const collectionList = queryClient.getQueryData('collection')
-  const { collectionClick, collectionDelete, collectionSetEdit, collection } = useGlobalContext()
+  const { collectionClick, collectionDelete, collectionSetEdit, collection, setIsFirstTime, isFirstTime } =
+    useGlobalContext()
   const [tooltipPlace, setTooltipPlace] = useState('right')
   const [tooltipPlace2, setTooltipPlace2] = useState('right-start')
   const [tooltipOffset, setToolOffset] = useState(10)
@@ -138,13 +140,26 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
           className={`line-clamp-1 w-full`}
           onClick={() => {
             item.isActive && isActivated ? void 0 : collectionClick({ ...item, activeBy: 'thread' })
+            setIsFirstTime(false)
           }}
         >
-          {item.title === ''
-            ? t('new_chat', {
-                keyPrefix: 'chat',
-              })
-            : item.title}
+          {item.isActive && isActivated && isFirstTime ? (
+            <Typewriter
+              text={
+                item.title === ''
+                  ? t('new_chat', {
+                      keyPrefix: 'chat',
+                    })
+                  : item.title
+              }
+            />
+          ) : item.title === '' ? (
+            t('new_chat', {
+              keyPrefix: 'chat',
+            })
+          ) : (
+            item.title
+          )}
         </div>
         {item.isActive && isActivated && (
           <div className="pl-3 -py-2" onClick={() => setShow1st(true)}>

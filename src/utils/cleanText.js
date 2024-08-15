@@ -17,6 +17,7 @@ export const cleanTextFn = (arg) => {
     /consult\s*=\s*true/gi,
     /###\s*META-LAWYER-HELP:\s*.*?(\r?\n|$)/gi,
     /【[^】]+】/g,
+    /###META-SCHEDULE:([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/,
   ]
 
   let cleanedText = arg
