@@ -1,35 +1,36 @@
-import { Header } from "components";
-import { API } from "config/api";
-import { getData } from "hooks/useRequest";
-import { notifyError } from "hooks/useToas";
-import { useLayoutEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useMutation, useQuery } from "react-query";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Header } from 'components'
+import { API } from 'config/api'
+import { getData } from 'hooks/useRequest'
+import { notifyError } from 'hooks/useToas'
+import { useLayoutEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useMutation, useQuery } from 'react-query'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const loadCalendlyScript = (onLoad) => {
-  const script = document.createElement("script");
-  script.src = "https://assets.calendly.com/assets/external/widget.js";
-  script.type = "text/javascript";
-  script.async = true;
+  const script = document.createElement('script')
+  script.src = 'https://assets.calendly.com/assets/external/widget.js'
+  script.type = 'text/javascript'
+  script.async = true
 
-  script.onload = onLoad;
+  script.onload = onLoad
 
-  document.head.appendChild(script);
-};
+  document.head.appendChild(script)
+}
 
 export const Schedule = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const schedulingUrl = location.state.scheduling_url_event;
-  const lawyer_uuid = location.state.lawyer_uuid;
-  const calendlyInitialized = useRef(false);
-  const [isScheduled, setIsScheduled] = useState(false);
-  const calendlyWidgetContainer = useRef(null);
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const schedulingUrl = location.state.scheduling_url_event
+  const lawyer_uuid = location.state.lawyer_uuid
+  const thread_uuid = location.state.thread_uuid
+  const calendlyInitialized = useRef(false)
+  const [isScheduled, setIsScheduled] = useState(false)
+  const calendlyWidgetContainer = useRef(null)
 
   useLayoutEffect(() => {
-    if (!schedulingUrl || calendlyInitialized.current) return;
+    if (!schedulingUrl || calendlyInitialized.current) return
 
     const handleScriptLoad = () => {
       if (window.Calendly) {
@@ -38,69 +39,59 @@ export const Schedule = () => {
           parentElement: calendlyWidgetContainer.current,
           prefill: {},
           utm: {},
-        });
-        calendlyInitialized.current = true;
+        })
+        calendlyInitialized.current = true
       }
-    };
+    }
 
-    loadCalendlyScript(handleScriptLoad);
+    loadCalendlyScript(handleScriptLoad)
 
     const changeNavigation = (e) => {
-      if (
-        e.origin === "https://calendly.com" &&
-        e.data.event &&
-        e.data.event.indexOf("calendly.") === 0
-      ) {
-        console.log("Event name:", e.data.event);
-        if (e.data.event === "calendly.event_scheduled") {
-          hookCalendy();
+      if (e.origin === 'https://calendly.com' && e.data.event && e.data.event.indexOf('calendly.') === 0) {
+        console.log('Event name:', e.data.event)
+        if (e.data.event === 'calendly.event_scheduled') {
+          hookCalendy()
         }
       }
-    };
+    }
 
-    window.addEventListener("message", changeNavigation);
+    window.addEventListener('message', changeNavigation)
 
     return () => {
       if (calendlyWidgetContainer.current) {
-        calendlyWidgetContainer.current.innerHTML = "";
+        calendlyWidgetContainer.current.innerHTML = ''
       }
-      window.removeEventListener("message", changeNavigation);
-      calendlyInitialized.current = false;
-    };
-  }, [schedulingUrl]);
+      window.removeEventListener('message', changeNavigation)
+      calendlyInitialized.current = false
+    }
+  }, [schedulingUrl])
 
   const { mutate: hookCalendy } = useMutation(
-    ["calendy_hook"],
-    () => getData(API.CALENDY_WEBHOOK + `/` + lawyer_uuid),
+    ['calendy_hook'],
+    () => getData(API.CALENDY_WEBHOOK + `/` + lawyer_uuid + '/' + thread_uuid),
     {
       onSettled: (data) => {
-        if (data.status === "Success") {
-          setIsScheduled(true);
+        if (data.status === 'Success') {
+          setIsScheduled(true)
         } else {
-          notifyError(data?.message);
+          notifyError(data?.message)
         }
       },
     }
-  );
+  )
 
   const handleBackEvent = () => {
     if (window.history.state && window.history.state.idx > 0 && !isScheduled) {
-      navigate(-1);
+      navigate(-1)
     } else {
-      navigate("/", { state: { isScheduled: isScheduled } });
+      navigate('/', { state: { isScheduled: isScheduled } })
     }
-  };
+  }
 
   return (
     <div>
-      <Header
-        label={t("header", { keyPrefix: "schedule" })}
-        onBackClick={handleBackEvent}
-      />
-      <div
-        ref={calendlyWidgetContainer}
-        style={{ minWidth: "320px", height: "700px", margin: "20px auto" }}
-      ></div>
+      <Header label={t('header', { keyPrefix: 'schedule' })} onBackClick={handleBackEvent} />
+      <div ref={calendlyWidgetContainer} style={{ minWidth: '320px', height: '700px', margin: '20px auto' }}></div>
     </div>
-  );
-};
+  )
+}

@@ -1,7 +1,7 @@
 import images from 'assets/images'
 import { ChatRespond } from './ChatRespond'
 import Markdown from 'markdown-to-jsx'
-import { useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import { Button } from './Button/Button'
@@ -12,6 +12,8 @@ import './ChatCard.scss'
 import { isValidJson } from 'utils/isJsonChec'
 import { cleanTextFn } from 'utils/cleanText'
 import { isConsultFn } from 'utils/isConsult'
+import { getData } from 'hooks/useRequest'
+import { API } from 'config/api'
 
 export const ChatCard = ({
   item,
@@ -33,6 +35,16 @@ export const ChatCard = ({
   const [fileCategory, setFileCategory] = useState('')
   const [displayExt, setDisplayExt] = useState()
   const [consult, setConsult] = useState(false)
+
+  console.log(item.lawyer_uuid)
+
+  const { data: statusData, isFetching } = useQuery(
+    ['available_schedules'],
+    () => getData(API.AVAILABLE_SCHEDULES + `/${item.lawyer_uuid}/${item.thread_uuid}?page=1&limit=5`),
+    {
+      enabled: Boolean(item?.lawyer_uuid),
+    }
+  )
 
   const boxRef = useRef(null)
   let angle = useRef(0).current
@@ -71,10 +83,16 @@ export const ChatCard = ({
 
       // Gabungkan kembali teks dan hasil parsing JSON
       setResponseText(`${stringBeforeJson}\n\n${parsedLawyers.length !== 0 ? '' : ''}`)
+    } else if (cleanText === '' && statusData?.message === 'Success get data' && !isFetching) {
+      setResponseText(
+        'Booking berhasil kamu sudah bersama pengacara pilhanmu, cek Pengacara Saya pada menu kanan atas untuk melihat dan meng-kontak pengacara kamu. Kamu dapat melakukan diskusi selama 1 jam bersama pengacaramu. Opsi schedule berikut hanya berlaku 16 jam setelah kamu melakukan booking.'
+      )
+    } else if (cleanText === '' && statusData?.message === 'Done' && !isFetching) {
+      setResponseText('Pemesanan telah selesai')
     } else {
       setResponseText(cleanText)
     }
-  }, [item.message])
+  }, [item.message, statusData?.message, isFetching])
 
   useEffect(() => {
     const animate = () => {
