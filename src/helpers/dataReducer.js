@@ -19,6 +19,25 @@ export const alertReducer = (state, action) => {
         callback: action.callback,
       }
 
+    case actionType.OPEN_SELF_CLOSED:
+      return {
+        ...state,
+        isOpenSelfClosed: true,
+        delayTime: 1000,
+        isOpen: true,
+        title: action.title,
+        messages: action.messages,
+        icon: action.icon,
+        isConfirm: action.isConfirm ?? false,
+        showFooter: action.showFooter ?? true,
+        showBtnClose: action.showBtnClose ?? true,
+        btnCloseText: action.btnCloseText ?? 'Tutup',
+        btnConfirmText: action.btnConfirmText ?? 'Ya',
+        showLoading: action.showLoading ?? false,
+        btnConfirmTextClass: action.btnConfirmTextClass ?? '',
+        callback: action.callback,
+      }
+
     case actionType.LOADING:
       return {
         ...state,
@@ -29,6 +48,8 @@ export const alertReducer = (state, action) => {
     case actionType.CLOSE:
       return {
         ...state,
+        isOpenSelfClosed: false,
+        delayTime: 0,
         isOpen: false,
         showLoading: false,
       }
