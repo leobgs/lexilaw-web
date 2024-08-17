@@ -32,6 +32,7 @@ export const BookLawyer = () => {
     useState(false)
   const [redirectURL, setRedirectURL] = useState('')
   const location = useLocation()
+  const { currentLanguage } = useGlobalContext()
 
   useEffect(() => {
     if (bookingLawyerPayload?.selected_lawyer) {
@@ -272,6 +273,7 @@ export const BookLawyer = () => {
             {dataLawyer?.service_price?.map((item, index) => (
               <PriceItem
                 data={item}
+                language={currentLanguage}
                 onDelete={() => handleDelete(item.uuid)}
                 key={index}
               />
