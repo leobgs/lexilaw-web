@@ -4,10 +4,12 @@ import { numberSeparator } from 'utils/numberSeparator'
 
 export const PriceItem = ({
   data,
+  language,
   className,
   classNameText,
   onDelete = () => {},
 }) => {
+  console.log(language)
   return (
     <div
       className={clsx(
@@ -20,13 +22,13 @@ export const PriceItem = ({
           <div onClick={() => onDelete()} className='w-2/12'>
             <img
               src={images.ic_delete}
-              alt={`delete ${data?.service_name}`}
+              alt={`delete ${data?.name_indonesia}`}
               className='w-5 h-5'
             />
           </div>
         )}
         <div className={clsx('text-[#2E2C2B] w-full', classNameText)}>
-          {data?.service_name}
+          {language === 'id' ? data?.name_indonesia : data?.name_english}
         </div>
       </div>
       <div className='font-semi-bold'>{numberSeparator(data?.price, 'Rp')}</div>
