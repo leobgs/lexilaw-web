@@ -9,7 +9,6 @@ export const PriceItem = ({
   classNameText,
   onDelete = () => {},
 }) => {
-  console.log(language)
   return (
     <div
       className={clsx(
