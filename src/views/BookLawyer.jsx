@@ -96,7 +96,7 @@ export const BookLawyer = () => {
     }
   )
 
-  const { mutate: bookLawyer } = useMutation(
+  const { mutate: bookLawyer, isLoading: loadingBook } = useMutation(
     (form) => getData(API.BOOKING_LAWYER, form),
     {
       onSettled: (response) => {
@@ -334,9 +334,13 @@ export const BookLawyer = () => {
 
           <div className='border-t border-t-neutral-30 md:border-t-blue-sky md:border-opacity-15 py-4 mb-6 md:px-4'>
             <div
-              className='btn-secondary-hover w-full mt-1 rounded-full font-medium relative px-8 py-2.5 cursor-pointer'
+              className={`w-full mt-1 rounded-full font-medium relative px-8 py-2.5  ${
+                loadingBook
+                  ? 'bg-neutral-40'
+                  : 'btn-secondary-hover cursor-pointer'
+              }`}
               onClick={() => {
-                handleBookLawyer()
+                loadingBook ? void 0 : handleBookLawyer()
                 // setPaymentMethodModal(!isShowPaymentMethodModal);
               }}
             >
