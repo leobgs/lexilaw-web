@@ -15,6 +15,7 @@ import { renderLabel } from 'utils'
 import { numberSeparator } from 'utils/numberSeparator'
 import { useTranslation } from 'react-i18next'
 import { PaymentFailedModal } from 'components/PaymentFailedModal'
+import { localServerData } from 'hooks/useLocalServerData'
 
 export const BookLawyer = () => {
   const { t } = useTranslation()
@@ -33,6 +34,7 @@ export const BookLawyer = () => {
   const [redirectURL, setRedirectURL] = useState('')
   const location = useLocation()
   const { currentLanguage } = useGlobalContext()
+  const { setLatest_uuid, getUUID } = localServerData()
 
   useEffect(() => {
     if (bookingLawyerPayload?.selected_lawyer) {
@@ -105,6 +107,7 @@ export const BookLawyer = () => {
           if (response?.data?.redirect_url) {
             setRedirectURL(response?.data?.redirect_url)
             setPaymentMethodModal(!isShowPaymentMethodModal)
+            setLatest_uuid(collection.uuid)
           }
         } else {
           notifyError(response?.message)
@@ -208,13 +211,14 @@ export const BookLawyer = () => {
           setPaymentMethodModal(!isShowPaymentMethodModal)
         }}
       />
+
       <PaymentSuccessModal
         isActive={isShowPaymentSuccessModal}
         lawyerName={`${dataLawyer?.first_name} ${dataLawyer?.last_name}`}
         onNavigate={() => {
           setIsShowPaymentSuccessModal(false)
           bookingLawyerReducer(['selected_lawyer'], null)
-          navigate(-1, { replace: true })
+          navigate(`/thread/${getUUID}`, { replace: true })
         }}
       />
 
@@ -225,7 +229,7 @@ export const BookLawyer = () => {
 
       <Header
         label={t('booking_lawyer', { keyPrefix: 'lawyer_recommendation' })}
-        onBackClick={() => navigate(-1)}
+        onBackClick={() => navigate(-1, { replace: true })}
       />
       <div className='m-4 md:flex md:gap-4 md:justify-end'>
         <div className='md:w-3/5'>

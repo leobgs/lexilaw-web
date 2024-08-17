@@ -1,141 +1,154 @@
-import { useEffect, useState } from "react";
-import { Modal } from "./Modal";
-import images from "assets/images";
-import { Button } from "./Button/Button";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState } from 'react'
+import { Modal } from './Modal'
+import images from 'assets/images'
+import { Button } from './Button/Button'
+import { useTranslation } from 'react-i18next'
 
 export const PaymentSuccessModal = ({
   isActive,
-  lawyerName = "",
+  lawyerName = '',
   onNavigate = () => {},
 }) => {
   const { t } = useTranslation()
-  const [isSecondForm, setIsSecondForm] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(3);
-  const [isCountdownActive, setIsCountdownActive] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isSecondForm, setIsSecondForm] = useState(false)
+  const [timeRemaining, setTimeRemaining] = useState(3)
+  const [isCountdownActive, setIsCountdownActive] = useState(false)
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
-  const isOnMobileSize = windowWidth <= 768;
+  const isOnMobileSize = windowWidth <= 768
 
   useEffect(() => {
     if (isActive) {
-      startTimer();
+      startTimer()
 
       const handleResize = () => {
-        setWindowWidth(window.innerWidth);
-      };
-      window.addEventListener("resize", handleResize);
+        setWindowWidth(window.innerWidth)
+      }
+      window.addEventListener('resize', handleResize)
 
       return () => {
-        window.removeEventListener("resize", handleResize);
-      };
+        window.removeEventListener('resize', handleResize)
+      }
     }
-  }, [isActive]);
+  }, [isActive])
 
   useEffect(() => {
-    let intervalId;
+    let intervalId
 
     if (isCountdownActive) {
       intervalId = setInterval(() => {
         setTimeRemaining((prevTime) => {
           if (prevTime === 0) {
-            clearInterval(intervalId);
-            setIsCountdownActive(false);
+            clearInterval(intervalId)
+            setIsCountdownActive(false)
             if (!isSecondForm) {
-              stopTimer();
-              setIsSecondForm(true);
+              stopTimer()
+              setIsSecondForm(true)
             } else {
-              onNavigate();
+              onNavigate()
             }
-            return 0;
+            return 0
           } else {
-            return prevTime - 1;
+            return prevTime - 1
           }
-        });
-      }, 1000);
+        })
+      }, 1000)
     }
 
-    return () => clearInterval(intervalId);
-  }, [isCountdownActive, isSecondForm]);
+    return () => clearInterval(intervalId)
+  }, [isCountdownActive, isSecondForm])
 
   useEffect(() => {
     if (isSecondForm) {
-      startTimer();
+      startTimer()
     }
-  }, [isSecondForm]);
+  }, [isSecondForm])
 
   const startTimer = () => {
-    setIsCountdownActive(true);
-  };
+    setIsCountdownActive(true)
+  }
 
   const stopTimer = () => {
-    setIsCountdownActive(false);
-    setTimeRemaining(3);
-  };
+    setIsCountdownActive(false)
+    setTimeRemaining(3)
+  }
 
   const handleModalTapped = () => {
-    setIsCountdownActive(false);
-    setTimeRemaining(3);
-    setIsSecondForm(true);
-  };
+    setIsCountdownActive(false)
+    setTimeRemaining(3)
+    setIsSecondForm(true)
+  }
 
   return (
     <Modal
-      dialogClassName={"w-11/12 md:w-1/2 xl:w-2/5"}
+      dialogClassName={'w-11/12 md:w-1/2 xl:w-2/5'}
       contentClassName={
-        "bg-yellow-50 rounded-3xl px-6 py-12 md:px-16 md:py-[70px]"
+        'bg-yellow-50 rounded-3xl px-6 py-12 md:px-16 md:py-[70px]'
       }
       show={isActive}
-      classNameBox={false ? "!z-[68] opacity-100" : ""}
+      classNameBox={false ? '!z-[68] opacity-100' : ''}
       onHide={() => {}}
     >
       <div
-        className="flex flex-col gap-6"
+        className='flex flex-col gap-6'
         onClick={() => {
-          handleModalTapped();
+          handleModalTapped()
         }}
       >
         <img
-          className="size-[88px] md:size-[102px] scale-150 mx-auto"
+          className='size-[88px] md:size-[102px] scale-150 mx-auto'
           src={images.ic_check_green}
-          alt=""
+          alt=''
         />
 
-        <div className="font-bold text-dark-50 text-[32px] text-center transition-all">
+        <div className='font-bold text-dark-50 text-[32px] text-center transition-all'>
           {isSecondForm
-            ? `${t("connect_with", { keyPrefix: "booking_lawyer.success_modal" })} ${lawyerName}`
-            : `${t("payment_success", { keyPrefix: "booking_lawyer.success_modal" })}`}
+            ? `${t('connect_with', {
+                keyPrefix: 'booking_lawyer.success_modal',
+              })} ${lawyerName}`
+            : `${t('payment_success', {
+                keyPrefix: 'booking_lawyer.success_modal',
+              })}`}
         </div>
 
         {isSecondForm && (
-          <div className="font-regular text-[#5A5A5A] text-xl text-center transition-all">
-            {
-              t("look_connected_lawyer", { keyPrefix: "booking_lawyer.success_modal" })
-            }
+          <div className='font-regular text-[#5A5A5A] text-xl text-center transition-all'>
+            {t('look_connected_lawyer', {
+              keyPrefix: 'booking_lawyer.success_modal',
+            })}
           </div>
         )}
 
         {isSecondForm && (
-          <div className="flex flex-col gap-2 transition-all">
+          <div className='flex flex-col gap-2 transition-all'>
             <Button
-              label={`${t("back_to_chat", { keyPrefix: "booking_lawyer.success_modal" })} ${
-                isOnMobileSize ? "" : `(${t("automatic_in", { keyPrefix: "booking_lawyer.success_modal" })} ${timeRemaining}s)`
+              label={`${t('back_to_chat', {
+                keyPrefix: 'booking_lawyer.success_modal',
+              })} ${
+                isOnMobileSize
+                  ? ''
+                  : `(${t('automatic_in', {
+                      keyPrefix: 'booking_lawyer.success_modal',
+                    })} ${timeRemaining}s)`
               }`}
               onClick={onNavigate}
               className={
-                "btn-secondary-hover w-full md:pl-9 md:space-x-9 mx-auto !font-regular text-[#E9E9E9] text-base rounded-full transition-all"
+                'btn-secondary-hover w-full md:pl-9 md:space-x-9 mx-auto !font-regular text-[#E9E9E9] text-base rounded-full transition-all'
               }
               iconRight={images.ic_message_bubble_outline_white}
             />
 
             {isOnMobileSize && (
-              <div className="w-full mx-auto font-regular text-center text-sm text-[#666666] transition-all">
-                 {t("automatic_back_in", { keyPrefix: "booking_lawyer.success_modal" })} {timeRemaining}s
+              <div className='w-full mx-auto font-regular text-center text-sm text-[#666666] transition-all'>
+                {t('automatic_back_in', {
+                  keyPrefix: 'booking_lawyer.success_modal',
+                })}{' '}
+                {timeRemaining}s
               </div>
             )}
           </div>
         )}
       </div>
     </Modal>
-  );
-};
+  )
+}
