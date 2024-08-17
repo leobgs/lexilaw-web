@@ -1,10 +1,12 @@
+import images from 'assets/images'
 import { Header } from 'components'
 import { API } from 'config/api'
+import { useGlobalContext } from 'hooks/context'
 import { getData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation } from 'react-query'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const loadCalendlyScript = (onLoad) => {
@@ -28,6 +30,7 @@ export const Schedule = () => {
   const calendlyInitialized = useRef(false)
   const [isScheduled, setIsScheduled] = useState(false)
   const calendlyWidgetContainer = useRef(null)
+  const { openAlertSelfClosed } = useGlobalContext()
 
   useLayoutEffect(() => {
     if (!schedulingUrl || calendlyInitialized.current) return
@@ -87,9 +90,18 @@ export const Schedule = () => {
     if (window.history.state && window.history.state.idx > 0 && !isScheduled) {
       navigate(-1)
     } else {
-      navigate('/', { state: { isScheduled: isScheduled } })
+      navigate(`/thread/${thread_uuid}`, {
+        replace: true,
+      })
+      openAlertSelfClosed({
+        title: t('success', { keyPrefix: 'schedule' }),
+        icon: images.ic_tick,
+        delayTime: 2300,
+      })
     }
   }
+
+  // state: { isScheduled: isScheduled },
 
   return (
     <div>

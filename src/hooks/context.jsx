@@ -1,4 +1,9 @@
-import { actionType, alertState, colectionState, colectionType } from 'config/state'
+import {
+  actionType,
+  alertState,
+  colectionState,
+  colectionType,
+} from 'config/state'
 import { alertReducer, colectionReducer } from 'helpers/dataReducer'
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import Reducer from 'utils/reducer'
@@ -9,6 +14,7 @@ export const AppContext = React.createContext({
   openAlert: (e) => {},
   loadingAlert: (e) => {},
   closeAlert: (e) => {},
+  openAlertSelfClosed: (e) => {},
   registerForm: null,
   registerFormReducer: (name, newValue) => {},
   currentLanguage: null,
@@ -26,7 +32,10 @@ export const AppContext = React.createContext({
 
 export const AppProvider = ({ children }) => {
   const [alert, dispatchAlert] = useReducer(alertReducer, alertState)
-  const [collection, dispatchColection] = useReducer(colectionReducer, colectionState)
+  const [collection, dispatchColection] = useReducer(
+    colectionReducer,
+    colectionState
+  )
   const [authLoader, dispatchAuthLoader] = useReducer(alertReducer, alertState)
   const [currentLanguage, setLanguage] = useState(() => {
     const { CURRENT_LANGUAGE } = localServerData()
@@ -71,6 +80,13 @@ export const AppProvider = ({ children }) => {
     return new Reducer(alert, dispatchAlert).dispatch({
       ...action,
       type: actionType.OPEN,
+    })
+  }
+
+  const openAlertSelfClosed = (action) => {
+    return new Reducer(alert, dispatchAlert).dispatch({
+      ...action,
+      type: actionType.OPEN_SELF_CLOSED,
     })
   }
 
@@ -159,6 +175,7 @@ export const AppProvider = ({ children }) => {
         openAlert,
         loadingAlert,
         closeAlert,
+        openAlertSelfClosed,
         registerForm,
         registerFormReducer,
         currentLanguage,

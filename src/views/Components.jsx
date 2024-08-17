@@ -5,7 +5,7 @@ import { useGlobalContext } from 'hooks/context'
 import { useState } from 'react'
 
 export const Components = () => {
-  const { openAlert } = useGlobalContext()
+  const { openAlertSelfClosed } = useGlobalContext()
   const [form, setForm] = useState({ pin: '', email: '', description: '' })
   const [error, setError] = useState({ pin: '', email: '', description: '' })
   const [isActive, setActive] = useState(false)
@@ -21,7 +21,7 @@ export const Components = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    openAlert({
+    openAlertSelfClosed({
       messages: `email: ${form.email}, pin: ${form.pin}, desc: ${form.description}`,
     })
   }
@@ -38,7 +38,7 @@ export const Components = () => {
       />
       <Button
         className={'btn-outline my-4'}
-        onClick={() => openAlert({ messages: 'Aloha mate!' })}
+        onClick={() => openAlertSelfClosed({ messages: 'Aloha mate!' })}
         label={'Click Me'}
       />
       <form onSubmit={handleSubmit}>

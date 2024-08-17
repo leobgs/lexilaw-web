@@ -1,7 +1,6 @@
 import { Modal } from './Modal'
 import { useGlobalContext } from '../hooks/context'
 import { useEffect } from 'react'
-import renderMessageError from '../utils/renderMessageError'
 import { Spinner } from './Spinner'
 
 export const ModalAlert = () => {
@@ -13,7 +12,16 @@ export const ModalAlert = () => {
         closeAlert({ isConfirm: false, showLoading: false })
       }
     }
+    const timer = setTimeout(() => {
+      if (alert.isOpenSelfClosed) {
+        closeAlert({ isConfirm: false, showLoading: false })
+      }
+    }, alert.delayTime)
+
+    return () => clearTimeout(timer)
   }, [alert])
+
+  console.log(alert)
 
   return (
     <Modal
