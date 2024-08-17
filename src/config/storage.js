@@ -5,8 +5,9 @@ export const StorageKey = {
   IS_LOGIN: 'is_login',
   DISCLAIMER_POPUP: 'disclaimer_popup',
   CURRENT_LANGUAGE: 'CURRENT_LANGUAGE',
+  LAST_UUID: 'u_idlex',
 
-  BOOKING_LAWYER_PAYLOAD: 'BOOKING_LAWYER_PAYLOAD'
+  BOOKING_LAWYER_PAYLOAD: 'BOOKING_LAWYER_PAYLOAD',
 }
 
 export default { StorageKey }
