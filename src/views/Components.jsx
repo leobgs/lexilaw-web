@@ -20,7 +20,7 @@ export const Components = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(form)
+
     openAlert({
       messages: `email: ${form.email}, pin: ${form.pin}, desc: ${form.description}`,
     })

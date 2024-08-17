@@ -47,8 +47,11 @@ export const Schedule = () => {
     loadCalendlyScript(handleScriptLoad)
 
     const changeNavigation = (e) => {
-      if (e.origin === 'https://calendly.com' && e.data.event && e.data.event.indexOf('calendly.') === 0) {
-        console.log('Event name:', e.data.event)
+      if (
+        e.origin === 'https://calendly.com' &&
+        e.data.event &&
+        e.data.event.indexOf('calendly.') === 0
+      ) {
         if (e.data.event === 'calendly.event_scheduled') {
           hookCalendy()
         }
@@ -90,8 +93,14 @@ export const Schedule = () => {
 
   return (
     <div>
-      <Header label={t('header', { keyPrefix: 'schedule' })} onBackClick={handleBackEvent} />
-      <div ref={calendlyWidgetContainer} style={{ minWidth: '320px', height: '700px', margin: '20px auto' }}></div>
+      <Header
+        label={t('header', { keyPrefix: 'schedule' })}
+        onBackClick={handleBackEvent}
+      />
+      <div
+        ref={calendlyWidgetContainer}
+        style={{ minWidth: '320px', height: '700px', margin: '20px auto' }}
+      ></div>
     </div>
   )
 }
