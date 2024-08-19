@@ -208,5 +208,6 @@
   },
   "disclaimer": {
     "agree": "Saya setuju"
-  }
+  },
+  "copy_to_clipboard": "Copy text berhasil!"
 }

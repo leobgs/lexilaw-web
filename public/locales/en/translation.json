@@ -208,5 +208,6 @@
   },
   "disclaimer": {
     "agree": "I agree"
-  }
+  },
+  "copy_to_clipboard": "Copy text success!"
 }
