@@ -11,15 +11,9 @@ import { useQuery } from 'react-query'
 import { getData } from 'hooks/useRequest'
 import { useTranslation } from 'react-i18next'
 
-export const ModalDetailLawyer = ({
-  data,
-  show = false,
-  onHide = () => {},
-}) => {
+export const ModalDetailLawyer = ({ data, show = false, onHide = () => {} }) => {
   const { t } = useTranslation()
-  const [currText, setCurrText] = useState(
-    t('results', { keyPrefix: 'my_lawyer' })
-  )
+  const [currText, setCurrText] = useState(t('results', { keyPrefix: 'my_lawyer' }))
   const [dataDocumment, setDataDocumment] = useState([])
   const [lawyerData, setlawyerData] = useState([])
 
@@ -45,10 +39,7 @@ export const ModalDetailLawyer = ({
     return text
   }
 
-  const lawyerDescription = truncateText(
-    getdetailLawyer.data?.data?.description || '',
-    200
-  )
+  const lawyerDescription = truncateText(getdetailLawyer.data?.data?.description || '', 200)
 
   useEffect(() => {
     DOCUMMENT_HASIL?.forEach((item, index) => {
@@ -74,44 +65,33 @@ export const ModalDetailLawyer = ({
     <Modal
       show={show}
       onHide={() => void 0}
-      contentClassName='bg-screen h-full px-4 md:!w-1/2 xl:!w-1/3 lg:!w-1/2 md:!h-[90%] md:rounded-xl overflow-y-auto no-scrollbar'
-      className='bg-neutral-40 h-full'
+      contentClassName="bg-screen h-full px-4 md:!w-1/2 xl:!w-1/3 lg:!w-1/2 md:!h-[90%] md:rounded-xl overflow-y-auto no-scrollbar"
+      className="bg-neutral-40 h-full"
     >
-      <div className='md:hidden'>
-        <div className='bg-neutral-60 -mx-4 px-4 py-4 flex items-center gap-2 top fixed w-full'>
-          <img
-            src={images.ic_back}
-            alt='back'
-            onClick={() => onHide()}
-            className='h-6 w-4'
-          />
-          <div className='flex items-center'>
-            <img
-              src={lawyerData.image_url}
-              alt='images'
-              className='rounded-full w-12 h-12'
-            />
-            <div className='ml-2'>
-              <div className='font-semi-bold text-secondary-base'>
+      <div className="md:hidden">
+        <div className="bg-neutral-60 -mx-4 px-4 py-4 flex items-center gap-2 top fixed w-full">
+          <img src={images.ic_back} alt="back" onClick={() => onHide()} className="h-6 w-4" />
+          <div className="flex items-center">
+            <img src={lawyerData.image_url} alt="images" className="rounded-full w-12 h-12" />
+            <div className="ml-2">
+              <div className="font-semi-bold text-secondary-base">
                 {lawyerData.first_name} {lawyerData.last_name}
               </div>
-              <div className='text-xs text-neutral-40'>{lawyerData.city}</div>
+              <div className="text-xs text-neutral-40">{lawyerData.city}</div>
             </div>
           </div>
         </div>
 
         <div
           className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${
-            currText === t('results', { keyPrefix: 'my_lawyer' })
-              ? ''
-              : 'hidden'
+            currText === t('results', { keyPrefix: 'my_lawyer' }) ? '' : 'hidden'
           }`}
         >
-          <div className='line-clamp-5 text mt-20'>{lawyerDescription}</div>
+          <div className="line-clamp-5 text mt-20">{lawyerDescription}</div>
           <div className={`grid grid-cols-10 mt-4 gap-2`}>
             {lawyerData.lawyer_filed?.map((item, index) => (
               <div
-                className='bg-[#FFFBF5] rounded-lg py-1 px-2 font-semi-bold text-center text-dark-50 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5'
+                className="bg-[#FFFBF5] rounded-lg py-1 px-2 font-semi-bold text-center text-dark-50 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5"
                 key={index}
               >
                 {item}
@@ -121,34 +101,25 @@ export const ModalDetailLawyer = ({
         </div>
       </div>
 
-      <div className='hidden md:flex pb-4 bg-neutral-60 overflow-y-auto -mx-4 relative flex-col'>
-        <div className='bg-neutral-60 px-4 py-4 flex items-center gap-2 justify-between rounded-t-2xl fixed md:!w-1/2 xl:!w-1/3 lg:!w-1/2 bg-img-detail'>
-          <div className='flex items-center'>
-            <img
-              src={lawyerData.image_url}
-              alt='images'
-              className='rounded-full w-12 h-12'
-            />
-            <div className='ml-2'>
-              <div className='font-semi-bold text-secondary-base'>
+      <div className="hidden md:flex pb-4 bg-neutral-60 overflow-y-auto -mx-4 relative flex-col">
+        <div className="bg-neutral-60 px-4 py-4 flex items-center gap-2 justify-between rounded-t-2xl fixed md:!w-1/2 xl:!w-1/3 lg:!w-1/2 bg-img-detail">
+          <div className="flex items-center">
+            <img src={lawyerData.image_url} alt="images" className="rounded-full w-12 h-12" />
+            <div className="ml-2">
+              <div className="font-semi-bold text-secondary-base">
                 {lawyerData.first_name} {lawyerData.last_name}
               </div>
-              <div className='text-xs text-neutral-40'>{lawyerData.city}</div>
+              <div className="text-xs text-neutral-40">{lawyerData.city}</div>
             </div>
           </div>
-          <img
-            src={images.ic_close}
-            alt='back'
-            onClick={() => onHide()}
-            className='h-4 w-4'
-          />
+          <img src={images.ic_close} alt="back" onClick={() => onHide()} className="h-4 w-4" />
         </div>
-        <div className='line-clamp-5 text px-4 mt-20'>{lawyerDescription}</div>
+        <div className="line-clamp-5 text px-4 mt-20">{lawyerDescription}</div>
 
         <div className={`grid grid-cols-10 mt-4 gap-2 mx-4`}>
           {lawyerData.lawyer_filed?.map((item, index) => (
             <div
-              className='bg-[#FFFBF5] rounded-lg py-1 px-2 text-center text-neutral-40 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5'
+              className="bg-[#FFFBF5] rounded-lg py-1 px-2 text-center text-neutral-40 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5"
               key={index}
             >
               {item}
@@ -158,51 +129,36 @@ export const ModalDetailLawyer = ({
       </div>
 
       <Tabs
-        className={`${
-          currText === t('results', { keyPrefix: 'my_lawyer' })
-            ? 'md:mt-4'
-            : 'mt-24 md:mt-4 mb-4'
-        }`}
-        textArr={[
-          t('results', { keyPrefix: 'my_lawyer' }),
-          t('schedule', { keyPrefix: 'my_lawyer' }),
-        ]}
+        className={`${currText === t('results', { keyPrefix: 'my_lawyer' }) ? 'md:mt-4' : 'mt-24 md:mt-4 mb-4'}`}
+        textArr={[t('results', { keyPrefix: 'my_lawyer' }), t('schedule', { keyPrefix: 'my_lawyer' })]}
         onTabClick={(e) => setCurrText(e)}
         currText={currText}
       />
 
       {currText === t('results', { keyPrefix: 'my_lawyer' }) ? (
         <>
-          <div className='md:h-3/5 h-4/6 overflow-y-auto'>
+          <div className="md:h-3/5 h-4/6 overflow-y-auto">
             {dataDocumment && dataDocumment.length > 0 ? (
               dataDocumment.map((item) => (
-                <div
-                  className='bg-white p-4 rounded-2xl mb-4 last:mb-4 first:mt-4'
-                  key={item.uuid}
-                >
-                  <div
-                    className='flex justify-between'
-                    onClick={() => handleShowHideDiv(item.uuid)}
-                  >
-                    <div className='text-sm'>{item.title}</div>
+                <div className="bg-white p-4 rounded-2xl mb-4 last:mb-4 first:mt-4" key={item.uuid}>
+                  <div className="flex justify-between" onClick={() => handleShowHideDiv(item.uuid)}>
+                    <div className="text-sm">{item.title}</div>
                     <img
                       src={images.ic_menu_down_darker}
-                      alt='updown'
+                      alt="updown"
                       className={`${item.isActive ? 'rotate-180' : ''}`}
                     />
                   </div>
                   {item.isActive && (
-                    <div className='flex flex-wrap gap-3 my-4'>
+                    <div className="flex flex-wrap gap-3 my-4">
                       {item.documments?.map((itm, index) => (
                         <div key={index}>
                           <img
                             src={itm.image_url}
-                            alt='documment attached'
-                            className='w-24 h-24 md:h-32 md:w-32 rounded-md'
+                            alt="documment attached"
+                            className="w-24 h-24 md:h-32 md:w-32 rounded-md"
                           />
-                          <div className='text-neutral-40 text-xs mt-1'>
-                            {itm.title}
-                          </div>
+                          <div className="text-neutral-40 text-xs mt-1">{itm.title}</div>
                         </div>
                       ))}
                     </div>
@@ -210,16 +166,12 @@ export const ModalDetailLawyer = ({
                 </div>
               ))
             ) : (
-              <div className='h-[100%] w-[300px] flex flex-col justify-center items-center mx-auto'>
-                <img
-                  src={images.ic_file}
-                  alt='documment attached'
-                  className='mb-3 w-14 h-14'
-                />
-                <p className='text-center text-sm text-dark-50'>
+              <div className="h-[100%] w-[300px] flex flex-col justify-center items-center mx-auto">
+                <img src={images.ic_file} alt="documment attached" className="mb-3 w-14 h-14" />
+                <p className="text-center text-sm text-dark-50">
                   {t('you_haven_results_lawyer', { keyPrefix: 'my_lawyer' })}
                 </p>
-                <div className='text-center text-sm font-semi-bold text-[#073A77]'>
+                <div className="text-center text-sm font-semi-bold text-[#073A77]">
                   {t('chat_with_lexi', { keyPrefix: 'my_lawyer' })} ↗️
                 </div>
               </div>
@@ -227,60 +179,51 @@ export const ModalDetailLawyer = ({
           </div>
         </>
       ) : (
-        <div className='md:h-3/5 h-full overflow-y-auto'>
+        <div className="md:h-3/5 h-full overflow-y-auto">
           {LAWYER_SCHEDULE && LAWYER_SCHEDULE.length > 0 ? (
             LAWYER_SCHEDULE.map((item) => (
-              <div
-                className='bg-white mb-4 p-4 rounded-2xl shadow-md'
-                key={item.id}
-              >
-                <div className='font-bold text-2xl md:text-base md:font-semi-bold mb-3'>
-                  {item.title}
-                </div>
-                <div className='font-light'>Dijadwalkan Pada</div>
-                <div className='font-semi-bold'>
+              <div className="bg-white mb-4 p-4 rounded-2xl shadow-md" key={item.id}>
+                <div className="font-bold text-2xl md:text-base md:font-semi-bold mb-3">{item.title}</div>
+                <div className="font-light">Dijadwalkan Pada</div>
+                <div className="font-semi-bold">
                   {item.scheduled_at} | {item.time_at}
                 </div>
-                <div className='bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4'>
+                <div className="bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4">
                   <div>Ruang Pertemuan</div>
-                  <div className='flex justify-between items-center'>
-                    <Link to={item.url} className='a-link'>
+                  <div className="flex justify-between items-center">
+                    <Link to={item.url} className="a-link">
                       {item.url}
                     </Link>
                     <img
                       src={images.ic_copy_button}
-                      alt='copy'
-                      onClick={() => copyToClipboard(item.url)}
+                      alt="copy"
+                      onClick={() => copyToClipboard({ text: item.url, title: t('copy_to_clipboard') })}
                     />
                   </div>
-                  <div className='flex justify-end mt-2'>
+                  <div className="flex justify-end mt-2">
                     <Button
                       onClick={() => console.log('g call')}
-                      label='Join Call'
+                      label="Join Call"
                       iconRight={images.ic_handycam}
-                      iconClassName='!w-4 !h-2.5'
-                      className='bg-blue-sky rounded-full'
+                      iconClassName="!w-4 !h-2.5"
+                      className="bg-blue-sky rounded-full"
                     />
                   </div>
                 </div>
               </div>
             ))
           ) : (
-            <div className='h-4/5 w-[300px] flex flex-col justify-center items-center mx-auto'>
-              <img
-                src={images.ic_file}
-                alt='icon file'
-                className='mb-3 w-14 h-14'
-              />
-              <p className='text-center text-sm mb-3 text-dark-50'>
+            <div className="h-4/5 w-[300px] flex flex-col justify-center items-center mx-auto">
+              <img src={images.ic_file} alt="icon file" className="mb-3 w-14 h-14" />
+              <p className="text-center text-sm mb-3 text-dark-50">
                 {t('dont_have_schedule', { keyPrefix: 'my_lawyer' })}
               </p>
-              <div className='p-3 px-4 rounded-full flex flex-row items-center text-sm font-semi-bold bg-blue-dark text-[#FFFFFF]'>
+              <div className="p-3 px-4 rounded-full flex flex-row items-center text-sm font-semi-bold bg-blue-dark text-[#FFFFFF]">
                 {t('create_schedule', { keyPrefix: 'my_lawyer' })}
                 <img
-                  className='ms-2 w-[1.125rem] h-[1.125rem]'
+                  className="ms-2 w-[1.125rem] h-[1.125rem]"
                   src={images.ic_calendar_white_outline}
-                  alt='icon calendar'
+                  alt="icon calendar"
                 />
               </div>
             </div>

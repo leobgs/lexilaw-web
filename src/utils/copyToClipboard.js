@@ -1,6 +1,6 @@
 import { notify } from 'hooks/useToas'
 
-export const copyToClipboard = ({ text }) => {
+export const copyToClipboard = ({ text, title }) => {
   const textarea = document.createElement('textarea')
 
   textarea.value = text
@@ -11,5 +11,5 @@ export const copyToClipboard = ({ text }) => {
   document.execCommand('copy')
   document.body.removeChild(textarea)
 
-  notify('Copy text berhasil!')
+  notify(title ?? 'Copy text berhasil!')
 }
