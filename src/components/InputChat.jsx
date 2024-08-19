@@ -152,7 +152,7 @@ export const InputChat = ({ onChange, className, disable }) => {
           </div>
         )}
         <div className='gap-1 flex items-center justify-between'>
-          <label htmlFor='file' className='md:ml-2 '>
+          <label htmlFor='file' className='md:ml-2 hover:cursor-pointer'>
             <div className='w-full flex justify-center'>
               <div className='bg-[#F8F5F1] rounded-full ml-1.5 md:ml-0'>
                 <img
