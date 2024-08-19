@@ -335,7 +335,7 @@ export const ThreadPage = ({
       <div>
         <InputChat
           onChange={(e) => handleAddChat(e)}
-          className={`${hasFile ? '!md:w-full' : 'md:w-3/4'} w-full md:ml-4`}
+          className={`${hasFile ? '!md:w-full' : 'md:w-3/4'} w-full md:ml-2`}
           disable={disableInput}
         />
       </div>
