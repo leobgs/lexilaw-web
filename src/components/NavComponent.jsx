@@ -134,15 +134,13 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
             : 'border-blue-dark border pl-2'
           : ''
       }`}
+      onClick={() => {
+        item.isActive && isActivated ? void 0 : collectionClick({ ...item, activeBy: 'thread' })
+        setIsFirstTime(false)
+      }}
     >
       <>
-        <div
-          className={`line-clamp-1 w-full`}
-          onClick={() => {
-            item.isActive && isActivated ? void 0 : collectionClick({ ...item, activeBy: 'thread' })
-            setIsFirstTime(false)
-          }}
-        >
+        <div className={`line-clamp-1 w-full`}>
           {item.isActive && isActivated && isFirstTime ? (
             <Typewriter
               text={
