@@ -602,19 +602,10 @@ export const Chat = () => {
           </header>
 
           {isHeader ? (
-            <div className="md:h-[calc(100%-56px)] h-full w-full xl:w-3/4">
-              <div className="relative flex h-full flex-col select-text mb-2 mt-1">
-                <QuestionCard
-                  data={defaultQuestion}
-                  onClick={(e) => handleAddChat(e)}
-                  className="md:top-24 md:left-12 md:absolute"
-                />
-
-                <InputChat
-                  onChange={(e) => handleAddChat(e)}
-                  className="w-full md:w-full bottom-1 absolute md:ml-2"
-                  disable={disableInput}
-                />
+            <div className="md:h-[calc(100%-56px)] h-full w-full xl:w-3/4 flex flex-col justify-between">
+              <QuestionCard data={defaultQuestion} onClick={(e) => handleAddChat(e)} className="mt-20" />
+              <div className="relative select-text mb-2 mt-1 justify-center">
+                <InputChat onChange={(e) => handleAddChat(e)} disable={disableInput} />
               </div>
             </div>
           ) : (
