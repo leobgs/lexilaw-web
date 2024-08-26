@@ -18,6 +18,8 @@ import { ObrolanCard } from './SearchCard/ObrolanCard'
 import { DokumenCard } from './SearchCard/DokumenCard'
 import { TopicObrolan } from './SearchCard/TopikObrolan'
 import { SearchCardSpinner } from './SearchCard/SearchCardSpinner'
+import { useDebounce } from 'hooks/useDebounce'
+import { useSearch } from './SearchCard/hooks/useSearch'
 
 export const NavChat = ({
   onHeaderClick,
@@ -40,6 +42,19 @@ export const NavChat = ({
 
   const storage = new LocalStorage()
   const navigate = useNavigate()
+
+  const debounceText = useDebounce(search)
+  const debounceSearch = search.length > 0 ? debounceText : ''
+
+  useEffect(() => {
+    if (debounceSearch) {
+      console.log('Please nembak API please ', debounceSearch)
+    }
+  }, [debounceSearch])
+
+  const { isPendingSearch, searchData } = useSearch(debounceSearch)
+
+  console.log('search data', searchData)
 
   const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
     onSettled: (data) => {
@@ -92,14 +107,14 @@ export const NavChat = ({
       <div className="hidden md:inline">
         <img src={images.logo_lexilaw} alt="LexiLaw" className="mb-8" />
         <div className="flex gap-2">
-          <div className="!rounded-full !border-gray-100 focus:outline-none py-2.5 border-2 bg-white flex items-center gap-2 px-4 basis-10/12">
+          <div className="!rounded-full !border-gray-100 focus:outline-none py-2.5 border-2 bg-white flex items-center gap-2 px-4 basis-10/12 relative">
             <img
               className="!w-[13.81px] !h-[13.81px] aspect-square mt-0.5 left-3"
               src={images.ic_search_black}
               alt=""
             />
             <input
-              className="placeholder:text-sm focus:outline-none"
+              className="placeholder:text-sm focus:outline-none w-full pr-4"
               type="text"
               placeholder={t('search', {
                 keyPrefix: 'chat.chat_text',
@@ -109,6 +124,23 @@ export const NavChat = ({
               name="search"
               autoComplete="off"
             />
+
+            {/* Icon Cross atau silang */}
+            <div
+              className={`w-4 h-4 rounded-full right-4 hover:cursor-pointer hover:bg-base ${
+                search.length > 0 ? 'absolute' : 'hidden'
+              }`}
+              onClick={() => {
+                setSearch('')
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M10.095 9L14.25 13.155V14.25H13.155L9 10.095L4.845 14.25H3.75V13.155L7.905 9L3.75 4.845V3.75H4.845L9 7.905L13.155 3.75H14.25V4.845L10.095 9Z"
+                  fill="#FF7878"
+                />
+              </svg>
+            </div>
           </div>
 
           <div
@@ -145,124 +177,162 @@ export const NavChat = ({
 
       <div className="hidden justify-center md:inline-block md:my-4 h-4/5 overflow-y-auto no-scrollbar">
         {/* TODO, ADD Search card here */}
-        <SearchCardSpinner />
-        <SearchCard title={'Obrolan'}>
-          <ObrolanCard message={'Pasti, dong'} />
-          <ObrolanCard message={'Pasti ada, kok'} />
-          <ObrolanCard message={'isi dari pasal 1337 KUHP'} from_display="LEXI" />
-        </SearchCard>
-        <SearchCard title={'Document'}>
-          <DokumenCard title={'buatkan Perjanjian Pranikah buat pasutri'} />
-          <DokumenCard title={'perpanjang passport ada hukumannya endak yaa?'} />
-        </SearchCard>
-        <SearchCard title={'Topik Obrolan'}>
-          <TopicObrolan title={'Pasukan Khusus Legal'} />
-          <TopicObrolan title={'Kontrak Pasutri'} />
-          <TopicObrolan title={'Pasal karet maksudnya apa?'} />
-          <TopicObrolan title={'Pasal Khusus Kepemilikan Hewan'} />
-          <TopicObrolan title={'Di tilang itu ada di pasal berapa?'} />
-        </SearchCard>
-        {dataLatest?.map((item, index) => {
-          if (item.type === 'koleksi') {
-            return (
-              <div key={`${index}-k`}>
-                {item.data?.length !== 0 && (
-                  <div className="flex justify-between items-end mr-2 my-4 pl-1">
-                    <div className="text-[#AEB3BF] text-sm">
-                      {t('collection', {
+        {debounceSearch.length > 0 ? (
+          <>
+            <SearchCardSpinner isPending={isPendingSearch} />
+            {/* Thread Chat Obrolan */}
+            <SearchCard title={'Obrolan'} isPending={isPendingSearch}>
+              {!searchData?.data?.thread_chat ? (
+                <p className="text-sm text-center py-4">Empty</p>
+              ) : (
+                searchData.data.thread_chat.map((item) => (
+                  <ObrolanCard
+                    key={item.uuid}
+                    message={item.message}
+                    from_display={item.from_display}
+                    thread_uuid={item.thread_uuid}
+                    searchText={debounceSearch}
+                    search_uuid={item.uuid}
+                  />
+                ))
+              )}
+            </SearchCard>
+            {/* Document */}
+            <SearchCard title={'Document'} isPending={isPendingSearch}>
+              {!searchData?.data?.document ? (
+                <p className="text-sm text-center py-4">Empty</p>
+              ) : (
+                searchData.data.document.map((item) => (
+                  <DokumenCard
+                    key={item.uuid}
+                    title={item.filename}
+                    thred_uuid={item.thread_uuid}
+                    searchText={debounceSearch}
+                    file_url={item.file_url}
+                  />
+                ))
+              )}
+            </SearchCard>
+            {/* Topik obrolan */}
+            <SearchCard title={'Topik Obrolan'} isPending={isPendingSearch}>
+              {!searchData?.data?.thread ? (
+                <p className="text-sm text-center py-4">Empty</p>
+              ) : (
+                searchData.data.thread.map((item) => (
+                  <TopicObrolan
+                    title={item.title}
+                    uuid={item.uuid}
+                    searchText={debounceSearch}
+                    search_uuid={item.uuid}
+                  />
+                ))
+              )}
+            </SearchCard>
+          </>
+        ) : null}
+
+        {debounceSearch.length === 0 &&
+          dataLatest?.map((item, index) => {
+            if (item.type === 'koleksi') {
+              return (
+                <div key={`${index}-k`}>
+                  {item.data?.length !== 0 && (
+                    <div className="flex justify-between items-end mr-2 my-4 pl-1">
+                      <div className="text-[#AEB3BF] text-sm">
+                        {t('collection', {
+                          keyPrefix: 'chat.chat_text',
+                        })}
+                      </div>
+                      <img
+                        src={images.ic_menu_down}
+                        alt="dropdown"
+                        className={`h-6 cursor-pointer ${showColetion ? '' : 'rotate-180'}`}
+                        onClick={() => setShowColetion(!showColetion)}
+                      />
+                    </div>
+                  )}
+
+                  {showColetion &&
+                    item.data?.map((items) => (
+                      <div key={items.uuid}>
+                        <NavCollection
+                          items={items}
+                          onDeleteCollection={() => deleteCollection(items.uuid)}
+                          onExpand={() => onExpand(items.uuid)}
+                        />
+
+                        {items.isExpand &&
+                          items.threads?.map((itms) => (
+                            <div
+                              key={itms.uuid}
+                              className="border-l-2 border-blue-sky ml-5 pl-3 pb-2 text-neutral-40 last:mb-4 text-sm"
+                              onClick={() => {
+                                collectionClick({
+                                  ...itms,
+                                  activeBy: 'collection',
+                                })
+                              }}
+                            >
+                              <NavComponent
+                                item={{ ...itms, title: itms.name }}
+                                key={itms.uuid}
+                                onDeleted={() => onDeleted()}
+                                isActivated={
+                                  collection.activeBy === 'collection' || (collection.uuid && !collection.activeBy)
+                                }
+                              />
+                            </div>
+                          ))}
+                      </div>
+                    ))}
+                </div>
+              )
+            } else if (item.type === 'terkini') {
+              return (
+                <div key={`${index}-t`} className={`${item.data?.length !== 0 ? 'my-4' : ''}`}>
+                  {item.data?.length !== 0 && (
+                    <div className="text-[#AEB3BF] mt-4 text-sm mb-3 pl-1">
+                      {t('current', {
                         keyPrefix: 'chat.chat_text',
                       })}
                     </div>
-                    <img
-                      src={images.ic_menu_down}
-                      alt="dropdown"
-                      className={`h-6 cursor-pointer ${showColetion ? '' : 'rotate-180'}`}
-                      onClick={() => setShowColetion(!showColetion)}
-                    />
-                  </div>
-                )}
+                  )}
 
-                {showColetion &&
-                  item.data?.map((items) => (
-                    <div key={items.uuid}>
-                      <NavCollection
-                        items={items}
-                        onDeleteCollection={() => deleteCollection(items.uuid)}
-                        onExpand={() => onExpand(items.uuid)}
+                  {item.data?.length !== 0 &&
+                    item.data?.map((itms) => (
+                      <NavComponent
+                        item={itms}
+                        key={itms.uuid}
+                        onDeleted={() => onDeleted()}
+                        isActivated={collection.activeBy === 'thread' || (collection.uuid && !collection.activeBy)}
                       />
-
-                      {items.isExpand &&
-                        items.threads?.map((itms) => (
-                          <div
-                            key={itms.uuid}
-                            className="border-l-2 border-blue-sky ml-5 pl-3 pb-2 text-neutral-40 last:mb-4 text-sm"
-                            onClick={() => {
-                              collectionClick({
-                                ...itms,
-                                activeBy: 'collection',
-                              })
-                            }}
-                          >
-                            <NavComponent
-                              item={{ ...itms, title: itms.name }}
-                              key={itms.uuid}
-                              onDeleted={() => onDeleted()}
-                              isActivated={
-                                collection.activeBy === 'collection' || (collection.uuid && !collection.activeBy)
-                              }
-                            />
-                          </div>
-                        ))}
+                    ))}
+                </div>
+              )
+            } else if (item.type === 'riwayat') {
+              return (
+                <div key={`${index}-r`}>
+                  {item.data?.length !== 0 && (
+                    <div className="text-[#AEB3BF] mt-4 text-sm mb-3 pl-1">
+                      {t('past_chat', {
+                        keyPrefix: 'chat.chat_text',
+                      })}
                     </div>
-                  ))}
-              </div>
-            )
-          } else if (item.type === 'terkini') {
-            return (
-              <div key={`${index}-t`} className={`${item.data?.length !== 0 ? 'my-4' : ''}`}>
-                {item.data?.length !== 0 && (
-                  <div className="text-[#AEB3BF] mt-4 text-sm mb-3 pl-1">
-                    {t('current', {
-                      keyPrefix: 'chat.chat_text',
-                    })}
-                  </div>
-                )}
+                  )}
 
-                {item.data?.length !== 0 &&
-                  item.data?.map((itms) => (
-                    <NavComponent
-                      item={itms}
-                      key={itms.uuid}
-                      onDeleted={() => onDeleted()}
-                      isActivated={collection.activeBy === 'thread' || (collection.uuid && !collection.activeBy)}
-                    />
-                  ))}
-              </div>
-            )
-          } else if (item.type === 'riwayat') {
-            return (
-              <div key={`${index}-r`}>
-                {item.data?.length !== 0 && (
-                  <div className="text-[#AEB3BF] mt-4 text-sm mb-3 pl-1">
-                    {t('past_chat', {
-                      keyPrefix: 'chat.chat_text',
-                    })}
-                  </div>
-                )}
-
-                {item.data?.length !== 0 &&
-                  item.data?.map((items) => (
-                    <NavComponent
-                      item={items}
-                      key={items.uuid}
-                      onDeleted={() => onDeleted()}
-                      isActivated={collection.activeBy === 'thread' || (collection.uuid && !collection.activeBy)}
-                    />
-                  ))}
-              </div>
-            )
-          }
-        })}
+                  {item.data?.length !== 0 &&
+                    item.data?.map((items) => (
+                      <NavComponent
+                        item={items}
+                        key={items.uuid}
+                        onDeleted={() => onDeleted()}
+                        isActivated={collection.activeBy === 'thread' || (collection.uuid && !collection.activeBy)}
+                      />
+                    ))}
+                </div>
+              )
+            }
+          })}
       </div>
 
       {/* ============================ responsive mobile ============================*/}
