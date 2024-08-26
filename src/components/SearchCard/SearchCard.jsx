@@ -1,7 +1,11 @@
 import React from 'react'
 
 // TODO ADD ONCLICK props to navigate thread
-const SearchCard = ({ title, children }) => {
+const SearchCard = ({ title, children, isPending }) => {
+  if (isPending) {
+    return null
+  }
+
   return (
     <div className="my-4 shadow-lg border border-black-lighter/10 rounded-md">
       {/* Title */}
@@ -9,7 +13,7 @@ const SearchCard = ({ title, children }) => {
         {title}
       </p>
 
-      <div className="px-2">
+      <div>
         {/* Children */}
         {children}
       </div>
