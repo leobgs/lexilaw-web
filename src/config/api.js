@@ -24,6 +24,8 @@ export const API = {
   MESSAGE_STATUS: '/api/app/v1.0.0/chat/',
   MESSAGE_THUMBS: '/api/app/v1.0.0/thread_chat/',
 
+  SEARCH: '/api/app/v1.0.0/chat/search',
+
   USER_DETAIL: '/user/app/v1.0.0/user/detail',
   UPDATE_NAME: '/user/app/v1.0.0/user/request/change-name',
   UPDATE_PROFIL: '/user/app/v1.0.0/user/info',
@@ -49,8 +51,7 @@ export const API = {
   COLLECTION_CHANGE_NAME: '/api/app/v1.0.0/collection/',
 
   //SCHEDULE - CALENDY
-  AVAILABLE_SCHEDULES:
-    '/user/app/v1.0.0/lawyer/calendly/availability_schedules',
+  AVAILABLE_SCHEDULES: '/user/app/v1.0.0/lawyer/calendly/availability_schedules',
   CALENDY_WEBHOOK: '/user/app/v1.0.0/lawyer/calendly/webhook',
 
   DISCLAIMER: '/user/app/v1.0.0/disclaimer',
