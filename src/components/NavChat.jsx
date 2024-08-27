@@ -20,6 +20,7 @@ import { TopicObrolan } from './SearchCard/TopikObrolan'
 import { SearchCardSpinner } from './SearchCard/SearchCardSpinner'
 import { useDebounce } from 'hooks/useDebounce'
 import { useSearch } from '../hooks/useSearch'
+import { EmptySearchResult } from './SearchCard/EmptySearchResult'
 
 export const NavChat = ({
   onHeaderClick,
@@ -174,7 +175,13 @@ export const NavChat = ({
             {/* Thread Chat Obrolan */}
             <SearchCard title={'Obrolan'} isPending={isPendingSearch}>
               {!searchData?.data?.thread_chat ? (
-                <p className="text-sm text-center py-4">Empty</p>
+                <EmptySearchResult
+                  searchText={debounceSearch}
+                  onHeaderClick={() => {
+                    onHeaderClick()
+                    setSearch('')
+                  }}
+                />
               ) : (
                 searchData.data.thread_chat.map((item) => (
                   <ObrolanCard
@@ -191,7 +198,13 @@ export const NavChat = ({
             {/* Document */}
             <SearchCard title={'Document'} isPending={isPendingSearch}>
               {!searchData?.data?.document ? (
-                <p className="text-sm text-center py-4">Empty</p>
+                <EmptySearchResult
+                  searchText={debounceSearch}
+                  onHeaderClick={() => {
+                    onHeaderClick()
+                    setSearch('')
+                  }}
+                />
               ) : (
                 searchData.data.document.map((item) => (
                   <DokumenCard
@@ -207,7 +220,13 @@ export const NavChat = ({
             {/* Topik obrolan */}
             <SearchCard title={'Topik Obrolan'} isPending={isPendingSearch}>
               {!searchData?.data?.thread ? (
-                <p className="text-sm text-center py-4">Empty</p>
+                <EmptySearchResult
+                  searchText={debounceSearch}
+                  onHeaderClick={() => {
+                    onHeaderClick()
+                    setSearch('')
+                  }}
+                />
               ) : (
                 searchData.data.thread.map((item) => (
                   <TopicObrolan
@@ -561,6 +580,7 @@ export const NavChat = ({
         onHide={() => setShowSearchNav(false)}
         searchText={debounceSearch}
         setShowNav={setShowNav}
+        onHeaderClick={onHeaderClick}
       />
     </nav>
   )
