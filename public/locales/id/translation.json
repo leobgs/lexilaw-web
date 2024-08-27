@@ -209,5 +209,9 @@
   "disclaimer": {
     "agree": "Saya setuju"
   },
-  "copy_to_clipboard": "Copy text berhasil!"
+  "copy_to_clipboard": "Copy text berhasil!",
+  "search": {
+    "empty_search": "tidak ditemukan dalam pencarian.",
+    "button_new_chat": "Mulai Obrolan"
+  }
 }
