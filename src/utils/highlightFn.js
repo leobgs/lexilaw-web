@@ -7,11 +7,11 @@
  */
 const highlightFn = (message, word, isClicked) => {
   const regex = new RegExp(`(${word})`, 'gi')
-  return message.replace(
+  return message?.replace(
     regex,
-    `<span class="font-bold ${
+    `<span class="${
       isClicked
-        ? 'bg-white text-secondary-base group-hover:bg-secondary-base group-hover:text-white'
+        ? 'bg-yellow-300 text-secondary-base group-hover:bg-secondary-base group-hover:text-white'
         : 'bg-secondary-base text-white'
     }">$1</span>`
   )

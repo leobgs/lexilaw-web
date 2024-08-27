@@ -6,7 +6,7 @@
  * @returns 
  */
 const extractMessage = (message, keyword, contextLength = 15) => {
-  const keywordIndex = message.toLowerCase().indexOf(keyword.toLowerCase())
+  const keywordIndex = message?.toLowerCase().indexOf(keyword?.toLowerCase())
 
   if (keywordIndex === -1) {
     return keyword
