@@ -5,7 +5,7 @@ import { highlightFn } from 'utils/highlightFn'
 // TODO ADD ONCLICK props to navigate thread
 const TopicObrolan = ({ title, uuid, searchText, search_uuid }) => {
   const { collectionClick, collection } = useGlobalContext()
-  const highlighText = highlightFn(title, searchText)
+  const highlighText = highlightFn(title, searchText, collection.clicked_uuid === search_uuid)
 
   return (
     <div
