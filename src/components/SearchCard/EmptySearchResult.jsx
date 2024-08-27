@@ -1,11 +1,17 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 const EmptySearchResult = ({ searchText, onHeaderClick }) => {
+  const { t } = useTranslation()
   return (
     <div className="bg-white rounded-md p-4">
       {/* Search Result */}
       <p className="font-bold">"{searchText}"</p>
-      <p>tidak ditemukan dalam pencarian.</p>
+      <p>
+        {t('empty_search', {
+          keyPrefix: 'search',
+        })}
+      </p>
 
       <div className="flex justify-center items-center my-4">
         <button
@@ -15,7 +21,9 @@ const EmptySearchResult = ({ searchText, onHeaderClick }) => {
             onHeaderClick && onHeaderClick()
           }}
         >
-          Mulai Obrolan
+          {t('button_new_chat', {
+            keyPrefix: 'search',
+          })}
           <span>
             <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path

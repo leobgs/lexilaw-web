@@ -172,72 +172,65 @@ export const NavChat = ({
         {debounceSearch.length > 0 ? (
           <>
             <SearchCardSpinner isPending={isPendingSearch} />
+
+            {/* Jika hasil search kosong */}
+            {!searchData?.data?.document && !searchData?.data?.thread && !searchData?.data?.thread_chat && !isPendingSearch && (
+              <EmptySearchResult
+                searchText={debounceSearch}
+                onHeaderClick={() => {
+                  onHeaderClick()
+                  setSearch('')
+                }}
+              />
+            )}
+
             {/* Thread Chat Obrolan */}
-            <SearchCard title={'Obrolan'} isPending={isPendingSearch}>
-              {!searchData?.data?.thread_chat ? (
-                <EmptySearchResult
-                  searchText={debounceSearch}
-                  onHeaderClick={() => {
-                    onHeaderClick()
-                    setSearch('')
-                  }}
-                />
-              ) : (
-                searchData.data.thread_chat.map((item) => (
-                  <ObrolanCard
-                    key={item.uuid}
-                    message={item.message}
-                    from_display={item.from_display}
-                    thread_uuid={item.thread_uuid}
-                    searchText={debounceSearch}
-                    search_uuid={item.uuid}
-                  />
-                ))
-              )}
-            </SearchCard>
+            {searchData?.data?.thread_chat && (
+              <SearchCard title={'Obrolan'} isPending={isPendingSearch}>
+                {searchData?.data?.thread_chat &&
+                  searchData.data.thread_chat.map((item) => (
+                    <ObrolanCard
+                      key={item.uuid}
+                      message={item.message}
+                      from_display={item.from_display}
+                      thread_uuid={item.thread_uuid}
+                      searchText={debounceSearch}
+                      search_uuid={item.uuid}
+                    />
+                  ))}
+              </SearchCard>
+            )}
+
             {/* Document */}
-            <SearchCard title={'Document'} isPending={isPendingSearch}>
-              {!searchData?.data?.document ? (
-                <EmptySearchResult
-                  searchText={debounceSearch}
-                  onHeaderClick={() => {
-                    onHeaderClick()
-                    setSearch('')
-                  }}
-                />
-              ) : (
-                searchData.data.document.map((item) => (
-                  <DokumenCard
-                    key={item.uuid}
-                    title={item.filename}
-                    thred_uuid={item.thread_uuid}
-                    searchText={debounceSearch}
-                    file_url={item.file_url}
-                  />
-                ))
-              )}
-            </SearchCard>
+            {searchData?.data?.document && (
+              <SearchCard title={'Dokumen'} isPending={isPendingSearch}>
+                {searchData?.data?.document &&
+                  searchData.data.document.map((item) => (
+                    <DokumenCard
+                      key={item.uuid}
+                      title={item.filename}
+                      thred_uuid={item.thread_uuid}
+                      searchText={debounceSearch}
+                      file_url={item.file_url}
+                    />
+                  ))}
+              </SearchCard>
+            )}
+
             {/* Topik obrolan */}
-            <SearchCard title={'Topik Obrolan'} isPending={isPendingSearch}>
-              {!searchData?.data?.thread ? (
-                <EmptySearchResult
-                  searchText={debounceSearch}
-                  onHeaderClick={() => {
-                    onHeaderClick()
-                    setSearch('')
-                  }}
-                />
-              ) : (
-                searchData.data.thread.map((item) => (
-                  <TopicObrolan
-                    title={item.title}
-                    uuid={item.uuid}
-                    searchText={debounceSearch}
-                    search_uuid={item.uuid}
-                  />
-                ))
-              )}
-            </SearchCard>
+            {searchData?.data?.thread && (
+              <SearchCard title={'Topik Obrolan'} isPending={isPendingSearch}>
+                {searchData?.data?.thread &&
+                  searchData.data.thread.map((item) => (
+                    <TopicObrolan
+                      title={item.title}
+                      uuid={item.uuid}
+                      searchText={debounceSearch}
+                      search_uuid={item.uuid}
+                    />
+                  ))}
+              </SearchCard>
+            )}
           </>
         ) : null}
 
