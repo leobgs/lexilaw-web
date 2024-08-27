@@ -10,8 +10,9 @@ import { SearchCard } from './SearchCard/SearchCard'
 import { ObrolanCard } from './SearchCard/ObrolanCard'
 import { DokumenCard } from './SearchCard/DokumenCard'
 import { TopicObrolan } from './SearchCard/TopikObrolan'
+import { EmptySearchResult } from './SearchCard/EmptySearchResult'
 
-export const ModalSearch = ({ show, onHide = () => {}, searchText, setShowNav }) => {
+export const ModalSearch = ({ show, onHide = () => {}, searchText, setShowNav, onHeaderClick }) => {
   const [search, setSearch] = useState(searchText ?? '')
 
   const debounceText = useDebounce(search)
@@ -62,7 +63,15 @@ export const ModalSearch = ({ show, onHide = () => {}, searchText, setShowNav })
             }}
           >
             {!searchData?.data?.thread_chat ? (
-              <p className="text-sm text-center py-4">Empty</p>
+              <EmptySearchResult
+                searchText={debounceSearch}
+                onHeaderClick={() => {
+                  setShowNav(false)
+                  onHide()
+                  onHeaderClick()
+                  setSearch('')
+                }}
+              />
             ) : (
               searchData.data.thread_chat.map((item) => (
                 <ObrolanCard
@@ -86,7 +95,15 @@ export const ModalSearch = ({ show, onHide = () => {}, searchText, setShowNav })
             }}
           >
             {!searchData?.data?.document ? (
-              <p className="text-sm text-center py-4">Empty</p>
+              <EmptySearchResult
+                searchText={debounceSearch}
+                onHeaderClick={() => {
+                  setShowNav(false)
+                  onHeaderClick()
+                  onHide()
+                  setSearch('')
+                }}
+              />
             ) : (
               searchData.data.document.map((item) => (
                 <DokumenCard
@@ -109,7 +126,15 @@ export const ModalSearch = ({ show, onHide = () => {}, searchText, setShowNav })
             }}
           >
             {!searchData?.data?.thread ? (
-              <p className="text-sm text-center py-4">Empty</p>
+              <EmptySearchResult
+                searchText={debounceSearch}
+                onHeaderClick={() => {
+                  setShowNav(false)
+                  onHide()
+                  onHeaderClick()
+                  setSearch('')
+                }}
+              />
             ) : (
               searchData.data.thread.map((item) => (
                 <TopicObrolan title={item.title} uuid={item.uuid} searchText={debounceSearch} search_uuid={item.uuid} />
