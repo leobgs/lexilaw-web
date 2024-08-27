@@ -209,5 +209,9 @@
   "disclaimer": {
     "agree": "I agree"
   },
-  "copy_to_clipboard": "Copy text success!"
+  "copy_to_clipboard": "Copy text success!",
+  "search": {
+    "empty_search": "not found in search",
+    "button_new_chat": "New Chat"
+  }
 }

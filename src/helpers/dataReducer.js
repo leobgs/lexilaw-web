@@ -76,6 +76,7 @@ export const colectionReducer = (state, action) => {
         setEditColection: false,
         uuid: action.uuid,
         thread_id: action.open_thread_id ?? action.thread_id,
+        clicked_uuid: action.clicked_uuid,
       }
 
     case colectionType.SET:

@@ -68,6 +68,7 @@ module.exports = {
       success: '#06B73A',
       screen: '#F8F7F6',
       green: {
+        700: '#15803c',
         900: '#004225',
       },
       gray: {
@@ -79,6 +80,7 @@ module.exports = {
       },
       yellow: {
         50: '#E0DBD1',
+        300: '#f1c232',
       },
     },
     fontFamily: {

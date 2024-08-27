@@ -9,12 +9,7 @@ import { useGlobalContext } from 'hooks/context'
 import { getData } from 'hooks/useRequest'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from 'react-query'
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-query'
 import { useLocation, useParams } from 'react-router-dom'
 import { RIWAYAT_OROLAN } from 'utils/dummy'
 import { isScheduleFn } from 'utils/isScheduleFn'
@@ -27,12 +22,7 @@ export const fetchMessage = async ({ pageParam }, URL) => {
   return respond.data
 }
 
-export const ThreadPage = ({
-  className,
-  hasFile,
-  isFirstTimeChat,
-  onFirstTimeChat,
-}) => {
+export const ThreadPage = ({ className, hasFile, isFirstTimeChat, onFirstTimeChat }) => {
   const params = useParams()
   const { state } = useLocation()
   const queryClient = useQueryClient()
@@ -53,9 +43,7 @@ export const ThreadPage = ({
 
   useEffect(() => {
     if (params.uuid === '63926537') {
-      const dataFiltered = RIWAYAT_OROLAN.find(
-        (item) => item.uuid === '63926537'
-      )
+      const dataFiltered = RIWAYAT_OROLAN.find((item) => item.uuid === '63926537')
       setRenderedMessage(dataFiltered?.chat)
     } else {
       setRenderedMessage([])
@@ -68,74 +56,66 @@ export const ThreadPage = ({
     }
   }, [params.uuid, state])
 
-  const { mutate: sendMessage } = useMutation(
-    (form) => getData(API.MESSAGE_SEND, form),
-    {
-      onSettled: (datas) => {
-        if (datas?.status === 'Success') {
-          const { data } = datas
-          setMessageUUID(data.thread_uuid)
-          setRenderedMessage((prevArray) => [
-            ...prevArray,
-            {
-              type: 'loading',
-              from_display: 'SYSTEM',
-              message: `${t('error_text', {
-                keyPrefix: 'chat.chat_text',
-              })}`,
-            },
-          ])
-        } else {
-          setDisableInput(false)
-          setRenderedMessage((prevArray) => [
-            ...prevArray,
-            {
-              type: 'error',
-              message: `${t('error_text', {
-                keyPrefix: 'chat.chat_text',
-              })}`,
-              from_display: 'SYSTEM',
-            },
-          ])
-        }
-      },
-    }
-  )
+  const { mutate: sendMessage } = useMutation((form) => getData(API.MESSAGE_SEND, form), {
+    onSettled: (datas) => {
+      if (datas?.status === 'Success') {
+        const { data } = datas
+        setMessageUUID(data.thread_uuid)
+        setRenderedMessage((prevArray) => [
+          ...prevArray,
+          {
+            type: 'loading',
+            from_display: 'SYSTEM',
+            message: `${t('error_text', {
+              keyPrefix: 'chat.chat_text',
+            })}`,
+          },
+        ])
+      } else {
+        setDisableInput(false)
+        setRenderedMessage((prevArray) => [
+          ...prevArray,
+          {
+            type: 'error',
+            message: `${t('error_text', {
+              keyPrefix: 'chat.chat_text',
+            })}`,
+            from_display: 'SYSTEM',
+          },
+        ])
+      }
+    },
+  })
 
   const {
     isLoading: loadingThreadDetail,
     refetch: fetchDetail,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery(
-    ['thread_detail', params.uuid],
-    () => getData(`${API.THREAD_DETAIL + params.uuid}?limit=1200`),
-    {
-      onSettled: (datas) => {
-        let tmp = []
-        datas.pages?.map((item) =>
-          item.data?.forEach((items) => {
-            const isSchdule = isScheduleFn(items.message)
-            if (isSchdule) {
-              items.lawyer_uuid = isSchdule
-              items.type = 'schedule'
-            }
-            tmp.push(items)
-          })
-        )
-        setRenderedMessage(tmp)
-      },
-      getNextPageParam: (lastpage) => {
-        const nextPage = parseInt(lastpage?.meta?.page) + 1
-        return nextPage
-      },
-      enabled: !!params.uuid && params.uuid !== '63926537',
-    }
-  )
+  } = useInfiniteQuery(['thread_detail', params.uuid], () => getData(`${API.THREAD_DETAIL + params.uuid}?limit=1200`), {
+    onSettled: (datas) => {
+      let tmp = []
+      datas.pages?.map((item) =>
+        item.data?.forEach((items) => {
+          const isSchdule = isScheduleFn(items.message)
+          if (isSchdule) {
+            items.lawyer_uuid = isSchdule
+            items.type = 'schedule'
+          }
+          tmp.push(items)
+        })
+      )
+      setRenderedMessage(tmp)
+    },
+    getNextPageParam: (lastpage) => {
+      const nextPage = parseInt(lastpage?.meta?.page) + 1
+      return nextPage
+    },
+    enabled: !!params.uuid && params.uuid !== '63926537',
+  })
 
   const { mutate: sendReaction } = useMutation(
-    ({ params, reaction }) =>
-      getData(`${API.MESSAGE_THUMBS}${params}/thumbs`, { reaction }),
+    ({ params, reaction }) => getData(`${API.MESSAGE_THUMBS}${params}/thumbs`, { reaction }),
     {
       onSettled: (respond, err, variables) => {
         queryClient.invalidateQueries('thread_detail')
@@ -171,7 +151,6 @@ export const ThreadPage = ({
                 }
               }
             })
-            console.log(renderedMessage)
             setRenderedMessage([...renderedMessage])
           }
         }
@@ -181,99 +160,84 @@ export const ThreadPage = ({
     }
   )
 
-  useQuery(
-    ['check_status', messageUUID],
-    () => getData(API.MESSAGE_STATUS + `${messageUUID}/status`),
-    {
-      onSettled: (datas) => {
-        if (datas?.status === 'Success') {
-          const isLoading = renderedMessage?.find(
-            (item) => item.type === 'loading'
-          )
-          const { data } = datas
+  useQuery(['check_status', messageUUID], () => getData(API.MESSAGE_STATUS + `${messageUUID}/status`), {
+    onSettled: (datas) => {
+      if (datas?.status === 'Success') {
+        const isLoading = renderedMessage?.find((item) => item.type === 'loading')
+        const { data } = datas
 
-          if (data.status === 'completed') {
-            queryClient.invalidateQueries('respond_chat')
-            setDisableInput(false)
-            setMessageUUIDtoRespond(data.thread_uuid)
-            if (isFirstTimeChat) {
-              onFirstTimeChat()
-              setIsFirstTime(true)
-              // setIsFirstTime((prev) => !prev)
-            }
-          } else if (
-            data.status === 'in_progress' ||
-            data.status === 'queued'
-          ) {
-            setDisableInput(true)
-
-            // (data.thread_id, collection?.thread_id) ini nanti harusnya dibuat diluar biar tiap load halaman loading lgsg nampil
-            if (!isLoading && data.thread_uuid === params?.uuid) {
-              renderedMessage &&
-                setRenderedMessage((prevArray) => [
-                  ...prevArray,
-                  {
-                    type: 'loading',
-                    from_display: 'SYSTEM',
-                    message: `${t('error_text', {
-                      keyPrefix: 'chat.chat_text',
-                    })}`,
-                  },
-                ])
-            }
-          } else {
-            if (!isLoading) {
-              renderedMessage &&
-                setRenderedMessage((prevArray) => [
-                  ...prevArray,
-                  {
-                    type: 'error',
-                    message: `${t('error_text', {
-                      keyPrefix: 'chat.chat_text',
-                    })}`,
-                    from_display: 'SYSTEM',
-                  },
-                ])
-            }
+        if (data.status === 'completed') {
+          queryClient.invalidateQueries('respond_chat')
+          setDisableInput(false)
+          setMessageUUIDtoRespond(data.thread_uuid)
+          if (isFirstTimeChat) {
+            onFirstTimeChat()
+            setIsFirstTime(true)
+            // setIsFirstTime((prev) => !prev)
           }
-        }
-      },
-      refetchInterval: (query) => {
-        if (
-          query?.data?.status === 'in_progress' ||
-          query?.data?.status === 'queued'
-        ) {
-          return 3000
+        } else if (data.status === 'in_progress' || data.status === 'queued') {
+          setDisableInput(true)
+
+          // (data.thread_id, collection?.thread_id) ini nanti harusnya dibuat diluar biar tiap load halaman loading lgsg nampil
+          if (!isLoading && data.thread_uuid === params?.uuid) {
+            renderedMessage &&
+              setRenderedMessage((prevArray) => [
+                ...prevArray,
+                {
+                  type: 'loading',
+                  from_display: 'SYSTEM',
+                  message: `${t('error_text', {
+                    keyPrefix: 'chat.chat_text',
+                  })}`,
+                },
+              ])
+          }
         } else {
-          return false
-        }
-      },
-      onError: (e) => {
-        renderedMessage?.forEach((item) => {
-          if (item.type === 'loading') {
-            return {
-              ...item,
-              from_display: 'SYSTEM',
-              message: `${t('error_text', {
-                keyPrefix: 'chat.chat_text',
-              })}`,
-              type: 'error',
-            }
+          if (!isLoading) {
+            renderedMessage &&
+              setRenderedMessage((prevArray) => [
+                ...prevArray,
+                {
+                  type: 'error',
+                  message: `${t('error_text', {
+                    keyPrefix: 'chat.chat_text',
+                  })}`,
+                  from_display: 'SYSTEM',
+                },
+              ])
           }
-        })
-        setRenderedMessage([...renderedMessage])
-      },
-      enabled: !!messageUUID,
-      staleTime: 0,
-    }
-  )
+        }
+      }
+    },
+    refetchInterval: (query) => {
+      if (query?.data?.status === 'in_progress' || query?.data?.status === 'queued') {
+        return 3000
+      } else {
+        return false
+      }
+    },
+    onError: (e) => {
+      renderedMessage?.forEach((item) => {
+        if (item.type === 'loading') {
+          return {
+            ...item,
+            from_display: 'SYSTEM',
+            message: `${t('error_text', {
+              keyPrefix: 'chat.chat_text',
+            })}`,
+            type: 'error',
+          }
+        }
+      })
+      setRenderedMessage([...renderedMessage])
+    },
+    enabled: !!messageUUID,
+    staleTime: 0,
+  })
 
   const handleAddChat = (e) => {
     setScrolled(true)
-    setRenderedMessage((prevArray) => [
-      ...prevArray,
-      { from: '', message: e.message },
-    ])
+    setRenderedMessage((prevArray) => [...prevArray, { from: '', message: e.message }])
 
     const dataMessage = {
       message: e.message,
@@ -298,12 +262,7 @@ export const ThreadPage = ({
   }
 
   return (
-    <div
-      className={clsx(
-        'flex h-full flex-col select-text relative mb-2',
-        className
-      )}
-    >
+    <div className={clsx('flex h-full flex-col select-text relative mb-2', className)}>
       {/* <div className='w-full'>
         <div className='bg-secondary-base absolute w-1/3 h-1 animate-right transition-transform' />
       </div> */}
@@ -322,9 +281,7 @@ export const ThreadPage = ({
                   document: '',
                 })
               }
-              className={`flex-none ${
-                hasFile ? '!md:w-[calc(100%-16px)]' : 'md:w-3/4 sm:w-full'
-              }`}
+              className={`flex-none ${hasFile ? '!md:w-[calc(100%-16px)]' : 'md:w-3/4 sm:w-full'}`}
               onLike={(e) => handleReaction(itms.uuid, e)}
               onDislike={(e) => handleReaction(itms.uuid, e)}
               disableInput={disableInput}
