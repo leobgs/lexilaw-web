@@ -54,14 +54,15 @@ import { useQuery } from 'react-query'
 /**
  *
  * @param {string} query - The search query string.
+ * @param {boolean} isModal - is in modal
  * @returns {{
  *   searchData: ISearchDataResponse | undefined,
  *   isPendingSearch: boolean,
  * }}
  */
-const useSearch = (query) => {
+const useSearch = (query, isModal) => {
   const { data: searchData, isLoading: isPendingSearch } = useQuery({
-    queryKey: ['search', query],
+    queryKey: ['search', query, isModal && 'modal'],
     queryFn: () => getData(API.SEARCH + '?query=' + query + '&limit=10'),
     enabled: Boolean(query),
   })
