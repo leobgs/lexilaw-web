@@ -19,7 +19,7 @@ import { DokumenCard } from './SearchCard/DokumenCard'
 import { TopicObrolan } from './SearchCard/TopikObrolan'
 import { SearchCardSpinner } from './SearchCard/SearchCardSpinner'
 import { useDebounce } from 'hooks/useDebounce'
-import { useSearch } from './SearchCard/hooks/useSearch'
+import { useSearch } from '../hooks/useSearch'
 
 export const NavChat = ({
   onHeaderClick,
@@ -46,15 +46,7 @@ export const NavChat = ({
   const debounceText = useDebounce(search)
   const debounceSearch = search.length > 0 ? debounceText : ''
 
-  useEffect(() => {
-    if (debounceSearch) {
-      console.log('Please nembak API please ', debounceSearch)
-    }
-  }, [debounceSearch])
-
   const { isPendingSearch, searchData } = useSearch(debounceSearch)
-
-  console.log('search data', searchData)
 
   const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
     onSettled: (data) => {
@@ -176,7 +168,6 @@ export const NavChat = ({
       </div>
 
       <div className="hidden justify-center md:inline-block md:my-4 h-4/5 overflow-y-auto no-scrollbar">
-        {/* TODO, ADD Search card here */}
         {debounceSearch.length > 0 ? (
           <>
             <SearchCardSpinner isPending={isPendingSearch} />
@@ -360,25 +351,6 @@ export const NavChat = ({
                   </div>
                 </div>
               </div>
-
-              {/* TODO, ADD Search card here */}
-              <SearchCardSpinner />
-              <SearchCard title={'Obrolan'}>
-                <ObrolanCard message={'Pasti, dong'} />
-                <ObrolanCard message={'Pasti ada, kok'} />
-                <ObrolanCard message={'isi dari pasal 1337 KUHP'} from_display="LEXI" />
-              </SearchCard>
-              <SearchCard title={'Document'}>
-                <DokumenCard title={'buatkan Perjanjian Pranikah buat pasutri'} />
-                <DokumenCard title={'perpanjang passport ada hukumannya endak yaa?'} />
-              </SearchCard>
-              <SearchCard title={'Topik Obrolan'}>
-                <TopicObrolan title={'Pasukan Khusus Legal'} />
-                <TopicObrolan title={'Kontrak Pasutri'} />
-                <TopicObrolan title={'Pasal karet maksudnya apa?'} />
-                <TopicObrolan title={'Pasal Khusus Kepemilikan Hewan'} />
-                <TopicObrolan title={'Di tilang itu ada di pasal berapa?'} />
-              </SearchCard>
 
               {dataLatest?.map((item, index) => {
                 if (item.type === 'koleksi') {
@@ -584,7 +556,12 @@ export const NavChat = ({
         </div>
       )}
 
-      <ModalSearch show={showSearchNav} onHide={() => setShowSearchNav(false)} />
+      <ModalSearch
+        show={showSearchNav}
+        onHide={() => setShowSearchNav(false)}
+        searchText={debounceSearch}
+        setShowNav={setShowNav}
+      />
     </nav>
   )
 }
