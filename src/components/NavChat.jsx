@@ -174,15 +174,18 @@ export const NavChat = ({
             <SearchCardSpinner isPending={isPendingSearch} />
 
             {/* Jika hasil search kosong */}
-            {!searchData?.data?.document && !searchData?.data?.thread && !searchData?.data?.thread_chat && !isPendingSearch && (
-              <EmptySearchResult
-                searchText={debounceSearch}
-                onHeaderClick={() => {
-                  onHeaderClick()
-                  setSearch('')
-                }}
-              />
-            )}
+            {!searchData?.data?.document &&
+              !searchData?.data?.thread &&
+              !searchData?.data?.thread_chat &&
+              !isPendingSearch && (
+                <EmptySearchResult
+                  searchText={debounceSearch}
+                  onHeaderClick={() => {
+                    onHeaderClick()
+                    setSearch('')
+                  }}
+                />
+              )}
 
             {/* Thread Chat Obrolan */}
             {searchData?.data?.thread_chat && (
