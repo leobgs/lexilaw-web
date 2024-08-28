@@ -80,6 +80,7 @@ import ic_two_check from './ic_two_check.svg'
 import surat_menyurat from './dummy/surat_menyurat.jpg'
 import surat_menyurat_2 from './dummy/surat_menyurat_2.jpg'
 import ic_attachment_upload_disabled from './ic_attachment_upload_disabled.svg'
+import ic_new_chat from './ic_new_chat.svg'
 
 const images = {
   bg_register_login,
@@ -164,6 +165,7 @@ const images = {
   surat_menyurat,
   surat_menyurat_2,
   ic_attachment_upload_disabled,
+  ic_new_chat,
 }
 
 export default images
