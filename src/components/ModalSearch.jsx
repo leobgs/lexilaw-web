@@ -42,9 +42,7 @@ export const ModalSearch = ({ show, onHide = () => {}, searchText, setShowNav, o
             value={search}
             name="search"
             className="w-full !outline-none ml-2"
-            placeholder={t('search', {
-              keyPrefix: 'chat.chat_text',
-            })}
+            placeholder={t('chat.chat_text.search')}
           />
         </div>
       </div>
