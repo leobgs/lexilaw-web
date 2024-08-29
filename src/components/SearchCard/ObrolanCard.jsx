@@ -4,12 +4,17 @@ import { useGlobalContext } from 'hooks/context'
 import { cleanMessage } from 'utils/cleanMessage'
 import { highlightFn } from 'utils/highlightFn'
 import { extractMessage } from 'utils/extractMessage'
+import { useQueryClient } from 'react-query'
+import { cleanTextFn } from 'utils/cleanText'
 
 const ObrolanCard = ({ imgSrc, from_display = 'USER', message, thread_uuid, search_uuid, searchText }) => {
   const { collectionClick, collection } = useGlobalContext()
-  const cleanText = cleanMessage(message)
+  const cleanText = cleanTextFn(cleanMessage(message))
   const extractedText = extractMessage(cleanText, searchText)
   const highlightText = highlightFn(extractedText, searchText, collection.clicked_uuid === search_uuid)
+
+  const queryClient = useQueryClient()
+  const user = queryClient.getQueryData('user')
 
   if (!thread_uuid) {
     return null
@@ -30,7 +35,7 @@ const ObrolanCard = ({ imgSrc, from_display = 'USER', message, thread_uuid, sear
       {from_display === 'USER' ? (
         <img
           className="size-10 rounded-full"
-          src={imgSrc || images.ic_avatar_placeholder}
+          src={user?.data?.image_url || imgSrc || images.ic_avatar_placeholder}
           alt="obrolan_photo"
           onError={({ currentTarget }) => {
             currentTarget.onerror = null
