@@ -39,15 +39,11 @@ export const ModalDetailLawyer = ({
     }
   });
 
-  console.log(lawyerSchedules?.data);
-
   useEffect(() => {
     if (show && getdetailLawyer?.data?.status === "Success") {
       setlawyerData(getdetailLawyer.data.data);
     }
   }, [show, getdetailLawyer]);
-
-  console.log(lawyerData);
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
