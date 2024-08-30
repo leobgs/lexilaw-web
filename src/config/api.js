@@ -40,6 +40,7 @@ export const API = {
   MY_LAWYER_LIST: '/user/app/v1.0.0/user/lawyer/list',
   MY_LAWYER_DETAIL: '/user/app/v1.0.0/user/lawyer/detail/',
   MY_LAWYER_CASE: '/api/app/v1.0.0/user/lawyer/thread',
+  MY_LAWYER_DOCUMENT: '/api/app/v1.0.0/user/lawyer/document/',
 
   SUGGESTION_LIST: '/api/app/v1.0.0/question-suggestion/list',
 
