@@ -16,6 +16,10 @@ import { DEFAULT_QUESTION, FILE_LAWYER, RIWAYAT_OROLAN } from 'utils/dummy'
 import { ThreadPage } from './ThreadPage'
 import { Disclaimer } from 'components/Disclaimer'
 import { Typewriter } from 'components/Typewriter'
+import { extractLawyerUUID } from 'utils/extractLawyerUUID'
+import { extractLawyerList } from 'utils/extractLawyerList'
+import { useGetDocument } from 'hooks/useGetDocument'
+import { CardFileDocument } from 'components/ChatFileDocument'
 
 export const Chat = () => {
   const { t } = useTranslation()
@@ -47,6 +51,17 @@ export const Chat = () => {
 
   const { pathname } = useLocation()
   const [isFirstTimeChat, setIsFirstTimeChat] = useState(false)
+
+  const availableSchedules = queryClient.getQueryData(['available_schedules'])
+  const threadDetail = queryClient.getQueryData(['thread_detail', uuid])
+  const lawyerUUID = extractLawyerUUID(threadDetail)
+  const showChatDocument = !isHeader && lawyerUUID && availableSchedules?.message === 'Done'
+  const lawyerList = extractLawyerList(threadDetail)
+  const lawyer = lawyerList?.find((item) => item.uuid === lawyerUUID)
+
+  const { dataDocument } = useGetDocument(uuid, Boolean(showChatDocument))
+
+  console.log(dataDocument?.data)
 
   useEffect(() => {
     if (uuid) {
@@ -613,6 +628,12 @@ export const Chat = () => {
                 onFirstTimeChat={() => setIsFirstTimeChat((prev) => !prev)}
               />
 
+              {/* TAMPILKAN DOC CHAT KETIKA */}
+              {/* Status Message === Done dan */}
+              {/* Ada Lawyer UUID di Thread_Detail queryKey */}
+              {showChatDocument && <CardFileDocument data={FILE_LAWYER} lawyer={lawyer} />}
+
+              {/* DUMMY JANGAN DIHAPUS */}
               {!isHeader && uuid === '63926537' && <CardFile data={FILE_LAWYER} />}
               {!isHeader && uuid === '63926537' && (
                 <CardFileMobile
