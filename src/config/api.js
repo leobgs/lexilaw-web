@@ -25,6 +25,7 @@ export const API = {
   MESSAGE_THUMBS: '/api/app/v1.0.0/thread_chat/',
 
   SEARCH: '/api/app/v1.0.0/chat/search',
+  CHAT_DOCUMENT: '/api/app/v1.0.0/chat/document',
 
   USER_DETAIL: '/user/app/v1.0.0/user/detail',
   UPDATE_NAME: '/user/app/v1.0.0/user/request/change-name',
@@ -40,6 +41,7 @@ export const API = {
   MY_LAWYER_LIST: '/user/app/v1.0.0/user/lawyer/list',
   MY_LAWYER_DETAIL: '/user/app/v1.0.0/user/lawyer/detail/',
   MY_LAWYER_CASE: '/api/app/v1.0.0/user/lawyer/thread',
+  MY_LAWYER_DOCUMENT: 'api/app/v1.0.0/user/lawyer/document',
 
   SUGGESTION_LIST: '/api/app/v1.0.0/question-suggestion/list',
 
