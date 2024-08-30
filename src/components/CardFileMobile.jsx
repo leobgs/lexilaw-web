@@ -128,7 +128,7 @@ export const CardFileMobile = ({ show, data, onChangeVisibility = () => {}, lawy
             </div>
 
             {/* divide buat push ke bawah */}
-            <div className='flex-1' />
+            <div className="flex-1" />
 
             <div className="bg-[#585858] w-full flex justify-between items-center py-2 rounded-md mt-4 px-4">
               <div className="text-white">
@@ -140,7 +140,7 @@ export const CardFileMobile = ({ show, data, onChangeVisibility = () => {}, lawy
                 </p>
               </div>
               {/* untuk saat ini, di hide dulu */}
-              <div className="bg-[#DCE7FF29] text-xs items-center flex rounded-3xl p-2 h-7 border border-blue-sky text-white hidden">
+              <div className="bg-[#DCE7FF29] text-xs items-center rounded-3xl p-2 h-7 border border-blue-sky text-white hidden">
                 {t('check_schedule', {
                   keyPrefix: 'lawyer_document',
                 })}
