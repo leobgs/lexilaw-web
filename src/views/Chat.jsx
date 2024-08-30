@@ -19,7 +19,7 @@ import { Typewriter } from 'components/Typewriter'
 import { extractLawyerUUID } from 'utils/extractLawyerUUID'
 import { extractLawyerList } from 'utils/extractLawyerList'
 import { useGetDocument } from 'hooks/useGetDocument'
-import { CardFileDocument } from 'components/ChatFileDocument'
+import { CardFileDocument } from 'components/CardFileDocument'
 
 export const Chat = () => {
   const { t } = useTranslation()
@@ -59,9 +59,7 @@ export const Chat = () => {
   const lawyerList = extractLawyerList(threadDetail)
   const lawyer = lawyerList?.find((item) => item.uuid === lawyerUUID)
 
-  const { dataDocument } = useGetDocument(uuid, Boolean(showChatDocument))
-
-  console.log(dataDocument?.data)
+  const { dataDocument, isPendingDocument } = useGetDocument(uuid, Boolean(showChatDocument))
 
   useEffect(() => {
     if (uuid) {
@@ -452,7 +450,7 @@ export const Chat = () => {
     <div className="bg-primary-base w-full h-screen flex flex-col">
       <div className="md:pr-4 md:pl-2 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1">
         <NavChat
-          isDisable={uuid !== '63926537'}
+          isDisable={!showChatDocument}
           onClickFile={() => setShowLawyerFile(true)}
           onDeleted={() => {
             setIsHeader(true)
@@ -631,7 +629,20 @@ export const Chat = () => {
               {/* TAMPILKAN DOC CHAT KETIKA */}
               {/* Status Message === Done dan */}
               {/* Ada Lawyer UUID di Thread_Detail queryKey */}
-              {showChatDocument && <CardFileDocument data={FILE_LAWYER} lawyer={lawyer} />}
+              {showChatDocument && !isPendingDocument && (
+                <CardFileDocument data={FILE_LAWYER} lawyer={lawyer} lawyer_data={dataDocument.data.lawyer} />
+              )}
+
+              {/* Mobile View */}
+              {showChatDocument && !isPendingDocument && (
+                <CardFileMobile
+                  data={FILE_LAWYER}
+                  show={showLayerFile}
+                  onChangeVisibility={() => setShowLawyerFile(false)}
+                  lawyer_data={dataDocument.data?.lawyer}
+                  lawyer={lawyer}
+                />
+              )}
 
               {/* DUMMY JANGAN DIHAPUS */}
               {!isHeader && uuid === '63926537' && <CardFile data={FILE_LAWYER} />}
