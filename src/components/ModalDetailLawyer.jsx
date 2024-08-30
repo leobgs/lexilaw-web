@@ -11,17 +11,12 @@ import { useQuery } from "react-query";
 import { getData } from "hooks/useRequest";
 import { useTranslation } from "react-i18next";
 
-export const ModalDetailLawyer = ({
-  data,
-  show = false,
-  onHide = () => {},
-}) => {
-  const { t } = useTranslation();
-  const [currText, setCurrText] = useState(
-    t("results", { keyPrefix: "my_lawyer" })
-  );
-  const [dataDocumment, setDataDocumment] = useState([]);
-  const [lawyerData, setlawyerData] = useState([]);
+export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) => {
+  const { t, i18n } = useTranslation()
+  const [currText, setCurrText] = useState(t('results', { keyPrefix: 'my_lawyer' }))
+  const [dataDocumment, setDataDocumment] = useState([])
+  const [dataListDocumment, setDataListDocumment] = useState([])
+  const [lawyerData, setlawyerData] = useState([])
 
   const getdetailLawyer = useQuery(["detailLawyer", show], () => {
     if (show) {
@@ -37,13 +32,27 @@ export const ModalDetailLawyer = ({
     } else {
       return Promise.resolve(null);
     }
-  });
+  })
+
+  const getdocument = useQuery(['documentlawyer', show], () => {
+    if (show) {
+      return getData(API.MY_LAWYER_DOCUMENT + show)
+    } else {
+      return Promise.resolve(null)
+    }
+  })
+
 
   useEffect(() => {
-    if (show && getdetailLawyer?.data?.status === "Success") {
-      setlawyerData(getdetailLawyer.data.data);
+    if (show) {
+      if (getdetailLawyer?.data?.status === 'Success') {
+        setlawyerData(getdetailLawyer.data.data);
+      }
+      if (getdocument?.data?.status === 'Success') {
+        setDataListDocumment(getdocument.data.data);
+      }
     }
-  }, [show, getdetailLawyer]);
+  }, [show, getdetailLawyer, getdocument]);
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
@@ -59,23 +68,25 @@ export const ModalDetailLawyer = ({
   );
 
   useEffect(() => {
-    DOCUMMENT_HASIL?.forEach((item, index) => {
-      if (index === 0) {
-        item.isActive = true;
-      } else {
-        item.isActive = false;
-      }
-    });
-    setDataDocumment(DOCUMMENT_HASIL);
-  }, []);
+    if (dataListDocumment && dataListDocumment.length > 0) {
+      dataListDocumment.forEach((item, index) => {
+        item.isActive = index === 0;
+      });
+      setDataDocumment([...dataListDocumment]);
+    } else {
+      setDataDocumment([]);
+    }
+  }, [dataListDocumment]);
+
 
   const handleShowHideDiv = (id) => {
-    dataDocumment?.forEach((item) => {
-      if (item.uuid === id) {
-        item.isActive = !item.isActive;
-      }
-    });
-    setDataDocumment([...dataDocumment]);
+    setDataDocumment((prevDataDocumment) =>
+      prevDataDocumment.map((item) =>
+        item.thread_uuid === id
+          ? { ...item, isActive: !item.isActive }
+          : item
+      )
+    );
   };
 
   return (
@@ -87,12 +98,7 @@ export const ModalDetailLawyer = ({
     >
       <div className="md:hidden">
         <div className="bg-neutral-60 -mx-4 px-4 py-4 flex items-center gap-2 top fixed w-full">
-          <img
-            src={images.ic_back}
-            alt="back"
-            onClick={() => onHide()}
-            className="h-6 w-4"
-          />
+          <img src={images.ic_back} alt="back" onClick={() => onHide()} className="h-6 w-4 " />
           <div className="flex items-center">
             <img
               src={lawyerData.image_url}
@@ -109,11 +115,8 @@ export const ModalDetailLawyer = ({
         </div>
 
         <div
-          className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${
-            currText === t("results", { keyPrefix: "my_lawyer" })
-              ? ""
-              : "hidden"
-          }`}
+          className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${currText === t('results', { keyPrefix: 'my_lawyer' }) ? '' : 'hidden'
+            }`}
         >
           <div className="line-clamp-5 text mt-20">{lawyerDescription}</div>
           <div className={`grid grid-cols-10 mt-4 gap-2`}>
@@ -166,11 +169,10 @@ export const ModalDetailLawyer = ({
       </div>
 
       <Tabs
-        className={`${
-          currText === t("results", { keyPrefix: "my_lawyer" })
+        className={`${currText === t("results", { keyPrefix: "my_lawyer" })
             ? "md:mt-4"
             : "mt-24 md:mt-4 mb-4"
-        }`}
+          }`}
         textArr={[
           t("results", { keyPrefix: "my_lawyer" }),
           t("schedule", { keyPrefix: "my_lawyer" }),
@@ -184,15 +186,9 @@ export const ModalDetailLawyer = ({
           <div className="md:h-3/5 h-4/6 overflow-y-auto">
             {dataDocumment && dataDocumment.length > 0 ? (
               dataDocumment.map((item) => (
-                <div
-                  className="bg-white p-4 rounded-2xl mb-4 last:mb-4 first:mt-4"
-                  key={item.uuid}
-                >
-                  <div
-                    className="flex justify-between"
-                    onClick={() => handleShowHideDiv(item.uuid)}
-                  >
-                    <div className="text-sm">{item.title}</div>
+                <div className="bg-white p-4 rounded-2xl mb-4 last:mb-4 first:mt-4" key={item.thread_uuid}>
+                  <div className="flex justify-between mb-2" onClick={() => handleShowHideDiv(item.thread_uuid)}>
+                    <div className="text-sm">{item.thread_title}</div>
                     <img
                       src={images.ic_menu_down_darker}
                       alt="updown"
@@ -200,16 +196,31 @@ export const ModalDetailLawyer = ({
                     />
                   </div>
                   {item.isActive && (
-                    <div className="flex flex-wrap gap-3 my-4">
-                      {item.documments?.map((itm, index) => (
-                        <div key={index}>
-                          <img
-                            src={itm.image_url}
-                            alt="documment attached"
-                            className="w-24 h-24 md:h-32 md:w-32 rounded-md"
-                          />
-                          <div className="text-neutral-40 text-xs mt-1">
-                            {itm.title}
+                    <div className="gap-2 grid grid-cols-3 lg:grid-cols-4">
+                      {item.files?.map((itm) => (
+                        <div key={itm.uuid}>
+                          {itm.file_url ? (
+                            <div className="relative w-full aspect-square">
+                              <div className="absolute top-0 left-0 w-full h-full z-10 bg-transparent"></div>
+                              <iframe
+                                src={`https://docs.google.com/gview?url=${itm.file_url}&embedded=true`}
+                                className="w-full rounded-md aspect-square absolute"
+                              ></iframe>
+                            </div>
+                          ) : (
+                            <div className="bg-[#E2DFDA] w-full rounded-md aspect-square flex justify-center items-center">
+                              <img
+                                src={images.ic_time_sand}
+                                alt="Default Image"
+                                className="w-4 "
+                              />
+                            </div>
+                          )}
+                          <div
+                            onClick={() => window.open(`https://docs.google.com/gview?url=${itm.file_url}`, '_blank')}
+                            className="text-neutral-40 text-xs mt-1 cursor-pointer"
+                          >
+                            {i18n.language === 'en' ? itm.service_name_english : itm.service_name_indonesia}
                           </div>
                         </div>
                       ))}
@@ -236,15 +247,10 @@ export const ModalDetailLawyer = ({
         </>
       ) : (
         <div className="md:h-3/5 h-full overflow-y-auto">
-          {lawyerSchedules?.data && lawyerSchedules?.data?.length > 0 ? (
-            lawyerSchedules?.data?.map((item) => (
-              <div
-                className="bg-white mb-4 p-4 rounded-2xl shadow-md"
-                key={item.name_event}
-              >
-                <div className="font-bold text-2xl md:text-base md:font-semi-bold mb-3">
-                  {item.name_schedule}
-                </div>
+          {LAWYER_SCHEDULE && LAWYER_SCHEDULE.length > 0 ? (
+            LAWYER_SCHEDULE.map((item, index) => (
+              <div className="bg-white mb-4 p-4 rounded-2xl shadow-md" key={item.id}>
+                <div className="font-bold text-2xl md:text-base md:font-semi-bold mb-3">{item.title}</div>
                 <div className="font-light">Dijadwalkan Pada</div>
                 <div className="font-semi-bold">{item.format_schedule_ind}</div>
                 <div className="bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4">
@@ -297,7 +303,8 @@ export const ModalDetailLawyer = ({
             </div>
           )}
         </div>
-      )}
-    </Modal>
-  );
-};
+      )
+      }
+    </Modal >
+  )
+}
