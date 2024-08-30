@@ -343,7 +343,7 @@ export const NavChat = ({
 
       {/* ============================ responsive mobile ============================*/}
       {showNav && (
-        <div className="md:hidden h-screen w-full absolute flex z-50 ">
+        <div className="md:hidden h-[100dvh] w-full absolute flex z-50 ">
           <div className="bg-neutral-50 w-3/4 h-full px-2 pt-4">
             <div className="h-[92%] overflow-y-auto pb-4 no-scrollbar">
               <div className="flex justify-between items-center">
