@@ -68,12 +68,3 @@ const useGetDocument = (thread_uuid, isEnabled) => {
 }
 
 export { useGetDocument }
-
-/**
- * @param {string} lawyer_uuid
- */
-const useGetDetailLawyer = (lawyer_uuid) => {
-  const {} = useQuery({
-    queryFn: () => getData(API.MY_LAWYER_DOCUMENT + '/' + lawyer_uuid),
-  })
-}
