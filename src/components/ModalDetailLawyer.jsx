@@ -270,14 +270,14 @@ export const ModalDetailLawyer = ({
         </>
       ) : (
         <div className='md:h-3/5 h-full overflow-y-auto'>
-          {lawyerSchedules && lawyerSchedules.length > 0 ? (
-            lawyerSchedules.map((item) => (
+          {lawyerSchedules?.data && lawyerSchedules?.data?.length > 0 ? (
+            lawyerSchedules?.data?.map((item) => (
               <div
                 className='bg-white mb-4 p-4 rounded-2xl shadow-md'
-                key={item.id}
+                key={item.created_at + 11}
               >
                 <div className='font-bold text-2xl md:text-base md:font-semi-bold mb-3'>
-                  {item.title}
+                  {item.name_event}
                 </div>
                 <div className='font-light'>Dijadwalkan Pada</div>
                 <div className='font-semi-bold'>{item.format_schedule_ind}</div>
@@ -292,7 +292,7 @@ export const ModalDetailLawyer = ({
                       alt='copy'
                       onClick={() =>
                         copyToClipboard({
-                          text: item.url,
+                          text: item.join_url,
                           title: t('copy_to_clipboard'),
                         })
                       }
@@ -300,7 +300,7 @@ export const ModalDetailLawyer = ({
                   </div>
                   <div className='flex justify-end mt-2'>
                     <Button
-                      onClick={() => console.log('g call')}
+                      onClick={() => window.open(item.join_url, '_blank')}
                       label='Join Call'
                       iconRight={images.ic_handycam}
                       iconClassName='!w-4 !h-2.5'
