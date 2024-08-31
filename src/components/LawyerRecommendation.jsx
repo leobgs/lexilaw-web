@@ -89,7 +89,7 @@ export const LawyerRecommendation = ({
       </div>
 
       <div className='h-[86%] flex justify-between text-sm my-2 gap-4'>
-        <div className='h-full w-full overflow-auto mt-8 gap-2 overflow-x-hidden md:grid md:grid-cols-2 md:w-2/3 md:grid-rows-3 md:gap-4 md:h-[90%] lg:gap-2'>
+        <div className='h-full md:h-[90%] w-full overflow-y-auto mt-8 gap-2 overflow-x-hidden md:grid md:grid-cols-2 md:w-2/3 '>
           {dataLawyer?.map((item, index) => (
             <LawyerCard
               onClick={() => {
@@ -157,7 +157,7 @@ export const LawyerRecommendation = ({
             </div>
           </div>
         ) : (
-          <div className='bg-blue-sky w-1/3 rounded-xl relative hidden bg-unselected -mt-4 md:inline-block xl:h-[90%] lg:h-[85%]'>
+          <div className='bg-blue-sky w-1/3 rounded-xl relative hidden bg-unselected -mt-4 md:inline-block h-[90%]'>
             <div className='relative top-1/4 h-[95%] pt-20 -mt-28'>
               <img
                 src={images.bg_lawyer_recommendation}
