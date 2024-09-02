@@ -283,13 +283,15 @@ export const ModalDetailLawyer = ({
                 <div className="font-bold text-2xl md:text-base md:font-semi-bold mb-3">
                   {item.name_event}
                 </div>
-                <div className="font-light">Dijadwalkan Pada</div>
+                <div className="font-light">
+                  {t("schedule_at", { keyPrefix: "my_lawyer" })}
+                </div>
                 <div className="font-semi-bold">
                   {formatDate(item.start_time, currentLanguage)} |&nbsp;
                   {formatTime(item.start_time)} - {formatTime(item.end_time)}
                 </div>
                 <div className="bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4">
-                  <div>Ruang Pertemuan</div>
+                  <div>{t("meeting_room", { keyPrefix: "my_lawyer" })}</div>
                   <div className="flex justify-between items-center">
                     <Link to={item.join_url} className="a-link">
                       {item.join_url}

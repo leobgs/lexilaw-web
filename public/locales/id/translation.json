@@ -114,7 +114,9 @@
     "you_haven_results_lawyer": "Kamu belum memiliki hasil dengan lawyer terkait, silahkan lakukan",
     "chat_with_lexi": "obrolan dengan Lexi Ai",
     "dont_have_schedule": "Kamu belum memiliki jadwal dengan lawyer terkait.",
-    "create_schedule": "Buat Jadwal"
+    "create_schedule": "Buat Jadwal",
+    "schedule_at": "Schedule at",
+    "meeting_room": "Meeting Room"
   },
   "my_account": {
     "current_name": "Nama Saat Ini",
