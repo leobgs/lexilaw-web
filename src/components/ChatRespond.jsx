@@ -138,7 +138,7 @@ export const ChatRespond = ({
             {allLawyer?.length !== 0 && <div className="border-t border-neutral-30 px-2 md:hidden pb-1.5" />}
 
             {index === 1 ? (
-              <div className="flex justify-start items-center gap-2">
+              <div className="flex justify-start items-center gap-2 flex-wrap">
                 {isButtonYes && (
                   <div
                     className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-4 text-center md:w-fit cursor-pointer ${
@@ -162,7 +162,7 @@ export const ChatRespond = ({
                 )}
 
                 <div
-                  className={`border-blue-dark border rounded-3xl gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center cursor-pointer ml-3 md:w-full md:ml-0 ${
+                  className={`border-blue-dark border rounded-3xl gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center cursor-pointer md:w-fit md:ml-0 ${
                     disable ? 'bg-neutral-40 bg-opacity-45' : 'bg-blue-sky'
                   }`}
                   onClick={() =>
