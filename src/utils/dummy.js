@@ -109,6 +109,45 @@ export const RIWAYAT_OROLAN = [
         type: 'recommendation',
       },
       {
+        message: 'Bagaimana cara melihat rekomendasi lawyer?',
+        file: null,
+        from: 'USER',
+        uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
+        type: '',
+      },
+      {
+        message: 'Oke, silahkan cek kenalan Saya yang bisa bantu Kamu',
+        from_display: 'SYSTEM',
+        uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
+        type: 'recommendation',
+      },
+      {
+        message: 'Bagaimana cara melihat rekomendasi lawyer?',
+        file: null,
+        from: 'USER',
+        uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
+        type: '',
+      },
+      {
+        message: 'Oke, silahkan cek kenalan Saya yang bisa bantu Kamu',
+        from_display: 'SYSTEM',
+        uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
+        type: 'recommendation',
+      },
+      {
+        message: 'Bagaimana cara melihat rekomendasi lawyer?',
+        file: null,
+        from: 'USER',
+        uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
+        type: '',
+      },
+      {
+        message: 'Oke, silahkan cek kenalan Saya yang bisa bantu Kamu',
+        from_display: 'SYSTEM',
+        uuid: Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000,
+        type: 'recommendation',
+      },
+      {
         message:
           'Booking berhasil Kamu sudah bersama **Calvin Koss↗️** cek Pengacara Saya pada menu kanan atas untuk melihat dan meng-kontak pengacara kamu.\n Kamu dapat melakukan diskusi selama **1 jam** kapan bersama **Calvin Koss↗**?  \n*Opsi schedule berikut hanya berlaku 16 jam setelah Kamu melakukan booking.*',
         lawyer_uuid: '4c136e74-bcf4-4c4e-b160-e14a0bd5f61a',

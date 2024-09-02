@@ -55,7 +55,10 @@ export const Chat = () => {
   const availableSchedules = queryClient.getQueryData(['available_schedules'])
   const threadDetail = queryClient.getQueryData(['thread_detail', uuid])
   const lawyerUUID = extractLawyerUUID(threadDetail)
-  const showChatDocument = !isHeader && lawyerUUID && availableSchedules?.message === 'Done'
+  const showChatDocument =
+    !isHeader &&
+    lawyerUUID &&
+    (availableSchedules?.message === 'Done' || availableSchedules?.message === 'Success get data')
   const lawyerList = extractLawyerList(threadDetail)
   const lawyer = lawyerList?.find((item) => item.uuid === lawyerUUID)
 
@@ -611,8 +614,8 @@ export const Chat = () => {
           ) : (
             <div className="md:h-[calc(100%-56px)] h-full w-full flex gap-x-7">
               <ThreadPage
-                className={`${!isHeader && uuid === '63926537' ? 'md:w-9/12' : ''} w-full`}
-                hasFile={!isHeader && uuid === '63926537'}
+                className={`${!isHeader && uuid === '63926537' ? 'md:w-9/12 relative' : ''} w-full`}
+                hasFile={(!isHeader && uuid === '63926537') || (showChatDocument && !isPendingDocument)}
                 isFirstTimeChat={isFirstTimeChat}
                 onFirstTimeChat={() => setIsFirstTimeChat((prev) => !prev)}
               />
@@ -621,7 +624,12 @@ export const Chat = () => {
               {/* Status Message === Done dan */}
               {/* Ada Lawyer UUID di Thread_Detail queryKey */}
               {showChatDocument && !isPendingDocument && (
-                <CardFileDocument data={FILE_LAWYER} lawyer={lawyer} lawyer_data={dataDocument.data.lawyer} />
+                <CardFileDocument
+                  // className='absolute z-50 right-10 md:md:h-[calc(100%-146px)]'
+                  data={FILE_LAWYER}
+                  lawyer={lawyer}
+                  lawyer_data={dataDocument.data.lawyer}
+                />
               )}
 
               {/* Mobile View */}

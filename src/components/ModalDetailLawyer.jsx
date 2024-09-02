@@ -2,7 +2,6 @@ import images from "assets/images";
 import { Modal } from "./Modal";
 import { Tabs } from "./Tabs";
 import { useEffect, useState } from "react";
-import { DOCUMMENT_HASIL, LAWYER_SCHEDULE } from "utils/dummy";
 import { Link } from "react-router-dom";
 import { copyToClipboard } from "utils";
 import { Button } from "./Button/Button";
@@ -10,13 +9,23 @@ import { API } from "config/api";
 import { useQuery } from "react-query";
 import { getData } from "hooks/useRequest";
 import { useTranslation } from "react-i18next";
+import { formatDate, formatTime } from "utils/formatTime";
+import { useGlobalContext } from "hooks/context";
 
-export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) => {
-  const { t, i18n } = useTranslation()
-  const [currText, setCurrText] = useState(t('results', { keyPrefix: 'my_lawyer' }))
-  const [dataDocumment, setDataDocumment] = useState([])
-  const [dataListDocumment, setDataListDocumment] = useState([])
-  const [lawyerData, setlawyerData] = useState([])
+export const ModalDetailLawyer = ({
+  data,
+  show = false,
+  onHide = () => { },
+}) => {
+  const { t, i18n } = useTranslation();
+  const [currText, setCurrText] = useState(
+    t("results", { keyPrefix: "my_lawyer" })
+  );
+  const [dataDocumment, setDataDocumment] = useState([]);
+  const [dataListDocumment, setDataListDocumment] = useState([]);
+  const [lawyerData, setlawyerData] = useState([]);
+
+  const { currentLanguage } = useGlobalContext();
 
   const getdetailLawyer = useQuery(["detailLawyer", show], () => {
     if (show) {
@@ -32,23 +41,22 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
     } else {
       return Promise.resolve(null);
     }
-  })
+  });
 
-  const getdocument = useQuery(['documentlawyer', show], () => {
+  const getdocument = useQuery(["documentlawyer", show], () => {
     if (show) {
-      return getData(API.MY_LAWYER_DOCUMENT + show)
+      return getData(API.MY_LAWYER_DOCUMENT + show);
     } else {
-      return Promise.resolve(null)
+      return Promise.resolve(null);
     }
-  })
-
+  });
 
   useEffect(() => {
     if (show) {
-      if (getdetailLawyer?.data?.status === 'Success') {
+      if (getdetailLawyer?.data?.status === "Success") {
         setlawyerData(getdetailLawyer.data.data);
       }
-      if (getdocument?.data?.status === 'Success') {
+      if (getdocument?.data?.status === "Success") {
         setDataListDocumment(getdocument.data.data);
       }
     }
@@ -78,13 +86,10 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
     }
   }, [dataListDocumment]);
 
-
   const handleShowHideDiv = (id) => {
     setDataDocumment((prevDataDocumment) =>
       prevDataDocumment.map((item) =>
-        item.thread_uuid === id
-          ? { ...item, isActive: !item.isActive }
-          : item
+        item.thread_uuid === id ? { ...item, isActive: !item.isActive } : item
       )
     );
   };
@@ -98,7 +103,12 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
     >
       <div className="md:hidden">
         <div className="bg-neutral-60 -mx-4 px-4 py-4 flex items-center gap-2 top fixed w-full">
-          <img src={images.ic_back} alt="back" onClick={() => onHide()} className="h-6 w-4 " />
+          <img
+            src={images.ic_back}
+            alt="back"
+            onClick={() => onHide()}
+            className="h-6 w-4 "
+          />
           <div className="flex items-center">
             <img
               src={lawyerData.image_url}
@@ -115,7 +125,9 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
         </div>
 
         <div
-          className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${currText === t('results', { keyPrefix: 'my_lawyer' }) ? '' : 'hidden'
+          className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${currText === t("results", { keyPrefix: "my_lawyer" })
+            ? ""
+            : "hidden"
             }`}
         >
           <div className="line-clamp-5 text mt-20">{lawyerDescription}</div>
@@ -170,8 +182,8 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
 
       <Tabs
         className={`${currText === t("results", { keyPrefix: "my_lawyer" })
-          ? "md:mt-4"
-          : "mt-24 md:mt-4 mb-4"
+            ? "md:mt-4"
+            : "mt-24 md:mt-4 mb-4"
           }`}
         textArr={[
           t("results", { keyPrefix: "my_lawyer" }),
@@ -186,8 +198,14 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
           <div className="md:h-3/5 h-4/6 overflow-y-auto">
             {dataDocumment && dataDocumment.length > 0 ? (
               dataDocumment.map((item) => (
-                <div className="bg-white p-4 rounded-2xl mb-4 last:mb-4 first:mt-4" key={item.thread_uuid}>
-                  <div className="flex justify-between mb-2" onClick={() => handleShowHideDiv(item.thread_uuid)}>
+                <div
+                  className="bg-white p-4 rounded-2xl mb-4 last:mb-4 first:mt-4"
+                  key={item.thread_uuid}
+                >
+                  <div
+                    className="flex justify-between mb-2"
+                    onClick={() => handleShowHideDiv(item.thread_uuid)}
+                  >
                     <div className="text-sm">{item.thread_title}</div>
                     <img
                       src={images.ic_menu_down_darker}
@@ -217,10 +235,17 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
                             </div>
                           )}
                           <div
-                            onClick={() => window.open(`https://docs.google.com/gview?url=${itm.file_url}`, '_blank')}
+                            onClick={() =>
+                              window.open(
+                                `https://docs.google.com/gview?url=${itm.file_url}`,
+                                "_blank"
+                              )
+                            }
                             className="text-neutral-40 text-xs mt-1 cursor-pointer"
                           >
-                            {i18n.language === 'en' ? itm.service_name_english : itm.service_name_indonesia}
+                            {i18n.language === "en"
+                              ? itm.service_name_english
+                              : itm.service_name_indonesia}
                           </div>
                         </div>
                       ))}
@@ -247,14 +272,24 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
         </>
       ) : (
         <div className="md:h-3/5 h-full overflow-y-auto">
-          {LAWYER_SCHEDULE && LAWYER_SCHEDULE.length > 0 ? (
-            LAWYER_SCHEDULE.map((item, index) => (
-              <div className="bg-white mb-4 p-4 rounded-2xl shadow-md" key={item.id}>
-                <div className="font-bold text-2xl md:text-base md:font-semi-bold mb-3">{item.title}</div>
-                <div className="font-light">Dijadwalkan Pada</div>
-                <div className="font-semi-bold">{item.format_schedule_ind}</div>
+          {lawyerSchedules?.data && lawyerSchedules?.data?.length > 0 ? (
+            lawyerSchedules?.data?.map((item) => (
+              <div
+                className="bg-white mb-4 p-4 rounded-2xl shadow-md"
+                key={item.created_at + 11}
+              >
+                <div className="font-bold text-2xl md:text-base md:font-semi-bold mb-3">
+                  {item.name_event}
+                </div>
+                <div className="font-light">
+                  {t("schedule_at", { keyPrefix: "my_lawyer" })}
+                </div>
+                <div className="font-semi-bold">
+                  {formatDate(item.start_time, currentLanguage)} |&nbsp;
+                  {formatTime(item.start_time)} - {formatTime(item.end_time)}
+                </div>
                 <div className="bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4">
-                  <div>Ruang Pertemuan</div>
+                  <div>{t("meeting_room", { keyPrefix: "my_lawyer" })}</div>
                   <div className="flex justify-between items-center">
                     <Link to={item.join_url} className="a-link">
                       {item.join_url}
@@ -264,7 +299,7 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
                       alt="copy"
                       onClick={() =>
                         copyToClipboard({
-                          text: item.url,
+                          text: item.join_url,
                           title: t("copy_to_clipboard"),
                         })
                       }
@@ -272,7 +307,7 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
                   </div>
                   <div className="flex justify-end mt-2">
                     <Button
-                      onClick={() => console.log("g call")}
+                      onClick={() => window.open(item.join_url, "_blank")}
                       label="Join Call"
                       iconRight={images.ic_handycam}
                       iconClassName="!w-4 !h-2.5"
@@ -303,8 +338,7 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
             </div>
           )}
         </div>
-      )
-      }
-    </Modal >
-  )
-}
+      )}
+    </Modal>
+  );
+};
