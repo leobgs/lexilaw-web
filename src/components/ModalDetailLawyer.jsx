@@ -15,7 +15,7 @@ import { useGlobalContext } from "hooks/context";
 export const ModalDetailLawyer = ({
   data,
   show = false,
-  onHide = () => {},
+  onHide = () => { },
 }) => {
   const { t, i18n } = useTranslation();
   const [currText, setCurrText] = useState(
@@ -125,11 +125,10 @@ export const ModalDetailLawyer = ({
         </div>
 
         <div
-          className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${
-            currText === t("results", { keyPrefix: "my_lawyer" })
-              ? ""
-              : "hidden"
-          }`}
+          className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${currText === t("results", { keyPrefix: "my_lawyer" })
+            ? ""
+            : "hidden"
+            }`}
         >
           <div className="line-clamp-5 text mt-20">{lawyerDescription}</div>
           <div className={`grid grid-cols-10 mt-4 gap-2`}>
@@ -182,11 +181,10 @@ export const ModalDetailLawyer = ({
       </div>
 
       <Tabs
-        className={`${
-          currText === t("results", { keyPrefix: "my_lawyer" })
+        className={`${currText === t("results", { keyPrefix: "my_lawyer" })
             ? "md:mt-4"
             : "mt-24 md:mt-4 mb-4"
-        }`}
+          }`}
         textArr={[
           t("results", { keyPrefix: "my_lawyer" }),
           t("schedule", { keyPrefix: "my_lawyer" }),
@@ -218,9 +216,9 @@ export const ModalDetailLawyer = ({
                   {item.isActive && (
                     <div className="gap-2 grid grid-cols-3 lg:grid-cols-4">
                       {item.files?.map((itm) => (
-                        <div key={itm.uuid}>
+                        <div key={itm.uuid} >
                           {itm.file_url ? (
-                            <div className="relative w-full aspect-square">
+                            <div className="relative w-full aspect-square cursor-pointer" onClick={() => window.open(`https://docs.google.com/gview?url=${itm.file_url}`, '_blank')}>
                               <div className="absolute top-0 left-0 w-full h-full z-10 bg-transparent"></div>
                               <iframe
                                 src={`https://docs.google.com/gview?url=${itm.file_url}&embedded=true`}
