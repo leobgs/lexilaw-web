@@ -195,7 +195,7 @@ export const ModalDetailLawyer = ({
 
       {currText === t("results", { keyPrefix: "my_lawyer" }) ? (
         <>
-          <div className="md:h-3/5 h-4/6 overflow-y-auto">
+          <div className="md:h-[66%] h-full overflow-y-auto">
             {dataDocumment && dataDocumment.length > 0 ? (
               dataDocumment.map((item) => (
                 <div
@@ -271,7 +271,7 @@ export const ModalDetailLawyer = ({
           </div>
         </>
       ) : (
-        <div className="md:h-3/5 h-full overflow-y-auto">
+        <div className="md:h-[66%] h-full overflow-y-auto">
           {lawyerSchedules?.data && lawyerSchedules?.data?.length > 0 ? (
             lawyerSchedules?.data?.map((item) => (
               <div
