@@ -170,8 +170,8 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
 
       <Tabs
         className={`${currText === t("results", { keyPrefix: "my_lawyer" })
-            ? "md:mt-4"
-            : "mt-24 md:mt-4 mb-4"
+          ? "md:mt-4"
+          : "mt-24 md:mt-4 mb-4"
           }`}
         textArr={[
           t("results", { keyPrefix: "my_lawyer" }),
@@ -198,9 +198,9 @@ export const ModalDetailLawyer = ({ data, show = false, onHide = () => { } }) =>
                   {item.isActive && (
                     <div className="gap-2 grid grid-cols-3 lg:grid-cols-4">
                       {item.files?.map((itm) => (
-                        <div key={itm.uuid}>
+                        <div key={itm.uuid} >
                           {itm.file_url ? (
-                            <div className="relative w-full aspect-square">
+                            <div className="relative w-full aspect-square cursor-pointer" onClick={() => window.open(`https://docs.google.com/gview?url=${itm.file_url}`, '_blank')}>
                               <div className="absolute top-0 left-0 w-full h-full z-10 bg-transparent"></div>
                               <iframe
                                 src={`https://docs.google.com/gview?url=${itm.file_url}&embedded=true`}
