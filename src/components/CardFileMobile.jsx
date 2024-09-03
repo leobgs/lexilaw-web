@@ -128,7 +128,7 @@ export const CardFileMobile = ({ show, data, onChangeVisibility = () => {}, lawy
             </div>
 
             {/* divide buat push ke bawah */}
-            <div className="flex-1" />
+            <div className="flex-1 block md:hidden" />
 
             <div className="bg-[#585858] w-full flex justify-between items-center py-2 rounded-md mt-4 px-4">
               <div className="text-white">
@@ -146,7 +146,7 @@ export const CardFileMobile = ({ show, data, onChangeVisibility = () => {}, lawy
                 })}
               </div>
             </div>
-            <p className="text-xs text-secondary-base font-thin text-center mt-1">
+            <p className="text-xs text-secondary-base font-thin text-center mt-1 mb-4">
               {t('lawyer_reommend', {
                 keyPrefix: 'lawyer_document',
               })}
