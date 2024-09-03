@@ -61,9 +61,9 @@ export const CardFileDocument = ({ data, lawyer, lawyer_data, className }) => {
       </div>
 
       {/* Divider */}
-      <div className='flex-1' />
+      <div className='hidden md:block flex-1' />
 
-      <div className="bg-[#585858] w-full flex justify-between items-center px-3 py-2 rounded-md z-10">
+      <div className="bg-[#585858] w-full flex justify-between items-center px-3 py-2 rounded-md">
         <div className="text-white">
           <p className="font-semi-bold">
             {lawyer?.first_name ? lawyer.first_name + ' ' + lawyer.last_name : 'Calvin Koss .SH'}
