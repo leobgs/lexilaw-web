@@ -1,11 +1,6 @@
-import {
-  actionType,
-  alertState,
-  colectionState,
-  colectionType,
-} from 'config/state'
-import { alertReducer, colectionReducer } from 'helpers/dataReducer'
-import React, { useContext, useEffect, useReducer, useState } from 'react'
+import { actionType, alertState, colectionState, colectionType } from 'config/state'
+import { alertReducer, colectionReducer, lawyerCardReducer } from 'helpers/dataReducer'
+import React, { useCallback, useContext, useEffect, useReducer, useState } from 'react'
 import Reducer from 'utils/reducer'
 import { localServerData } from './useLocalServerData'
 
@@ -28,19 +23,22 @@ export const AppContext = React.createContext({
   collectionReset: (e) => {},
   bookingLawyerPayload: null,
   bookingLawyerReducer: (name, newValue) => {},
+  lawyerRecommendationButton: { show: true },
+  dispatchLaywerRecommendationButton: () => {},
+  showButtonLawyerRecomendation: () => {},
+  hideButtonLawyerRecomendation: () => {},
 })
 
 export const AppProvider = ({ children }) => {
   const [alert, dispatchAlert] = useReducer(alertReducer, alertState)
-  const [collection, dispatchColection] = useReducer(
-    colectionReducer,
-    colectionState
-  )
+  const [collection, dispatchColection] = useReducer(colectionReducer, colectionState)
   const [authLoader, dispatchAuthLoader] = useReducer(alertReducer, alertState)
   const [currentLanguage, setLanguage] = useState(() => {
     const { CURRENT_LANGUAGE } = localServerData()
     return CURRENT_LANGUAGE || 'id'
   })
+
+  const [lawyerRecommendationButton, dispatchLaywerRecommendationButton] = useReducer(lawyerCardReducer, { show: true })
 
   const [registerForm, setRegisterForm] = useState({
     first_name: '',
@@ -168,6 +166,18 @@ export const AppProvider = ({ children }) => {
     })
   }
 
+  const hideButtonLawyerRecomendation = useCallback(() => {
+    dispatchLaywerRecommendationButton({
+      type: 'hide'
+    })
+  } , [])
+
+  const showButtonLawyerRecomendation = useCallback(() => {
+    dispatchLaywerRecommendationButton({
+      type: 'show'
+    })
+  }, [])
+
   return (
     <AppContext.Provider
       value={{
@@ -192,6 +202,10 @@ export const AppProvider = ({ children }) => {
         bookingLawyerReducer,
         isFirstTime,
         setIsFirstTime,
+        lawyerRecommendationButton,
+        dispatchLaywerRecommendationButton,
+        hideButtonLawyerRecomendation,
+        showButtonLawyerRecomendation,
       }}
     >
       {children}
