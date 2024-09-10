@@ -11,6 +11,7 @@ import { ScheduleVariant } from './Chat/ChatResponse/ScheduleVariant'
 import { isValidJson } from 'utils/isJsonChec'
 import { useGlobalContext } from 'hooks/context'
 import { useNavigate } from 'react-router-dom'
+import { useGetLawyerRecommendation } from 'hooks/useGetLawyerRecommendation'
 
 export const ChatRespond = ({
   item,
@@ -22,7 +23,12 @@ export const ChatRespond = ({
   onLike = () => {},
   onDislike = () => {},
 }) => {
-  const { bookingLawyerReducer } = useGlobalContext()
+  const {
+    bookingLawyerReducer,
+    lawyerRecommendationButton,
+    showButtonLawyerRecomendation,
+    hideButtonLawyerRecomendation,
+  } = useGlobalContext()
   const [showLawyerRecommendation, setLawyerRecommendation] = useState(false)
   const { t } = useTranslation()
   const [dataLawyer, setDataLawyer] = useState([])
@@ -30,6 +36,10 @@ export const ChatRespond = ({
   const [currLawyer, setLawyer] = useState(null)
   const [allLawyer, setAllLawyer] = useState([])
   const navigate = useNavigate()
+
+  const { mutateGetLaywerRecommendation, isPendingGetLawyerRecommendation } = useGetLawyerRecommendation(
+    item?.thread_uuid
+  )
 
   useEffect(() => {
     const possibleJson = item.message.substring(item.message.lastIndexOf('\n') + 1).trim()
@@ -43,6 +53,14 @@ export const ChatRespond = ({
       setSpecificWord(false)
     }
   }, [item.message])
+
+  useEffect(() => {
+    if (allLawyer.length !== 0) {
+      hideButtonLawyerRecomendation()
+    } else {
+      showButtonLawyerRecomendation()
+    }
+  }, [allLawyer, hideButtonLawyerRecomendation, showButtonLawyerRecomendation])
 
   useQuery(
     ['lawyer_recomendation'],
@@ -139,7 +157,7 @@ export const ChatRespond = ({
 
             {index === 1 ? (
               <div className="flex justify-start items-center gap-2 flex-wrap">
-                {isButtonYes && (
+                {isButtonYes && lawyerRecommendationButton.show && (
                   <div
                     className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-4 text-center md:w-fit cursor-pointer ${
                       disable ? 'bg-neutral-40 bg-opacity-45' : 'bg-blue-sky'
@@ -147,11 +165,9 @@ export const ChatRespond = ({
                     onClick={() =>
                       disable
                         ? void 0
-                        : onClickChangeLangStyle(
-                            t('yes_to_recommendation', {
-                              keyPrefix: 'chat.chat_text',
-                            })
-                          )
+                        : mutateGetLaywerRecommendation({
+                            thread_uuid: item?.thread_uuid,
+                          })
                     }
                   >
                     <img src={images.ic_change_style_lang} alt="change style" className="h-4 w-3" />
@@ -217,7 +233,7 @@ export const ChatRespond = ({
               </div>
             ) : (
               <div>
-                {isButtonYes && (
+                {isButtonYes && !isPendingGetLawyerRecommendation && lawyerRecommendationButton.show && (
                   <div
                     className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-4 text-center w-fit cursor-pointer ${
                       disable ? 'bg-neutral-40 bg-opacity-45' : 'bg-blue-sky'
@@ -225,11 +241,9 @@ export const ChatRespond = ({
                     onClick={() =>
                       disable
                         ? void 0
-                        : onClickChangeLangStyle(
-                            t('yes_to_recommendation', {
-                              keyPrefix: 'chat.chat_text',
-                            })
-                          )
+                        : mutateGetLaywerRecommendation({
+                            thread_uuid: item?.thread_uuid,
+                          })
                     }
                   >
                     <img src={images.ic_change_style_lang} alt="change style" className="h-4 w-3" />

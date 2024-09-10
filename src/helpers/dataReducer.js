@@ -139,3 +139,40 @@ export const colectionReducer = (state, action) => {
       return state
   }
 }
+
+/**
+ * @typedef {Object} LawyerRecommendationState
+ * @property {boolean} show
+ */
+
+/**
+ * @typedef {Object} HideCard
+ * @property {'hide'} type
+ */
+
+/**
+ * @typedef {Object} ShowCard
+ * @property {'show'} type
+ */
+
+/**
+ * @typedef {ShowCard | HideCard} ActionLawyerRecommendation
+ */
+
+/**
+ *
+ * @param {LawyerRecommendationState} state
+ * @param {ActionLawyerRecommendation} action
+ *
+ * @returns {LawyerRecommendationState}
+ */
+export const lawyerCardReducer = (state, action) => {
+  switch (action.type) {
+    case 'hide':
+      return { ...state, show: false }
+    case 'show':
+      return { ...state, show: true }
+    default:
+      return state
+  }
+}
