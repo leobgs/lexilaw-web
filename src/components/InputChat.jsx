@@ -16,6 +16,21 @@ export const InputChat = ({ onChange, className, disable }) => {
   const { t } = useTranslation()
   const [inputValue, setInputValue] = useState('')
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const isMobile = windowWidth <= 767
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   useEffect(() => {
     setDisplayImage(null)
   }, [disable])
@@ -114,67 +129,47 @@ export const InputChat = ({ onChange, className, disable }) => {
   return (
     <>
       <div
-        className={clsx(
-          'border border-neutral-30 py-2 rounded-3xl bg-[#FCFAF7] bg-opacity-35 pr-1.5 mt-2',
-          className
-        )}
+        className={clsx('border border-neutral-30 py-2 rounded-3xl bg-[#FCFAF7] bg-opacity-35 pr-1.5 mt-2', className)}
       >
         {displayImage && (
-          <div className='flex top-0 mx-2 mb-4'>
-            <div className='w-full md:w-1/3 bg-white rounded-l-xl rounded-br-xl border border-neutral-60 flex items-center shadow-md'>
+          <div className="flex top-0 mx-2 mb-4">
+            <div className="w-full md:w-1/3 bg-white rounded-l-xl rounded-br-xl border border-neutral-60 flex items-center shadow-md">
               {form.content_type === 'IMAGE' ? (
-                <img
-                  src={displayImage}
-                  alt='displayed file'
-                  className='w-12 h-12 aspect-auto m-2 rounded-lg shadow'
-                />
+                <img src={displayImage} alt="displayed file" className="w-12 h-12 aspect-auto m-2 rounded-lg shadow" />
               ) : (
-                <div className='px-2 max-w-12 h-12 text-sm bg-secondary-base bg-opacity-90 text-white font-futura-bold items-center flex justify-center m-2 shadow rounded-sm'>
+                <div className="px-2 max-w-12 h-12 text-sm bg-secondary-base bg-opacity-90 text-white font-futura-bold items-center flex justify-center m-2 shadow rounded-sm">
                   {displayExt}
                 </div>
               )}
-              <div className='text-xs w-full'>
-                <p className='text-sm font-semi-bold text-secondary-base break-words size max-w-[60%]'>
+              <div className="text-xs w-full">
+                <p className="text-sm font-semi-bold text-secondary-base break-words size max-w-[60%]">
                   {form.caption}
                 </p>
-                <p className='text-neutral-40'>
-                  {byteConversion(form.file?.size)}
-                </p>
+                <p className="text-neutral-40">{byteConversion(form.file?.size)}</p>
               </div>
             </div>
 
             <img
               src={images.ic_close_black}
-              alt='hapus gambar'
-              className='-right-0 top-0 -ml-4 -mt-2 z-10 opacity-75 w-8 h-8 cursor-pointer'
+              alt="hapus gambar"
+              className="-right-0 top-0 -ml-4 -mt-2 z-10 opacity-75 w-8 h-8 cursor-pointer"
               onClick={handleDeleteImageDetail}
             />
           </div>
         )}
-        <div className='gap-1 flex items-center justify-between'>
-          <label htmlFor='file' className='md:ml-2 hover:cursor-pointer'>
-            <div className='w-full flex justify-center'>
-              <div className='bg-[#F8F5F1] rounded-full ml-1.5 md:ml-0'>
+        <div className="gap-1 flex items-center justify-between">
+          <label htmlFor="file" className="md:ml-2 hover:cursor-pointer">
+            <div className="w-full flex justify-center">
+              <div className="bg-[#F8F5F1] rounded-full ml-1.5 md:ml-0">
                 <img
                   src={images.ic_attach_black}
-                  alt='attach'
-                  className='w-3 h-4 hidden md:inline-block m-2 cursor-pointer'
+                  alt="attach"
+                  className="w-3 h-4 hidden md:inline-block m-2 cursor-pointer"
                 />
-                <img
-                  src={images.ic_attach_black_sm}
-                  alt='attach'
-                  className='w-3 h-4 md:hidden m-2'
-                />
+                <img src={images.ic_attach_black} alt="attach" className="w-3 h-4 md:hidden m-2" />
               </div>
             </div>
-            <input
-              accept='*'
-              type='file'
-              name='file'
-              onChange={changeHandler}
-              style={{ display: 'none' }}
-              id='file'
-            />
+            <input accept="*" type="file" name="file" onChange={changeHandler} style={{ display: 'none' }} id="file" />
           </label>
 
           <AutoResizeTextarea
@@ -185,10 +180,12 @@ export const InputChat = ({ onChange, className, disable }) => {
             }}
             onSubmit={handleSubmitButton}
             disable={disable}
-            className='max-h-20 w-full focus:outline-none bg-[#FCFAF7] md:bg-opacity-0 text-sm'
+            className="max-h-20 w-full focus:outline-none bg-[#FCFAF7] md:bg-opacity-0 text-sm"
             placeholder={`${
               disable
                 ? t('Wait_for_lexi_to_answer', { keyPrefix: 'input_chat' })
+                : isMobile
+                ? t('input_chat.ask_lexi_mobile')
                 : t('ask_lexi', { keyPrefix: 'input_chat' })
             }`}
           />
@@ -196,9 +193,9 @@ export const InputChat = ({ onChange, className, disable }) => {
       </div>
 
       {error && (
-        <div className='flex items-center mt-2 ml-5'>
-          <img className='w-3 h-3' src={images.ic_invalid} alt='' />
-          <div className='text-error text-xs ml-1 text-error-base'>{error}</div>
+        <div className="flex items-center mt-2 ml-5">
+          <img className="w-3 h-3" src={images.ic_invalid} alt="" />
+          <div className="text-error text-xs ml-1 text-error-base">{error}</div>
         </div>
       )}
     </>

@@ -2,17 +2,23 @@ import images from 'assets/images'
 import clsx from 'clsx'
 import React, { useState, useRef, useEffect } from 'react'
 
-const AutoResizeTextarea = ({
-  value,
-  onChange,
-  onSubmit,
-  placeholder,
-  className,
-  disable,
-}) => {
+const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className, disable }) => {
   const textareaRef = useRef(null)
   const [textareaValue, setTextareaValue] = useState(value || '')
   const [form, setForm] = useState()
+
+  const handleOnKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey && form.trim().length > 0) {
+      e.preventDefault()
+      onSubmit(form)
+
+      // Clear text
+      setTimeout(() => {
+        setTextareaValue('')
+        setForm('')
+      }, 600)
+    }
+  }
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -32,12 +38,7 @@ const AutoResizeTextarea = ({
   }
 
   return (
-    <div
-      className={clsx(
-        'w-full text-xs flex justify-center items-center',
-        className
-      )}
-    >
+    <div className={clsx('w-full text-xs flex justify-center items-center', className)}>
       <textarea
         ref={textareaRef}
         value={textareaValue}
@@ -57,6 +58,7 @@ const AutoResizeTextarea = ({
           padding: '8px',
           fontSize: '14px',
         }}
+        onKeyDown={handleOnKeyPress}
       />
       {!disable && (
         <div
@@ -73,11 +75,7 @@ const AutoResizeTextarea = ({
             !form ? 'bg-neutral-40 ' : 'bg-blue-dark'
           }`}
         >
-          <img
-            src={images.ic_send}
-            alt='kirim'
-            className='w-[22.5px] h-[18px]'
-          />
+          <img src={images.ic_send} alt="kirim" className="w-[22.5px] h-[18px]" />
         </div>
       )}
     </div>

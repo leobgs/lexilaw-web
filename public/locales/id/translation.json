@@ -162,7 +162,8 @@
     "attached": "Lampiran"
   },
   "input_chat": {
-    "ask_lexi": "Tanyakan ke Lexi",
+    "ask_lexi": "Tanyakan ke Lexi (Shift + Enter untuk baris baru)",
+    "ask_lexi_mobile": "Tanyakan ke Lexi (Enter untuk baris baru)",
     "Wait_for_lexi_to_answer": "Tunggu Lexi menjawab pertanyaanmu ya..."
   },
   "nav_component": {
