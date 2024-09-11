@@ -19,8 +19,6 @@ export const InputChat = ({ onChange, className, disable }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const isMobile = windowWidth <= 767
 
-  console.log(isMobile)
-
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth)
