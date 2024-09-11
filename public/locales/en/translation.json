@@ -162,7 +162,8 @@
     "attached": "Attachment"
   },
   "input_chat": {
-    "ask_lexi": "Ask Lexi",
+    "ask_lexi": "Ask Lexi (Shift + Enter for new line)",
+    "ask_lexi_mobile": "Ask Lexi (Enter for new line)",
     "Wait_for_lexi_to_answer": "Wait for Lexi to answer your question..."
   },
   "nav_component": {
