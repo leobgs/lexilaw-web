@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify'
+import { Bounce, toast } from 'react-toastify'
 
 export const notifySuccess = (messages) => {
   toast.success(messages, {
@@ -43,5 +43,19 @@ export const notify = (messages) => {
     draggable: true,
     progress: undefined,
     theme: 'dark',
+  })
+}
+
+export const notifyBottomError = (messages) => {
+  toast.error(messages, {
+    position: 'bottom-right',
+    autoClose: 4000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'light',
+    transition: Bounce,
   })
 }
