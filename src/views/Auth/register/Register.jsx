@@ -37,11 +37,7 @@ export const Register = () => {
         })
         setOptionCity([...tmp])
 
-        setSelectedCity(
-          registerForm?.city
-            ? tmp.find((item) => item.value === registerForm?.city)
-            : null
-        )
+        setSelectedCity(registerForm?.city ? tmp.find((item) => item.value === registerForm?.city) : null)
       } else {
         setOptionCity([
           {
@@ -53,25 +49,22 @@ export const Register = () => {
     },
   })
 
-  const { mutate: registerData, isLoading: loadingRegister } = useMutation(
-    (form) => getData(API.REGISTER, form),
-    {
-      onSettled: (data) => {
-        if (data.status === 'Success') {
-          registerFormReducer('RESET')
-          navigate('/auth/register/otp', {
-            state: {
-              email: registerForm.email,
-              fullName: fullName,
-              user_uuid: data?.data?.user_uuid,
-            },
-          })
-        } else {
-          setErrorText(data.message)
-        }
-      },
-    }
-  )
+  const { mutate: registerData, isLoading: loadingRegister } = useMutation((form) => getData(API.REGISTER, form), {
+    onSettled: (data) => {
+      if (data.status === 'Success') {
+        registerFormReducer('RESET')
+        navigate('/auth/register/otp', {
+          state: {
+            email: registerForm.email,
+            fullName: fullName,
+            user_uuid: data?.data?.user_uuid,
+          },
+        })
+      } else {
+        setErrorText(data.message)
+      }
+    },
+  })
 
   const fullName = registerForm.first_name + ' ' + registerForm.last_name
 
@@ -86,8 +79,7 @@ export const Register = () => {
   }
 
   const validatePassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/
     return passwordRegex.test(password)
   }
 
@@ -95,13 +87,9 @@ export const Register = () => {
     switch (name) {
       case 'first_name':
       case 'last_name':
-        return validateName(value)
-          ? ''
-          : t('validate_name_format', { keyPrefix: 'auth.register' })
+        return validateName(value) ? '' : t('validate_name_format', { keyPrefix: 'auth.register' })
       case 'email':
-        return validateEmail(value)
-          ? ''
-          : t('validate_email_format', { keyPrefix: 'auth.register' })
+        return validateEmail(value) ? '' : t('validate_email_format', { keyPrefix: 'auth.register' })
       default:
         return ''
     }
@@ -243,13 +231,13 @@ export const Register = () => {
 
   return (
     <AuthCard className>
-      <div className='grid grid-cols-1 gap-y-4 h-fit'>
-        <div className='flex flex-wrap xl:flex-nowrap gap-4 align-top items-start'>
+      <div className="grid grid-cols-1 gap-y-4 h-fit">
+        <div className="flex flex-wrap xl:flex-nowrap gap-4 align-top items-start">
           <Input
-            name='first_name'
+            name="first_name"
             value={registerForm.first_name}
             onChange={handleChangeForm}
-            className='w-full rounded-full flex-wrap'
+            className="w-full rounded-full flex-wrap"
             inputClass={clsx(
               '!border-secondary-logo focus:outline-secondary-logo text-base',
               registerForm.first_name === '' ? 'font-regular' : ' font-medium'
@@ -260,10 +248,10 @@ export const Register = () => {
           />
 
           <Input
-            name='last_name'
+            name="last_name"
             value={registerForm.last_name}
             onChange={handleChangeForm}
-            className='w-full rounded-full flex-wrap'
+            className="w-full rounded-full flex-wrap"
             inputClass={clsx(
               '!border-secondary-logo focus:outline-secondary-logo text-base',
               registerForm.first_name === '' ? 'font-regular' : ' font-medium'
@@ -275,10 +263,10 @@ export const Register = () => {
         </div>
 
         <Input
-          name='email'
+          name="email"
           value={registerForm.email}
           onChange={handleChangeForm}
-          className='w-full rounded-full flex-wrap'
+          className="w-full rounded-full flex-wrap"
           inputClass={clsx(
             '!border-secondary-logo focus:outline-secondary-logo text-base',
             registerForm.first_name === '' ? 'font-regular' : ' font-medium'
@@ -288,10 +276,10 @@ export const Register = () => {
           error={error.email}
         />
 
-        <div className='flex flex-wrap md:flex-nowrap gap-4 align-top items-start'>
+        <div className="flex flex-wrap md:flex-nowrap gap-4 align-top items-start">
           <InputPassword
-            name='password'
-            className='w-full flex-wrap'
+            name="password"
+            className="w-full flex-wrap"
             inputClass={clsx(
               '!border-secondary-logo focus:outline-secondary-logo text-base',
               registerForm.first_name === '' ? 'font-regular' : ' font-medium'
@@ -304,8 +292,8 @@ export const Register = () => {
           />
 
           <InputPassword
-            name='password_confirm'
-            className='w-full flex-wrap'
+            name="password_confirm"
+            className="w-full flex-wrap"
             inputClass={clsx(
               '!border-secondary-logo focus:outline-secondary-logo text-base',
               registerForm.first_name === '' ? 'font-regular' : ' font-medium'
@@ -329,10 +317,10 @@ export const Register = () => {
         />
 
         <Input
-          name='company_name'
+          name="company_name"
           value={registerForm.company_name}
           onChange={handleChangeForm}
-          className='w-full rounded-full flex-wrap'
+          className="w-full rounded-full flex-wrap"
           inputClass={clsx(
             '!border-secondary-logo focus:outline-secondary-logo text-base',
             registerForm.first_name === '' ? 'font-regular' : ' font-medium'
@@ -341,11 +329,7 @@ export const Register = () => {
           placeholder={t('firm_name', { keyPrefix: 'auth.register' })}
         />
 
-        <InputImage
-          name='image'
-          image={registerForm.image}
-          onImageSelect={handleImageChange}
-        />
+        <InputImage name="image" image={registerForm.image} onImageSelect={handleImageChange} />
 
         <Button
           label={t('register_button', { keyPrefix: 'auth.register' })}
@@ -353,23 +337,18 @@ export const Register = () => {
           iconRight={images.chevron_right}
           iconClassName={'absolute right-4'}
           disabled={!isValidForm || loadingRegister}
-          className={
-            'btn-secondary-hover w-full mt-1 rounded-full font-medium relative'
-          }
+          className={'btn-secondary-hover w-full mt-1 rounded-full font-medium relative'}
         />
 
         {errorText && (
-          <div className='bg-error-base bg-opacity-20 border-1 border-error-base border rounded-lg w-fit'>
-            <p className='font-semi-bold text-error-base px-2'>{errorText}</p>
+          <div className="bg-error-base bg-opacity-20 border-1 border-error-base border rounded-lg w-fit">
+            <p className="font-semi-bold text-error-base px-2">{errorText}</p>
           </div>
         )}
 
-        <div className='text-center font-medium flex justify-center text-sm'>
+        <div className="text-center font-medium flex justify-center text-sm">
           <p>{t('already_have_account', { keyPrefix: 'auth.register' })}</p>
-          <p
-            className='font-bold text-gray-900 underline ms-1 cursor-pointer'
-            onClick={() => navigate('/auth/login')}
-          >
+          <p className="font-bold text-gray-900 underline ms-1 cursor-pointer" onClick={() => navigate('/auth/login')}>
             {t('login', { keyPrefix: 'common' })}
           </p>
         </div>
