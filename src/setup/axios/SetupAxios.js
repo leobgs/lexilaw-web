@@ -1,5 +1,6 @@
 import { Storage } from 'utils/LocalStorage'
 import { authKey } from 'config/app'
+import { funcIntercept } from './unauthorizedInterceptor'
 
 export default function setupAxios(axios) {
   axios.interceptors.request.use(
@@ -16,9 +17,12 @@ export default function setupAxios(axios) {
   )
 
   axios.interceptors.response.use(
-    (res) => res,
+    (res) => {
+      return res
+    },
     (err) => {
-      return Promise.reject(err)
+      funcIntercept(err?.response?.status)
+      Promise.reject(err)
     }
   )
 }

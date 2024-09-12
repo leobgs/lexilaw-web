@@ -27,6 +27,8 @@ import RegisterOTP from 'views/Auth/register/RegisterOTP'
 import { ThreadPage } from 'views/ThreadPage'
 import useVersioning from 'hooks/versioning'
 import { Schedule } from 'views/Schedule'
+import { useEffect } from 'react'
+import { notifyBottomError } from 'hooks/useToas'
 
 export const PrivateRoute = ({ wrapperContent = true }) => {
   if (!isLogin()) {
@@ -61,7 +63,16 @@ const ProtectedRoute = ({ wrapperContent = true }) => {
 }
 
 function App() {
+  const authError = localStorage.getItem('errorAuth')
   useVersioning('/version.json')
+
+  useEffect(() => {
+    if (authError) {
+      notifyBottomError(authError.replace(/["]/g, '').replace(/[,]/g, ''))
+
+      localStorage.removeItem('errorAuth')
+    }
+  }, [authError])
 
   return (
     <BrowserRouter>
