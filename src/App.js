@@ -69,7 +69,6 @@ function App() {
   useEffect(() => {
     if (authError) {
       notifyBottomError(authError.replace(/["]/g, '').replace(/[,]/g, ''))
-      console.log(authError)
 
       localStorage.removeItem('errorAuth')
     }
