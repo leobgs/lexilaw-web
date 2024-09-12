@@ -28,6 +28,7 @@ export const Register = () => {
   })
 
   useQuery(['city_list'], () => getData(API.LIST_CITY), {
+    enabled: false,
     onSettled: (datas) => {
       if (datas.status === 'Success') {
         const { data } = datas
@@ -116,9 +117,10 @@ export const Register = () => {
       registerForm.password === null ||
       registerForm.password === '' ||
       registerForm.password_confirm === null ||
-      registerForm.password_confirm === '' ||
-      registerForm.city === null ||
-      registerForm.city === ''
+      registerForm.password_confirm === ''
+    // ||
+    // registerForm.city === null ||
+    // registerForm.city === ''
     return errorCheck
   }
 
@@ -220,6 +222,7 @@ export const Register = () => {
     for (const [key, value] of Object.entries(registerForm)) {
       bodyFormData.append(key, value)
     }
+    debugger
     registerData(bodyFormData)
     setErrorText('')
   }
@@ -314,6 +317,7 @@ export const Register = () => {
           options={optionCity}
           value={selectedCity}
           isSearchable
+          className={'hidden'}
         />
 
         <Input
