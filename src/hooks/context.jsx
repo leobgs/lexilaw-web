@@ -46,7 +46,7 @@ export const AppProvider = ({ children }) => {
     email: '',
     password: '',
     password_confirm: '',
-    city: '',
+    // city: '',
     image: null,
     company_name: '',
   })
