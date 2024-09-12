@@ -116,7 +116,8 @@
     "dont_have_schedule": "You don't have a schedule yet relevant lawyer.",
     "create_schedule": "Create a Schedule",
     "schedule_at": "Schedule at",
-    "meeting_room": "Meeting Room"
+    "meeting_room": "Meeting Room",
+    "add_schedule": "Add Schedule"
   },
   "my_account": {
     "current_name": "Current Name",

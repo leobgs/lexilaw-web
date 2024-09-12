@@ -116,7 +116,8 @@
     "dont_have_schedule": "Kamu belum memiliki jadwal dengan lawyer terkait.",
     "create_schedule": "Buat Jadwal",
     "schedule_at": "Dijadwalkan Pada",
-    "meeting_room": "Ruang Pertemuan"
+    "meeting_room": "Ruang Pertemuan",
+    "add_schedule": "Tambah Jadwal"
   },
   "my_account": {
     "current_name": "Nama Saat Ini",
