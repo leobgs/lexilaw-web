@@ -22,7 +22,7 @@ export default function setupAxios(axios) {
     },
     (err) => {
       funcIntercept(err?.response?.status)
-      Promise.reject(err)
+      return Promise.reject(err)
     }
   )
 }
