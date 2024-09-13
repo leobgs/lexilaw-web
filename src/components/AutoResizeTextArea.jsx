@@ -1,5 +1,6 @@
 import images from 'assets/images'
 import clsx from 'clsx'
+import { useWindowWidth } from 'hooks/useWindowWidth'
 import React, { useState, useRef, useEffect } from 'react'
 
 const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className, disable }) => {
@@ -7,8 +8,11 @@ const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className,
   const [textareaValue, setTextareaValue] = useState(value || '')
   const [form, setForm] = useState()
 
+  const { windowWidth } = useWindowWidth()
+  const isMobile = windowWidth <= 767
+
   const handleOnKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey && form.trim().length > 0) {
+    if (!isMobile && e.key === 'Enter' && !e.shiftKey && form.trim().length > 0) {
       e.preventDefault()
       onSubmit(form)
 
