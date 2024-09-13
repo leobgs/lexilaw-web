@@ -222,7 +222,6 @@ export const Register = () => {
     for (const [key, value] of Object.entries(registerForm)) {
       bodyFormData.append(key, value)
     }
-    debugger
     registerData(bodyFormData)
     setErrorText('')
   }
