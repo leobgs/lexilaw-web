@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { byteConversion } from 'utils/byteConversion'
 import { useTranslation } from 'react-i18next'
 import AutoResizeTextarea from './AutoResizeTextArea'
+import { useWindowWidth } from 'hooks/useWindowWidth'
 
 export const InputChat = ({ onChange, className, disable }) => {
   const [displayImage, setDisplayImage] = useState()
@@ -16,20 +17,8 @@ export const InputChat = ({ onChange, className, disable }) => {
   const { t } = useTranslation()
   const [inputValue, setInputValue] = useState('')
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const { windowWidth } = useWindowWidth()
   const isMobile = windowWidth <= 767
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth)
-    }
-
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
 
   useEffect(() => {
     setDisplayImage(null)
