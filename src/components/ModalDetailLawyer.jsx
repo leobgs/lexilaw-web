@@ -2,11 +2,11 @@ import images from "assets/images";
 import { Modal } from "./Modal";
 import { Tabs } from "./Tabs";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { copyToClipboard } from "utils";
 import { Button } from "./Button/Button";
 import { API } from "config/api";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { getData } from "hooks/useRequest";
 import { useTranslation } from "react-i18next";
 import { formatDate, formatTime } from "utils/formatTime";
@@ -26,6 +26,7 @@ export const ModalDetailLawyer = ({
   const [lawyerData, setlawyerData] = useState([]);
 
   const { currentLanguage } = useGlobalContext();
+  const navigate = useNavigate()
 
   const getdetailLawyer = useQuery(["detailLawyer", show], () => {
     if (show) {
@@ -75,11 +76,45 @@ export const ModalDetailLawyer = ({
     200
   );
 
+  const handleAddSchedule = (thread_uuid) => {
+    if (thread_uuid !== null) {
+      getSchedules({ thread_uuid });
+    }
+  };
+
+  const { mutate: getSchedules, error } = useMutation(
+    ({ thread_uuid }) =>
+      getData(API.AVAILABLE_SCHEDULES + `/${lawyerData.uuid}/${thread_uuid}?page=1&limit=1`),
+    {
+      onSettled: (data, error, variables) => {
+        if (error) {
+          console.error(error);
+        } else if (data.status === 'Success') {
+          const thread_uuid = variables.thread_uuid;
+
+          navigate(`/schedule`, {
+            state: {
+              scheduling_url_event: data.data.scheduling_url_event,
+              lawyer_uuid: lawyerData.uuid,
+              thread_uuid,
+            },
+          })
+
+        }
+      },
+    }
+  );
+
+
+
+
   useEffect(() => {
+
     if (dataListDocumment && dataListDocumment.length > 0) {
       dataListDocumment.forEach((item, index) => {
         item.isActive = index === 0;
       });
+
       setDataDocumment([...dataListDocumment]);
     } else {
       setDataDocumment([]);
@@ -272,22 +307,27 @@ export const ModalDetailLawyer = ({
         </>
       ) : (
         <div className="md:h-[66%] h-full overflow-y-auto">
-          {lawyerSchedules?.data && lawyerSchedules?.data?.length > 0 ? (
-            lawyerSchedules?.data?.map((item) => (
+          {lawyerSchedules?.data && lawyerSchedules?.data?.length > 0 && (
+            lawyerSchedules?.data?.map((item, index) => (
               <div
                 className="bg-white mb-4 p-4 rounded-2xl shadow-md"
                 key={item.created_at + 11}
               >
                 <div className="font-bold text-2xl md:text-base md:font-semi-bold mb-3">
-                  {item.name_event}
+                  {item.name_event ? item.name_event : dataDocumment[index].thread_title}
                 </div>
-                <div className="font-light">
-                  {t("schedule_at", { keyPrefix: "my_lawyer" })}
-                </div>
-                <div className="font-semi-bold">
-                  {formatDate(item.start_time, currentLanguage)} |&nbsp;
-                  {formatTime(item.start_time)} - {formatTime(item.end_time)}
-                </div>
+
+                {item.join_url && (
+                  <>
+                    <div className="font-light">
+                      {t("schedule_at", { keyPrefix: "my_lawyer" })}
+                    </div>
+                    <div className="font-semi-bold">
+                      {formatDate(item.start_time, currentLanguage)} |&nbsp;
+                      {formatTime(item.start_time)} - {formatTime(item.end_time)}
+                    </div>
+                  </>
+                )}
                 <div className="bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4">
                   {item.join_url ? (<>
                     <div>{t("meeting_room", { keyPrefix: "my_lawyer" })}</div>
@@ -318,7 +358,7 @@ export const ModalDetailLawyer = ({
                   </>) : (
                     <div className="flex justify-end mt-2">
                       <Button
-                        onClick={() => window.open('', "_blank")}
+                        onClick={() => handleAddSchedule(dataDocumment[index].thread_uuid)}
                         label={t("add_schedule", { keyPrefix: "my_lawyer" })}
                         iconRight={images.ic_calendar_white_outline}
                         iconClassName="!w-4 !h-4"
@@ -329,26 +369,8 @@ export const ModalDetailLawyer = ({
                 </div>
               </div>
             ))
-          ) : (
-            <div className="h-4/5 w-[300px] flex flex-col justify-center items-center mx-auto">
-              <img
-                src={images.ic_file}
-                alt="icon file"
-                className="mb-3 w-14 h-14"
-              />
-              <p className="text-center text-sm mb-3 text-dark-50">
-                {t("dont_have_schedule", { keyPrefix: "my_lawyer" })}
-              </p>
-              <div className="p-3 px-4 rounded-full flex flex-row items-center text-sm font-semi-bold bg-blue-dark text-[#FFFFFF]">
-                {t("create_schedule", { keyPrefix: "my_lawyer" })}
-                <img
-                  className="ms-2 w-[1.125rem] h-[1.125rem]"
-                  src={images.ic_calendar_white_outline}
-                  alt="icon calendar"
-                />
-              </div>
-            </div>
           )}
+
         </div>
       )}
     </Modal>
