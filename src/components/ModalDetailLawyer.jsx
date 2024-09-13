@@ -317,7 +317,7 @@ export const ModalDetailLawyer = ({
                   {item.name_event ? item.name_event : dataDocumment[index].thread_title}
                 </div>
 
-                {item.join_url && (
+                {item.join_url ? (
                   <>
                     <div className="font-light">
                       {t("schedule_at", { keyPrefix: "my_lawyer" })}
@@ -327,6 +327,10 @@ export const ModalDetailLawyer = ({
                       {formatTime(item.start_time)} - {formatTime(item.end_time)}
                     </div>
                   </>
+                ) : (
+                  <div className="font-light">
+                    {t("no_schedule", { keyPrefix: "my_lawyer" })}
+                  </div>
                 )}
                 <div className="bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4">
                   {item.join_url ? (<>

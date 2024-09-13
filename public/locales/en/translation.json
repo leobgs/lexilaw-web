@@ -117,7 +117,9 @@
     "create_schedule": "Create a Schedule",
     "schedule_at": "Schedule at",
     "meeting_room": "Meeting Room",
-    "add_schedule": "Add Schedule"
+    "add_schedule": "Add Schedule",
+    "no_schedule": "There is no scheduling yet",
+    "context": "Context"
   },
   "my_account": {
     "current_name": "Current Name",
