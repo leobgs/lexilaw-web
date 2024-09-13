@@ -1,7 +1,10 @@
 import images from 'assets/images'
 import clsx from 'clsx'
+import { useTranslation } from "react-i18next";
 
-export const MyLawyerCard = ({ data, className, onClick = () => {} }) => {
+export const MyLawyerCard = ({ data, className, onClick = () => { } }) => {
+  const { t, i18n } = useTranslation();
+
   return (
     <div
       className={clsx('bg-[#F2F1EC] px-3 pt-3 pb-1 rounded-2xl', className)}
@@ -32,7 +35,7 @@ export const MyLawyerCard = ({ data, className, onClick = () => {} }) => {
           >
             <div className='w-9/12 line-clamp-2'>{item.name}</div>
             <div className='flex items-center gap-2 rounded-full border border-neutral-30 px-2 py-1'>
-              <div className='text-sm text-green-900'>Konteks</div>
+              <div className='text-sm text-green-900'>{t("context", { keyPrefix: "my_lawyer" })}</div>
               <img src={images.ic_forum} alt='' />
             </div>
           </div>

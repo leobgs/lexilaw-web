@@ -117,7 +117,9 @@
     "create_schedule": "Buat Jadwal",
     "schedule_at": "Dijadwalkan Pada",
     "meeting_room": "Ruang Pertemuan",
-    "add_schedule": "Tambah Jadwal"
+    "add_schedule": "Tambah Jadwal",
+    "no_schedule": "Belum Ada Penjadwalan",
+    "context": "Konteks"
   },
   "my_account": {
     "current_name": "Nama Saat Ini",
