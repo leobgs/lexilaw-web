@@ -314,7 +314,7 @@ export const ModalDetailLawyer = ({
                 key={item.created_at + 11}
               >
                 <div className="font-bold text-2xl md:text-base md:font-semi-bold mb-3">
-                  {item.name_event ? item.name_event : dataDocumment[index].thread_title}
+                  {item.thread_title ? item.thread_title : dataDocumment[index].name_event}
                 </div>
 
                 {item.join_url ? (
