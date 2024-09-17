@@ -6,8 +6,6 @@ import { Button } from './Button/Button'
 export const WhatsappActivation = () => {
   const [phoneNumber, setPhoneNumber] = useState('')
 
-  console.log(phoneNumber)
-
   return (
     <div className="rounded-md w-[536px] bg-neutral-80">
       <div className="p-8">
@@ -38,7 +36,7 @@ export const WhatsappActivation = () => {
             <Button
               label={'Kirim OTP'}
               className={'bg-blue-dark rounded-full text-white disabled:bg-blue-dark/30'}
-              disabled={phoneNumber.length < 9}
+              disabled={phoneNumber.length < 10}
             />
           </div>
         </form>
