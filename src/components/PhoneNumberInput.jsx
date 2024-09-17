@@ -51,7 +51,8 @@ const PhoneNumberInput = ({ setNumber }) => {
         value={phoneNumber}
         maxLength={startWithZero ? 16 : 15}
         id="phone-number"
-        className='pl-14 py-2 rounded-full bg-white focus:outline-none w-full font-semi-bold'
+        type='tel'
+        className='pl-[3.25rem] py-2 rounded-full bg-white focus:outline-none w-full font-semi-bold'
       />
     </div>
   )
