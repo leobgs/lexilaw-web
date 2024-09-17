@@ -9,7 +9,7 @@
       "password": "Password",
       "password_confirm": "Confirm Password",
       "city_dropdown_placeholder": "Choose one",
-      "firm_name": "Firm name (opsional)",
+      "firm_name": "Firm name (optional)",
       "image_picker_hint": "Use file max 5mb, min 200px x 200px",
       "submit_button": "Reset Password",
       "register_button": "Next",
