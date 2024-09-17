@@ -219,5 +219,10 @@
   "search": {
     "empty_search": "tidak ditemukan dalam pencarian.",
     "button_new_chat": "Mulai Obrolan"
+  },
+  "connect_whatsapp": {
+    "whatsapp_activation_header": "Aktivasi WhatsApp",
+    "whatsapp_activation_description": "Kamu dapat mengakses Lexi AI kapanpun dengan smartphone Kamu.",
+    "whatsapp_activation_send_otp": "Kirim OTP"
   }
 }
