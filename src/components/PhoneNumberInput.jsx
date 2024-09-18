@@ -53,7 +53,7 @@ const PhoneNumberInput = () => {
         maxLength={startWithZero ? 16 : 15}
         id="phone-number"
         type="tel"
-        className="pl-[3.25rem] py-3 rounded-full bg-white focus:outline-none w-full font-semi-bold"
+        className="pl-[3.25rem] pr-2 py-3 rounded-full bg-white focus:outline-none w-full font-semi-bold"
       />
     </div>
   )
