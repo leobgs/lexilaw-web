@@ -1,5 +1,5 @@
 import { actionType, alertState, colectionState, colectionType } from 'config/state'
-import { alertReducer, colectionReducer, lawyerCardReducer } from 'helpers/dataReducer'
+import { alertReducer, colectionReducer, lawyerCardReducer, whatsappActivationReducer } from 'helpers/dataReducer'
 import React, { useCallback, useContext, useEffect, useReducer, useState } from 'react'
 import Reducer from 'utils/reducer'
 import { localServerData } from './useLocalServerData'
@@ -27,6 +27,13 @@ export const AppContext = React.createContext({
   dispatchLaywerRecommendationButton: () => {},
   showButtonLawyerRecomendation: () => {},
   hideButtonLawyerRecomendation: () => {},
+  phoneNumberObj: {
+    maskedPhoneNumber: '',
+    phoneNumber: '',
+  },
+  resetPhoneNumber: () => {},
+  setMaskedPhoneNumber: (arg) => {},
+  setPhoneNumber: (arg) => {},
 })
 
 export const AppProvider = ({ children }) => {
@@ -39,6 +46,31 @@ export const AppProvider = ({ children }) => {
   })
 
   const [lawyerRecommendationButton, dispatchLaywerRecommendationButton] = useReducer(lawyerCardReducer, { show: true })
+
+  const [whatsappState, whatsappDispatch] = useReducer(whatsappActivationReducer, {
+    maskedPhoneNumber: '',
+    phoneNumber: '',
+  })
+
+  const setMaskedPhoneNumber = (arg) => {
+    whatsappDispatch({
+      type: 'setMasked',
+      payload: arg,
+    })
+  }
+
+  const setPhoneNumber = (arg) => {
+    whatsappDispatch({
+      type: 'setPhoneNumber',
+      payload: arg,
+    })
+  }
+
+  const resetPhoneNumber = () => {
+    whatsappDispatch({
+      type: 'resetPhoneNumber',
+    })
+  }
 
   const [registerForm, setRegisterForm] = useState({
     first_name: '',
@@ -168,13 +200,13 @@ export const AppProvider = ({ children }) => {
 
   const hideButtonLawyerRecomendation = useCallback(() => {
     dispatchLaywerRecommendationButton({
-      type: 'hide'
+      type: 'hide',
     })
-  } , [])
+  }, [])
 
   const showButtonLawyerRecomendation = useCallback(() => {
     dispatchLaywerRecommendationButton({
-      type: 'show'
+      type: 'show',
     })
   }, [])
 
@@ -206,6 +238,10 @@ export const AppProvider = ({ children }) => {
         dispatchLaywerRecommendationButton,
         hideButtonLawyerRecomendation,
         showButtonLawyerRecomendation,
+        resetPhoneNumber,
+        setMaskedPhoneNumber,
+        setPhoneNumber,
+        phoneNumberObj: whatsappState,
       }}
     >
       {children}

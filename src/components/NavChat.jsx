@@ -21,6 +21,9 @@ import { SearchCardSpinner } from './SearchCard/SearchCardSpinner'
 import { useDebounce } from 'hooks/useDebounce'
 import { useSearch } from '../hooks/useSearch'
 import { EmptySearchResult } from './SearchCard/EmptySearchResult'
+import { Modal } from './Modal'
+import { WhatsappOtp } from './WhatsappOtp'
+import { WhatsappActivation } from './WhatsappActivation'
 
 export const NavChat = ({
   onHeaderClick,
@@ -33,13 +36,31 @@ export const NavChat = ({
   onClickFile = () => {},
 }) => {
   const queryClient = useQueryClient()
-  const { collection, collectionClick } = useGlobalContext()
+  const { collection, collectionClick, resetPhoneNumber } = useGlobalContext()
   const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [showNav, setShowNav] = useState(false)
   const [showSearchNav, setShowSearchNav] = useState(false)
   const [showSetting, setShowSetting] = useState(false)
   const [showColetion, setShowColetion] = useState(false)
+
+  const [showWhatsAppActivation, setShowWhatsAppActivation] = useState(false)
+  const openModalWAActivation = () => {
+    setShowWhatsAppActivation(true)
+  }
+
+  const closeModalWAActivation = () => {
+    setShowWhatsAppActivation(false)
+  }
+
+  const [showWhatsappOtp, setShowWhatsappOtp] = useState(false)
+  const openModalWaOTP = () => {
+    setShowWhatsappOtp(true)
+  }
+  const closeModalWaOtp = () => {
+    setShowWhatsappOtp(false)
+    resetPhoneNumber()
+  }
 
   const storage = new LocalStorage()
   const navigate = useNavigate()
@@ -537,7 +558,10 @@ export const NavChat = ({
               })}
             </div>
             <div className="flex justify-between items-center border-b border-b-neutral-20">
-              <div className="px-4 mb-1 text-black-darker text-base font-semi-bold pb-2">
+              <div
+                className="px-4 mb-1 text-black-darker text-base font-semi-bold pb-2"
+                onClick={openModalWAActivation}
+              >
                 {t('wa_activation', {
                   keyPrefix: 'chat.profile_option',
                 })}
@@ -578,6 +602,40 @@ export const NavChat = ({
         setShowNav={setShowNav}
         onHeaderClick={onHeaderClick}
       />
+
+      <Modal
+        classNameBox={'bg-gray-700/70'}
+        contentClassName={'flex justify-center px-4'}
+        show={showWhatsAppActivation}
+        onHide={() => {
+          closeModalWAActivation()
+          resetPhoneNumber()
+        }}
+      >
+        <WhatsappActivation
+          onHandleSubmit={() => {
+            closeModalWAActivation()
+            openModalWaOTP()
+          }}
+        />
+      </Modal>
+
+      <Modal
+        classNameBox={'bg-gray-700/70'}
+        contentClassName={'flex justify-center px-4'}
+        show={showWhatsappOtp}
+        onHide={closeModalWaOtp}
+      >
+        {showWhatsappOtp && (
+          <WhatsappOtp
+            onClickButtonChange={() => {
+              closeModalWaOtp()
+              openModalWAActivation()
+              resetPhoneNumber()
+            }}
+          />
+        )}
+      </Modal>
     </nav>
   )
 }

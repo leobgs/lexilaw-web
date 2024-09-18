@@ -1,6 +1,6 @@
 import images from 'assets/images'
 
-import { InputChat, NavChat, Tooltips, QuestionCard, CardFile, CardFileMobile } from 'components'
+import { InputChat, NavChat, Tooltips, QuestionCard, CardFile, CardFileMobile, Modal } from 'components'
 import { Toggle } from 'components/Toggle/Toggle'
 import { API } from 'config/api'
 import { StorageKey } from 'config/storage'
@@ -20,12 +20,14 @@ import { extractLawyerUUID } from 'utils/extractLawyerUUID'
 import { extractLawyerList } from 'utils/extractLawyerList'
 import { useGetDocument } from 'hooks/useGetDocument'
 import { CardFileDocument } from 'components/CardFileDocument'
+import { WhatsappActivation } from 'components/WhatsappActivation'
+import { WhatsappOtp } from 'components/WhatsappOtp'
 
 export const Chat = () => {
   const { t } = useTranslation()
   const storage = new LocalStorage()
   const navigate = useNavigate()
-  const { currentLanguage, collection, bookingLawyerPayload, bookingLawyerReducer, collectionReset, collectionSet } =
+  const { currentLanguage, collection, bookingLawyerPayload, bookingLawyerReducer, collectionReset, collectionSet, resetPhoneNumber } =
     useGlobalContext()
   const { uuid } = useParams()
   const queryClient = useQueryClient()
@@ -51,6 +53,24 @@ export const Chat = () => {
 
   const { pathname } = useLocation()
   const [isFirstTimeChat, setIsFirstTimeChat] = useState(false)
+
+  const [showWhatsAppActivation, setShowWhatsAppActivation] = useState(false)
+  const openModalWAActivation = () => {
+    setShowWhatsAppActivation(true)
+  }
+
+  const closeModalWAActivation = () => {
+    setShowWhatsAppActivation(false)
+  }
+
+  const [showWhatsappOtp, setShowWhatsappOtp] = useState(false)
+  const openModalWaOTP = () => {
+    setShowWhatsappOtp(true)
+  }
+  const closeModalWaOtp = () => {
+    setShowWhatsappOtp(false)
+    resetPhoneNumber()
+  }
 
   const availableSchedules = queryClient.getQueryData(['available_schedules'])
   const threadDetail = queryClient.getQueryData(['thread_detail', uuid])
@@ -566,7 +586,12 @@ export const Chat = () => {
                     })}
                   </div>
                   <div className="flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2 font-semi-bold">
-                    <div className="px-4 text-black-darker text-xs cursor-pointer">
+                    <div
+                      className="px-4 text-black-darker text-xs cursor-pointer"
+                      onClick={() => {
+                        openModalWAActivation()
+                      }}
+                    >
                       {t('wa_activation', {
                         keyPrefix: 'chat.profile_option',
                       })}
@@ -658,6 +683,34 @@ export const Chat = () => {
 
         <Disclaimer disclaimerAgree={userDetail.is_disclaimer_accepted} />
       </div>
+
+      <Modal
+        classNameBox={'flex justify-center bg-gray-700/70'}
+        show={showWhatsAppActivation}
+        onHide={() => {
+          closeModalWAActivation()
+          resetPhoneNumber()
+        }}
+      >
+        <WhatsappActivation
+          onHandleSubmit={() => {
+            closeModalWAActivation()
+            openModalWaOTP()
+          }}
+        />
+      </Modal>
+
+      <Modal classNameBox={'flex justify-center bg-gray-700/70'} show={showWhatsappOtp} onHide={closeModalWaOtp}>
+        {showWhatsappOtp && (
+          <WhatsappOtp
+            onClickButtonChange={() => {
+              closeModalWaOtp()
+              openModalWAActivation()
+              resetPhoneNumber()
+            }}
+          />
+        )}
+      </Modal>
     </div>
   )
 }
