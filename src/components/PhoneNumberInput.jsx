@@ -1,3 +1,4 @@
+import { useGlobalContext } from 'hooks/context'
 import { useState } from 'react'
 
 /**
@@ -24,9 +25,9 @@ const formatPhoneNumber = (input) => {
   return formattedNumber.trim()
 }
 
-const PhoneNumberInput = ({ setNumber }) => {
-  const [phoneNumber, setPhoneNumber] = useState('')
+const PhoneNumberInput = () => {
   const [startWithZero, setStartWithZero] = useState(false)
+  const { setMaskedPhoneNumber, setPhoneNumber, phoneNumberObj } = useGlobalContext()
 
   const handleOnChange = (e) => {
     const input = e.target.value
@@ -36,23 +37,23 @@ const PhoneNumberInput = ({ setNumber }) => {
       setStartWithZero(false)
     }
     const maskedNUmber = formatPhoneNumber(input)
-    setPhoneNumber(maskedNUmber)
-    setNumber(maskedNUmber.replaceAll(' ', ''))
+    setMaskedPhoneNumber(maskedNUmber)
+    setPhoneNumber(maskedNUmber.replaceAll(' ', ''))
   }
 
   return (
-    <div className='relative flex-1'>
+    <div className="relative flex-1">
       {/* span +62 */}
-      <div className='absolute top-3 left-4'>
-        <span className='font-semi-bold'>+62</span>
+      <div className="absolute top-3 left-4">
+        <span className="font-semi-bold">+62</span>
       </div>
       <input
         onChange={handleOnChange}
-        value={phoneNumber}
+        value={phoneNumberObj.maskedPhoneNumber}
         maxLength={startWithZero ? 16 : 15}
         id="phone-number"
-        type='tel'
-        className='pl-[3.25rem] py-3 rounded-full bg-white focus:outline-none w-full font-semi-bold'
+        type="tel"
+        className="pl-[3.25rem] py-3 rounded-full bg-white focus:outline-none w-full font-semi-bold"
       />
     </div>
   )
