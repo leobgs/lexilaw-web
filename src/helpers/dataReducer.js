@@ -176,3 +176,60 @@ export const lawyerCardReducer = (state, action) => {
       return state
   }
 }
+
+/**
+ * @typedef {Object} WhatsappActivationState
+ * @property {string} maskedPhoneNumber
+ * @property {string} phoneNumber
+ */
+
+/**
+ * @typedef {Object} SetMaskedPhoneNumber
+ * @property {'setMasked'} type
+ * @property {string} payload
+ */
+
+/**
+ * @typedef {Object} ResetMaskedPhoneNumber
+ * @property {'resetMasked'} type
+ */
+
+/**
+ * @typedef {Object} SetPhoneNumber
+ * @property {'setPhoneNumber'} type
+ * @property {string} payload
+ */
+
+/**
+ * @typedef {Object} ResetPhoneNumber
+ * @property {'resetPhoneNumber'} type
+ */
+
+/**
+ * @typedef {SetMaskedPhoneNumber | ResetMaskedPhoneNumber | SetPhoneNumber | ResetPhoneNumber} WhatsappActivationAction
+ * @property {SetMaskedPhoneNumber | ResetMaskedPhoneNumber | SetPhoneNumber | ResetPhoneNumber} action
+ */
+
+/**
+ * @param {WhatsappActivationState} state
+ * @param {WhatsappActivationAction} action
+ *
+ * @returns {WhatsappActivationState}
+ */
+export const whatsappActivationReducer = (state, action) => {
+  switch (action.type) {
+    case 'resetMasked':
+      return { ...state, maskedPhoneNumber: '' }
+
+    case 'resetPhoneNumber':
+      return { ...state, phoneNumber: '', maskedPhoneNumber: '' }
+
+    case 'setMasked':
+      return { ...state, maskedPhoneNumber: action.payload }
+
+    case 'setPhoneNumber':
+      return { ...state, phoneNumber: action.payload }
+    default:
+      return state
+  }
+}
