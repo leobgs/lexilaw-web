@@ -71,7 +71,7 @@ export const WhatsappOtp = ({ onClickButtonChange }) => {
               placeholder={t('connect_whatsapp.whatsapp_otp_placeholder')}
               maxLength={6}
               onChange={handleOnChange}
-              className="border-b-2 font-bold text-[32px] bg-neutral-80 block placeholder:text-center text-center focus:outline-none mt-4 placeholder:text-[20px] placeholder:font-medium"
+              className="border-b-2 w-48 md:w-full font-bold text-[22px] md:text-[32px] bg-neutral-80 block placeholder:text-center text-center focus:outline-none mt-4 placeholder:text-[14px] placeholder:md:text-[20px] placeholder:font-medium"
               value={otp}
             />
           </div>
