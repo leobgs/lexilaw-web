@@ -6,22 +6,26 @@ import React, { useState, useRef, useEffect } from 'react'
 const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className, disable }) => {
   const textareaRef = useRef(null)
   const [textareaValue, setTextareaValue] = useState(value || '')
-  const [form, setForm] = useState()
+  const [form, setForm] = useState('')
 
   const { windowWidth } = useWindowWidth()
   const isMobile = windowWidth <= 767
 
   const handleOnKeyPress = (e) => {
-    if (!isMobile && e.key === 'Enter' && !e.shiftKey && form.trim().length > 0) {
-      e.preventDefault()
-      onSubmit(form)
+   if (e.key === 'Enter' && !e.shiftKey) {
+     if (!isMobile && form.trim().length > 0) {
+       e.preventDefault()
+       onSubmit(form)
 
-      // Clear text
-      setTimeout(() => {
-        setTextareaValue('')
-        setForm('')
-      }, 600)
-    }
+       // Clear text
+       setTimeout(() => {
+         setTextareaValue('')
+         setForm('')
+       }, 600)
+     } else if (form.trim().length === 0) {
+       e.preventDefault()
+     }
+   }
   }
 
   useEffect(() => {
@@ -67,7 +71,7 @@ const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className,
       {!disable && (
         <div
           onClick={() => {
-            if (textareaValue.trim() !== '') {
+            if (textareaValue?.trim() !== '') {
               onSubmit(form)
               setTimeout(() => {
                 setTextareaValue('')
