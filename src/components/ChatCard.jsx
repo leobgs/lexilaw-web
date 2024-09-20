@@ -12,6 +12,9 @@ import { cleanTextFn } from 'utils/cleanText'
 import { isConsultFn } from 'utils/isConsult'
 import { getData } from 'hooks/useRequest'
 import { API } from 'config/api'
+import { transformMarkdown } from 'utils/transformMarkdown'
+import { MyDocMD } from './MyDocMD'
+import { copyToClipboard } from 'utils'
 
 export const ChatCard = ({
   item,
@@ -31,6 +34,7 @@ export const ChatCard = ({
   const [fileCategory, setFileCategory] = useState('')
   const [displayExt, setDisplayExt] = useState()
   const [consult, setConsult] = useState(false)
+  const [copyText, setCopyText] = useState('')
 
   const { data: statusData, isFetching } = useQuery(
     ['available_schedules'],
@@ -67,6 +71,13 @@ export const ChatCard = ({
     const isConsult = isConsultFn(item?.message)
     setConsult(isConsult)
     cleanText = cleanText?.replace(/consult\s*=\s*true/gi, '')
+
+    const {copiedText, responseText} = transformMarkdown(cleanText)
+    cleanText = responseText
+
+    if (copiedText) {
+      setCopyText(copiedText)
+    }
 
     const possibleJson = item.message.substring(item.message.lastIndexOf('\n') + 1).trim()
     const stringBeforeJson = item.message.substring(0, item.message.lastIndexOf('\n')).trim()
@@ -189,6 +200,17 @@ export const ChatCard = ({
                 options={{
                   wrapper: 'main',
                   forceWrapper: true,
+                  overrides: {
+                    mydiv: {
+                      component: MyDocMD,
+                      props: {
+                        handleClick: () => {copyToClipboard({
+                          text: copyText,
+                          title: t('copy_to_clipboard'),
+                        })}
+                      }
+                    },
+                  },
                 }}
               >
                 {responseText}
