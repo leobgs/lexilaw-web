@@ -72,7 +72,7 @@ export const ChatCard = ({
     setConsult(isConsult)
     cleanText = cleanText?.replace(/consult\s*=\s*true/gi, '')
 
-    const {copiedText, responseText} = transformMarkdown(cleanText)
+    const { copiedText, responseText } = transformMarkdown(cleanText)
     cleanText = responseText
 
     if (copiedText) {
@@ -204,11 +204,13 @@ export const ChatCard = ({
                     mydiv: {
                       component: MyDocMD,
                       props: {
-                        handleClick: () => {copyToClipboard({
-                          text: copyText,
-                          title: t('copy_to_clipboard'),
-                        })}
-                      }
+                        handleClick: () => {
+                          copyToClipboard({
+                            text: copyText,
+                            title: t('copy_doc'),
+                          })
+                        },
+                      },
                     },
                   },
                 }}
