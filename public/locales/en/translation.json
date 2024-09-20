@@ -229,5 +229,7 @@
     "whatsapp_otp_change_button": "Change",
     "whatsapp_otp_placeholder": "Enter the 6 digit code",
     "whatsapp_otp_waiting": "seconds to"
-  }
+  },
+  "copy_doc": "Copy document success",
+  "text_copy": "Copy"
 }

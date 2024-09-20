@@ -229,5 +229,7 @@
     "whatsapp_otp_change_button": "Ganti",
     "whatsapp_otp_placeholder": "Masukkan 6 digit angka",
     "whatsapp_otp_waiting": "detik untuk melakukan"
-  }
+  },
+  "copy_doc": "Salin dokumen sukses",
+  "text_copy": "Salin"
 }
