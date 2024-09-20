@@ -18,6 +18,12 @@
   }
 }
 
+.btn-secondary-otp {
+  background: linear-gradient(180deg, rgba(17, 54, 128, 1) 19%, rgba(1, 27, 82, 1) 74%);
+  color: #ffffff;
+  border: 2px solid #5c72a1;
+}
+
 .btn-error {
   @apply bg-error-base hover:bg-error-lighter text-white text-xs;
   .btn-spinner {
