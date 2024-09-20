@@ -62,6 +62,7 @@ module.exports = {
         50: '#F1F1F1',
         60: '#F0EDE8',
         70: '#EFEFEF',
+        80: '#EFEDE8',
       },
       active: '#178EE9',
       error: { base: '#DB0707', lighter: '#CF1C1C' },

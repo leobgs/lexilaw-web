@@ -1,0 +1,103 @@
+import { useGlobalContext } from 'hooks/context'
+import { localServerData } from 'hooks/useLocalServerData'
+import { notifyInfo } from 'hooks/useToas'
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
+export const WhatsappOtp = ({ onClickButtonChange }) => {
+  const { phoneNumberObj } = useGlobalContext()
+  const [second, setSecond] = useState(45)
+  const [otp, setOtp] = useState('')
+  const isDisabled = second !== 0
+
+  const { t } = useTranslation()
+  const { CURRENT_LANGUAGE } = localServerData()
+  const isEnglish = CURRENT_LANGUAGE === 'en'
+
+  // TODO, ketika BE udh siap
+  // LOGIC SUBMIT DISINI
+  const handleOnSubmit = () => {}
+
+  const handleOnChange = (e) => {
+    const cleaned = e.target.value.replace(/\D+/g, '')
+
+    setOtp(cleaned)
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (second > 0) {
+        setSecond((prev) => prev - 1)
+      }
+    }, 1000)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [second])
+
+  useEffect(() => {
+    return () => {
+      setOtp('')
+    }
+  }, [])
+
+  return (
+    <div className="rounded-md max-w-[536px] md:w-[536px] bg-neutral-80">
+      <div className="p-8">
+        {/* Header */}
+        <div>
+          <h1 className="text-center font-bold mb-2">{t('connect_whatsapp.whatsapp_otp_header')}</h1>
+          <div className="flex items-center gap-x-2 justify-center">
+            <h1 className="font-bold">+62 {phoneNumberObj.maskedPhoneNumber}</h1>
+            <span
+              className="font-semi-bold py-1 px-2 border rounded-full border-full text-xs bg-blue-sky hover:cursor-pointer"
+              onClick={onClickButtonChange}
+            >
+              {t('connect_whatsapp.whatsapp_otp_change_button')}
+            </span>
+          </div>
+        </div>
+
+        {/* Form */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+          }}
+        >
+          <div className="flex justify-center">
+            <input
+              type="tel"
+              placeholder={t('connect_whatsapp.whatsapp_otp_placeholder')}
+              maxLength={6}
+              onChange={handleOnChange}
+              className="border-b-2 w-48 md:w-full font-bold text-[22px] md:text-[32px] bg-neutral-80 block placeholder:text-center text-center focus:outline-none mt-4 placeholder:text-[14px] placeholder:md:text-[20px] placeholder:font-medium"
+              value={otp}
+            />
+          </div>
+        </form>
+
+        {/* footer */}
+        <div className="mt-6">
+          <p className="text-center">
+            {isEnglish ? 'Please wait ' : 'Tunggu '} {second.toString().length <= 1 ? '0' + second : second}{' '}
+            {t('connect_whatsapp.whatsapp_otp_waiting')}{' '}
+            <span
+              className={`font-bold underline underline-offset-4 ${
+                !isDisabled ? 'hover:cursor-pointer' : 'hover:cursor-not-allowed opacity-30'
+              }`}
+              onClick={() => {
+                if (!isDisabled) {
+                  notifyInfo('Handle Kirim Ulang [menunggu BE]')
+                  setSecond(45)
+                }
+              }}
+            >
+              {isEnglish ? 'Resend' : 'Kirim Ulang'}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
