@@ -1,11 +1,15 @@
 import images from 'assets/images'
 import clsx from 'clsx'
+import { useWindowWidth } from 'hooks/useWindowWidth'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 export const MyLawyerCard = ({ data, className, onClick = () => {} }) => {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
+
+  const { windowWidth } = useWindowWidth()
+  const isMobile = windowWidth <= 767
 
   return (
     <div className={clsx('bg-[#F2F1EC] px-3 pt-3 pb-1 rounded-2xl', className)} onClick={() => onClick()}>
@@ -19,7 +23,7 @@ export const MyLawyerCard = ({ data, className, onClick = () => {} }) => {
             <div className="text-xs">{data.city}</div>
           </div>
         </div>
-        <img src={images.ic_vector_green} alt="arrows" />
+        <img src={isMobile ? images.ic_vector_arrow_top_right_mobile : images.ic_vector_arrow_right} className={isMobile && 'opacity-50' } alt="arrows" />
       </div>
 
       <div
@@ -41,8 +45,10 @@ export const MyLawyerCard = ({ data, className, onClick = () => {} }) => {
                 navigate('/thread/' + item?.uuid)
               }}
             >
-              <div className="text-sm text-green-900">{t('context', { keyPrefix: 'my_lawyer' })}</div>
-              <img src={images.ic_forum} alt="" />
+              <div className="text-sm text-green-900 font-semi-bold hidden md:block">
+                {t('context', { keyPrefix: 'my_lawyer' })}
+              </div>
+              <img src={images.ic_forum_svg} alt="" />
             </div>
           </div>
         ))}
