@@ -81,6 +81,9 @@ import surat_menyurat from './dummy/surat_menyurat.jpg'
 import surat_menyurat_2 from './dummy/surat_menyurat_2.jpg'
 import ic_attachment_upload_disabled from './ic_attachment_upload_disabled.svg'
 import ic_new_chat from './ic_new_chat.svg'
+import ic_forum_svg from './ic_forum_svg.svg'
+import ic_vector_arrow_right from './ic_vector_arrow_right.svg'
+import ic_vector_arrow_top_right_mobile from './ic_vector_arrow_top_right_mobile.svg'
 import ic_whatsapp from './ic_whatsapp.svg'
 
 const images = {
@@ -167,6 +170,9 @@ const images = {
   surat_menyurat_2,
   ic_attachment_upload_disabled,
   ic_new_chat,
+  ic_forum_svg,
+  ic_vector_arrow_right,
+  ic_vector_arrow_top_right_mobile,
   ic_whatsapp,
 }
 
