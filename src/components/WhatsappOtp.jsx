@@ -1,3 +1,4 @@
+import images from 'assets/images'
 import { useGlobalContext } from 'hooks/context'
 import { localServerData } from 'hooks/useLocalServerData'
 import { notifyInfo } from 'hooks/useToas'
@@ -43,13 +44,21 @@ export const WhatsappOtp = ({ onClickButtonChange }) => {
   }, [])
 
   return (
-    <div className="rounded-md max-w-[536px] md:w-[536px] bg-neutral-80">
+    <div className="rounded-md max-w-[536px] md:w-[536px] bg-neutral-80 mx-auto">
       <div className="p-8">
         {/* Header */}
         <div>
-          <h1 className="text-center font-bold mb-2">{t('connect_whatsapp.whatsapp_otp_header')}</h1>
+          {/* Whatsapp Logo */}
+          <div className="flex justify-center md:hidden">
+            <img src={images.ic_whatsapp} alt="whatsapp_logo" />
+          </div>
+          <h1 className="text-center font-futura-bold mb-2 text-[24px] md:text-[22px]">
+            {t('connect_whatsapp.whatsapp_otp_header')}
+          </h1>
           <div className="flex items-center gap-x-2 justify-center">
-            <h1 className="font-bold">+62 {phoneNumberObj.maskedPhoneNumber}</h1>
+            <h1 className="font-bold text-[16px] md:font-futura-bold md:text-[22px]">
+              +62 {phoneNumberObj.maskedPhoneNumber}
+            </h1>
             <span
               className="font-semi-bold py-1 px-2 border rounded-full border-full text-xs bg-blue-sky hover:cursor-pointer"
               onClick={onClickButtonChange}
@@ -65,37 +74,37 @@ export const WhatsappOtp = ({ onClickButtonChange }) => {
             e.preventDefault()
           }}
         >
-          <div className="flex justify-center">
+          <div className="flex justify-center border-b-2 md:border-b-0 md:px-16">
             <input
               type="tel"
               placeholder={t('connect_whatsapp.whatsapp_otp_placeholder')}
               maxLength={6}
               onChange={handleOnChange}
-              className="border-b-2 w-48 md:w-full font-bold text-[22px] md:text-[32px] bg-neutral-80 block placeholder:text-center text-center focus:outline-none mt-4 placeholder:text-[14px] placeholder:md:text-[20px] placeholder:font-medium"
+              className="md:w-full md:border-b-2 text-[28px] md:text-[32px] bg-transparent block placeholder:text-center text-center focus:outline-none mt-4 placeholder:text-[16px] placeholder:md:text-[20px] placeholder:font-regular pb-2 input-text-bold"
               value={otp}
             />
           </div>
         </form>
 
         {/* footer */}
-        <div className="mt-6">
-          <p className="text-center">
+        <div className="mt-6 flex flex-col items-center md:items-start md:flex-row md:justify-center md:space-x-1">
+          <p className="text-center font-medium text-gray-700">
             {isEnglish ? 'Please wait ' : 'Tunggu '} {second.toString().length <= 1 ? '0' + second : second}{' '}
             {t('connect_whatsapp.whatsapp_otp_waiting')}{' '}
-            <span
-              className={`font-bold underline underline-offset-4 ${
-                !isDisabled ? 'hover:cursor-pointer' : 'hover:cursor-not-allowed opacity-30'
-              }`}
-              onClick={() => {
-                if (!isDisabled) {
-                  notifyInfo('Handle Kirim Ulang [menunggu BE]')
-                  setSecond(45)
-                }
-              }}
-            >
-              {isEnglish ? 'Resend' : 'Kirim Ulang'}
-            </span>
           </p>
+          <span
+            className={`font-bold underline underline-offset-4 ${
+              !isDisabled ? 'hover:cursor-pointer text-blue-dark' : 'hover:cursor-not-allowed opacity-30'
+            }`}
+            onClick={() => {
+              if (!isDisabled) {
+                notifyInfo('Handle Kirim Ulang [menunggu BE]')
+                setSecond(45)
+              }
+            }}
+          >
+            {isEnglish ? 'Resend' : 'Kirim Ulang'}
+          </span>
         </div>
       </div>
     </div>

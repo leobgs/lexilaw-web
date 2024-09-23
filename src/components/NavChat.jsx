@@ -617,12 +617,15 @@ export const NavChat = ({
             closeModalWAActivation()
             openModalWaOTP()
           }}
+          onClose={() => {
+            closeModalWAActivation()
+          }}
         />
       </Modal>
 
       <Modal
         classNameBox={'bg-gray-700/70'}
-        contentClassName={'flex justify-center px-4'}
+        contentClassName={'px-4'}
         show={showWhatsappOtp}
         onHide={closeModalWaOtp}
       >

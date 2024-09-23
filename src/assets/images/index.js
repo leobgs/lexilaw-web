@@ -85,6 +85,7 @@ import ic_forum_svg from './ic_forum_svg.svg'
 import ic_vector_arrow_right from './ic_vector_arrow_right.svg'
 import ic_vector_arrow_top_right_mobile from './ic_vector_arrow_top_right_mobile.svg'
 import ic_whatsapp from './ic_whatsapp.svg'
+import ic_cross from './ic_cross.svg'
 
 const images = {
   bg_register_login,
@@ -174,6 +175,7 @@ const images = {
   ic_vector_arrow_right,
   ic_vector_arrow_top_right_mobile,
   ic_whatsapp,
+  ic_cross,
 }
 
 export default images
