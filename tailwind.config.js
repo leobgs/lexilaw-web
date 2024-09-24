@@ -76,8 +76,10 @@ module.exports = {
         50: '#FDFDFD',
         100: '#DEDEDE',
         200: '#7E7E7E',
+        300: '#121212',
         400: '#A8A8A8',
         700: '#5A5A5A',
+        800: '#C9C9C9',
       },
       yellow: {
         50: '#E0DBD1',
