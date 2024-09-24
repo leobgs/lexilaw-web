@@ -18,7 +18,6 @@ export const usePostWhatsAppConnect = () => {
     isError: isErrorWAConnect,
   } = useMutation({
     mutationFn: async (phoneNumber) => {
-      await new Promise((r) => setTimeout(r, 1500))
       return getData(API.WHATSAPP_CONNECT, {
         whatsapp_number: phoneNumber,
       })
