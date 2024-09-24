@@ -236,6 +236,7 @@
     "whatsapp_otp_header": "OTP Has Been Sent to",
     "whatsapp_otp_change_button": "Change",
     "whatsapp_otp_placeholder": "Enter the 6 digit code",
-    "whatsapp_otp_waiting": "seconds to"
+    "whatsapp_otp_waiting": "seconds to",
+    "whatsapp_otp_invalid": "Invalid OTP"
   }
 }

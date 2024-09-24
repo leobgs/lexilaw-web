@@ -236,6 +236,7 @@
     "whatsapp_otp_header": "OTP Terkirim Ke",
     "whatsapp_otp_change_button": "Ganti",
     "whatsapp_otp_placeholder": "Masukkan 6 digit angka",
-    "whatsapp_otp_waiting": "detik untuk melakukan"
+    "whatsapp_otp_waiting": "detik untuk melakukan",
+    "whatsapp_otp_invalid": "OTP tidak valid"
   }
 }
