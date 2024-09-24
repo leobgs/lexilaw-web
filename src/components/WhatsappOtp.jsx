@@ -1,6 +1,7 @@
 import images from 'assets/images'
 import { useGlobalContext } from 'hooks/context'
 import { localServerData } from 'hooks/useLocalServerData'
+import { usePostWhatsAppConnect } from 'hooks/usePostWhatsAppConnect'
 import { usePostWhatsAppOTP } from 'hooks/usePostWhatsAppOTP'
 import { notifyInfo } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
@@ -18,6 +19,7 @@ export const WhatsappOtp = ({ onClickButtonChange, onSuccessOTP }) => {
 
   const queryClient = useQueryClient()
   const { mutateAsyncWAOTP, isPendingWAOTP, isErrorWAOTP } = usePostWhatsAppOTP()
+  const { mutateAsyncWAConnect } = usePostWhatsAppConnect()
   const isDisabled = second !== 0 || isPendingWAOTP
   const isError = otp.length === 6 && isErrorWAOTP
 
@@ -66,7 +68,7 @@ export const WhatsappOtp = ({ onClickButtonChange, onSuccessOTP }) => {
         {/* Header */}
         <div>
           {/* Whatsapp Logo */}
-          <div className="flex justify-center md:hidden">
+          <div className="flex justify-center md:hidden mb-4">
             <img src={images.ic_whatsapp} alt="whatsapp_logo" />
           </div>
           <h1 className="text-center font-futura-bold mb-2 text-[24px] md:text-[22px]">
@@ -122,13 +124,18 @@ export const WhatsappOtp = ({ onClickButtonChange, onSuccessOTP }) => {
             {t('connect_whatsapp.whatsapp_otp_waiting')}{' '}
           </p>
           <span
-            className={`font-bold border-b-2 border-blue-dark${
+            className={`font-bold border-b-2 border-blue-dark ${
               !isDisabled ? 'hover:cursor-pointer text-blue-dark opacity-100' : 'hover:cursor-not-allowed opacity-50'
             }`}
-            onClick={() => {
+            onClick={async () => {
               if (!isDisabled) {
-                notifyInfo('Handle Kirim Ulang [menunggu BE]')
-                setSecond(45)
+                try {
+                  await mutateAsyncWAConnect(phoneNumberObj.phoneNumber)
+                  setSecond(45)
+                } catch (e) {
+                  const message = e instanceof Error ? e.message : 'Unknown Error'
+                  console.log(message)
+                }
               }
             }}
           >
