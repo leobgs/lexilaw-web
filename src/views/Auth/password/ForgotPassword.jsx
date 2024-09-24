@@ -16,6 +16,7 @@ export const ForgotPassword = () => {
   const [error, setError] = useState('')
   const [showCheckCard, setCheckCard] = useState(false)
   const [timesUpTimer, setTimesUpTimer] = useState(false)
+  const [timerTIme, setTimerTime] = useState(30)
 
   const { mutate: emailCheck } = useMutation(
     (form) => getData(API.RESET_PASSWORD_CHECK_EMAIL, form),
@@ -23,6 +24,8 @@ export const ForgotPassword = () => {
       onSettled: (data) => {
         if (data.status === 'Success') {
           setCheckCard(true)
+          setTimesUpTimer(false)
+          setTimerTime(30)
         } else {
           notifyError(data?.message)
         }
@@ -45,6 +48,8 @@ export const ForgotPassword = () => {
     emailCheck({ email })
   }
 
+  console.log(timerTIme)
+
   return (
     <AuthCard>
       {showCheckCard ? (
@@ -60,30 +65,38 @@ export const ForgotPassword = () => {
             })}{' '}
             <span className='font-semi-bold'>{email}</span>
           </div>
+
           <div className='text-base font-regular tracking-wide text-gray-700 flex mt-14'>
-            <p className='flex'>
+            <div className='flex'>
               {t('countdownbefore', {
                 keyPrefix: 'auth.register.otp',
               })}
-              <CounterDown
-                time={30}
-                timesUp={(e) => {
-                  setTimesUpTimer(e)
-                }}
-                format='second'
-                className='mx-1'
-              />
+              {!timesUpTimer ? (
+                <CounterDown
+                  time={timerTIme}
+                  timesUp={(e) => {
+                    setTimerTime(0)
+                    setTimesUpTimer(e)
+                  }}
+                  format='second'
+                  className='mx-1'
+                />
+              ) : (
+                ' 00 '
+              )}
               {t('countdownafter', {
                 keyPrefix: 'auth.register.otp',
               })}
-            </p>
+            </div>
 
             <span
               className={clsx(
                 'ms-1',
-                timesUpTimer ? 'text-[#768196] underline font-bold' : ''
+                timesUpTimer
+                  ? 'text-[#768196] underline font-bold cursor-pointer'
+                  : ''
               )}
-              onClick={!timesUpTimer ? void 0 : () => console.log({ email })}
+              onClick={!timesUpTimer ? void 0 : () => emailCheck({ email })}
             >
               {t('resend', { keyPrefix: 'auth.register.otp' })}
             </span>

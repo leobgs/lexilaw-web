@@ -36,7 +36,7 @@ const RegisterOTP = () => {
             access_token: data?.data,
             token_type: 'Bearer',
           })
-          storage.setItem(StorageKey.IS_LOGIN, true) 
+          storage.setItem(StorageKey.IS_LOGIN, true)
 
           openAlert({
             title: data?.message,
@@ -139,7 +139,9 @@ const RegisterOTP = () => {
           <span
             className={clsx(
               'ms-1',
-              timesUpTimer ? 'text-[#768196] underline font-bold' : ''
+              timesUpTimer
+                ? 'text-[#768196] underline font-bold cursor-pointer'
+                : ''
             )}
             onClick={!timesUpTimer ? void 0 : () => otpResend({ user_uuid })}
           >
