@@ -8,7 +8,7 @@ import { StorageKey } from 'config/storage'
 import { useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from 'react-query'
 import { API } from 'config/api'
-import { notifyError } from 'hooks/useToas'
+import { notifyError, notifyInfo } from 'hooks/useToas'
 import { deleteData } from 'hooks/useRequest'
 import { useGlobalContext } from 'hooks/context'
 import { ModalSearch } from './ModalSearch'
@@ -43,6 +43,8 @@ export const NavChat = ({
   const [showSearchNav, setShowSearchNav] = useState(false)
   const [showSetting, setShowSetting] = useState(false)
   const [showColetion, setShowColetion] = useState(false)
+  const [showPendingWA, setShowPendingWA] = useState(false)
+  const [showConnectedWA, setShowConnectedWA] = useState(false)
 
   const [showWhatsAppActivation, setShowWhatsAppActivation] = useState(false)
   const openModalWAActivation = () => {
@@ -557,16 +559,45 @@ export const NavChat = ({
                 keyPrefix: 'chat.profile_menu',
               })}
             </div>
-            <div className="flex justify-between items-center border-b border-b-neutral-20">
-              <div
-                className="px-4 mb-1 text-black-darker text-base font-semi-bold pb-2"
-                onClick={openModalWAActivation}
-              >
-                {t('wa_activation', {
-                  keyPrefix: 'chat.profile_option',
-                })}
+            <div
+              className="flex justify-between items-center border-b border-b-neutral-20 pb-2"
+              onClick={() => {
+                switch (userDetail?.connect_whatsapp_status) {
+                  case 'CONNECTED':
+                    setShowConnectedWA(true)
+                    break
+                  case 'PENDING':
+                    setShowSetting(false)
+                    setShowPendingWA(true)
+                    break
+                  default:
+                    openModalWAActivation()
+                    break
+                }
+              }}
+            >
+              <div className="px-4 mb-1 text-black-darker text-base font-semi-bold">
+                {userDetail?.connect_whatsapp_status === 'CONNECTED'
+                  ? t('chat.profile_option.wa_connected')
+                  : userDetail?.connect_whatsapp_status === 'PENDING'
+                  ? t('chat.profile_option.wa_pending')
+                  : t('wa_activation', {
+                      keyPrefix: 'chat.profile_option',
+                    })}
               </div>
-              <img src={images.ic_arrow_cornering} alt="arrow" className="h-2.5 w-2.5 md:hidden" />
+              <img
+                src={
+                  userDetail?.connect_whatsapp_status === 'CONNECTED'
+                    ? images.ic_disconnected
+                    : userDetail?.connect_whatsapp_status === 'PENDING'
+                    ? images.ic_sand_time_mini
+                    : images.ic_arrow_cornering
+                }
+                alt="arrow"
+                className={`md:hidden ${userDetail?.connect_whatsapp_status === 'PENDING' && 'h-4 w-4 mr-4'} ${
+                  userDetail?.connect_whatsapp_status === 'CONNECTED' && 'h-[26px] w-[26px] mr-2'
+                } `}
+              />
             </div>
 
             <div className="px-4 my-2">
@@ -590,6 +621,44 @@ export const NavChat = ({
               onClick={onLogout}
             >
               Logout
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showPendingWA && (
+        <div className="md:hidden absolute w-full h-full bg-white p-4 pt-4 z-50">
+          <div className="flex justify-start gap-3 items-center shadow-md -mx-4 px-4 pb-4">
+            <img
+              src={images.ic_chevron_left}
+              alt="back"
+              onClick={() => {
+                setShowPendingWA(false)
+                setShowSetting(true)
+              }}
+              className="h-6"
+            />
+            <div className="font-futura-bold text-[20px] text-blue-dark">
+              {t('chat.profile_menu.connecting_whatsapp')}
+            </div>
+          </div>
+
+          {/* Card */}
+          <div className="border-2 border-neutral-70 rounded-md my-4 px-2 py-4">
+            {/* Header */}
+            <div className="flex flex-col justify-center items-center px-4">
+              {/* Icon Sand Time */}
+              <img alt="sand-time" src={images.ic_sand_time_big} />
+
+              <h1 className="font-futura-bold text-[24px] text-center text-dark-50">
+                {t('chat.profile_menu.pending_whatsapp_heading')}
+              </h1>
+              <p
+                className="text-center my-2 text-dark-50"
+                dangerouslySetInnerHTML={{
+                  __html: t('chat.profile_menu.pending_whatsapp_description'),
+                }}
+              ></p>
             </div>
           </div>
         </div>
@@ -623,12 +692,7 @@ export const NavChat = ({
         />
       </Modal>
 
-      <Modal
-        classNameBox={'bg-gray-700/70'}
-        contentClassName={'px-4'}
-        show={showWhatsappOtp}
-        onHide={closeModalWaOtp}
-      >
+      <Modal classNameBox={'bg-gray-700/70'} contentClassName={'px-4'} show={showWhatsappOtp} onHide={closeModalWaOtp}>
         {showWhatsappOtp && (
           <WhatsappOtp
             onClickButtonChange={() => {
@@ -638,6 +702,49 @@ export const NavChat = ({
             }}
           />
         )}
+      </Modal>
+
+      {/* Modal Disconnect WA */}
+      <Modal
+        classNameBox={'bg-gray-700/70'}
+        contentClassName={'flex justify-center px-4'}
+        show={showConnectedWA}
+        onHide={() => {
+          setShowConnectedWA(false)
+        }}
+      >
+        {/* Card */}
+        <div className="relative bg-[#F0EDE8] rounded-md py-8 px-2 border border-[#F3E8D0]">
+          {/* button close */}
+          <div
+            className="absolute top-4 right-4 hover:cursor-pointer"
+            onClick={() => {
+              setShowConnectedWA(false)
+            }}
+          >
+            <img alt="cross" src={images.ic_cross} />
+          </div>
+          {/* Header */}
+          <div className="px-4 my-2">
+            <h1 className="font-futura-bold text-[24px] text-dark-50 text-center w-64 mx-auto mt-4">
+              {t('chat.profile_menu.connected_whatsapp_heading')}
+            </h1>
+
+            <p className="font-medium text-[14px] text-gray-700 text-center my-4">
+              {t('chat.profile_menu.connected_whatsapp_description')}
+            </p>
+
+            {/* Button Action */}
+            <div className="px-2 my-2">
+              <button className="block rounded-full w-full bg-gray-500 text-center font-medium text-[16px] py-2 border border-[#F3E8D0]/50" onClick={() => {
+                notifyInfo('Belum ada API nya')
+                setShowConnectedWA(false)
+              }}>
+                {t('chat.profile_menu.connected_whatsapp_button')}
+              </button>
+            </div>
+          </div>
+        </div>
       </Modal>
     </nav>
   )
