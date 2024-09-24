@@ -23,10 +23,10 @@ export const WhatsappActivation = ({ onHandleSubmit, onClose }) => {
 
         <div className="flex items-center flex-col mb-6">
           {/* Header */}
-          <h1 className="font-futura-bold mb-1">{t('connect_whatsapp.whatsapp_activation_header')}</h1>
+          <h1 className="font-futura-bold mb-1 text-dark-50">{t('connect_whatsapp.whatsapp_activation_header')}</h1>
           {/* Keterangan */}
           <div className="md:w-[316px] flex">
-            <p className="text-center text-sm tracking-wide text-gray-700">
+            <p className="text-center text-sm tracking-wide font-medium text-gray-700">
               {t('connect_whatsapp.whatsapp_activation_description')}
             </p>
           </div>
@@ -43,7 +43,7 @@ export const WhatsappActivation = ({ onHandleSubmit, onClose }) => {
             <PhoneNumberInput />
             <Button
               label={t('connect_whatsapp.whatsapp_activation_send_otp')}
-              className={'btn-secondary-otp disabled:opacity-70 rounded-full font-medium relative md:w-fit w-full'}
+              className={'btn-secondary-otp disabled:opacity-50 rounded-full relative md:w-fit w-full'}
               disabled={phoneNumberObj.maskedPhoneNumber.length < 10}
             />
           </div>
