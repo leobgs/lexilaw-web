@@ -56,11 +56,11 @@ export const WhatsappOtp = ({ onClickButtonChange }) => {
             {t('connect_whatsapp.whatsapp_otp_header')}
           </h1>
           <div className="flex items-center gap-x-2 justify-center">
-            <h1 className="font-bold text-[16px] md:font-futura-bold md:text-[22px]">
+            <h1 className="font-semi-bold text-[16px] md:font-futura-bold md:text-[22px]">
               +62 {phoneNumberObj.maskedPhoneNumber}
             </h1>
             <span
-              className="font-semi-bold py-1 px-2 border rounded-full border-full text-xs bg-blue-sky hover:cursor-pointer"
+              className="font-bold py-1 px-2 border border-[#BCBCBC] rounded-full text-xs bg-blue-sky hover:cursor-pointer text-dark-50"
               onClick={onClickButtonChange}
             >
               {t('connect_whatsapp.whatsapp_otp_change_button')}
@@ -74,13 +74,13 @@ export const WhatsappOtp = ({ onClickButtonChange }) => {
             e.preventDefault()
           }}
         >
-          <div className="flex justify-center border-b-2 md:border-b-0 md:px-16">
+          <div className="flex justify-center border-b-2 border-dark-50 md:border-b-0 md:px-16">
             <input
               type="tel"
               placeholder={t('connect_whatsapp.whatsapp_otp_placeholder')}
               maxLength={6}
               onChange={handleOnChange}
-              className="md:w-full md:border-b-2 text-[28px] md:text-[32px] bg-transparent block placeholder:text-center text-center focus:outline-none mt-4 placeholder:text-[16px] placeholder:md:text-[20px] placeholder:font-regular pb-2 input-text-bold"
+              className="md:w-full md:border-b-2 text-[28px] md:text-[32px] bg-transparent block placeholder:text-center text-center focus:outline-none mt-4 placeholder:text-[16px] placeholder:md:text-[20px] placeholder:font-regular pb-2 input-text-bold placeholder:text-gray-300/40"
               value={otp}
             />
           </div>
@@ -93,8 +93,8 @@ export const WhatsappOtp = ({ onClickButtonChange }) => {
             {t('connect_whatsapp.whatsapp_otp_waiting')}{' '}
           </p>
           <span
-            className={`font-bold underline underline-offset-4 ${
-              !isDisabled ? 'hover:cursor-pointer text-blue-dark' : 'hover:cursor-not-allowed opacity-30'
+            className={`font-bold border-b-2 border-blue-dark${
+              !isDisabled ? 'hover:cursor-pointer text-blue-dark opacity-100' : 'hover:cursor-not-allowed opacity-50'
             }`}
             onClick={() => {
               if (!isDisabled) {
