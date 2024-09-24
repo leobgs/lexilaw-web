@@ -27,8 +27,15 @@ export const Chat = () => {
   const { t } = useTranslation()
   const storage = new LocalStorage()
   const navigate = useNavigate()
-  const { currentLanguage, collection, bookingLawyerPayload, bookingLawyerReducer, collectionReset, collectionSet, resetPhoneNumber } =
-    useGlobalContext()
+  const {
+    currentLanguage,
+    collection,
+    bookingLawyerPayload,
+    bookingLawyerReducer,
+    collectionReset,
+    collectionSet,
+    resetPhoneNumber,
+  } = useGlobalContext()
   const { uuid } = useParams()
   const queryClient = useQueryClient()
   const [isHeader, setIsHeader] = useState(true)
@@ -706,6 +713,10 @@ export const Chat = () => {
             onClickButtonChange={() => {
               closeModalWaOtp()
               openModalWAActivation()
+              resetPhoneNumber()
+            }}
+            onSuccessOTP={() => {
+              closeModalWaOtp()
               resetPhoneNumber()
             }}
           />

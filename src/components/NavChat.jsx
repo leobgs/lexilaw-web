@@ -700,6 +700,11 @@ export const NavChat = ({
               openModalWAActivation()
               resetPhoneNumber()
             }}
+
+            onSuccessOTP={() => {
+              closeModalWaOtp()
+              resetPhoneNumber()
+            }}
           />
         )}
       </Modal>
