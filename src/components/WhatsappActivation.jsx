@@ -21,7 +21,7 @@ export const WhatsappActivation = ({ onHandleSubmit, onClose }) => {
           <img src={images.ic_cross} alt="" />
         </div>
         {/* Whatsapp Logo */}
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-4">
           <img src={images.ic_whatsapp} alt="whatsapp_logo" />
         </div>
 
