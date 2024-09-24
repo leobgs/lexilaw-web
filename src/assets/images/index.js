@@ -86,6 +86,9 @@ import ic_vector_arrow_right from './ic_vector_arrow_right.svg'
 import ic_vector_arrow_top_right_mobile from './ic_vector_arrow_top_right_mobile.svg'
 import ic_whatsapp from './ic_whatsapp.svg'
 import ic_cross from './ic_cross.svg'
+import ic_sand_time_mini from './ic_sand_time_mini.svg'
+import ic_disconnected from './ic_disconnected.svg'
+import ic_sand_time_big from './ic_sand_time_big.svg'
 
 const images = {
   bg_register_login,
@@ -176,6 +179,9 @@ const images = {
   ic_vector_arrow_top_right_mobile,
   ic_whatsapp,
   ic_cross,
+  ic_sand_time_mini,
+  ic_disconnected,
+  ic_sand_time_big
 }
 
 export default images
