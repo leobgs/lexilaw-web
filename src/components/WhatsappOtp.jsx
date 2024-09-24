@@ -1,28 +1,45 @@
 import images from 'assets/images'
 import { useGlobalContext } from 'hooks/context'
 import { localServerData } from 'hooks/useLocalServerData'
+import { usePostWhatsAppOTP } from 'hooks/usePostWhatsAppOTP'
 import { notifyInfo } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useQueryClient } from 'react-query'
 
-export const WhatsappOtp = ({ onClickButtonChange }) => {
+export const WhatsappOtp = ({ onClickButtonChange, onSuccessOTP }) => {
   const { phoneNumberObj } = useGlobalContext()
   const [second, setSecond] = useState(45)
   const [otp, setOtp] = useState('')
-  const isDisabled = second !== 0
 
   const { t } = useTranslation()
   const { CURRENT_LANGUAGE } = localServerData()
   const isEnglish = CURRENT_LANGUAGE === 'en'
 
-  // TODO, ketika BE udh siap
-  // LOGIC SUBMIT DISINI
-  const handleOnSubmit = () => {}
+  const queryClient = useQueryClient()
+  const { mutateAsyncWAOTP, isPendingWAOTP, isErrorWAOTP } = usePostWhatsAppOTP()
+  const isDisabled = second !== 0 || isPendingWAOTP
+  const isError = otp.length === 6 && isErrorWAOTP
 
-  const handleOnChange = (e) => {
+  /**
+   *
+   * @param {import('react').ChangeEvent<HTMLInputElement>} e
+   */
+  const handleOnChange = async (e) => {
     const cleaned = e.target.value.replace(/\D+/g, '')
 
     setOtp(cleaned)
+
+    if (cleaned.length === 6) {
+      try {
+        await mutateAsyncWAOTP(otp)
+        queryClient.invalidateQueries(['user'])
+        onSuccessOTP && onSuccessOTP()
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : 'Unknown Error'
+        console.log(msg)
+      }
+    }
   }
 
   useEffect(() => {
@@ -74,20 +91,32 @@ export const WhatsappOtp = ({ onClickButtonChange }) => {
             e.preventDefault()
           }}
         >
-          <div className="flex justify-center border-b-2 border-dark-50 md:border-b-0 md:px-16">
+          <div
+            className={`flex justify-center border-b-2 ${
+              isError ? 'border-[#db0000]' : 'border-dark-50'
+            } md:border-b-0 md:px-16 ${isError && 'text-[#db0000]'}`}
+          >
             <input
               type="tel"
               placeholder={t('connect_whatsapp.whatsapp_otp_placeholder')}
               maxLength={6}
               onChange={handleOnChange}
-              className="md:w-full md:border-b-2 text-[28px] md:text-[32px] bg-transparent block placeholder:text-center text-center focus:outline-none mt-4 placeholder:text-[16px] placeholder:md:text-[20px] placeholder:font-regular pb-2 input-text-bold placeholder:text-gray-300/40"
+              className={`md:w-full md:border-b-2 ${
+                isError ? 'border-[#db0000]' : 'border-dark-50'
+              } text-[28px] md:text-[32px] bg-transparent block placeholder:text-center text-center focus:outline-none mt-4 placeholder:text-[16px] placeholder:md:text-[20px] placeholder:font-regular pb-2 input-text-bold placeholder:text-gray-300/40 ${
+                isError && 'text-[#db0000]'
+              } `}
               value={otp}
+              disabled={isPendingWAOTP}
             />
           </div>
+          {isError && (
+            <p className="font-medium text-[#DB0000] text-center">{t('connect_whatsapp.whatsapp_otp_invalid')}</p>
+          )}
         </form>
 
         {/* footer */}
-        <div className="mt-6 flex flex-col items-center md:items-start md:flex-row md:justify-center md:space-x-1">
+        <div className="mt-3 flex flex-col items-center md:items-start md:flex-row md:justify-center md:space-x-1">
           <p className="text-center font-medium text-gray-700">
             {isEnglish ? 'Please wait ' : 'Tunggu '} {second.toString().length <= 1 ? '0' + second : second}{' '}
             {t('connect_whatsapp.whatsapp_otp_waiting')}{' '}

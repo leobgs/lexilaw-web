@@ -3,9 +3,13 @@ import images from 'assets/images'
 import { Button } from './Button/Button'
 import { useTranslation } from 'react-i18next'
 import { useGlobalContext } from 'hooks/context'
+import { usePostWhatsAppConnect } from 'hooks/usePostWhatsAppConnect'
+import { useQueryClient } from 'react-query'
 
 export const WhatsappActivation = ({ onHandleSubmit, onClose }) => {
   const { phoneNumberObj } = useGlobalContext()
+  const { mutateAsyncWAConnect, isPendingWAConnect } = usePostWhatsAppConnect()
+  const queryClient = useQueryClient()
 
   const { t } = useTranslation()
 
@@ -34,8 +38,10 @@ export const WhatsappActivation = ({ onHandleSubmit, onClose }) => {
 
         {/* Form */}
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault()
+            await mutateAsyncWAConnect(phoneNumberObj.phoneNumber)
+            queryClient.invalidateQueries(['user'])
             onHandleSubmit()
           }}
         >
@@ -44,7 +50,7 @@ export const WhatsappActivation = ({ onHandleSubmit, onClose }) => {
             <Button
               label={t('connect_whatsapp.whatsapp_activation_send_otp')}
               className={'btn-secondary-otp disabled:opacity-50 rounded-full relative md:w-fit w-full'}
-              disabled={phoneNumberObj.maskedPhoneNumber.length < 10}
+              disabled={phoneNumberObj.maskedPhoneNumber.length < 10 || isPendingWAConnect}
             />
           </div>
         </form>
