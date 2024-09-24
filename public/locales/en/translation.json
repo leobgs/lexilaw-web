@@ -91,7 +91,7 @@
       "setting": "Settings",
       "connecting_whatsapp": "Connecting WhatsApp",
       "pending_whatsapp_heading": "Waiting for WhatsApp Activation",
-      "pending_whatsapp_description": "Activation process may take up to <strong>1x24</strong> hours. Please wait according to the suggested timeframe.",
+      "pending_whatsapp_description": "Activation process may take up to <span class='font-semi-bold'>1x24</span> hours. Please wait according to the suggested timeframe.",
       "connected_whatsapp_heading": "Are You Sure You Want to Deactivate This Feature?",
       "connected_whatsapp_description": "You will not be able to continue the conversation with Lexi AI",
       "connected_whatsapp_button": "Yes, Deactivate"

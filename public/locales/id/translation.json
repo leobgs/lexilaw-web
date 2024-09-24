@@ -91,7 +91,7 @@
       "setting": "Pengaturan",
       "connecting_whatsapp": "Menghubungkan WhatsApp",
       "pending_whatsapp_heading": "Menunggu Aktivasi WhatsApp",
-      "pending_whatsapp_description": "Proses aktivasi memerlukan waktu paling lama <strong>1x24</strong> jam, mohon menunggu sesuai dengan waktu yang disarankan.",
+      "pending_whatsapp_description": "Proses aktivasi memerlukan waktu paling lama <span class='font-semi-bold'>1x24</span> jam, mohon menunggu sesuai dengan waktu yang disarankan.",
       "connected_whatsapp_heading": "Kamu Yakin Ingin Non-Aktifkan Fitur Ini?",
       "connected_whatsapp_description": "Kamu tidak akan bisa melanjutkan obrolan dengan Lexi AI",
       "connected_whatsapp_button": "Ya, Non-aktifkan"
