@@ -79,6 +79,8 @@
       "my_account": "My Account",
       "my_lawyer": "My Lawyer",
       "wa_activation": "WhatsApp Activation",
+      "wa_pending": "Status Pending...",
+      "wa_connected": "WhatsApp is Connected",
       "menu_language": "Language",
       "logout": "Logout"
     },
@@ -86,7 +88,13 @@
       "main_menu": "Main Menu",
       "connected": "Connected",
       "configure": "Configure",
-      "setting": "Settings"
+      "setting": "Settings",
+      "connecting_whatsapp": "Connecting WhatsApp",
+      "pending_whatsapp_heading": "Waiting for WhatsApp Activation",
+      "pending_whatsapp_description": "Activation process may take up to <span class='font-semi-bold'>1x24</span> hours. Please wait according to the suggested timeframe.",
+      "connected_whatsapp_heading": "Are You Sure You Want to Deactivate This Feature?",
+      "connected_whatsapp_description": "You will not be able to continue the conversation with Lexi AI",
+      "connected_whatsapp_button": "Yes, Deactivate"
     },
     "chat_text": {
       "switch_lang": "Use casual language, please",
@@ -228,6 +236,7 @@
     "whatsapp_otp_header": "OTP Has Been Sent to",
     "whatsapp_otp_change_button": "Change",
     "whatsapp_otp_placeholder": "Enter the 6 digit code",
-    "whatsapp_otp_waiting": "seconds to"
+    "whatsapp_otp_waiting": "seconds to",
+    "whatsapp_otp_invalid": "Invalid OTP"
   }
 }
