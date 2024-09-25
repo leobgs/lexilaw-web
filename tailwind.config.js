@@ -88,6 +88,7 @@ module.exports = {
       },
     },
     fontFamily: {
+      light: 'Inter Light',
       bold: 'Inter Bold',
       medium: 'Inter Medium',
       regular: 'Inter Regular',
