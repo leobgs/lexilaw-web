@@ -29,6 +29,7 @@ import useVersioning from 'hooks/versioning'
 import { Schedule } from 'views/Schedule'
 import { useEffect } from 'react'
 import { notifyBottomError } from 'hooks/useToas'
+import { PendingWhatsapp } from 'views/PendingWhatsapp'
 
 export const PrivateRoute = ({ wrapperContent = true }) => {
   if (!isLogin()) {
@@ -99,6 +100,7 @@ function App() {
             <Route path='/thread/:uuid' element={<ThreadPage />} />
           </Route>
           <Route path='/account' element={<Account />} />
+          <Route path='/pending-whatsapp' element={<PendingWhatsapp />} />
         </Route>
 
         {/* with header component */}
