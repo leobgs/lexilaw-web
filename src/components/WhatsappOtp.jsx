@@ -1,9 +1,10 @@
 import images from 'assets/images'
+import { AxiosError } from 'axios'
 import { useGlobalContext } from 'hooks/context'
 import { localServerData } from 'hooks/useLocalServerData'
 import { usePostWhatsAppConnect } from 'hooks/usePostWhatsAppConnect'
 import { usePostWhatsAppOTP } from 'hooks/usePostWhatsAppOTP'
-import { notifyInfo } from 'hooks/useToas'
+import { notifyError } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQueryClient } from 'react-query'
@@ -38,8 +39,11 @@ export const WhatsappOtp = ({ onClickButtonChange, onSuccessOTP }) => {
         queryClient.invalidateQueries(['user'])
         onSuccessOTP && onSuccessOTP()
       } catch (e) {
-        const msg = e instanceof Error ? e.message : 'Unknown Error'
-        console.log(msg)
+        const code = e instanceof AxiosError ? e.response.data?.code : 500
+        if ([500, 501, 502, 503, 504].includes(code)) {
+          const message = e instanceof Error ? e.message : 'Unknown Error'
+          notifyError(message)
+        }
       }
     }
   }
@@ -134,7 +138,7 @@ export const WhatsappOtp = ({ onClickButtonChange, onSuccessOTP }) => {
                   setSecond(45)
                 } catch (e) {
                   const message = e instanceof Error ? e.message : 'Unknown Error'
-                  console.log(message)
+                  notifyError(message)
                 }
               }
             }}
