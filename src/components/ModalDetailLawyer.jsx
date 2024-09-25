@@ -11,6 +11,7 @@ import { getData } from "hooks/useRequest";
 import { useTranslation } from "react-i18next";
 import { formatDate, formatTime } from "utils/formatTime";
 import { useGlobalContext } from "hooks/context";
+import { notifyBottomError } from "hooks/useToas";
 
 export const ModalDetailLawyer = ({
   data,
@@ -63,35 +64,30 @@ export const ModalDetailLawyer = ({
     }
   }, [show, getdetailLawyer, getdocument]);
 
-  const truncateText = (text, wordLimit) => {
-    const words = text.split(" ");
-    if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(" ") + "...";
-    }
-    return text;
-  };
+  useEffect(() => {
+    if (dataListDocumment && dataListDocumment.length > 0) {
+      dataListDocumment.forEach((item, index) => {
+        item.isActive = index === 0;
+      });
 
-  const lawyerDescription = truncateText(
-    getdetailLawyer.data?.data?.description || "",
-    200
-  );
-
-  const handleAddSchedule = (thread_uuid, lawyer_uuid) => {
-    if (thread_uuid !== null) {
-      getSchedules({ thread_uuid, lawyer_uuid });
+      setDataDocumment([...dataListDocumment]);
+    } else {
+      setDataDocumment([]);
     }
-  };
+  }, [dataListDocumment]);
 
   const { mutate: getSchedules, error } = useMutation(
     ({ thread_uuid, lawyer_uuid }) =>
       getData(
         API.AVAILABLE_SCHEDULES +
-          `/${lawyer_uuid}/${thread_uuid}?page=1&limit=1`
+          `/${lawyer_uuid}/${thread_uuid}asda?page=1&limit=1`
       ),
     {
       onSettled: (data, error, variables) => {
-        if (error) {
-          console.error(error);
+        console.log(data);
+
+        if (error || data.status !== "Success") {
+          notifyBottomError(t("error", { keyPrefix: "schedule" }));
         } else if (data.status === "Success") {
           const thread_uuid = variables.thread_uuid;
 
@@ -107,17 +103,24 @@ export const ModalDetailLawyer = ({
     }
   );
 
-  useEffect(() => {
-    if (dataListDocumment && dataListDocumment.length > 0) {
-      dataListDocumment.forEach((item, index) => {
-        item.isActive = index === 0;
-      });
-
-      setDataDocumment([...dataListDocumment]);
-    } else {
-      setDataDocumment([]);
+  const handleAddSchedule = (thread_uuid, lawyer_uuid) => {
+    if (thread_uuid !== null) {
+      getSchedules({ thread_uuid, lawyer_uuid });
     }
-  }, [dataListDocumment]);
+  };
+
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(" ");
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(" ") + "...";
+    }
+    return text;
+  };
+
+  const lawyerDescription = truncateText(
+    getdetailLawyer.data?.data?.description || "",
+    200
+  );
 
   const handleShowHideDiv = (id) => {
     setDataDocumment((prevDataDocumment) =>

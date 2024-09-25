@@ -207,7 +207,8 @@
   },
   "schedule": {
     "header": "Schedule",
-    "success": "Scheduling Successful"
+    "success": "Scheduling Successful",
+    "error": "Can't retrieve your request right now, please try again in a few minutes"
   },
   "question_card": {
     "text": "What you can do with Lexi"
