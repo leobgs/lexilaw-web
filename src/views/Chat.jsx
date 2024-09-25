@@ -6,7 +6,7 @@ import { API } from 'config/api'
 import { StorageKey } from 'config/storage'
 import { useGlobalContext } from 'hooks/context'
 import { deleteData, getData } from 'hooks/useRequest'
-import { notifyError } from 'hooks/useToas'
+import { notifyError, notifyInfo } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -78,6 +78,8 @@ export const Chat = () => {
     setShowWhatsappOtp(false)
     resetPhoneNumber()
   }
+
+  const [showConnectedWA, setShowConnectedWA] = useState(false)
 
   const availableSchedules = queryClient.getQueryData(['available_schedules'])
   const threadDetail = queryClient.getQueryData(['thread_detail', uuid])
@@ -592,18 +594,55 @@ export const Chat = () => {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
-                  <div className="flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2 font-semi-bold">
+                  <div className="flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2">
                     <div
-                      className="px-4 text-black-darker text-xs cursor-pointer"
+                      className={`px-4 text-black-darker text-xs  ${
+                        userDetail?.connect_whatsapp_status !== 'CONNECTED'
+                          ? 'cursor-pointer font-semi-bold'
+                          : 'font-light'
+                      }`}
                       onClick={() => {
-                        openModalWAActivation()
+                        switch (userDetail?.connect_whatsapp_status) {
+                          case 'CONNECTED':
+                            break
+                          case 'PENDING':
+                            navigate('/pending-whatsapp')
+                            break
+                          default:
+                            openModalWAActivation()
+                            break
+                        }
                       }}
                     >
-                      {t('wa_activation', {
-                        keyPrefix: 'chat.profile_option',
-                      })}
+                      {userDetail?.connect_whatsapp_status === 'CONNECTED'
+                        ? t('chat.profile_option.wa_connected')
+                        : userDetail?.connect_whatsapp_status === 'PENDING'
+                        ? t('chat.profile_option.wa_pending')
+                        : t('wa_activation', {
+                            keyPrefix: 'chat.profile_option',
+                          })}
                     </div>
-                    <img src={images.ic_vector_green} alt="arrow" className="h-2.5 w-2.5" />
+                    <img
+                      src={
+                        userDetail?.connect_whatsapp_status === 'CONNECTED'
+                          ? images.ic_disconnected
+                          : userDetail?.connect_whatsapp_status === 'PENDING'
+                          ? images.ic_sand_time_mini
+                          : images.ic_arrow_cornering
+                      }
+                      alt="arrow"
+                      className={`${
+                        userDetail?.connect_whatsapp_status === 'CONNECTED' ? 'h-5 w-5 cursor-pointer' : 'h-2.5 w-2.5'
+                      }`}
+                      onClick={(e) => {
+                        if (userDetail?.connect_whatsapp_status === 'CONNECTED') {
+                          e.preventDefault()
+                          e.stopPropagation()
+
+                          setShowConnectedWA(true)
+                        }
+                      }}
+                    />
                   </div>
 
                   <div className="px-4 my-2 text-xxs">
@@ -721,6 +760,53 @@ export const Chat = () => {
             }}
           />
         )}
+      </Modal>
+
+      {/* Modal Disconnect WA */}
+      <Modal
+        classNameBox={'bg-gray-700/70'}
+        contentClassName={'flex justify-center px-4'}
+        show={showConnectedWA}
+        onHide={() => {
+          setShowConnectedWA(false)
+        }}
+      >
+        {/* Card */}
+        <div className="relative bg-[#F0EDE8] rounded-md py-8 px-2 border border-[#F3E8D0] w-[622px]">
+          {/* button close */}
+          <div
+            className="absolute top-4 right-4 hover:cursor-pointer"
+            onClick={() => {
+              setShowConnectedWA(false)
+            }}
+          >
+            <img alt="cross" src={images.ic_circle_cross} />
+          </div>
+
+          {/* Header */}
+          <div className="px-4 my-2 w-[483px] mx-auto">
+            <h1 className="font-futura-bold text-3xl text-dark-50 text-center mx-auto mt-4">
+              {t('chat.profile_menu.connected_whatsapp_heading')}
+            </h1>
+
+            <p className="font-medium text-[20px] text-gray-700 text-center my-4">
+              {t('chat.profile_menu.connected_whatsapp_description')}
+            </p>
+
+            {/* Button Action */}
+            <div className="px-2 my-2">
+              <button
+                className="block rounded-full w-full bg-gray-500 text-center font-bold text-[16px] py-2 border border-[#F3E8D0]/50 text-dark-50"
+                onClick={() => {
+                  notifyInfo('Belum ada Fitur nya')
+                  setShowConnectedWA(false)
+                }}
+              >
+                {t('chat.profile_menu.connected_whatsapp_button')}
+              </button>
+            </div>
+          </div>
+        </div>
       </Modal>
     </div>
   )
