@@ -79,6 +79,8 @@
       "my_account": "Akun Saya",
       "my_lawyer": "Pengacara Saya",
       "wa_activation": "Aktivasi WhatsApp",
+      "wa_pending": "Status Pending...",
+      "wa_connected": "WA Telah Terhubung",
       "menu_language": "Bahasa Menu",
       "logout": "Keluar"
     },
@@ -86,7 +88,13 @@
       "main_menu": "Menu Utama",
       "connected": "Hubungkan",
       "configure": "Konfigurasi",
-      "setting": "Pengaturan"
+      "setting": "Pengaturan",
+      "connecting_whatsapp": "Menghubungkan WhatsApp",
+      "pending_whatsapp_heading": "Menunggu Aktivasi WhatsApp",
+      "pending_whatsapp_description": "Proses aktivasi memerlukan waktu paling lama <span class='font-semi-bold'>1x24</span> jam, mohon menunggu sesuai dengan waktu yang disarankan.",
+      "connected_whatsapp_heading": "Kamu Yakin Ingin Non-Aktifkan Fitur Ini?",
+      "connected_whatsapp_description": "Kamu tidak akan bisa melanjutkan obrolan dengan Lexi AI",
+      "connected_whatsapp_button": "Ya, Non-aktifkan"
     },
     "chat_text": {
       "switch_lang": "Gunakan bahasa santai, dong",
@@ -228,7 +236,8 @@
     "whatsapp_otp_header": "OTP Terkirim Ke",
     "whatsapp_otp_change_button": "Ganti",
     "whatsapp_otp_placeholder": "Masukkan 6 digit angka",
-    "whatsapp_otp_waiting": "detik untuk melakukan"
+    "whatsapp_otp_waiting": "detik untuk melakukan",
+    "whatsapp_otp_invalid": "OTP tidak valid"
   },
   "copy_doc": "Salin dokumen sukses",
   "text_copy": "Salin"
