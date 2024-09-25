@@ -89,6 +89,7 @@ import ic_cross from './ic_cross.svg'
 import ic_sand_time_mini from './ic_sand_time_mini.svg'
 import ic_disconnected from './ic_disconnected.svg'
 import ic_sand_time_big from './ic_sand_time_big.svg'
+import ic_circle_cross from './ic_circle_cross.svg'
 
 const images = {
   bg_register_login,
@@ -181,7 +182,8 @@ const images = {
   ic_cross,
   ic_sand_time_mini,
   ic_disconnected,
-  ic_sand_time_big
+  ic_sand_time_big,
+  ic_circle_cross,
 }
 
 export default images
