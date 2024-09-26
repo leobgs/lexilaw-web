@@ -1,21 +1,22 @@
 import images from "assets/images";
 import { Modal } from "./Modal";
 import { Tabs } from "./Tabs";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { copyToClipboard } from "utils";
 import { Button } from "./Button/Button";
 import { API } from "config/api";
-import { useMutation, useQuery } from "react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "react-query";
 import { getData } from "hooks/useRequest";
 import { useTranslation } from "react-i18next";
 import { formatDate, formatTime } from "utils/formatTime";
 import { useGlobalContext } from "hooks/context";
+import { notifyBottomError } from "hooks/useToas";
 
 export const ModalDetailLawyer = ({
   data,
   show = false,
-  onHide = () => { },
+  onHide = () => {},
 }) => {
   const { t, i18n } = useTranslation();
   const [currText, setCurrText] = useState(
@@ -26,7 +27,9 @@ export const ModalDetailLawyer = ({
   const [lawyerData, setlawyerData] = useState([]);
 
   const { currentLanguage } = useGlobalContext();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const scheduleContainerRef = useRef(null);
+  const scheduleRef = useRef(null);
 
   const getdetailLawyer = useQuery(["detailLawyer", show], () => {
     if (show) {
@@ -36,13 +39,38 @@ export const ModalDetailLawyer = ({
     }
   });
 
-  const { data: lawyerSchedules } = useQuery(["lawyerSchedules", show], () => {
-    if (show) {
-      return getData(API.MY_LAWYER_SCHEDULES + show);
-    } else {
-      return Promise.resolve(null);
+  const {
+    data: lawyerSchedulesPages,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery(
+    ["lawyerSchedules", show],
+    ({ pageParam = 1 }) => {
+      if (show) {
+        return getData(
+          API.MY_LAWYER_SCHEDULES + show + `?page=${pageParam}&limit=3`
+        );
+      } else {
+        return Promise.resolve(null);
+      }
+    },
+    {
+      getNextPageParam: (lastPage, pages) => {
+        const totalPage = Math.round(lastPage.meta.total / lastPage.meta.limit);
+        if (lastPage.meta.page < totalPage) {
+          return lastPage.meta.page + 1;
+        }
+        return undefined;
+        // Assuming your API returns a `nextPage` property when there's more data
+        // return lastPage.meta.page + 1 ?? undefined;
+      },
+      enabled: !!show,
     }
-  });
+  );
+
+  const lawyerSchedules =
+    lawyerSchedulesPages?.pages.flatMap((page) => page.data) ?? [];
 
   const getdocument = useQuery(["documentlawyer", show], () => {
     if (show) {
@@ -51,6 +79,16 @@ export const ModalDetailLawyer = ({
       return Promise.resolve(null);
     }
   });
+
+  const callbackObserver = useCallback(
+    (entries) => {
+      const [target] = entries;
+      if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
+    [hasNextPage, fetchNextPage, isFetchingNextPage]
+  );
 
   useEffect(() => {
     if (show) {
@@ -62,6 +100,69 @@ export const ModalDetailLawyer = ({
       }
     }
   }, [show, getdetailLawyer, getdocument]);
+
+  useEffect(() => {
+    const scheduleContainer = scheduleContainerRef.current;
+    const schedule = scheduleRef.current;
+
+    if (!schedule || !scheduleContainer) return;
+    const observer = new IntersectionObserver(callbackObserver, {
+      threshold: 1,
+      root: scheduleContainer,
+    });
+
+    if (schedule) {
+      observer.observe(schedule);
+    }
+
+    return () => {
+      if (schedule) {
+        observer.unobserve(schedule);
+      }
+    };
+  }, [callbackObserver, currText]);
+
+  useEffect(() => {
+    if (dataListDocumment && dataListDocumment.length > 0) {
+      dataListDocumment.forEach((item, index) => {
+        item.isActive = index === 0;
+      });
+
+      setDataDocumment([...dataListDocumment]);
+    } else {
+      setDataDocumment([]);
+    }
+  }, [dataListDocumment]);
+
+  const { mutate: getSchedules, error } = useMutation(
+    ({ thread_uuid, lawyer_uuid }) =>
+      getData(
+        API.AVAILABLE_SCHEDULES +
+          `/${lawyer_uuid}/${thread_uuid}?page=1&limit=1`
+      ),
+    {
+      onSettled: (data, error, variables) => {
+        if (error || data.status !== "Success") {
+          notifyBottomError(t("error", { keyPrefix: "schedule" }));
+        } else if (data.status === "Success") {
+          const thread_uuid = variables.thread_uuid;
+          navigate(`/schedule`, {
+            state: {
+              scheduling_url_event: data.data.scheduling_url_event,
+              lawyer_uuid: lawyerData.uuid,
+              thread_uuid,
+            },
+          });
+        }
+      },
+    }
+  );
+
+  const handleAddSchedule = (thread_uuid, lawyer_uuid) => {
+    if (thread_uuid !== null) {
+      getSchedules({ thread_uuid, lawyer_uuid });
+    }
+  };
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
@@ -75,51 +176,6 @@ export const ModalDetailLawyer = ({
     getdetailLawyer.data?.data?.description || "",
     200
   );
-
-  const handleAddSchedule = (thread_uuid) => {
-    if (thread_uuid !== null) {
-      getSchedules({ thread_uuid });
-    }
-  };
-
-  const { mutate: getSchedules, error } = useMutation(
-    ({ thread_uuid }) =>
-      getData(API.AVAILABLE_SCHEDULES + `/${lawyerData.uuid}/${thread_uuid}?page=1&limit=1`),
-    {
-      onSettled: (data, error, variables) => {
-        if (error) {
-          console.error(error);
-        } else if (data.status === 'Success') {
-          const thread_uuid = variables.thread_uuid;
-
-          navigate(`/schedule`, {
-            state: {
-              scheduling_url_event: data.data.scheduling_url_event,
-              lawyer_uuid: lawyerData.uuid,
-              thread_uuid,
-            },
-          })
-
-        }
-      },
-    }
-  );
-
-
-
-
-  useEffect(() => {
-
-    if (dataListDocumment && dataListDocumment.length > 0) {
-      dataListDocumment.forEach((item, index) => {
-        item.isActive = index === 0;
-      });
-
-      setDataDocumment([...dataListDocumment]);
-    } else {
-      setDataDocumment([]);
-    }
-  }, [dataListDocumment]);
 
   const handleShowHideDiv = (id) => {
     setDataDocumment((prevDataDocumment) =>
@@ -160,10 +216,11 @@ export const ModalDetailLawyer = ({
         </div>
 
         <div
-          className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${currText === t("results", { keyPrefix: "my_lawyer" })
-            ? ""
-            : "hidden"
-            }`}
+          className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${
+            currText === t("results", { keyPrefix: "my_lawyer" })
+              ? ""
+              : "hidden"
+          }`}
         >
           <div className="line-clamp-5 text mt-20">{lawyerDescription}</div>
           <div className={`grid grid-cols-10 mt-4 gap-2`}>
@@ -216,10 +273,11 @@ export const ModalDetailLawyer = ({
       </div>
 
       <Tabs
-        className={`${currText === t("results", { keyPrefix: "my_lawyer" })
-          ? "md:mt-4"
-          : "mt-24 md:mt-4 mb-4"
-          }`}
+        className={`${
+          currText === t("results", { keyPrefix: "my_lawyer" })
+            ? "md:mt-4"
+            : "mt-24 md:mt-4 mb-4"
+        }`}
         textArr={[
           t("results", { keyPrefix: "my_lawyer" }),
           t("schedule", { keyPrefix: "my_lawyer" }),
@@ -251,9 +309,17 @@ export const ModalDetailLawyer = ({
                   {item.isActive && (
                     <div className="gap-2 grid grid-cols-3 lg:grid-cols-4">
                       {item.files?.map((itm) => (
-                        <div key={itm.uuid} >
+                        <div key={itm.uuid}>
                           {itm.file_url ? (
-                            <div className="relative w-full aspect-square cursor-pointer" onClick={() => window.open(`https://docs.google.com/gview?url=${itm.file_url}`, '_blank')}>
+                            <div
+                              className="relative w-full aspect-square cursor-pointer"
+                              onClick={() =>
+                                window.open(
+                                  `https://docs.google.com/gview?url=${itm.file_url}`,
+                                  "_blank"
+                                )
+                              }
+                            >
                               <div className="absolute top-0 left-0 w-full h-full z-10 bg-transparent"></div>
                               <iframe
                                 src={`https://docs.google.com/gview?url=${itm.file_url}&embedded=true`}
@@ -306,15 +372,21 @@ export const ModalDetailLawyer = ({
           </div>
         </>
       ) : (
-        <div className="md:h-[66%] h-full overflow-y-auto">
-          {lawyerSchedules?.data && lawyerSchedules?.data?.length > 0 && (
-            lawyerSchedules?.data?.map((item, index) => (
+        <div
+          className="md:h-[66%] h-full overflow-y-scroll no-scrollbar"
+          ref={scheduleContainerRef}
+        >
+          {lawyerSchedules &&
+            lawyerSchedules.length > 0 &&
+            lawyerSchedules.map((item, index) => (
               <div
                 className="bg-white mb-4 p-4 rounded-2xl shadow-md"
                 key={item.created_at + 11}
               >
                 <div className="font-bold text-2xl md:text-base md:font-semi-bold mb-3">
-                  {item.thread_name ? item.thread_name : dataDocumment[index].name_event}
+                  {item.thread_name
+                    ? item.thread_name
+                    : dataDocumment[index].name_event}
                 </div>
 
                 {item.join_url ? (
@@ -324,7 +396,8 @@ export const ModalDetailLawyer = ({
                     </div>
                     <div className="font-semi-bold">
                       {formatDate(item.start_time, currentLanguage)} |&nbsp;
-                      {formatTime(item.start_time)} - {formatTime(item.end_time)}
+                      {formatTime(item.start_time)} -{" "}
+                      {formatTime(item.end_time)}
                     </div>
                   </>
                 ) : (
@@ -333,36 +406,40 @@ export const ModalDetailLawyer = ({
                   </div>
                 )}
                 <div className="bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4">
-                  {item.join_url ? (<>
-                    <div>{t("meeting_room", { keyPrefix: "my_lawyer" })}</div>
-                    <div className="flex justify-between items-center">
-                      <Link to={item.join_url} className="a-link">
-                        {item.join_url}
-                      </Link>
-                      <img
-                        src={images.ic_copy_button}
-                        alt="copy"
-                        onClick={() =>
-                          copyToClipboard({
-                            text: item.join_url,
-                            title: t("copy_to_clipboard"),
-                          })
-                        }
-                      />
-                    </div>
+                  {item.join_url ? (
+                    <>
+                      <div>{t("meeting_room", { keyPrefix: "my_lawyer" })}</div>
+                      <div className="flex justify-between items-center">
+                        <Link to={item.join_url} className="a-link">
+                          {item.join_url}
+                        </Link>
+                        <img
+                          src={images.ic_copy_button}
+                          alt="copy"
+                          onClick={() =>
+                            copyToClipboard({
+                              text: item.join_url,
+                              title: t("copy_to_clipboard"),
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="flex justify-end mt-2">
+                        <Button
+                          onClick={() => window.open(item.join_url, "_blank")}
+                          label="Join Call"
+                          iconRight={images.ic_handycam}
+                          iconClassName="!w-4 !h-2.5"
+                          className="bg-blue-sky rounded-full"
+                        />
+                      </div>
+                    </>
+                  ) : (
                     <div className="flex justify-end mt-2">
                       <Button
-                        onClick={() => window.open(item.join_url, "_blank")}
-                        label="Join Call"
-                        iconRight={images.ic_handycam}
-                        iconClassName="!w-4 !h-2.5"
-                        className="bg-blue-sky rounded-full"
-                      />
-                    </div>
-                  </>) : (
-                    <div className="flex justify-end mt-2">
-                      <Button
-                        onClick={() => handleAddSchedule(dataDocumment[index].thread_uuid)}
+                        onClick={() => {
+                          handleAddSchedule(item.thread_uuid, item.lawyer_uuid);
+                        }}
                         label={t("add_schedule", { keyPrefix: "my_lawyer" })}
                         iconRight={images.ic_calendar_white_outline}
                         iconClassName="!w-4 !h-4"
@@ -372,9 +449,10 @@ export const ModalDetailLawyer = ({
                   )}
                 </div>
               </div>
-            ))
-          )}
-
+            ))}
+          <div ref={scheduleRef} className="h-10 bg-red-500">
+            {hasNextPage ? "" : ""}
+          </div>
         </div>
       )}
     </Modal>

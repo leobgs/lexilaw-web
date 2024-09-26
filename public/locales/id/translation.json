@@ -219,7 +219,8 @@
   },
   "schedule": {
     "header": "Jadwal",
-    "success": "Penjadwalan Berhasil"
+    "success": "Penjadwalan Berhasil",
+    "error": "Terjadi kesalahan, silahkan coba beberapa saat lagi"
   },
   "question_card": {
     "text": "Apa yang bisa dilakukan Lexi"
