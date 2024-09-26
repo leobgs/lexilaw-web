@@ -68,7 +68,7 @@ export const TextSelectionPopup = () => {
       className="absolute bg-white shadow-lg rounded-lg p-2 z-50"
       style={{
         left: `${position.x}px`,
-        top: `${position.y - 10}px`,
+        top: `${position.y - 5}px`,
         transform: 'translateY(-100%)',
       }}
     >

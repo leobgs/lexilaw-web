@@ -38,7 +38,11 @@ export const ChatCard = ({
 
   const { data: statusData, isFetching } = useQuery(
     ['available_schedules'],
-    () => getData(API.AVAILABLE_SCHEDULES + `/${item.lawyer_uuid}/${item.thread_uuid}?page=1&limit=5`),
+    () =>
+      getData(
+        API.AVAILABLE_SCHEDULES +
+          `/${item.lawyer_uuid}/${item.thread_uuid}?page=1&limit=5`
+      ),
     {
       enabled: Boolean(item?.lawyer_uuid),
     }
@@ -79,20 +83,34 @@ export const ChatCard = ({
       setCopyText(copiedText)
     }
 
-    const possibleJson = item.message.substring(item.message.lastIndexOf('\n') + 1).trim()
-    const stringBeforeJson = item.message.substring(0, item.message.lastIndexOf('\n')).trim()
+    const possibleJson = item.message
+      .substring(item.message.lastIndexOf('\n') + 1)
+      .trim()
+    const stringBeforeJson = item.message
+      .substring(0, item.message.lastIndexOf('\n'))
+      .trim()
 
     if (isValidJson(possibleJson)) {
       const parsedLawyers = JSON.parse(possibleJson)
       setDataLawyer(parsedLawyers)
 
       // Gabungkan kembali teks dan hasil parsing JSON
-      setResponseText(`${stringBeforeJson}\n\n${parsedLawyers.length !== 0 ? '' : ''}`)
-    } else if (cleanText === '' && statusData?.message === 'Success get data' && !isFetching) {
+      setResponseText(
+        `${stringBeforeJson}\n\n${parsedLawyers.length !== 0 ? '' : ''}`
+      )
+    } else if (
+      cleanText === '' &&
+      statusData?.message === 'Success get data' &&
+      !isFetching
+    ) {
       setResponseText(
         'Booking berhasil kamu sudah bersama pengacara pilhanmu, cek Pengacara Saya pada menu kanan atas untuk melihat dan meng-kontak pengacara kamu. Kamu dapat melakukan diskusi selama 1 jam bersama pengacaramu. Opsi schedule berikut hanya berlaku 16 jam setelah kamu melakukan booking.'
       )
-    } else if (cleanText === '' && statusData?.message === 'Done' && !isFetching) {
+    } else if (
+      cleanText === '' &&
+      statusData?.message === 'Done' &&
+      !isFetching
+    ) {
       setResponseText('Pemesanan telah selesai')
     } else {
       setResponseText(cleanText)
@@ -114,20 +132,33 @@ export const ChatCard = ({
   return (
     <>
       {item.from_display === 'SYSTEM' && item.type === 'loading' ? (
-        <div className={clsx('card-animated-chat ml-4 mb-2 pt-1 w-1/3')} ref={boxRef}>
+        <div
+          className={clsx(
+            'card-animated-chat ml-4 mb-2 pt-1 w-1/3 select-none'
+          )}
+          ref={boxRef}
+        >
           <div className="bg-white rounded-lg flex gap-2 px-4">
             <img
-              src={item.from_display === 'SYSTEM' ? images.ic_profile_lexi : images.ic_thumbnail_profile}
+              src={
+                item.from_display === 'SYSTEM'
+                  ? images.ic_profile_lexi
+                  : images.ic_thumbnail_profile
+              }
               alt="profile"
-              className={`object-contain ${item.from_display === 'SYSTEM' ? '' : 'h-12 w-12'}`}
+              className={`object-contain ${
+                item.from_display === 'SYSTEM' ? '' : 'h-12 w-12'
+              } select-none`}
             />
 
             <div className="">
-              <div className="font-futura-bold text-secondary-base text-sm">
+              <div className="font-futura-bold text-secondary-base text-sm select-none">
                 {item.from_display === 'SYSTEM' ? (
                   <div className="flex items-center gap-0.5">
                     <p>{'Lexi'}</p>
-                    <p className="bg-secondary-base rounded-md text-white px-1 text-xs">AI</p>
+                    <p className="bg-secondary-base rounded-md text-white px-1 text-xs select-none">
+                      AI
+                    </p>
                   </div>
                 ) : (
                   'You'
@@ -153,13 +184,17 @@ export const ChatCard = ({
             <img
               src={images.ic_profile_lexi}
               alt="profile"
-              className={`object-contain ${item.from_display === 'SYSTEM' ? 'h-12 w-12' : ''}`}
+              className={`object-contain ${
+                item.from_display === 'SYSTEM' ? 'h-12 w-12' : ''
+              } select-none`}
             />
             <div className="w-full">
-              <div className="font-futura-bold text-secondary-base text-sm ">
+              <div className="font-futura-bold text-secondary-base text-sm select-none">
                 <div className="flex items-center gap-0.5">
                   <p>{'Lexi'}</p>
-                  <p className="bg-secondary-base rounded-md text-white px-1 text-xs">AI</p>
+                  <p className="bg-secondary-base rounded-md text-white px-1 text-xs select-none">
+                    AI
+                  </p>
                 </div>
               </div>
               <div className="chat-wrap text-sm">{responseText}</div>
@@ -168,7 +203,9 @@ export const ChatCard = ({
 
           {item.type !== 'loading' && (
             <Button
-              className={'btn-secondary-hover w-1/6 mt-6 mb-[1rem] rounded-full font-medium mx-auto'}
+              className={
+                'btn-secondary-hover w-1/6 mt-6 mb-[1rem] rounded-full font-medium mx-auto'
+              }
               label="Retry"
               // onClick={}
             />
@@ -185,13 +222,17 @@ export const ChatCard = ({
           <img
             src={images.ic_profile_lexi}
             alt="profile"
-            className={`object-contain ${item.from_display === 'SYSTEM' ? 'h-12 w-12' : ''}`}
+            className={`object-contain ${
+              item.from_display === 'SYSTEM' ? 'h-12 w-12 select-none' : ''
+            }`}
           />
           <div className="w-full">
-            <div className="font-futura-bold text-secondary-base text-sm ">
+            <div className="font-futura-bold text-secondary-base text-sm select-none">
               <div className="flex items-center gap-0.5">
                 <p>{'Lexi'}</p>
-                <p className="bg-secondary-base rounded-md text-white px-1 text-xs">AI</p>
+                <p className="bg-secondary-base rounded-md text-white px-1 text-xs select-none">
+                  AI
+                </p>
               </div>
             </div>
 
@@ -240,7 +281,9 @@ export const ChatCard = ({
                   )}
 
                   <div className="text-xs w-full">
-                    <p className="text-sm font-semi-bold text-secondary-base break-words w-full">{item.caption}</p>
+                    <p className="text-sm font-semi-bold text-secondary-base break-words w-full select-none">
+                      {item.caption}
+                    </p>
                     {/* <p className='text-neutral-40'>
                       {byteConversion(item.file?.size)}
                     </p> */}
@@ -273,13 +316,19 @@ export const ChatCard = ({
             )}
           >
             <img
-              src={cachedData?.data?.image_url ? cachedData?.data?.image_url : images.ic_avatar_placeholder}
+              src={
+                cachedData?.data?.image_url
+                  ? cachedData?.data?.image_url
+                  : images.ic_avatar_placeholder
+              }
               alt="profile"
-              className={`object-contain rounded-full p-1 h-12 w-12`}
+              className={`object-contain rounded-full p-1 h-12 w-12 select-none`}
             />
 
             <div className="w-full">
-              <div className="font-futura-bold text-secondary-base text-sm">{'You'}</div>
+              <div className="font-futura-bold text-secondary-base text-sm select-none">
+                {'You'}
+              </div>
 
               <div className="whitespace-pre-line text-sm">{item.message}</div>
 
@@ -301,7 +350,7 @@ export const ChatCard = ({
                       </div>
                     )}
                     {/* <div className='text-xs'> */}
-                    <p className="text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%] style-card">
+                    <p className="text-sm font-semi-bold text-secondary-base break-words line-clamp-2 max-w-[60%] style-card select-none">
                       {item.filename}
                     </p>
                     {/* <p className='text-neutral-40'>
