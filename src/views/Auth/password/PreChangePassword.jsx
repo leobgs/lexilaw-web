@@ -25,6 +25,7 @@ export const PreChangePassword = () => {
           setDataUser(data?.data)
         } else {
           // if()
+          setDataUser(data?.data)
           setShowButton(false)
           setErrMessage(data?.message)
         }
