@@ -106,6 +106,10 @@
       "search": "Search",
       "yes_to_recommendation": "Connect me with a lawyer",
       "error_text": "Lexi Assistance failed to generate a response"
+    },
+    "save_document": {
+      "placeholder": "Enter document name",
+      "button": "Save Document"
     }
   },
   "lawyer_document": {
@@ -238,5 +242,8 @@
     "whatsapp_otp_placeholder": "Enter the 6 digit code",
     "whatsapp_otp_waiting": "seconds to",
     "whatsapp_otp_invalid": "Invalid OTP"
-  }
+  },
+  "copy_doc": "Copy document success",
+  "text_copy": "Copy",
+  "text_save": "Save"
 }
