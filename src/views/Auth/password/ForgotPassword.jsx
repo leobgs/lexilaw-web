@@ -48,26 +48,24 @@ export const ForgotPassword = () => {
     emailCheck({ email })
   }
 
-  console.log(timerTIme)
-
   return (
     <AuthCard>
       {showCheckCard ? (
         <>
-          <div className='mb-4 font-futura-bold text-3xl'>
+          <div className="mb-4 font-futura-bold text-3xl">
             {t('header', {
               keyPrefix: 'auth.set_password',
             })}
           </div>
-          <div className='text-neutral-40 text-xl'>
+          <div className="text-neutral-40 text-xl">
             {t('text', {
               keyPrefix: 'auth.set_password',
             })}{' '}
-            <span className='font-semi-bold'>{email}</span>
+            <span className="font-semi-bold">{email}</span>
           </div>
 
-          <div className='text-base font-regular tracking-wide text-gray-700 flex mt-14'>
-            <div className='flex'>
+          <div className="text-base font-regular tracking-wide text-gray-700 flex mt-14">
+            <div className="flex">
               {t('countdownbefore', {
                 keyPrefix: 'auth.register.otp',
               })}
@@ -78,8 +76,8 @@ export const ForgotPassword = () => {
                     setTimerTime(0)
                     setTimesUpTimer(e)
                   }}
-                  format='second'
-                  className='mx-1'
+                  format="second"
+                  className="mx-1"
                 />
               ) : (
                 ' 00 '
@@ -104,15 +102,15 @@ export const ForgotPassword = () => {
         </>
       ) : (
         <>
-          <div className='mb-4 text-center text-xl font-futura-bold text-secondary-base'>
+          <div className="mb-4 text-center text-xl font-futura-bold text-secondary-base">
             {t('auth.forget_password_header')}
           </div>
 
           <Input
-            name='email'
+            name="email"
             value={email}
             onChange={handleChangeForm}
-            className='w-full rounded-full flex-wrap'
+            className="w-full rounded-full flex-wrap"
             inputClass={clsx(
               '!border-secondary-logo focus:outline-secondary-logo text-base'
             )}

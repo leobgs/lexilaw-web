@@ -10,8 +10,9 @@ import { useNavigate, useParams } from 'react-router-dom'
 export const PreChangePassword = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [showButton, setShowButton] = useState(true)
+  const [showButton, setShowButton] = useState(null)
   const [errMessage, setErrMessage] = useState('')
+  const [dataUser, setDataUser] = useState(null)
   const { uuid } = useParams()
 
   useQuery(
@@ -21,7 +22,9 @@ export const PreChangePassword = () => {
       onSettled: (data) => {
         if (data?.status === 'Success') {
           setShowButton(true)
+          setDataUser(data?.data)
         } else {
+          // if()
           setShowButton(false)
           setErrMessage(data?.message)
         }
@@ -33,7 +36,11 @@ export const PreChangePassword = () => {
     <AuthCard>
       {showButton ? (
         <>
-          <h1 className="text-4xl font-futura-bold">Halo, Prima Kusumo</h1>
+          {dataUser?.name && (
+            <h1 className="text-4xl font-futura-bold">
+              Halo, {dataUser?.name}
+            </h1>
+          )}
           <div className="text-xl text-gray-700 my-4">
             {t('pre_change_text', { keyPrefix: 'auth.reset_password' })}
           </div>
@@ -55,15 +62,23 @@ export const PreChangePassword = () => {
         </>
       ) : errMessage === 'Request data not found' ? (
         <>
-          <h1 className="text-4xl font-futura-bold">Halo, Prima Kusumo</h1>
+          {dataUser?.name && (
+            <h1 className="text-4xl font-futura-bold">
+              Halo, {dataUser?.name}
+            </h1>
+          )}
           <div className="text-xl text-gray-700 my-4">
             {t('pre_change_text_fail', { keyPrefix: 'auth.reset_password' })}
           </div>
         </>
       ) : (
         <>
-          <h1 className="text-4xl font-futura-bold">Halo, Prima Kusumo</h1>
-          <div className="text-xl text-gray-700 my-4">
+          {dataUser?.name && (
+            <h1 className="text-4xl font-futura-bold">
+              Halo, {dataUser?.name}
+            </h1>
+          )}
+          <div className="text-xl text-gray-700 my-4 point">
             {t('pre_change_text_finish', { keyPrefix: 'auth.reset_password' })}
           </div>
         </>
