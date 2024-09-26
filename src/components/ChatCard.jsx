@@ -245,12 +245,15 @@ export const ChatCard = ({
                     mydiv: {
                       component: MyDocMD,
                       props: {
-                        handleClick: () => {
+                        handleCopyClick: () => {
                           copyToClipboard({
                             text: copyText,
                             title: t('copy_doc'),
                           })
                         },
+                        handleSaveClick: () => {
+                          alert('save dokumen')
+                        }
                       },
                     },
                   },
