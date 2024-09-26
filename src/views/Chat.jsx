@@ -1,6 +1,14 @@
 import images from 'assets/images'
 
-import { InputChat, NavChat, Tooltips, QuestionCard, CardFile, CardFileMobile, Modal } from 'components'
+import {
+  InputChat,
+  NavChat,
+  Tooltips,
+  QuestionCard,
+  CardFile,
+  CardFileMobile,
+  Modal,
+} from 'components'
 import { Toggle } from 'components/Toggle/Toggle'
 import { API } from 'config/api'
 import { StorageKey } from 'config/storage'
@@ -87,11 +95,15 @@ export const Chat = () => {
   const showChatDocument =
     !isHeader &&
     lawyerUUID &&
-    (availableSchedules?.message === 'Done' || availableSchedules?.message === 'Success get data')
+    (availableSchedules?.message === 'Done' ||
+      availableSchedules?.message === 'Success get data')
   const lawyerList = extractLawyerList(threadDetail)
   const lawyer = lawyerList?.find((item) => item.uuid === lawyerUUID)
 
-  const { dataDocument, isPendingDocument } = useGetDocument(uuid, Boolean(showChatDocument))
+  const { dataDocument, isPendingDocument } = useGetDocument(
+    uuid,
+    Boolean(showChatDocument)
+  )
 
   useEffect(() => {
     if (uuid) {
@@ -159,17 +171,20 @@ export const Chat = () => {
     },
   })
 
-  const { mutate: sendMessage } = useMutation((form) => getData(API.MESSAGE_SEND, form), {
-    onSettled: (datas) => {
-      if (datas?.status === 'Success') {
-        const { data } = datas
-        setMessageUUID(data?.thread_uuid)
-        queryClient.invalidateQueries('newest_thread')
-      } else {
-        notifyError(datas?.message)
-      }
-    },
-  })
+  const { mutate: sendMessage } = useMutation(
+    (form) => getData(API.MESSAGE_SEND, form),
+    {
+      onSettled: (datas) => {
+        if (datas?.status === 'Success') {
+          const { data } = datas
+          setMessageUUID(data?.thread_uuid)
+          queryClient.invalidateQueries('newest_thread')
+        } else {
+          notifyError(datas?.message)
+        }
+      },
+    }
+  )
 
   useQuery(['newest_thread'], () => getData(`${API.THREAD_LIST}?limit=100`), {
     onSettled: (datas) => {
@@ -179,20 +194,28 @@ export const Chat = () => {
           keyPrefix: 'chat',
         })
 
-        const previousData = data?.filter((item) => item.moment === 'Previous') || []
-        const currentData = data?.filter((item) => item.moment === 'Current') || []
+        const previousData =
+          data?.filter((item) => item.moment === 'Previous') || []
+        const currentData =
+          data?.filter((item) => item.moment === 'Current') || []
         let activeCollection = currentData[0]
 
         if (bookingLawyerPayload?.thread_uuid) {
-          activeCollection = currentData.find((item) => item.uuid === bookingLawyerPayload.thread_uuid)
+          activeCollection = currentData.find(
+            (item) => item.uuid === bookingLawyerPayload.thread_uuid
+          )
           if (!activeCollection) {
             activeCollection =
-              previousData.find((item) => item.uuid === bookingLawyerPayload.thread_uuid) || currentData[0]
+              previousData.find(
+                (item) => item.uuid === bookingLawyerPayload.thread_uuid
+              ) || currentData[0]
           }
           bookingLawyerReducer(['thread_uuid'], null)
         }
 
-        const isThereAnyCollection = dataThreadList?.find((item) => item.type === 'koleksi')
+        const isThereAnyCollection = dataThreadList?.find(
+          (item) => item.type === 'koleksi'
+        )
 
         setHasKoleksiData(true)
 
@@ -209,7 +232,10 @@ export const Chat = () => {
         const newMessage = [
           {
             type: 'koleksi',
-            data: isThereAnyCollection?.data?.length !== 0 ? isThereAnyCollection?.data : [],
+            data:
+              isThereAnyCollection?.data?.length !== 0
+                ? isThereAnyCollection?.data
+                : [],
           },
           { type: 'terkini', data: currentData },
           { type: 'riwayat', data: [...previousData, ...RIWAYAT_OROLAN] }, // ...RIWAYAT_OROLAN nanti dihapus kalo udh full api
@@ -340,7 +366,9 @@ export const Chat = () => {
         dataThreadList?.forEach((item) => {
           if (item.type === 'koleksi') {
             return (item.data = data.map((item) => {
-              const hasMatchingThread = item.threads?.some((thread) => thread.uuid === uuid)
+              const hasMatchingThread = item.threads?.some(
+                (thread) => thread.uuid === uuid
+              )
 
               return {
                 ...item,
@@ -519,7 +547,11 @@ export const Chat = () => {
             <div className="flex gap-2 items-center">
               {headerText === 'New Chat' || headerText === 'Obrolan Baru' ? (
                 <>
-                  <img src={images.ic_obrolan} alt="obrolan" className="h-5 w-5" />
+                  <img
+                    src={images.ic_obrolan}
+                    alt="obrolan"
+                    className="h-5 w-5"
+                  />
 
                   <div className="font-futura-bold text-xl">
                     {t('new_chat', {
@@ -529,7 +561,11 @@ export const Chat = () => {
                 </>
               ) : (
                 <>
-                  <img src={images.ic_obrolan} alt="obrolan" className="h-5 w-5" />
+                  <img
+                    src={images.ic_obrolan}
+                    alt="obrolan"
+                    className="h-5 w-5"
+                  />
 
                   <div className="font-futura-bold text-xl">
                     <Typewriter
@@ -546,13 +582,20 @@ export const Chat = () => {
               )}
             </div>
 
-            <div className="flex items-center gap-2" data-tooltip-id="profile-tooltip">
+            <div
+              className="flex items-center gap-2"
+              data-tooltip-id="profile-tooltip"
+            >
               <p className="font-futura-bold text-sm">
                 {userDetail.first_name} {userDetail.last_name}
               </p>
               <img
                 className="size-10 rounded-full ring-1 ring-[#C9BBA0] drop-shadow-[2px_2px_2px_rgba(240, 237, 232, 1)] cursor-pointer"
-                src={userDetail.image_url ? userDetail.image_url : images.ic_avatar_placeholder}
+                src={
+                  userDetail.image_url
+                    ? userDetail.image_url
+                    : images.ic_avatar_placeholder
+                }
                 alt="profile"
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null
@@ -575,13 +618,19 @@ export const Chat = () => {
                     })}
                   </div>
                   <div className="border-b border-b-neutral-20 text-xs font-semi-bold">
-                    <NavLink to="account" className="px-4 mb-2 text-black-darker">
+                    <NavLink
+                      to="account"
+                      className="px-4 mb-2 text-black-darker"
+                    >
                       {t('my_account', {
                         keyPrefix: 'chat.profile_option',
                       })}
                     </NavLink>
                     <div className="flex justify-between items-center my-2">
-                      <div className="px-4 text-black-darker cursor-pointer" onClick={() => navigate('/my-lawyer')}>
+                      <div
+                        className="px-4 text-black-darker cursor-pointer"
+                        onClick={() => navigate('/my-lawyer')}
+                      >
                         {t('my_lawyer', {
                           keyPrefix: 'chat.profile_option',
                         })}
@@ -632,10 +681,14 @@ export const Chat = () => {
                       }
                       alt="arrow"
                       className={`${
-                        userDetail?.connect_whatsapp_status === 'CONNECTED' ? 'h-5 w-5 cursor-pointer' : 'h-2.5 w-2.5'
+                        userDetail?.connect_whatsapp_status === 'CONNECTED'
+                          ? 'h-5 w-5 cursor-pointer'
+                          : 'h-2.5 w-2.5'
                       }`}
                       onClick={(e) => {
-                        if (userDetail?.connect_whatsapp_status === 'CONNECTED') {
+                        if (
+                          userDetail?.connect_whatsapp_status === 'CONNECTED'
+                        ) {
                           e.preventDefault()
                           e.stopPropagation()
 
@@ -658,7 +711,11 @@ export const Chat = () => {
                       {currentLanguage === 'id' ? '(ID)' : '(EN)'}
                     </div>
                     <div className="mr-2.5">
-                      <Toggle labelClassName="!w-[50px]" className="!my-0" hideText={true} />
+                      <Toggle
+                        labelClassName="!w-[50px]"
+                        className="!my-0"
+                        hideText={true}
+                      />
                     </div>
                   </div>
 
@@ -677,16 +734,28 @@ export const Chat = () => {
 
           {isHeader ? (
             <div className="md:h-[calc(100%-56px)] h-full w-full xl:w-3/4 flex flex-col justify-between">
-              <QuestionCard data={defaultQuestion} onClick={(e) => handleAddChat(e)} className="mt-20" />
+              <QuestionCard
+                data={defaultQuestion}
+                onClick={(e) => handleAddChat(e)}
+                className="mt-20"
+              />
               <div className="relative select-text mb-2 mt-1 justify-center">
-                <InputChat onChange={(e) => handleAddChat(e)} disable={disableInput} />
+                <InputChat
+                  onChange={(e) => handleAddChat(e)}
+                  disable={disableInput}
+                />
               </div>
             </div>
           ) : (
             <div className="md:h-[calc(100%-56px)] h-full w-full flex gap-x-7">
               <ThreadPage
-                className={`${!isHeader && uuid === '63926537' ? 'md:w-9/12 relative' : ''} w-full`}
-                hasFile={(!isHeader && uuid === '63926537') || (showChatDocument && !isPendingDocument)}
+                className={`${
+                  !isHeader && uuid === '63926537' ? 'md:w-9/12 relative' : ''
+                } w-full`}
+                hasFile={
+                  (!isHeader && uuid === '63926537') ||
+                  (showChatDocument && !isPendingDocument)
+                }
                 isFirstTimeChat={isFirstTimeChat}
                 onFirstTimeChat={() => setIsFirstTimeChat((prev) => !prev)}
               />
@@ -699,7 +768,7 @@ export const Chat = () => {
                   // className='absolute z-50 right-10 md:md:h-[calc(100%-146px)]'
                   data={FILE_LAWYER}
                   lawyer={lawyer}
-                  lawyer_data={dataDocument.data.lawyer}
+                  lawyer_data={dataDocument?.data?.lawyer}
                 />
               )}
 
@@ -709,13 +778,15 @@ export const Chat = () => {
                   data={FILE_LAWYER}
                   show={showLayerFile}
                   onChangeVisibility={() => setShowLawyerFile(false)}
-                  lawyer_data={dataDocument.data?.lawyer}
+                  lawyer_data={dataDocument?.data?.lawyer}
                   lawyer={lawyer}
                 />
               )}
 
               {/* DUMMY JANGAN DIHAPUS */}
-              {!isHeader && uuid === '63926537' && <CardFile data={FILE_LAWYER} />}
+              {!isHeader && uuid === '63926537' && (
+                <CardFile data={FILE_LAWYER} />
+              )}
               {!isHeader && uuid === '63926537' && (
                 <CardFileMobile
                   data={FILE_LAWYER}
@@ -746,7 +817,11 @@ export const Chat = () => {
         />
       </Modal>
 
-      <Modal classNameBox={'flex justify-center bg-gray-700/70'} show={showWhatsappOtp} onHide={closeModalWaOtp}>
+      <Modal
+        classNameBox={'flex justify-center bg-gray-700/70'}
+        show={showWhatsappOtp}
+        onHide={closeModalWaOtp}
+      >
         {showWhatsappOtp && (
           <WhatsappOtp
             onClickButtonChange={() => {
