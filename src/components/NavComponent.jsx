@@ -10,14 +10,19 @@ import { API } from 'config/api'
 import { deleteData, getData, patchData, putData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { Typewriter } from './Typewriter'
 
-export const NavComponent = ({ item, onDeleted, isActivated }) => {
+export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
   const queryClient = useQueryClient()
   const collectionList = queryClient.getQueryData('collection')
-  const { collectionClick, collectionDelete, collectionSetEdit, collection, setIsFirstTime, isFirstTime } =
-    useGlobalContext()
+  const {
+    collectionClick,
+    collectionDelete,
+    collectionSetEdit,
+    collection,
+    setIsFirstTime,
+    isFirstTime,
+  } = useGlobalContext()
   const [tooltipPlace, setTooltipPlace] = useState('right')
   const [tooltipPlace2, setTooltipPlace2] = useState('right-start')
   const [tooltipOffset, setToolOffset] = useState(10)
@@ -26,11 +31,13 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
   const [show2nd, setShow2nd] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [text, setText] = useState('')
-  const [showModalCreateCollection, setShowModalCreateCollection] = useState(false)
+  const [showModalCreateCollection, setShowModalCreateCollection] =
+    useState(false)
   const { t } = useTranslation()
 
   const { mutate: updateTitle } = useMutation(
-    (text) => patchData(API.THREAD_EDIT + collection.uuid + '/edit', { title: text }),
+    (text) =>
+      patchData(API.THREAD_EDIT + collection.uuid + '/edit', { title: text }),
     {
       onSettled: (data) => {
         if (data.status === 'Success') {
@@ -45,56 +52,68 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
     }
   )
 
-  const { mutate: createCollection } = useMutation((form) => getData(API.COLLECTION_CREATE, form), {
-    onSettled: (data) => {
-      if (data.status === 'Success') {
-        queryClient.invalidateQueries('collection')
-        queryClient.invalidateQueries('newest_thread')
-        setShowModalCreateCollection(false)
-        setText('')
-      } else {
-        setText('')
-        notifyError(data?.message)
-      }
-    },
-  })
+  const { mutate: createCollection } = useMutation(
+    (form) => getData(API.COLLECTION_CREATE, form),
+    {
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          queryClient.invalidateQueries('collection')
+          queryClient.invalidateQueries('newest_thread')
+          setShowModalCreateCollection(false)
+          setText('')
+        } else {
+          setText('')
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
 
-  const { mutate: deleteThread } = useMutation((uuid) => deleteData(API.THREAD_LIST_DELETE + uuid), {
-    onSettled: (data) => {
-      if (data.status === 'Success') {
-        queryClient.invalidateQueries('newest_thread')
-        queryClient.invalidateQueries('collection')
-        collectionSetEdit({ ...item, editState: 'stop' })
-        collectionDelete(item)
-        onDeleted()
-      } else {
-        notifyError(data?.message)
-      }
-    },
-  })
+  const { mutate: deleteThread } = useMutation(
+    (uuid) => deleteData(API.THREAD_LIST_DELETE + uuid),
+    {
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          queryClient.invalidateQueries('newest_thread')
+          queryClient.invalidateQueries('collection')
+          collectionSetEdit({ ...item, editState: 'stop' })
+          collectionDelete(item)
+          onDeleted()
+        } else {
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
 
-  const { mutate: deleteThreadCollection } = useMutation((uuid) => deleteData(API.COLLECTION_DELETE_THREAD + uuid), {
-    onSettled: (data) => {
-      if (data.status === 'Success') {
-        queryClient.invalidateQueries('collection')
-        collectionSetEdit({ ...item, editState: 'stop' })
-        collectionDelete(item)
-        onDeleted()
-      } else {
-        notifyError(data?.message)
-      }
-    },
-  })
+  const { mutate: deleteThreadCollection } = useMutation(
+    (uuid) => deleteData(API.COLLECTION_DELETE_THREAD + uuid),
+    {
+      onSettled: (data) => {
+        if (data.status === 'Success') {
+          queryClient.invalidateQueries('collection')
+          collectionSetEdit({ ...item, editState: 'stop' })
+          collectionDelete(item)
+          onDeleted()
+        } else {
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
 
-  const { mutate: assignCollection } = useMutation((form) => putData(API.COLLECTION_CREATE_ASSIGN, form), {
-    onSettled: (data) => {
-      if (data?.status === 'Success') {
-        queryClient.invalidateQueries('collection')
-      } else {
-        notifyError(data?.message)
-      }
-    },
-  })
+  const { mutate: assignCollection } = useMutation(
+    (form) => putData(API.COLLECTION_CREATE_ASSIGN, form),
+    {
+      onSettled: (data) => {
+        if (data?.status === 'Success') {
+          queryClient.invalidateQueries('collection')
+        } else {
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
 
   useEffect(() => {
     handleResize()
@@ -120,57 +139,65 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
   }
 
   const onDeleteClick = () => {
-    collection.activeBy === 'thread' ? deleteThread(item.uuid) : deleteThreadCollection(item.uuid)
+    collection.activeBy === 'thread'
+      ? deleteThread(item.uuid)
+      : deleteThreadCollection(item.uuid)
     setShow1st(false)
   }
 
   return (
-    <div
-      className={`h-9 rounded-lg flex justify-between items-center text-sm pl-2 cursor-pointer
+    <>
+      <div
+        className={`h-9 rounded-lg flex justify-between items-center text-sm pl-2 cursor-pointer
       ${
         item.isActive
-          ? isActivated
+          ? isActivated && item.type === collection.activeBy
             ? 'bg-blue-dark text-white shadow pl-1 bg-selected-lawyer-left'
             : 'border-blue-dark border pl-2'
           : ''
       }`}
-      onClick={() => {
-        item.isActive && isActivated ? void 0 : collectionClick({ ...item, activeBy: 'thread' })
-        setIsFirstTime(false)
-      }}
-    >
-      <>
-        <div className={`line-clamp-1 w-full`}>
-          {item.isActive && isActivated && isFirstTime ? (
-            <Typewriter
-              text={
-                item.title === ''
-                  ? t('new_chat', {
-                      keyPrefix: 'chat',
-                    })
-                  : item.title
-              }
-            />
-          ) : item.title === '' ? (
-            t('new_chat', {
-              keyPrefix: 'chat',
-            })
-          ) : (
-            item.title
-          )}
-        </div>
-        {item.isActive && isActivated && (
-          <div className="pl-3 -py-2" onClick={() => setShow1st(true)}>
-            <img
-              src={images.ic_dots}
-              alt="dots"
-              className="h-3 step-2 pr-2"
-              data-tooltip-id={`tool-tips-${item.uuid}`}
-            />
-          </div>
-        )}
-      </>
+        onClick={() => {
+          item.isActive && isActivated
+            ? void 0
+            : collectionClick({ ...item, activeBy: typeClick })
 
+          setIsFirstTime(false)
+        }}
+      >
+        <>
+          <div className={`line-clamp-1 w-full`}>
+            {item.isActive && isActivated && isFirstTime ? (
+              <Typewriter
+                text={
+                  item.title === ''
+                    ? t('new_chat', {
+                        keyPrefix: 'chat',
+                      })
+                    : item.title
+                }
+              />
+            ) : item.title === '' ? (
+              t('new_chat', {
+                keyPrefix: 'chat',
+              })
+            ) : (
+              item.title
+            )}
+          </div>
+          {item.isActive &&
+            isActivated &&
+            item.type === collection.activeBy && (
+              <div className="pl-3 -py-2" onClick={() => setShow1st(true)}>
+                <img
+                  src={images.ic_dots}
+                  alt="dots"
+                  className="h-3 step-2 pr-2"
+                  data-tooltip-id={`tool-tips-${item.uuid}`}
+                />
+              </div>
+            )}
+        </>
+      </div>
       <ReactTooltip
         id={`tool-tips-${item.uuid}`}
         place={tooltipPlace}
@@ -262,19 +289,34 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
                 })
               }}
             >
-              <img src={images.ic_folder_colections} alt="ic_folder_colection" className="h-3 w-[13.76px]" />
+              <img
+                src={images.ic_folder_colections}
+                alt="ic_folder_colection"
+                className="h-3 w-[13.76px]"
+              />
               <div className="text-[#121212] text-xs">{item.name}</div>
             </div>
           ))}
         <div className="flex justify-start gap-2 items-center">
-          <img src={images.ic_new_collection} alt="ic_folder_colection" className="h-3.5 w-4" />
-          <div className="text-[#121212] text-xs" onClick={() => setShowModalCreateCollection(true)}>
+          <img
+            src={images.ic_new_collection}
+            alt="ic_folder_colection"
+            className="h-3.5 w-4"
+          />
+          <div
+            className="text-[#121212] text-xs"
+            onClick={() => setShowModalCreateCollection(true)}
+          >
             {t('new_collection', { keyPrefix: 'nav_component' })}
           </div>
         </div>
       </ReactTooltip>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} dialogClassName="w-11/12 md:w-1/2 lg:w-1/3">
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        dialogClassName="w-11/12 md:w-1/2 lg:w-1/3"
+      >
         <div className="bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full">
           <Input
             name="text"
@@ -292,7 +334,9 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
             />
             <Button
               label={t('save', { keyPrefix: 'nav_component' })}
-              className={`${text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'} rounded-3xl !h-10 text-white`}
+              className={`${
+                text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
+              } rounded-3xl !h-10 text-white`}
               disabled={!text}
               onClick={() => updateTitle(text)}
             />
@@ -325,13 +369,17 @@ export const NavComponent = ({ item, onDeleted, isActivated }) => {
             />
             <Button
               label={t('create', { keyPrefix: 'nav_component' })}
-              className={`${text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'} rounded-3xl !h-10 text-white`}
+              className={`${
+                text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
+              } rounded-3xl !h-10 text-white`}
               disabled={!text}
-              onClick={() => createCollection({ name: text, threadId: item.uuid })}
+              onClick={() =>
+                createCollection({ name: text, threadId: item.uuid })
+              }
             />
           </div>
         </div>
       </Modal>
-    </div>
+    </>
   )
 }
