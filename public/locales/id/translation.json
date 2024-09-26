@@ -106,6 +106,10 @@
       "search": "Cari",
       "yes_to_recommendation": "Hubungkan dengan pengacara",
       "error_text": "Asisten Lexi gagal mendapatkan respon"
+    },
+    "save_document": {
+      "placeholder": "Masukan nama dokumen",
+      "button": "Simpan Dokumen"
     }
   },
   "lawyer_document": {
@@ -240,5 +244,6 @@
     "whatsapp_otp_invalid": "OTP tidak valid"
   },
   "copy_doc": "Salin dokumen sukses",
-  "text_copy": "Salin"
+  "text_copy": "Salin",
+  "text_save": "Simpan"
 }
