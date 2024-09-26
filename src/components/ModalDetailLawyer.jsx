@@ -1,12 +1,12 @@
 import images from "assets/images";
 import { Modal } from "./Modal";
 import { Tabs } from "./Tabs";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { copyToClipboard } from "utils";
 import { Button } from "./Button/Button";
 import { API } from "config/api";
-import { useMutation, useQuery } from "react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "react-query";
 import { getData } from "hooks/useRequest";
 import { useTranslation } from "react-i18next";
 import { formatDate, formatTime } from "utils/formatTime";
@@ -28,6 +28,8 @@ export const ModalDetailLawyer = ({
 
   const { currentLanguage } = useGlobalContext();
   const navigate = useNavigate();
+  const scheduleContainerRef = useRef(null);
+  const scheduleRef = useRef(null);
 
   const getdetailLawyer = useQuery(["detailLawyer", show], () => {
     if (show) {
@@ -37,13 +39,38 @@ export const ModalDetailLawyer = ({
     }
   });
 
-  const { data: lawyerSchedules } = useQuery(["lawyerSchedules", show], () => {
-    if (show) {
-      return getData(API.MY_LAWYER_SCHEDULES + show);
-    } else {
-      return Promise.resolve(null);
+  const {
+    data: lawyerSchedulesPages,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery(
+    ["lawyerSchedules", show],
+    ({ pageParam = 1 }) => {
+      if (show) {
+        return getData(
+          API.MY_LAWYER_SCHEDULES + show + `?page=${pageParam}&limit=3`
+        );
+      } else {
+        return Promise.resolve(null);
+      }
+    },
+    {
+      getNextPageParam: (lastPage, pages) => {
+        const totalPage = Math.round(lastPage.meta.total / lastPage.meta.limit);
+        if (lastPage.meta.page < totalPage) {
+          return lastPage.meta.page + 1;
+        }
+        return undefined;
+        // Assuming your API returns a `nextPage` property when there's more data
+        // return lastPage.meta.page + 1 ?? undefined;
+      },
+      enabled: !!show,
     }
-  });
+  );
+
+  const lawyerSchedules =
+    lawyerSchedulesPages?.pages.flatMap((page) => page.data) ?? [];
 
   const getdocument = useQuery(["documentlawyer", show], () => {
     if (show) {
@@ -52,6 +79,16 @@ export const ModalDetailLawyer = ({
       return Promise.resolve(null);
     }
   });
+
+  const callbackObserver = useCallback(
+    (entries) => {
+      const [target] = entries;
+      if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
+    [hasNextPage, fetchNextPage, isFetchingNextPage]
+  );
 
   useEffect(() => {
     if (show) {
@@ -63,6 +100,27 @@ export const ModalDetailLawyer = ({
       }
     }
   }, [show, getdetailLawyer, getdocument]);
+
+  useEffect(() => {
+    const scheduleContainer = scheduleContainerRef.current;
+    const schedule = scheduleRef.current;
+
+    if (!schedule || !scheduleContainer) return;
+    const observer = new IntersectionObserver(callbackObserver, {
+      threshold: 1,
+      root: scheduleContainer,
+    });
+
+    if (schedule) {
+      observer.observe(schedule);
+    }
+
+    return () => {
+      if (schedule) {
+        observer.unobserve(schedule);
+      }
+    };
+  }, [callbackObserver, currText]);
 
   useEffect(() => {
     if (dataListDocumment && dataListDocumment.length > 0) {
@@ -80,17 +138,14 @@ export const ModalDetailLawyer = ({
     ({ thread_uuid, lawyer_uuid }) =>
       getData(
         API.AVAILABLE_SCHEDULES +
-          `/${lawyer_uuid}/${thread_uuid}asda?page=1&limit=1`
+          `/${lawyer_uuid}/${thread_uuid}?page=1&limit=1`
       ),
     {
       onSettled: (data, error, variables) => {
-        console.log(data);
-
         if (error || data.status !== "Success") {
           notifyBottomError(t("error", { keyPrefix: "schedule" }));
         } else if (data.status === "Success") {
           const thread_uuid = variables.thread_uuid;
-
           navigate(`/schedule`, {
             state: {
               scheduling_url_event: data.data.scheduling_url_event,
@@ -317,10 +372,13 @@ export const ModalDetailLawyer = ({
           </div>
         </>
       ) : (
-        <div className="md:h-[66%] h-full overflow-y-auto">
-          {lawyerSchedules?.data &&
-            lawyerSchedules?.data?.length > 0 &&
-            lawyerSchedules?.data?.map((item, index) => (
+        <div
+          className="md:h-[66%] h-full overflow-y-scroll no-scrollbar"
+          ref={scheduleContainerRef}
+        >
+          {lawyerSchedules &&
+            lawyerSchedules.length > 0 &&
+            lawyerSchedules.map((item, index) => (
               <div
                 className="bg-white mb-4 p-4 rounded-2xl shadow-md"
                 key={item.created_at + 11}
@@ -392,6 +450,9 @@ export const ModalDetailLawyer = ({
                 </div>
               </div>
             ))}
+          <div ref={scheduleRef} className="h-10 bg-red-500">
+            {hasNextPage ? "" : ""}
+          </div>
         </div>
       )}
     </Modal>
