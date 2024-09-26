@@ -20,7 +20,7 @@ export const transformMarkdown = (responseText) => {
 
   if (match) {
     const transformText = responseText.replace(regex, (_, p1) => {
-      copiedText = p1.trim()
+      copiedText = p1.trim().replace(/\*\*(.*?)\*\*/g, '$1')
       return '<mydiv>\n' + p1.trim() + '\n</mydiv>'
     })
 
