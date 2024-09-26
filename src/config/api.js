@@ -59,4 +59,8 @@ export const API = {
 
   DISCLAIMER: '/user/app/v1.0.0/disclaimer',
   UPDATE_DISCLAIMER: '/user/app/v1.0.0/user/disclaimer',
+
+  // WhatsApp
+  WHATSAPP_CONNECT: '/user/app/v1.0.0/user/whatsapp/connect',
+  WHATSAPP_OTP: '/user/app/v1.0.0/user/whatsapp/otp/check',
 }

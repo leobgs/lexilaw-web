@@ -1,12 +1,20 @@
 import images from 'assets/images'
 
-import { InputChat, NavChat, Tooltips, QuestionCard, CardFile, CardFileMobile, Modal } from 'components'
+import {
+  InputChat,
+  NavChat,
+  Tooltips,
+  QuestionCard,
+  CardFile,
+  CardFileMobile,
+  Modal,
+} from 'components'
 import { Toggle } from 'components/Toggle/Toggle'
 import { API } from 'config/api'
 import { StorageKey } from 'config/storage'
 import { useGlobalContext } from 'hooks/context'
 import { deleteData, getData } from 'hooks/useRequest'
-import { notifyError } from 'hooks/useToas'
+import { notifyError, notifyInfo } from 'hooks/useToas'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -27,8 +35,15 @@ export const Chat = () => {
   const { t } = useTranslation()
   const storage = new LocalStorage()
   const navigate = useNavigate()
-  const { currentLanguage, collection, bookingLawyerPayload, bookingLawyerReducer, collectionReset, collectionSet, resetPhoneNumber } =
-    useGlobalContext()
+  const {
+    currentLanguage,
+    collection,
+    bookingLawyerPayload,
+    bookingLawyerReducer,
+    collectionReset,
+    collectionSet,
+    resetPhoneNumber,
+  } = useGlobalContext()
   const { uuid } = useParams()
   const queryClient = useQueryClient()
   const [isHeader, setIsHeader] = useState(true)
@@ -72,17 +87,23 @@ export const Chat = () => {
     resetPhoneNumber()
   }
 
+  const [showConnectedWA, setShowConnectedWA] = useState(false)
+
   const availableSchedules = queryClient.getQueryData(['available_schedules'])
   const threadDetail = queryClient.getQueryData(['thread_detail', uuid])
   const lawyerUUID = extractLawyerUUID(threadDetail)
   const showChatDocument =
     !isHeader &&
     lawyerUUID &&
-    (availableSchedules?.message === 'Done' || availableSchedules?.message === 'Success get data')
+    (availableSchedules?.message === 'Done' ||
+      availableSchedules?.message === 'Success get data')
   const lawyerList = extractLawyerList(threadDetail)
   const lawyer = lawyerList?.find((item) => item.uuid === lawyerUUID)
 
-  const { dataDocument, isPendingDocument } = useGetDocument(uuid, Boolean(showChatDocument))
+  const { dataDocument, isPendingDocument } = useGetDocument(
+    uuid,
+    Boolean(showChatDocument)
+  )
 
   useEffect(() => {
     if (uuid) {
@@ -150,17 +171,20 @@ export const Chat = () => {
     },
   })
 
-  const { mutate: sendMessage } = useMutation((form) => getData(API.MESSAGE_SEND, form), {
-    onSettled: (datas) => {
-      if (datas?.status === 'Success') {
-        const { data } = datas
-        setMessageUUID(data?.thread_uuid)
-        queryClient.invalidateQueries('newest_thread')
-      } else {
-        notifyError(datas?.message)
-      }
-    },
-  })
+  const { mutate: sendMessage } = useMutation(
+    (form) => getData(API.MESSAGE_SEND, form),
+    {
+      onSettled: (datas) => {
+        if (datas?.status === 'Success') {
+          const { data } = datas
+          setMessageUUID(data?.thread_uuid)
+          queryClient.invalidateQueries('newest_thread')
+        } else {
+          notifyError(datas?.message)
+        }
+      },
+    }
+  )
 
   useQuery(['newest_thread'], () => getData(`${API.THREAD_LIST}?limit=100`), {
     onSettled: (datas) => {
@@ -170,20 +194,28 @@ export const Chat = () => {
           keyPrefix: 'chat',
         })
 
-        const previousData = data?.filter((item) => item.moment === 'Previous') || []
-        const currentData = data?.filter((item) => item.moment === 'Current') || []
+        const previousData =
+          data?.filter((item) => item.moment === 'Previous') || []
+        const currentData =
+          data?.filter((item) => item.moment === 'Current') || []
         let activeCollection = currentData[0]
 
         if (bookingLawyerPayload?.thread_uuid) {
-          activeCollection = currentData.find((item) => item.uuid === bookingLawyerPayload.thread_uuid)
+          activeCollection = currentData.find(
+            (item) => item.uuid === bookingLawyerPayload.thread_uuid
+          )
           if (!activeCollection) {
             activeCollection =
-              previousData.find((item) => item.uuid === bookingLawyerPayload.thread_uuid) || currentData[0]
+              previousData.find(
+                (item) => item.uuid === bookingLawyerPayload.thread_uuid
+              ) || currentData[0]
           }
           bookingLawyerReducer(['thread_uuid'], null)
         }
 
-        const isThereAnyCollection = dataThreadList?.find((item) => item.type === 'koleksi')
+        const isThereAnyCollection = dataThreadList?.find(
+          (item) => item.type === 'koleksi'
+        )
 
         setHasKoleksiData(true)
 
@@ -200,7 +232,10 @@ export const Chat = () => {
         const newMessage = [
           {
             type: 'koleksi',
-            data: isThereAnyCollection?.data?.length !== 0 ? isThereAnyCollection?.data : [],
+            data:
+              isThereAnyCollection?.data?.length !== 0
+                ? isThereAnyCollection?.data
+                : [],
           },
           { type: 'terkini', data: currentData },
           { type: 'riwayat', data: [...previousData, ...RIWAYAT_OROLAN] }, // ...RIWAYAT_OROLAN nanti dihapus kalo udh full api
@@ -331,7 +366,9 @@ export const Chat = () => {
         dataThreadList?.forEach((item) => {
           if (item.type === 'koleksi') {
             return (item.data = data.map((item) => {
-              const hasMatchingThread = item.threads?.some((thread) => thread.uuid === uuid)
+              const hasMatchingThread = item.threads?.some(
+                (thread) => thread.uuid === uuid
+              )
 
               return {
                 ...item,
@@ -510,7 +547,11 @@ export const Chat = () => {
             <div className="flex gap-2 items-center">
               {headerText === 'New Chat' || headerText === 'Obrolan Baru' ? (
                 <>
-                  <img src={images.ic_obrolan} alt="obrolan" className="h-5 w-5" />
+                  <img
+                    src={images.ic_obrolan}
+                    alt="obrolan"
+                    className="h-5 w-5"
+                  />
 
                   <div className="font-futura-bold text-xl">
                     {t('new_chat', {
@@ -520,7 +561,11 @@ export const Chat = () => {
                 </>
               ) : (
                 <>
-                  <img src={images.ic_obrolan} alt="obrolan" className="h-5 w-5" />
+                  <img
+                    src={images.ic_obrolan}
+                    alt="obrolan"
+                    className="h-5 w-5"
+                  />
 
                   <div className="font-futura-bold text-xl">
                     <Typewriter
@@ -537,13 +582,20 @@ export const Chat = () => {
               )}
             </div>
 
-            <div className="flex items-center gap-2" data-tooltip-id="profile-tooltip">
+            <div
+              className="flex items-center gap-2"
+              data-tooltip-id="profile-tooltip"
+            >
               <p className="font-futura-bold text-sm">
                 {userDetail.first_name} {userDetail.last_name}
               </p>
               <img
                 className="size-10 rounded-full ring-1 ring-[#C9BBA0] drop-shadow-[2px_2px_2px_rgba(240, 237, 232, 1)] cursor-pointer"
-                src={userDetail.image_url ? userDetail.image_url : images.ic_avatar_placeholder}
+                src={
+                  userDetail.image_url
+                    ? userDetail.image_url
+                    : images.ic_avatar_placeholder
+                }
                 alt="profile"
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null
@@ -566,13 +618,19 @@ export const Chat = () => {
                     })}
                   </div>
                   <div className="border-b border-b-neutral-20 text-xs font-semi-bold">
-                    <NavLink to="account" className="px-4 mb-2 text-black-darker">
+                    <NavLink
+                      to="account"
+                      className="px-4 mb-2 text-black-darker"
+                    >
                       {t('my_account', {
                         keyPrefix: 'chat.profile_option',
                       })}
                     </NavLink>
                     <div className="flex justify-between items-center my-2">
-                      <div className="px-4 text-black-darker cursor-pointer" onClick={() => navigate('/my-lawyer')}>
+                      <div
+                        className="px-4 text-black-darker cursor-pointer"
+                        onClick={() => navigate('/my-lawyer')}
+                      >
                         {t('my_lawyer', {
                           keyPrefix: 'chat.profile_option',
                         })}
@@ -585,18 +643,59 @@ export const Chat = () => {
                       keyPrefix: 'chat.profile_menu',
                     })}
                   </div>
-                  <div className="flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2 font-semi-bold">
+                  <div className="flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2">
                     <div
-                      className="px-4 text-black-darker text-xs cursor-pointer"
+                      className={`px-4 text-black-darker text-xs  ${
+                        userDetail?.connect_whatsapp_status !== 'CONNECTED'
+                          ? 'cursor-pointer font-semi-bold'
+                          : 'font-light'
+                      }`}
                       onClick={() => {
-                        openModalWAActivation()
+                        switch (userDetail?.connect_whatsapp_status) {
+                          case 'CONNECTED':
+                            break
+                          case 'PENDING':
+                            navigate('/pending-whatsapp')
+                            break
+                          default:
+                            openModalWAActivation()
+                            break
+                        }
                       }}
                     >
-                      {t('wa_activation', {
-                        keyPrefix: 'chat.profile_option',
-                      })}
+                      {userDetail?.connect_whatsapp_status === 'CONNECTED'
+                        ? t('chat.profile_option.wa_connected')
+                        : userDetail?.connect_whatsapp_status === 'PENDING'
+                        ? t('chat.profile_option.wa_pending')
+                        : t('wa_activation', {
+                            keyPrefix: 'chat.profile_option',
+                          })}
                     </div>
-                    <img src={images.ic_vector_green} alt="arrow" className="h-2.5 w-2.5" />
+                    <img
+                      src={
+                        userDetail?.connect_whatsapp_status === 'CONNECTED'
+                          ? images.ic_disconnected
+                          : userDetail?.connect_whatsapp_status === 'PENDING'
+                          ? images.ic_sand_time_mini
+                          : images.ic_arrow_cornering
+                      }
+                      alt="arrow"
+                      className={`${
+                        userDetail?.connect_whatsapp_status === 'CONNECTED'
+                          ? 'h-5 w-5 cursor-pointer'
+                          : 'h-2.5 w-2.5'
+                      }`}
+                      onClick={(e) => {
+                        if (
+                          userDetail?.connect_whatsapp_status === 'CONNECTED'
+                        ) {
+                          e.preventDefault()
+                          e.stopPropagation()
+
+                          setShowConnectedWA(true)
+                        }
+                      }}
+                    />
                   </div>
 
                   <div className="px-4 my-2 text-xxs">
@@ -612,7 +711,11 @@ export const Chat = () => {
                       {currentLanguage === 'id' ? '(ID)' : '(EN)'}
                     </div>
                     <div className="mr-2.5">
-                      <Toggle labelClassName="!w-[50px]" className="!my-0" hideText={true} />
+                      <Toggle
+                        labelClassName="!w-[50px]"
+                        className="!my-0"
+                        hideText={true}
+                      />
                     </div>
                   </div>
 
@@ -631,16 +734,28 @@ export const Chat = () => {
 
           {isHeader ? (
             <div className="md:h-[calc(100%-56px)] h-full w-full xl:w-3/4 flex flex-col justify-between">
-              <QuestionCard data={defaultQuestion} onClick={(e) => handleAddChat(e)} className="mt-20" />
+              <QuestionCard
+                data={defaultQuestion}
+                onClick={(e) => handleAddChat(e)}
+                className="mt-20"
+              />
               <div className="relative select-text mb-2 mt-1 justify-center">
-                <InputChat onChange={(e) => handleAddChat(e)} disable={disableInput} />
+                <InputChat
+                  onChange={(e) => handleAddChat(e)}
+                  disable={disableInput}
+                />
               </div>
             </div>
           ) : (
             <div className="md:h-[calc(100%-56px)] h-full w-full flex gap-x-7">
               <ThreadPage
-                className={`${!isHeader && uuid === '63926537' ? 'md:w-9/12 relative' : ''} w-full`}
-                hasFile={(!isHeader && uuid === '63926537') || (showChatDocument && !isPendingDocument)}
+                className={`${
+                  !isHeader && uuid === '63926537' ? 'md:w-9/12 relative' : ''
+                } w-full`}
+                hasFile={
+                  (!isHeader && uuid === '63926537') ||
+                  (showChatDocument && !isPendingDocument)
+                }
                 isFirstTimeChat={isFirstTimeChat}
                 onFirstTimeChat={() => setIsFirstTimeChat((prev) => !prev)}
               />
@@ -653,7 +768,7 @@ export const Chat = () => {
                   // className='absolute z-50 right-10 md:md:h-[calc(100%-146px)]'
                   data={FILE_LAWYER}
                   lawyer={lawyer}
-                  lawyer_data={dataDocument.data.lawyer}
+                  lawyer_data={dataDocument?.data?.lawyer}
                 />
               )}
 
@@ -663,13 +778,15 @@ export const Chat = () => {
                   data={FILE_LAWYER}
                   show={showLayerFile}
                   onChangeVisibility={() => setShowLawyerFile(false)}
-                  lawyer_data={dataDocument.data?.lawyer}
+                  lawyer_data={dataDocument?.data?.lawyer}
                   lawyer={lawyer}
                 />
               )}
 
               {/* DUMMY JANGAN DIHAPUS */}
-              {!isHeader && uuid === '63926537' && <CardFile data={FILE_LAWYER} />}
+              {!isHeader && uuid === '63926537' && (
+                <CardFile data={FILE_LAWYER} />
+              )}
               {!isHeader && uuid === '63926537' && (
                 <CardFileMobile
                   data={FILE_LAWYER}
@@ -700,7 +817,11 @@ export const Chat = () => {
         />
       </Modal>
 
-      <Modal classNameBox={'flex justify-center bg-gray-700/70'} show={showWhatsappOtp} onHide={closeModalWaOtp}>
+      <Modal
+        classNameBox={'flex justify-center bg-gray-700/70'}
+        show={showWhatsappOtp}
+        onHide={closeModalWaOtp}
+      >
         {showWhatsappOtp && (
           <WhatsappOtp
             onClickButtonChange={() => {
@@ -708,8 +829,59 @@ export const Chat = () => {
               openModalWAActivation()
               resetPhoneNumber()
             }}
+            onSuccessOTP={() => {
+              closeModalWaOtp()
+              resetPhoneNumber()
+            }}
           />
         )}
+      </Modal>
+
+      {/* Modal Disconnect WA */}
+      <Modal
+        classNameBox={'bg-gray-700/70'}
+        contentClassName={'flex justify-center px-4'}
+        show={showConnectedWA}
+        onHide={() => {
+          setShowConnectedWA(false)
+        }}
+      >
+        {/* Card */}
+        <div className="relative bg-[#F0EDE8] rounded-md py-8 px-2 border border-[#F3E8D0] w-[622px]">
+          {/* button close */}
+          <div
+            className="absolute top-4 right-4 hover:cursor-pointer"
+            onClick={() => {
+              setShowConnectedWA(false)
+            }}
+          >
+            <img alt="cross" src={images.ic_circle_cross} />
+          </div>
+
+          {/* Header */}
+          <div className="px-4 my-2 w-[483px] mx-auto">
+            <h1 className="font-futura-bold text-3xl text-dark-50 text-center mx-auto mt-4">
+              {t('chat.profile_menu.connected_whatsapp_heading')}
+            </h1>
+
+            <p className="font-medium text-[20px] text-gray-700 text-center my-4">
+              {t('chat.profile_menu.connected_whatsapp_description')}
+            </p>
+
+            {/* Button Action */}
+            <div className="px-2 my-2">
+              <button
+                className="block rounded-full w-full bg-gray-500 text-center font-bold text-[16px] py-2 border border-[#F3E8D0]/50 text-dark-50"
+                onClick={() => {
+                  notifyInfo('Belum ada Fitur nya')
+                  setShowConnectedWA(false)
+                }}
+              >
+                {t('chat.profile_menu.connected_whatsapp_button')}
+              </button>
+            </div>
+          </div>
+        </div>
       </Modal>
     </div>
   )
