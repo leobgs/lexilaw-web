@@ -109,7 +109,8 @@
     },
     "save_document": {
       "placeholder": "Enter document name",
-      "button": "Save Document"
+      "button": "Save Document",
+      "toast_success": "Document has been save"
     }
   },
   "lawyer_document": {

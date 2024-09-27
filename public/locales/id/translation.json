@@ -109,7 +109,8 @@
     },
     "save_document": {
       "placeholder": "Masukan nama dokumen",
-      "button": "Simpan Dokumen"
+      "button": "Simpan Dokumen",
+      "toast_success": "Dokumen telah tersimpan"
     }
   },
   "lawyer_document": {

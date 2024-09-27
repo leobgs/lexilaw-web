@@ -56,7 +56,7 @@ const useGetDocument = (thread_uuid, isEnabled) => {
   } = useQuery({
     queryKey: ['chat_document', thread_uuid],
     queryFn: () => getData(API.CHAT_DOCUMENT + '/' + thread_uuid),
-    enabled: isEnabled,
+    // enabled: isEnabled,
   })
 
   return {

@@ -15,6 +15,9 @@ import { API } from 'config/api'
 import { transformMarkdown } from 'utils/transformMarkdown'
 import { MyDocMD } from './MyDocMD'
 import { copyToClipboard } from 'utils'
+import { useParams } from 'react-router-dom'
+import { usePostSaveDocument } from 'hooks/usePostSaveDocument'
+import { notifyInfo } from 'hooks/useToas'
 
 export const ChatCard = ({
   item,
@@ -35,6 +38,10 @@ export const ChatCard = ({
   const [displayExt, setDisplayExt] = useState()
   const [consult, setConsult] = useState(false)
   const [copyText, setCopyText] = useState('')
+
+  const { uuid } = useParams()
+
+  const { isPendingSaveDoc, mutateAsyncSaveDoc } = usePostSaveDocument()
 
   const { data: statusData, isFetching } = useQuery(
     ['available_schedules'],
@@ -251,9 +258,13 @@ export const ChatCard = ({
                             title: t('copy_doc'),
                           })
                         },
-                        handleSaveClick: () => {
-                          alert('save dokumen')
-                        }
+                        handleSaveClick: async (docName) => {
+                          await mutateAsyncSaveDoc({
+                            name: docName,
+                            thread_chat_id: item?.uuid,
+                            thread_id: uuid,
+                          })
+                        },
                       },
                     },
                   },
