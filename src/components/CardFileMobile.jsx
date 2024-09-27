@@ -148,7 +148,7 @@ export const CardFileMobile = ({
                 )}
 
                 {/* Hasil Dari AI / System MAPPING*/}
-                {system_data.map((item) => (
+                {system_data?.map((item) => (
                   <div
                     className="flex items-center space-x-4 my-4"
                     key={item.thread_chat_uuid}
