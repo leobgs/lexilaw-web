@@ -8,7 +8,7 @@ export const TextSelectionPopup = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [selectedText, setSelectedText] = useState('')
   const popupRef = useRef(null)
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   useEffect(() => {
     const handleMouseUp = () => {
@@ -22,21 +22,32 @@ export const TextSelectionPopup = () => {
 
           const range = selection.getRangeAt(0)
           const rects = range.getClientRects()
-          const firstRect = rects[0]
+          const lastRect = rects[rects.length - 1]
 
           let offsetParent = range.startContainer
           while (offsetParent && !(offsetParent instanceof Element)) {
             offsetParent = offsetParent.parentNode
           }
-          while (offsetParent && window.getComputedStyle(offsetParent).position === 'static') {
+          while (
+            offsetParent &&
+            window.getComputedStyle(offsetParent).position === 'static'
+          ) {
             offsetParent = offsetParent.offsetParent
           }
 
-          const parentRect = offsetParent ? offsetParent.getBoundingClientRect() : { left: 0, top: 0 }
+          const parentRect = offsetParent
+            ? offsetParent.getBoundingClientRect()
+            : { left: 0, top: 0 }
 
           const newPosition = {
-            x: firstRect.left - parentRect.left + (offsetParent ? offsetParent.scrollLeft : window.scrollX),
-            y: firstRect.top - parentRect.top + (offsetParent ? offsetParent.scrollTop : window.scrollY),
+            x:
+              lastRect.right -
+              parentRect.left +
+              (offsetParent ? offsetParent.scrollLeft : window.scrollX),
+            y:
+              lastRect.bottom -
+              parentRect.top +
+              (offsetParent ? offsetParent.scrollTop : window.scrollY),
           }
 
           setPosition(newPosition)
@@ -67,8 +78,8 @@ export const TextSelectionPopup = () => {
       ref={popupRef}
       className="absolute bg-white shadow-lg rounded-lg p-2 z-50"
       style={{
-        left: `${position.x}px`,
-        top: `${position.y - 5}px`,
+        left: `${position.x - 70}px`,
+        top: `${position.y + 40}px`,
         transform: 'translateY(-100%)',
       }}
     >

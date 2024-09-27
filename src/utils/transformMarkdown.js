@@ -1,11 +1,10 @@
 /**
  * Fn yang digunakan untuk mentransform
  *
- * `---`
- *
- * menjadi
- *
- * `<code>`
+ * `---` menjadi `<code>`
+ * dan
+ * `###doc-start` menjadi `<mydiv>`
+ * `###doc-end` menjadi `</mydiv>`
  *
  * @param {string} responseText
  * @returns {{
@@ -14,18 +13,28 @@
  * }}
  */
 export const transformMarkdown = (responseText) => {
-  const regex = /^---\n([\s\S]*?)\n---$/m
-  const match = responseText.match(regex)
+  const codeBlockRegex = /^---\n([\s\S]*?)\n---$/m
+  const docBlockRegex = /###doc-start\n([\s\S]*?)###doc-end/m
   let copiedText = ''
 
-  if (match) {
-    const transformText = responseText.replace(regex, (_, p1) => {
+  // Transform code blocks
+  if (codeBlockRegex.test(responseText)) {
+    responseText = responseText.replace(codeBlockRegex, (_, p1) => {
       copiedText = p1.trim().replace(/\*\*(.*?)\*\*/g, '$1')
       return '<mydiv>\n' + p1.trim() + '\n</mydiv>'
     })
-
-    return { copiedText, responseText: transformText }
-  } else {
-    return { responseText, copiedText }
   }
+
+  // Transform doc blocks
+  if (docBlockRegex.test(responseText)) {
+    responseText = responseText.replace(docBlockRegex, (_, p1) => {
+      // If copiedText is empty, use the content from doc block
+      if (!copiedText) {
+        copiedText = p1.trim().replace(/\*\*(.*?)\*\*/g, '$1')
+      }
+      return '<mydiv>\n' + p1.trim() + '\n</mydiv>'
+    })
+  }
+
+  return { responseText, copiedText }
 }

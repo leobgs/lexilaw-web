@@ -148,7 +148,7 @@ export const CardFileMobile = ({
                 )}
 
                 {/* Hasil Dari AI / System MAPPING*/}
-                {system_data.map((item) => (
+                {system_data?.map((item) => (
                   <div
                     className="flex items-center space-x-4 my-4"
                     key={item.thread_chat_uuid}
@@ -160,7 +160,7 @@ export const CardFileMobile = ({
                     }}
                   >
                     {/* icon files */}
-                    <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md">
+                    <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md bg-white">
                       <img src={images.ic_files} alt="ic_files" />
                     </div>
                     <p className="font-semi-bold truncate">{item.name}</p>
