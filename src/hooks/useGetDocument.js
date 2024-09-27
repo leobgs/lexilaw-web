@@ -15,6 +15,7 @@ import { API } from 'config/api'
  * @typedef {Object} Data
  * @property {Threadchat[] | null} thread_chat
  * @property {Lawyer[] | null} lawyer
+ * @property {System[] | null} system
  */
 
 /**
@@ -34,6 +35,13 @@ import { API } from 'config/api'
  * @property {string} from
  * @property {string} from_display
  * @property {string} url
+ */
+
+/**
+ * @typedef {Object} System
+ * @property {string} thread_chat_uuid
+ * @property {string} thread_uuid
+ * @property {string} name
  */
 
 /**
