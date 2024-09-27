@@ -34,6 +34,10 @@ export const CardDocument = ({ item }) => {
     document.body.removeChild(link)
   }
 
+  const handleOpenNewTab = (url_item) => {
+    window.open(url_item, '_blank')
+  }
+
   return (
     <div className="h-full w-full">
       {/* Jika belum ada file url */}
@@ -47,7 +51,7 @@ export const CardDocument = ({ item }) => {
       ) : (
         <div
           className="flex items-center justify-start gap-2 my-2 py-2 border-b border-b-[#D7D7D7] md:border-none md:block md:mb-0 md:py-0 hover:cursor-pointer"
-          onClick={() => handleDownload(item.url, itemName)}
+          onClick={() => handleOpenNewTab(item.url)}
         >
           <div className="relative">
             <iframe src={googleViewer} title={itemName} className="w-full h-full" />
