@@ -65,13 +65,13 @@ export const ChangePassword = () => {
     <AuthCard>
       {isSuccess ? (
         <>
-          <h1 className='text-4xl font-futura-bold'>
+          <h1 className="text-4xl font-futura-bold">
             {t('after_change_header', { keyPrefix: 'auth.reset_password' })}
           </h1>
-          <div className='text-gray-700 mb-4 mt-8 text-base'>
+          <div className="text-gray-700 mb-4 mt-8 text-base">
             {t('after_change_text1', { keyPrefix: 'auth.reset_password' })}
             <span
-              className='ml-1.5 text-[#768196] underline font-semi-bold'
+              className="ml-1.5 text-[#768196] underline font-semi-bold cursor-pointer"
               onClick={() => navigate('/auth')}
             >
               {t('after_change_text2', { keyPrefix: 'auth.reset_password' })}
@@ -80,25 +80,25 @@ export const ChangePassword = () => {
         </>
       ) : (
         <>
-          <div className='text-center font-futura-bold text-3xl text-secondary-base'>
+          <div className="text-center font-futura-bold text-3xl text-secondary-base">
             Masukkan kata sandi baru
           </div>
           <>
             <InputPassword
-              name='password'
+              name="password"
               value={form.password}
               error={error.password}
               onChange={handleChangeForm}
-              placeholder='Kata Sandi Baru'
-              className='mb-4 mt-6'
+              placeholder="Kata Sandi Baru"
+              className="mb-4 mt-6"
             />
 
             <InputPassword
-              name='confirm_password'
+              name="confirm_password"
               value={form.confirm_password}
               error={error.confirm_password}
               onChange={handleChangeForm}
-              placeholder='Konfirmasi Kata Sandi Baru'
+              placeholder="Konfirmasi Kata Sandi Baru"
             />
           </>
 
@@ -106,11 +106,11 @@ export const ChangePassword = () => {
             label={t('submit_button', { keyPrefix: 'auth.register' })}
             onClick={onSubmit}
             iconRight={images.chevron_right}
-            iconClassName='absolute right-4'
+            iconClassName="absolute right-4"
             disabled={
               !form.confirm_password || form.confirm_password !== form.password
             }
-            className='btn-secondary-hover w-full rounded-full font-medium relative mt-6'
+            className="btn-secondary-hover w-full rounded-full font-medium relative mt-6"
           />
         </>
       )}
