@@ -22,7 +22,7 @@ export const MyDocMD = ({ children, handleCopyClick, handleSaveClick }) => {
   return (
     <div className="bg-white rounded-md shadow-lg my-4">
       {/* header */}
-      <div className="border-b-1 shadow mb-4 flex flex-col md:flex-row md:justify-between items-center px-4 py-2 bg-neutral-80/50 select-none">
+      <div className="border-b-1 shadow mb-4 flex flex-row justify-between items-center px-4 py-2 bg-neutral-80/50 select-none flex-wrap">
         <span className="px-2 py-1 font-bold">DOC</span>
 
         {/* Action Button */}
