@@ -30,6 +30,8 @@ import { useGetDocument } from 'hooks/useGetDocument'
 import { CardFileDocument } from 'components/CardFileDocument'
 import { WhatsappActivation } from 'components/WhatsappActivation'
 import { WhatsappOtp } from 'components/WhatsappOtp'
+import { useGetAvailableSchedule } from 'hooks/useGetAvailableSchedule'
+import { useWindowWidth } from 'hooks/useWindowWidth'
 
 export const Chat = () => {
   const { t } = useTranslation()
@@ -89,21 +91,23 @@ export const Chat = () => {
 
   const [showConnectedWA, setShowConnectedWA] = useState(false)
 
-  const availableSchedules = queryClient.getQueryData(['available_schedules'])
   const threadDetail = queryClient.getQueryData(['thread_detail', uuid])
   const lawyerUUID = extractLawyerUUID(threadDetail)
-  const showChatDocument =
-    !isHeader &&
-    lawyerUUID &&
-    (availableSchedules?.message === 'Done' ||
-      availableSchedules?.message === 'Success get data')
+  const { dataDocument, isPendingDocument } = useGetDocument(uuid)
+
   const lawyerList = extractLawyerList(threadDetail)
   const lawyer = lawyerList?.find((item) => item.uuid === lawyerUUID)
 
-  const { dataDocument, isPendingDocument } = useGetDocument(
-    uuid,
-    Boolean(showChatDocument)
-  )
+  const { dataAvailableSchedule } = useGetAvailableSchedule(lawyer?.uuid, uuid)
+
+  const showChatDocument =
+    (!isHeader &&
+      (dataAvailableSchedule?.message === 'Done' ||
+        dataAvailableSchedule?.message === 'Success get data')) ||
+    dataDocument?.data?.system?.length > 0
+
+  const { windowWidth } = useWindowWidth()
+  const isMobile = windowWidth < 768
 
   useEffect(() => {
     if (uuid) {
@@ -763,12 +767,13 @@ export const Chat = () => {
               {/* TAMPILKAN DOC CHAT KETIKA */}
               {/* Status Message === Done dan */}
               {/* Ada Lawyer UUID di Thread_Detail queryKey */}
-              {showChatDocument && !isPendingDocument && (
+              {showChatDocument && !isPendingDocument && !isMobile && (
                 <CardFileDocument
                   // className='absolute z-50 right-10 md:md:h-[calc(100%-146px)]'
                   data={FILE_LAWYER}
                   lawyer={lawyer}
                   lawyer_data={dataDocument?.data?.lawyer}
+                  system_data={dataDocument?.data?.system}
                 />
               )}
 
@@ -780,6 +785,7 @@ export const Chat = () => {
                   onChangeVisibility={() => setShowLawyerFile(false)}
                   lawyer_data={dataDocument?.data?.lawyer}
                   lawyer={lawyer}
+                  system_data={dataDocument?.data?.system}
                 />
               )}
 

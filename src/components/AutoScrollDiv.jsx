@@ -1,5 +1,6 @@
 import { useGlobalContext } from 'hooks/context'
 import { useRef, useEffect } from 'react'
+import { TextSelectionPopup } from './TextSelectionPopup'
 
 export const AutoScrollingDiv = ({ children, shouldScrol }) => {
   const divRef = useRef(null)
@@ -25,8 +26,9 @@ export const AutoScrollingDiv = ({ children, shouldScrol }) => {
   }, [children, shouldScrol, collection.clicked_uuid])
 
   return (
-    <div ref={divRef} className="flex-1 overflow-y-auto h-fit sm:w-full">
+    <div ref={divRef} className="flex-1 overflow-y-auto h-fit sm:w-full relative">
       {children}
+      <TextSelectionPopup />
     </div>
   )
 }

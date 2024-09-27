@@ -11,6 +11,7 @@ import { deleteData, getData, patchData, putData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
 import { useTranslation } from 'react-i18next'
 import { Typewriter } from './Typewriter'
+import { useParams } from 'react-router-dom'
 
 export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
   const queryClient = useQueryClient()
@@ -34,6 +35,7 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
   const [showModalCreateCollection, setShowModalCreateCollection] =
     useState(false)
   const { t } = useTranslation()
+  const { uuid } = useParams()
 
   const { mutate: updateTitle } = useMutation(
     (text) =>
@@ -153,6 +155,8 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
         item.isActive
           ? isActivated && item.type === collection.activeBy
             ? 'bg-blue-dark text-white shadow pl-1 bg-selected-lawyer-left'
+            : item?.uuid === uuid
+            ? 'bg-blue-dark text-white shadow pl-1 bg-selected-lawyer-left'
             : 'border-blue-dark border pl-2'
           : ''
       }`}
@@ -184,18 +188,25 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
               item.title
             )}
           </div>
-          {item.isActive &&
-            isActivated &&
-            item.type === collection.activeBy && (
-              <div className="pl-3 -py-2" onClick={() => setShow1st(true)}>
-                <img
-                  src={images.ic_dots}
-                  alt="dots"
-                  className="h-3 step-2 pr-2"
-                  data-tooltip-id={`tool-tips-${item.uuid}`}
-                />
-              </div>
-            )}
+          {item.isActive && isActivated && item.type === collection.activeBy ? (
+            <div className="pl-3 -py-2" onClick={() => setShow1st(true)}>
+              <img
+                src={images.ic_dots}
+                alt="dots"
+                className="h-3 step-2 pr-2"
+                data-tooltip-id={`tool-tips-${item.uuid}`}
+              />
+            </div>
+          ) : item?.uuid === uuid ? (
+            <div className="pl-3 -py-2" onClick={() => setShow1st(true)}>
+              <img
+                src={images.ic_dots}
+                alt="dots"
+                className="h-3 step-2 pr-2"
+                data-tooltip-id={`tool-tips-${item.uuid}`}
+              />
+            </div>
+          ) : null}
         </>
       </div>
       <ReactTooltip

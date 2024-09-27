@@ -4,13 +4,16 @@ import { useTranslation } from 'react-i18next'
 import { Modal } from './Modal'
 import { localServerData } from 'hooks/useLocalServerData'
 
-export const MyDocMD = ({ children, handleClick }) => {
+export const MyDocMD = ({ children, handleCopyClick, handleSaveClick }) => {
   const { t } = useTranslation()
   const { CURRENT_LANGUAGE } = localServerData()
+
+  const [title, setTitle] = useState('')
 
   const [showModal, setShowModal] = useState(false)
   const closeModal = () => {
     setShowModal(false)
+    setTitle('')
   }
   const openModal = () => {
     setShowModal(true)
@@ -19,17 +22,23 @@ export const MyDocMD = ({ children, handleClick }) => {
   return (
     <div className="bg-white rounded-md shadow-lg my-4">
       {/* header */}
-      <div className="border-b-1 shadow mb-4 flex justify-between items-center px-4 py-2 bg-neutral-80/50">
+      <div className="border-b-1 shadow mb-4 flex flex-row justify-between items-center px-4 py-2 bg-neutral-80/50 select-none flex-wrap">
         <span className="px-2 py-1 font-bold">DOC</span>
 
         {/* Action Button */}
         <div className="flex space-x-4">
-          <div className="flex items-center space-x-1 px-2 py-1 hover:cursor-pointer" onClick={handleClick}>
+          <div
+            className="flex items-center space-x-1 px-2 py-1 hover:cursor-pointer"
+            onClick={handleCopyClick}
+          >
             <img src={images.ic_copy} alt="ic_copy" className="h-4 w-4" />
             <span>{t('text_copy')}</span>
           </div>
 
-          <div className="flex items-center space-x-1 px-2 py-1 hover:cursor-pointer" onClick={openModal}>
+          <div
+            className="flex items-center space-x-1 px-2 py-1 hover:cursor-pointer"
+            onClick={openModal}
+          >
             <img src={images.ic_save} alt="ic_save" className="" />
             <span>{t('text_save')}</span>
           </div>
@@ -48,7 +57,10 @@ export const MyDocMD = ({ children, handleClick }) => {
             </span>
 
             {/* Action Button */}
-            <div className="flex items-center space-x-1 px-2 py-1 hover:cursor-pointer" onClick={closeModal}>
+            <div
+              className="flex items-center space-x-1 px-2 py-1 hover:cursor-pointer"
+              onClick={closeModal}
+            >
               <img src={images.ic_cross} alt="ic_cross" className="h-4 w-4" />
             </div>
           </div>
@@ -58,15 +70,26 @@ export const MyDocMD = ({ children, handleClick }) => {
             onSubmit={(e) => {
               e.preventDefault()
               closeModal()
+              handleSaveClick && handleSaveClick(title)
             }}
             className="bg-white px-4 py-2"
           >
             <div className="flex flex-col space-y-2">
-              <input className="border rounded-full px-4 py-2" placeholder={t('chat.save_document.placeholder')} />
+              <input
+                className="border rounded-full px-4 py-2"
+                placeholder={t('chat.save_document.placeholder')}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </div>
 
             <div className="mt-4 mb-2 flex justify-end">
-              <button className="rounded-full px-4 py-2 btn-secondary-otp">{t('chat.save_document.button')}</button>
+              <button
+                className="rounded-full px-4 py-2 btn-secondary-otp disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={title === ''}
+              >
+                {t('chat.save_document.button')}
+              </button>
             </div>
           </form>
         </div>

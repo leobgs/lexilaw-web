@@ -15,6 +15,7 @@ import { API } from 'config/api'
  * @typedef {Object} Data
  * @property {Threadchat[] | null} thread_chat
  * @property {Lawyer[] | null} lawyer
+ * @property {System[] | null} system
  */
 
 /**
@@ -37,6 +38,13 @@ import { API } from 'config/api'
  */
 
 /**
+ * @typedef {Object} System
+ * @property {string} thread_chat_uuid
+ * @property {string} thread_uuid
+ * @property {string} name
+ */
+
+/**
  *
  * @param {string} thread_uuid
  * @param {boolean} isEnabled
@@ -56,7 +64,7 @@ const useGetDocument = (thread_uuid, isEnabled) => {
   } = useQuery({
     queryKey: ['chat_document', thread_uuid],
     queryFn: () => getData(API.CHAT_DOCUMENT + '/' + thread_uuid),
-    enabled: isEnabled,
+    // enabled: isEnabled,
   })
 
   return {
