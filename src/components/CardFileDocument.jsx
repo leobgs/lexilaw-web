@@ -2,14 +2,46 @@ import images from 'assets/images'
 import { useTranslation } from 'react-i18next'
 import { CardDocument } from './CardDocument'
 import clsx from 'clsx'
+import { useGlobalContext } from 'hooks/context'
 
-export const CardFileDocument = ({ data, lawyer, lawyer_data, className }) => {
+/**
+ * @typedef {Object} System
+ * @property {string} thread_chat_uuid
+ * @property {string} thread_uuid
+ * @property {string} name
+ */
+
+/**
+ * @typedef {Object} Lawyer
+ * @property {string} uuid
+ * @property {string} thread_uuid
+ * @property {string} service_name_indonesia
+ * @property {string} service_name_english
+ * @property {string} url
+ */
+
+/**
+ *
+ * @param {{
+ * system_data: System[]
+ * lawyer_data: Lawyer[]
+ * }}
+ * @returns
+ */
+export const CardFileDocument = ({
+  data,
+  lawyer,
+  lawyer_data,
+  className,
+  system_data,
+}) => {
   const { t } = useTranslation()
+  const { collectionClick } = useGlobalContext()
 
   return (
     <div
       className={clsx(
-        'bg-gradient-card-file h-[99%] w-[320px] mt-2 shadow-lg rounded-xl hidden md:flex flex-col px-4',
+        'bg-gradient-card-file h-[99%] w-[320px] mt-2 shadow-lg rounded-xl md:flex flex-col px-4',
         className
       )}
     >
@@ -23,65 +55,86 @@ export const CardFileDocument = ({ data, lawyer, lawyer_data, className }) => {
           </p>
         </div>
 
-        {/* Untuk saat ini hasil ai belum ada  */}
-        {/* maka dari itu ai_result masih saya hidden */}
-        {data?.map((item, index) =>
-          item.from === 'SYSTEM' && false ? (
-            <div key={`${index}-s`} className="mt-4">
-              <p className="text-secondary-base text-sm mb-2.5">
-                {t('ai_result', {
-                  keyPrefix: 'lawyer_document',
-                })}
-              </p>
+        {/* Hasil Dari AI / System */}
+        <div>
+          {system_data && (
+            <p className="text-secondary-base text-sm mb-2.5">
+              {t('ai_result', {
+                keyPrefix: 'lawyer_document',
+              })}
+            </p>
+          )}
 
-              <div className="grid grid-cols-2 gap-x-2 gap-y-1">
-                {item.data?.map((item, index) => (
-                  <CardDocument item={item} key={item.id} />
-                ))}
+          <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+            {system_data?.map((item) => (
+              <div
+                key={item.thread_chat_uuid}
+                className="hover:cursor-pointer"
+                onClick={() => {
+                  collectionClick({
+                    uuid: item.thread_uuid,
+                    clicked_uuid: item.thread_chat_uuid,
+                  })
+                }}
+              >
+                {/* Icon */}
+                <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md">
+                  <img src={images.ic_files} alt="ic_files" />
+                </div>
+                <p className="text-xs font-medium mt-2 truncate">{item.name}</p>
               </div>
-            </div>
-          ) : item.from === 'USER' ? (
-            <div className="mt-5" key={`${index}-u`}>
-              <p className="text-secondary-base text-sm mb-2.5 font-medium">
-                {t('lawyer_result', {
-                  keyPrefix: 'lawyer_document',
-                })}
-              </p>
+            ))}
+          </div>
+        </div>
 
-              <div className="grid grid-cols-2 gap-x-2 gap-y-1">
-                {lawyer_data?.map((item) => (
-                  <CardDocument key={item.uuid} item={item} />
-                ))}
-              </div>
-            </div>
-          ) : (
-            ''
-          )
-        )}
+        {/* Hasil Dari Lawyer */}
+        <div className="mt-5">
+          {lawyer_data && (
+            <p className="text-secondary-base text-sm mb-2.5 font-medium">
+              {t('lawyer_result', {
+                keyPrefix: 'lawyer_document',
+              })}
+            </p>
+          )}
+
+          <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+            {lawyer_data?.map((item) => (
+              <CardDocument key={item.uuid} item={item} />
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Divider */}
-      <div className='hidden md:block flex-1' />
+      <div className="hidden md:block flex-1" />
 
-      <div className="bg-[#585858] w-full flex justify-between items-center px-3 py-2 rounded-md">
-        <div className="text-white">
-          <p className="font-semi-bold">
-            {lawyer?.first_name ? lawyer.first_name + ' ' + lawyer.last_name : 'Calvin Koss .SH'}
-          </p>
-          <p className="text-xs font-regular text-[#969090]">{lawyer?.city_name ? lawyer.city_name : 'Jakarta'}</p>
-        </div>
-        {/* Untuk saat ini button cek jadwal di hide dulu */}
-        {/* <div className="bg-blue-sky text-xs items-center flex rounded-3xl p-2 h-7">
+      {lawyer && (
+        <>
+          <div className="bg-[#585858] w-full flex justify-between items-center px-3 py-2 rounded-md">
+            <div className="text-white">
+              <p className="font-semi-bold">
+                {lawyer?.first_name
+                  ? lawyer.first_name + ' ' + lawyer.last_name
+                  : 'Calvin Koss .SH'}
+              </p>
+              <p className="text-xs font-regular text-[#969090]">
+                {lawyer?.city_name ? lawyer.city_name : 'Jakarta'}
+              </p>
+            </div>
+            {/* Untuk saat ini button cek jadwal di hide dulu */}
+            {/* <div className="bg-blue-sky text-xs items-center flex rounded-3xl p-2 h-7">
           {t('check_schedule', {
             keyPrefix: 'lawyer_document',
           })}
         </div> */}
-      </div>
-      <p className="text-xs text-secondary-base font-thin text-center mt-1 mb-2">
-        {t('lawyer_reommend', {
-          keyPrefix: 'lawyer_document',
-        })}
-      </p>
+          </div>
+          <p className="text-xs text-secondary-base font-thin text-center mt-1 mb-2">
+            {t('lawyer_reommend', {
+              keyPrefix: 'lawyer_document',
+            })}
+          </p>
+        </>
+      )}
     </div>
   )
 }
