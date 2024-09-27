@@ -17,7 +17,6 @@ import { MyDocMD } from './MyDocMD'
 import { copyToClipboard } from 'utils'
 import { useParams } from 'react-router-dom'
 import { usePostSaveDocument } from 'hooks/usePostSaveDocument'
-import { notifyInfo } from 'hooks/useToas'
 
 export const ChatCard = ({
   item,

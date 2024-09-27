@@ -65,7 +65,7 @@ export const CardFileDocument = ({
             </p>
           )}
 
-          <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-x-2 gap-y-1">
             {system_data?.map((item) => (
               <div
                 key={item.thread_chat_uuid}
@@ -78,7 +78,7 @@ export const CardFileDocument = ({
                 }}
               >
                 {/* Icon */}
-                <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md">
+                <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md bg-white">
                   <img src={images.ic_files} alt="ic_files" />
                 </div>
                 <p className="text-xs font-medium mt-2 truncate">{item.name}</p>
