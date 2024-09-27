@@ -1,43 +1,43 @@
-import images from "assets/images";
-import { Modal } from "./Modal";
-import { Tabs } from "./Tabs";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { copyToClipboard } from "utils";
-import { Button } from "./Button/Button";
-import { API } from "config/api";
-import { useInfiniteQuery, useMutation, useQuery } from "react-query";
-import { getData } from "hooks/useRequest";
-import { useTranslation } from "react-i18next";
-import { formatDate, formatTime } from "utils/formatTime";
-import { useGlobalContext } from "hooks/context";
-import { notifyBottomError } from "hooks/useToas";
+import images from 'assets/images'
+import { Modal } from './Modal'
+import { Tabs } from './Tabs'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { copyToClipboard } from 'utils'
+import { Button } from './Button/Button'
+import { API } from 'config/api'
+import { useInfiniteQuery, useMutation, useQuery } from 'react-query'
+import { getData } from 'hooks/useRequest'
+import { useTranslation } from 'react-i18next'
+import { formatDate, formatTime } from 'utils/formatTime'
+import { useGlobalContext } from 'hooks/context'
+import { notifyBottomError } from 'hooks/useToas'
 
 export const ModalDetailLawyer = ({
   data,
   show = false,
   onHide = () => {},
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation()
   const [currText, setCurrText] = useState(
-    t("results", { keyPrefix: "my_lawyer" })
-  );
-  const [dataDocumment, setDataDocumment] = useState([]);
-  const [dataListDocumment, setDataListDocumment] = useState([]);
-  const [lawyerData, setlawyerData] = useState([]);
+    t('results', { keyPrefix: 'my_lawyer' })
+  )
+  const [dataDocumment, setDataDocumment] = useState([])
+  const [dataListDocumment, setDataListDocumment] = useState([])
+  const [lawyerData, setlawyerData] = useState([])
 
-  const { currentLanguage } = useGlobalContext();
-  const navigate = useNavigate();
-  const scheduleContainerRef = useRef(null);
-  const scheduleRef = useRef(null);
+  const { currentLanguage } = useGlobalContext()
+  const navigate = useNavigate()
+  const scheduleContainerRef = useRef(null)
+  const scheduleRef = useRef(null)
 
-  const getdetailLawyer = useQuery(["detailLawyer", show], () => {
+  const getdetailLawyer = useQuery(['detailLawyer', show], () => {
     if (show) {
-      return getData(API.MY_LAWYER_DETAIL + show);
+      return getData(API.MY_LAWYER_DETAIL + show)
     } else {
-      return Promise.resolve(null);
+      return Promise.resolve(null)
     }
-  });
+  })
 
   const {
     data: lawyerSchedulesPages,
@@ -45,94 +45,94 @@ export const ModalDetailLawyer = ({
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery(
-    ["lawyerSchedules", show],
+    ['lawyerSchedules', show],
     ({ pageParam = 1 }) => {
       if (show) {
         return getData(
           API.MY_LAWYER_SCHEDULES + show + `?page=${pageParam}&limit=3`
-        );
+        )
       } else {
-        return Promise.resolve(null);
+        return Promise.resolve(null)
       }
     },
     {
       getNextPageParam: (lastPage, pages) => {
-        const totalPage = Math.round(lastPage.meta.total / lastPage.meta.limit);
+        const totalPage = Math.ceil(lastPage.meta.total / lastPage.meta.limit)
         if (lastPage.meta.page < totalPage) {
-          return lastPage.meta.page + 1;
+          return lastPage.meta.page + 1
         }
-        return undefined;
+        return undefined
         // Assuming your API returns a `nextPage` property when there's more data
         // return lastPage.meta.page + 1 ?? undefined;
       },
       enabled: !!show,
     }
-  );
+  )
 
   const lawyerSchedules =
-    lawyerSchedulesPages?.pages.flatMap((page) => page.data) ?? [];
+    lawyerSchedulesPages?.pages.flatMap((page) => page.data) ?? []
 
-  const getdocument = useQuery(["documentlawyer", show], () => {
+  const getdocument = useQuery(['documentlawyer', show], () => {
     if (show) {
-      return getData(API.MY_LAWYER_DOCUMENT + show);
+      return getData(API.MY_LAWYER_DOCUMENT + show)
     } else {
-      return Promise.resolve(null);
+      return Promise.resolve(null)
     }
-  });
+  })
 
   const callbackObserver = useCallback(
     (entries) => {
-      const [target] = entries;
+      const [target] = entries
       if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
+        fetchNextPage()
       }
     },
     [hasNextPage, fetchNextPage, isFetchingNextPage]
-  );
+  )
 
   useEffect(() => {
     if (show) {
-      if (getdetailLawyer?.data?.status === "Success") {
-        setlawyerData(getdetailLawyer.data.data);
+      if (getdetailLawyer?.data?.status === 'Success') {
+        setlawyerData(getdetailLawyer.data.data)
       }
-      if (getdocument?.data?.status === "Success") {
-        setDataListDocumment(getdocument.data.data);
+      if (getdocument?.data?.status === 'Success') {
+        setDataListDocumment(getdocument.data.data)
       }
     }
-  }, [show, getdetailLawyer, getdocument]);
+  }, [show, getdetailLawyer, getdocument])
 
   useEffect(() => {
-    const scheduleContainer = scheduleContainerRef.current;
-    const schedule = scheduleRef.current;
+    const scheduleContainer = scheduleContainerRef.current
+    const schedule = scheduleRef.current
 
-    if (!schedule || !scheduleContainer) return;
+    if (!schedule || !scheduleContainer) return
     const observer = new IntersectionObserver(callbackObserver, {
       threshold: 1,
       root: scheduleContainer,
-    });
+    })
 
     if (schedule) {
-      observer.observe(schedule);
+      observer.observe(schedule)
     }
 
     return () => {
       if (schedule) {
-        observer.unobserve(schedule);
+        observer.unobserve(schedule)
       }
-    };
-  }, [callbackObserver, currText]);
+    }
+  }, [callbackObserver, currText])
 
   useEffect(() => {
     if (dataListDocumment && dataListDocumment.length > 0) {
       dataListDocumment.forEach((item, index) => {
-        item.isActive = index === 0;
-      });
+        item.isActive = index === 0
+      })
 
-      setDataDocumment([...dataListDocumment]);
+      setDataDocumment([...dataListDocumment])
     } else {
-      setDataDocumment([]);
+      setDataDocumment([])
     }
-  }, [dataListDocumment]);
+  }, [dataListDocumment])
 
   const { mutate: getSchedules, error } = useMutation(
     ({ thread_uuid, lawyer_uuid }) =>
@@ -142,48 +142,48 @@ export const ModalDetailLawyer = ({
       ),
     {
       onSettled: (data, error, variables) => {
-        if (error || data.status !== "Success") {
-          notifyBottomError(t("error", { keyPrefix: "schedule" }));
-        } else if (data.status === "Success") {
-          const thread_uuid = variables.thread_uuid;
+        if (error || data.status !== 'Success') {
+          notifyBottomError(t('error', { keyPrefix: 'schedule' }))
+        } else if (data.status === 'Success') {
+          const thread_uuid = variables.thread_uuid
           navigate(`/schedule`, {
             state: {
               scheduling_url_event: data.data.scheduling_url_event,
               lawyer_uuid: lawyerData.uuid,
               thread_uuid,
             },
-          });
+          })
         }
       },
     }
-  );
+  )
 
   const handleAddSchedule = (thread_uuid, lawyer_uuid) => {
     if (thread_uuid !== null) {
-      getSchedules({ thread_uuid, lawyer_uuid });
+      getSchedules({ thread_uuid, lawyer_uuid })
     }
-  };
+  }
 
   const truncateText = (text, wordLimit) => {
-    const words = text.split(" ");
+    const words = text.split(' ')
     if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(" ") + "...";
+      return words.slice(0, wordLimit).join(' ') + '...'
     }
-    return text;
-  };
+    return text
+  }
 
   const lawyerDescription = truncateText(
-    getdetailLawyer.data?.data?.description || "",
+    getdetailLawyer.data?.data?.description || '',
     200
-  );
+  )
 
   const handleShowHideDiv = (id) => {
     setDataDocumment((prevDataDocumment) =>
       prevDataDocumment.map((item) =>
         item.thread_uuid === id ? { ...item, isActive: !item.isActive } : item
       )
-    );
-  };
+    )
+  }
 
   return (
     <Modal
@@ -217,9 +217,9 @@ export const ModalDetailLawyer = ({
 
         <div
           className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${
-            currText === t("results", { keyPrefix: "my_lawyer" })
-              ? ""
-              : "hidden"
+            currText === t('results', { keyPrefix: 'my_lawyer' })
+              ? ''
+              : 'hidden'
           }`}
         >
           <div className="line-clamp-5 text mt-20">{lawyerDescription}</div>
@@ -260,10 +260,10 @@ export const ModalDetailLawyer = ({
         </div>
         <div className="line-clamp-5 text px-4 mt-20">{lawyerDescription}</div>
 
-        <div className={`grid grid-cols-10 mt-4 gap-2 mx-4`}>
+        <div className={`flex flex-wrap mt-4 gap-2 mx-4`}>
           {lawyerData.lawyer_filed?.map((item, index) => (
             <div
-              className="bg-[#FFFBF5] rounded-lg py-1 px-2 text-center text-neutral-40 my-auto line-clamp-1 text-xs col-span-4 first:col-span-5"
+              className="w-fit bg-[#FFFBF5] rounded-full py-1 px-2 text-center text-neutral-40 my-auto line-clamp-1 text-xs font-medium"
               key={index}
             >
               {item}
@@ -274,19 +274,19 @@ export const ModalDetailLawyer = ({
 
       <Tabs
         className={`${
-          currText === t("results", { keyPrefix: "my_lawyer" })
-            ? "md:mt-4"
-            : "mt-24 md:mt-4 mb-4"
-        }`}
+          currText === t('results', { keyPrefix: 'my_lawyer' })
+            ? 'md:mt-4'
+            : 'mt-24 md:mt-4 mb-4'
+        } font-semibold text-sm`}
         textArr={[
-          t("results", { keyPrefix: "my_lawyer" }),
-          t("schedule", { keyPrefix: "my_lawyer" }),
+          t('results', { keyPrefix: 'my_lawyer' }),
+          t('schedule', { keyPrefix: 'my_lawyer' }),
         ]}
         onTabClick={(e) => setCurrText(e)}
         currText={currText}
       />
 
-      {currText === t("results", { keyPrefix: "my_lawyer" }) ? (
+      {currText === t('results', { keyPrefix: 'my_lawyer' }) ? (
         <>
           <div className="md:h-[66%] h-full overflow-y-auto">
             {dataDocumment && dataDocumment.length > 0 ? (
@@ -303,7 +303,7 @@ export const ModalDetailLawyer = ({
                     <img
                       src={images.ic_menu_down_darker}
                       alt="updown"
-                      className={`${item.isActive ? "rotate-180" : ""}`}
+                      className={`${item.isActive ? 'rotate-180' : ''}`}
                     />
                   </div>
                   {item.isActive && (
@@ -316,7 +316,7 @@ export const ModalDetailLawyer = ({
                               onClick={() =>
                                 window.open(
                                   `https://docs.google.com/gview?url=${itm.file_url}`,
-                                  "_blank"
+                                  '_blank'
                                 )
                               }
                             >
@@ -339,12 +339,12 @@ export const ModalDetailLawyer = ({
                             onClick={() =>
                               window.open(
                                 `https://docs.google.com/gview?url=${itm.file_url}`,
-                                "_blank"
+                                '_blank'
                               )
                             }
                             className="text-neutral-40 text-xs mt-1 cursor-pointer"
                           >
-                            {i18n.language === "en"
+                            {i18n.language === 'en'
                               ? itm.service_name_english
                               : itm.service_name_indonesia}
                           </div>
@@ -362,10 +362,10 @@ export const ModalDetailLawyer = ({
                   className="mb-3 w-14 h-14"
                 />
                 <p className="text-center text-sm text-dark-50">
-                  {t("you_haven_results_lawyer", { keyPrefix: "my_lawyer" })}
+                  {t('you_haven_results_lawyer', { keyPrefix: 'my_lawyer' })}
                 </p>
                 <div className="text-center text-sm font-semi-bold text-[#073A77]">
-                  {t("chat_with_lexi", { keyPrefix: "my_lawyer" })} ↗️
+                  {t('chat_with_lexi', { keyPrefix: 'my_lawyer' })} ↗️
                 </div>
               </div>
             )}
@@ -392,58 +392,68 @@ export const ModalDetailLawyer = ({
                 {item.join_url ? (
                   <>
                     <div className="font-light">
-                      {t("schedule_at", { keyPrefix: "my_lawyer" })}
+                      {t('schedule_at', { keyPrefix: 'my_lawyer' })}
                     </div>
                     <div className="font-semi-bold">
                       {formatDate(item.start_time, currentLanguage)} |&nbsp;
-                      {formatTime(item.start_time)} -{" "}
+                      {formatTime(item.start_time)} -{' '}
                       {formatTime(item.end_time)}
                     </div>
                   </>
                 ) : (
                   <div className="font-light">
-                    {t("no_schedule", { keyPrefix: "my_lawyer" })}
+                    {t('no_schedule', { keyPrefix: 'my_lawyer' })}
                   </div>
                 )}
                 <div className="bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4">
                   {item.join_url ? (
-                    <>
-                      <div>{t("meeting_room", { keyPrefix: "my_lawyer" })}</div>
-                      <div className="flex justify-between items-center">
-                        <Link to={item.join_url} className="a-link">
-                          {item.join_url}
-                        </Link>
-                        <img
-                          src={images.ic_copy_button}
-                          alt="copy"
-                          onClick={() =>
-                            copyToClipboard({
-                              text: item.join_url,
-                              title: t("copy_to_clipboard"),
-                            })
-                          }
-                        />
+                    <div className="flex justify-between">
+                      <div>
+                        <p className="text-blue-dark/30 text-sm font-medium">
+                          {t('meeting_room', { keyPrefix: 'my_lawyer' })}
+                        </p>
+                        <div className="flex gap-2 items-center w-fit">
+                          <Link
+                            to={item.join_url}
+                            className="a-link w-[240px] text-ellipsis line-clamp-1 font-medium"
+                          >
+                            {item.join_url}
+                          </Link>
+                          <button
+                            className="w-4 h-4"
+                            onClick={() =>
+                              copyToClipboard({
+                                text: item.join_url,
+                                title: t('copy_to_clipboard'),
+                              })
+                            }
+                          >
+                            <img
+                              src={images.ic_copy_button}
+                              alt="copy"
+                              className="bg-transparent"
+                            />
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex justify-end mt-2">
                         <Button
-                          onClick={() => window.open(item.join_url, "_blank")}
+                          onClick={() => window.open(item.join_url, '_blank')}
                           label="Join Call"
                           iconRight={images.ic_handycam}
                           iconClassName="!w-4 !h-2.5"
                           className="bg-blue-sky rounded-full"
                         />
-                      </div>
-                    </>
+                    </div>
                   ) : (
                     <div className="flex justify-end mt-2">
                       <Button
                         onClick={() => {
-                          handleAddSchedule(item.thread_uuid, item.lawyer_uuid);
+                          handleAddSchedule(item.thread_uuid, item.lawyer_uuid)
                         }}
-                        label={t("add_schedule", { keyPrefix: "my_lawyer" })}
+                        label={t('add_schedule', { keyPrefix: 'my_lawyer' })}
                         iconRight={images.ic_calendar_white_outline}
                         iconClassName="!w-4 !h-4"
-                        className="bg-[#1D6DF6] text-white rounded-full"
+                        className="bg-[#1D6DF6] text-white rounded-full !font-medium"
                       />
                     </div>
                   )}
@@ -451,10 +461,10 @@ export const ModalDetailLawyer = ({
               </div>
             ))}
           <div ref={scheduleRef} className="h-10 bg-red-500">
-            {hasNextPage ? "" : ""}
+            {hasNextPage ? '' : ''}
           </div>
         </div>
       )}
     </Modal>
-  );
-};
+  )
+}
