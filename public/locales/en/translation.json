@@ -39,7 +39,8 @@
     },
     "login": {
       "not_have_account": "Don’t have an account? Register?",
-      "register": "Register Now"
+      "register": "Register Now",
+      "welcome_message": "Welcome"
     },
     "social_google": "CONTINUE WITH GOOGLE",
     "social_apple": "CONTINUE WITH APPLE ID",

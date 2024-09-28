@@ -33,7 +33,9 @@ export const Login = () => {
           })
           storage.setItem(StorageKey.IS_LOGIN, true)
           openAlert({
-            title: data?.message,
+            title: `${t('auth.login.welcome_message')},${
+              data?.message?.split(',')[1]
+            }`,
             icon: images.ai_profile_thumbnail,
           })
           let timeOut = setTimeout(() => {
@@ -87,25 +89,25 @@ export const Login = () => {
 
   return (
     <AuthCard>
-      <h2 className='mb-[1rem] text-green-900 text-xl font-semi-bold text-center'>
+      <h2 className="mb-[1rem] text-green-900 text-xl font-semi-bold text-center">
         {t('login_using_registered_email', { keyPrefix: 'auth.register' })}
       </h2>
 
       <Input
-        name='email'
+        name="email"
         value={form.email}
         onChange={handleChangeForm}
-        className='w-full rounded-full flex flex-col !items-start'
-        inputClass='!border-secondary-logo focus:outline-secondary-logo font-medium'
+        className="w-full rounded-full flex flex-col !items-start"
+        inputClass="!border-secondary-logo focus:outline-secondary-logo font-medium"
         rowed
         placeholder={t('email', { keyPrefix: 'auth.register' })}
         error={error.email}
       />
 
       <InputPassword
-        name='password'
-        className='w-full mt-[1.5rem] mb-[4px]'
-        inputClassName='!border-secondary-logo focus:outline-secondary-logo font-medium'
+        name="password"
+        className="w-full mt-[1.5rem] mb-[4px]"
+        inputClassName="!border-secondary-logo focus:outline-secondary-logo font-medium"
         placeholder={t('password', { keyPrefix: 'auth.register' })}
         value={form.password}
         onChange={handleChangeForm}
@@ -113,7 +115,7 @@ export const Login = () => {
       />
 
       <div
-        className='font-bold text-gray-900 ms-[16px] cursor-pointer text-sm'
+        className="font-bold text-gray-900 ms-[16px] cursor-pointer text-sm"
         onClick={() => navigate('/auth/forgot-password')}
       >
         {t('forgot_password', { keyPrefix: 'auth.register' })}
@@ -136,16 +138,16 @@ export const Login = () => {
       />
 
       {errorText && (
-        <div className='bg-error-base bg-opacity-20 border-1 border-error-base border rounded-lg w-fit mb-4'>
-          <p className='font-semi-bold text-error-base px-2'>{errorText}</p>
+        <div className="bg-error-base bg-opacity-20 border-1 border-error-base border rounded-lg w-fit mb-4">
+          <p className="font-semi-bold text-error-base px-2">{errorText}</p>
         </div>
       )}
 
-      <p className='text-center font-medium text-sm hidden md:inline-block'>
+      <p className="text-center font-medium text-sm hidden md:inline-block">
         {t('dont_have_an_account_yet', { keyPrefix: 'auth.register' })}
         <NavLink
-          className='font-bold text-gray-900 underline ms-1'
-          to='/auth/register'
+          className="font-bold text-gray-900 underline ms-1"
+          to="/auth/register"
         >
           {t('registration', { keyPrefix: 'auth.register' })}
         </NavLink>
