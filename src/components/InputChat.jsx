@@ -31,6 +31,9 @@ export const InputChat = ({ onChange, className, disable }) => {
   const handleSubmitButton = (e) => {
     onChange({ ...form, message: e?.replace(/\n+$/, '').trim() })
     setInputValue('')
+
+     const url = window.location.href.split('#')[0]
+     window.history.replaceState(null, null, url)
   }
 
   const changeHandler = (e) => {

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { CardDocument } from './CardDocument'
 import { useGlobalContext } from 'hooks/context'
+import { HashLink } from 'react-router-hash-link'
 
 /**
  * @typedef {Object} System
@@ -149,22 +150,18 @@ export const CardFileMobile = ({
 
                 {/* Hasil Dari AI / System MAPPING*/}
                 {system_data?.map((item) => (
-                  <div
+                  <HashLink
                     className="flex items-center space-x-4 my-4"
                     key={item.thread_chat_uuid}
-                    onClick={() => {
-                      collectionClick({
-                        uuid: item.thread_uuid,
-                        clicked_uuid: item.thread_chat_uuid,
-                      })
-                    }}
+                    smooth
+                    to={`thread/${item.thread_uuid}#${item.thread_chat_uuid}`}
                   >
                     {/* icon files */}
                     <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md bg-white">
                       <img src={images.ic_files} alt="ic_files" />
                     </div>
                     <p className="font-semi-bold truncate">{item.name}</p>
-                  </div>
+                  </HashLink>
                 ))}
               </div>
 
