@@ -39,7 +39,8 @@
     },
     "login": {
       "not_have_account": "Belum punya Akun?",
-      "register": "Daftar Sekarang"
+      "register": "Daftar Sekarang",
+      "welcome_message": "Selamat Bergabung"
     },
     "social_google": "MASUK DENGAN GOOGLE",
     "social_apple": "MASUK DENGAN APPLE ID",
