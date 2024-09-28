@@ -53,7 +53,7 @@
     },
     "set_password": {
       "header": "Check your email",
-      "text": "Link was sented to"
+      "text": "Link was sent to"
     },
     "reset_password": {
       "header": "Input new password",
