@@ -309,17 +309,22 @@ export const ChatRespond = ({
                     />
                     <div className="ml-3">
                       <div className="flex items-center">
-                        <div className="text-secondary-base font-semi-bold">
-                          {currLawyer?.first_name} {currLawyer?.last_name}
+                        <div className="flex flex-col">
+                          <p className="text-secondary-base font-bold">
+                            {currLawyer?.first_name} {currLawyer?.last_name}
+                          </p>
+                          <span className="font-regular text-sm text-[#969090]">
+                            {currLawyer?.city_name}
+                          </span>
                         </div>
                         {allLawyer?.length > 0 && (
-                          <div className="ml-3 font-semi-bold text-neutral-40 hidden md:inline-block">
+                          <div className="ml-3 font-bold text-[#5F5E5E] hidden md:inline-block">
                             +{allLawyer?.length} more
                           </div>
                         )}
                       </div>
                       {allLawyer?.length > 0 && (
-                        <div className="font-semi-bold text-neutral-40 md:hidden">
+                        <div className="font-bold text-[#5F5E5E] md:hidden">
                           +{allLawyer?.length} more
                         </div>
                       )}
@@ -331,7 +336,7 @@ export const ChatRespond = ({
                 <div className="">
                   <div className="mb-2 mt-4 flex flex-row justi gap-2 border-t border-t-[#D8D8D8] pt-4 md:border-none md:pt-0">
                     <button
-                      className="border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-xs xs:text-sm px-2 select-none"
+                      className="border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-medium !h-[2rem] flex items-center text-xs xs:text-sm px-2 select-none"
                       onClick={() => {
                         navigate('/book-lawyer', { state: currLawyer })
                         bookingLawyerReducer(['selected_lawyer'], currLawyer)
@@ -344,10 +349,13 @@ export const ChatRespond = ({
                     </button>
 
                     <button
-                      className="border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-xs xs:text-sm px-2 select-none"
+                      className="border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-medium !h-[2rem] flex items-center text-xs xs:text-sm px-2 select-none"
                       onClick={() => setLawyerRecommendation(true)}
                     >
-                      <img src={images.ic_arrow_cornering} alt="place order" />
+                      <img
+                        src={images.ic_change_style_lang}
+                        alt="place order"
+                      />
                       <div>
                         {t('another_option', { keyPrefix: 'chat_respond' })}
                       </div>
