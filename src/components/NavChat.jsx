@@ -201,7 +201,7 @@ export const NavChat = ({
         />
         <div className="flex w-full justify-between items-center h-10">
           <div className="font-futura-bold font-bold text-xl line-clamp-1 text-[#00153F] basis-10/12">
-            {headerText}
+            {t('chat.new_chat')}
           </div>
           <div className="mx-auto basis-2/12">
             <div
