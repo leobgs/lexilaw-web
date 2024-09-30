@@ -449,9 +449,9 @@ const HeaderLawyerCard = ({ data }) => {
             </div>
 
             <div className='bg-dark-50 rounded-bl-lg rounded-tr-xl text-white py-4 px-2 -mr-4 -mt-8'>
-              <div className='flex items-center gap-1'>
+              <div className='flex items-center gap-1 text-yellow-50'>
                 <div className='flex'>
-                  <div className='text-3xl'>{data?.experince}</div>
+                  <div className='text-3xl font-bold'>{data?.experience}</div>
                   <div>+</div>
                 </div>
                 <div className='text-xs font-light'>
