@@ -1,24 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { countryCodeData } from 'utils/country-code-data'
 
-const countryCodes = [
-  { code: '+1', name: 'United States' },
-  { code: '+44', name: 'United Kingdom' },
-  { code: '+81', name: 'Japan' },
-  { code: '+86', name: 'China' },
-  { code: '+91', name: 'India' },
-  { code: '+62', name: 'Indonesia' },
-  { code: '+60', name: 'Malaysia' },
-  { code: '+65', name: 'Singapore' },
-  { code: '+66', name: 'Thailand' },
-  { code: '+84', name: 'Vietnam' },
-  // Tambahkan kode negara lainnya di sini
-]
-
 export const DropdownCountryCode = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCountry, setSelectedCountry] = useState(null)
+  const [selectedCountry, setSelectedCountry] = useState({
+    name: 'Indonesia',
+    flag: '🇮🇩',
+    code: 'ID',
+    dial_code: '+62',
+  })
 
   const dropdownRef = useRef(null)
   const inputRef = useRef(null)
@@ -111,7 +102,7 @@ export const DropdownCountryCode = () => {
               <div
                 key={country.code}
                 onClick={() => handleCountrySelect(country)}
-                className="p-3 hover:bg-gray-100 cursor-pointer text-lg"
+                className="p-3 hover:bg-gray-100 cursor-pointer"
               >
                 {country.name} ({country.dial_code})
               </div>
