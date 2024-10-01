@@ -114,7 +114,7 @@ export const ThreadPage = ({
         )
 
         const parsedArray = decryptedArray && JSON.parse(decryptedArray)
-        console.log(parsedArray)
+
         parsedArray?.forEach((items) => {
           const isSchdule = isScheduleFn(items.message)
           if (isSchdule) {
