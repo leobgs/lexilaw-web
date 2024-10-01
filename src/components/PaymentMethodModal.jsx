@@ -11,7 +11,7 @@ export const PaymentMethodModal = ({
       onHide={() => {
         onHide();
       }}
-      contentClassName="bg-[#FCFCFC] overflow-y-scroll no-scrollbar bg-white !w-11/12 max-h-[640px] md:!w-5/6 lg:!w-2/4 max-w-[400px] rounded-lg md:rounded animate"
+      contentClassName="bg-[#FCFCFC] overflow-y-scroll no-scrollbar bg-white max-h-[700px] max-w-[420px] rounded-lg md:rounded animate"
       className="bg-neutral-40"
     >
       {snapURL && (

@@ -92,6 +92,7 @@ import ic_sand_time_big from './ic_sand_time_big.svg'
 import ic_circle_cross from './ic_circle_cross.svg'
 import ic_save from './ic_save.svg'
 import ic_files from './ic_files.svg'
+import ic_sand_time_mobile from './ic_sand_time_mobile.svg'
 
 const images = {
   bg_register_login,
@@ -187,7 +188,8 @@ const images = {
   ic_sand_time_big,
   ic_circle_cross,
   ic_save,
-  ic_files
+  ic_files,
+  ic_sand_time_mobile
 }
 
 export default images
