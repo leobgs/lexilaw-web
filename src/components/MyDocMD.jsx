@@ -86,7 +86,7 @@ export const MyDocMD = ({ children, handleCopyClick, handleSaveClick }) => {
             <div className="mt-4 mb-2 flex justify-end">
               <button
                 className="rounded-full px-4 py-2 btn-secondary-otp disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={title === ''}
+                disabled={title?.trim() === ''}
               >
                 {t('chat.save_document.button')}
               </button>

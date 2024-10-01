@@ -4,7 +4,6 @@ import { SwipeableDiv } from './SwipeableDiv'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { CardDocument } from './CardDocument'
-import { useGlobalContext } from 'hooks/context'
 import { HashLink } from 'react-router-hash-link'
 
 /**
@@ -41,7 +40,6 @@ export const CardFileMobile = ({
 }) => {
   const { t } = useTranslation()
   const { uuid } = useParams()
-  const { collectionClick } = useGlobalContext()
 
   return (
     <SwipeableDiv
@@ -155,6 +153,9 @@ export const CardFileMobile = ({
                     key={item.thread_chat_uuid}
                     smooth
                     to={`thread/${item.thread_uuid}#${item.thread_chat_uuid}`}
+                    onClick={() => {
+                      onChangeVisibility && onChangeVisibility()
+                    }}
                   >
                     {/* icon files */}
                     <div className="border-2 border-[#000] shadow-card-file flex justify-center items-center h-[72px] w-[72px] rounded-md bg-white">

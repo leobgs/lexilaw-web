@@ -77,7 +77,7 @@ export const CardFileDocument = ({
                 to={`thread/${item.thread_uuid}#${item.thread_chat_uuid}`}
               >
                 {/* Icon */}
-                <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md bg-white">
+                <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md bg-white flex-shrink-0">
                   <img src={images.ic_files} alt="ic_files" />
                 </div>
                 <p className="text-xs font-medium mt-2 truncate">{item.name}</p>
