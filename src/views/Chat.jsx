@@ -659,7 +659,8 @@ export const Chat = () => {
                           case 'CONNECTED':
                             break
                           case 'PENDING':
-                            navigate('/pending-whatsapp')
+                            openModalWAActivation()
+                            // navigate('/pending-whatsapp')
                             break
                           default:
                             openModalWAActivation()

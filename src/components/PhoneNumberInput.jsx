@@ -1,5 +1,6 @@
 import { useGlobalContext } from 'hooks/context'
 import { useState } from 'react'
+import { DropdownCountryCode } from './DropdownCountryCode'
 
 /**
  *
@@ -43,17 +44,20 @@ const PhoneNumberInput = () => {
 
   return (
     <div className="relative flex-1">
-      {/* span +62 */}
-      <div className="absolute top-[14px] left-4">
-        <span className="font-semi-bold">+62</span>
+      {/* span country code */}
+      <div className="absolute top-[5px] left-2">
+        <DropdownCountryCode />
       </div>
+
+      {/* garis */}
+      <div className='absolute h-6 top-3 left-[4.5rem] w-[2px] bg-gray-100'/>
       <input
         onChange={handleOnChange}
         value={phoneNumberObj.maskedPhoneNumber}
         maxLength={startWithZero ? 16 : 15}
         id="phone-number"
         type="tel"
-        className="pl-[3.25rem] pr-2 py-3 rounded-full bg-white focus:outline-none w-full font-semi-bold border border-gray-100"
+        className="pl-[5rem] pr-2 py-3 rounded-full bg-white focus:outline-none w-full font-semi-bold border border-gray-100"
       />
     </div>
   )
