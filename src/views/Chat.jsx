@@ -32,6 +32,8 @@ import { WhatsappActivation } from 'components/WhatsappActivation'
 import { WhatsappOtp } from 'components/WhatsappOtp'
 import { useGetAvailableSchedule } from 'hooks/useGetAvailableSchedule'
 import { useWindowWidth } from 'hooks/useWindowWidth'
+import { useEncryptKey } from 'hooks/useEncryptKey'
+import { encryptAESGCM } from 'hooks/useEncryptDecryption'
 
 export const Chat = () => {
   const { t } = useTranslation()
@@ -65,7 +67,7 @@ export const Chat = () => {
     is_disclaimer_accepted: '',
   })
   const [messageUUID, setMessageUUID] = useState(null)
-  const { closeAlert, setIsFirstTime } = useGlobalContext()
+  const { setIsFirstTime } = useGlobalContext()
   const [hasKoleksiData, setHasKoleksiData] = useState(false)
 
   const { pathname } = useLocation()
@@ -99,6 +101,7 @@ export const Chat = () => {
   const lawyer = lawyerList?.find((item) => item.uuid === lawyerUUID)
 
   const { dataAvailableSchedule } = useGetAvailableSchedule(lawyer?.uuid, uuid)
+  const { message: encryptKey, refetch } = useEncryptKey()
 
   const showChatDocument =
     (!isHeader &&
@@ -192,6 +195,7 @@ export const Chat = () => {
 
   useQuery(['newest_thread'], () => getData(`${API.THREAD_LIST}?limit=100`), {
     onSettled: (datas) => {
+      refetch()
       if (datas?.status === 'Success') {
         const { data } = datas
         let texts = t('new_chat', {
@@ -391,9 +395,16 @@ export const Chat = () => {
     enabled: hasKoleksiData,
   })
 
-  const handleAddChat = (e) => {
+  const handleAddChat = async (e) => {
+    let encryptMessage = ''
+    try {
+      encryptMessage = await encryptAESGCM(encryptKey, e.message)
+    } catch (error) {
+      notifyError('Encryption failed:', error)
+    }
+
     const dataMessage = {
-      message: e.message,
+      message: encryptMessage,
       document: e.file,
     }
     let texts = t('new_chat', {
@@ -528,6 +539,7 @@ export const Chat = () => {
             navigate('/')
           }}
           onHeaderClick={() => {
+            refetch()
             setIsHeader(true)
             setIsFirstTime(false)
             collectionReset()
@@ -762,6 +774,7 @@ export const Chat = () => {
                 }
                 isFirstTimeChat={isFirstTimeChat}
                 onFirstTimeChat={() => setIsFirstTimeChat((prev) => !prev)}
+                currKey={encryptKey}
               />
 
               {/* TAMPILKAN DOC CHAT KETIKA */}

@@ -65,4 +65,6 @@ export const API = {
   // WhatsApp
   WHATSAPP_CONNECT: '/user/app/v1.0.0/user/whatsapp/connect',
   WHATSAPP_OTP: '/user/app/v1.0.0/user/whatsapp/otp/check',
+
+  ENCRYPT_KEY: '/api/app/v1.0.0/user/key',
 }
