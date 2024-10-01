@@ -71,16 +71,9 @@ export const CardFileDocument = ({
           <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-x-2 gap-y-1">
             {system_data?.map((item) => (
               <HashLink
-              smooth
+                smooth
                 key={item.thread_chat_uuid}
                 className="hover:cursor-pointer"
-                // onClick={() => {
-                //   // collectionClick({
-                //   //   uuid: item.thread_uuid,
-                //   //   clicked_uuid: item.thread_chat_uuid,
-                //   // })
-                //   navigate('thread/' + item.thread_uuid + '#' + item.thread_chat_uuid)
-                // }}
                 to={`thread/${item.thread_uuid}#${item.thread_chat_uuid}`}
               >
                 {/* Icon */}
@@ -103,7 +96,7 @@ export const CardFileDocument = ({
             </p>
           )}
 
-          <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-x-2 gap-y-1">
             {lawyer_data?.map((item) => (
               <CardDocument key={item.uuid} item={item} />
             ))}

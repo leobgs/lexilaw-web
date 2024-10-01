@@ -151,14 +151,18 @@ export const CardFileMobile = ({
                 {/* Hasil Dari AI / System MAPPING*/}
                 {system_data?.map((item) => (
                   <HashLink
-                    className="flex items-center space-x-4 my-4"
+                    className="flex items-center space-x-4 my-4 w-full"
                     key={item.thread_chat_uuid}
                     smooth
                     to={`thread/${item.thread_uuid}#${item.thread_chat_uuid}`}
                   >
                     {/* icon files */}
-                    <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md bg-white">
-                      <img src={images.ic_files} alt="ic_files" />
+                    <div className="border-2 border-[#000] shadow-card-file flex justify-center items-center h-[72px] w-[72px] rounded-md bg-white">
+                      <img
+                        src={images.ic_files}
+                        alt="ic_files"
+                        className="w-5 h-5"
+                      />
                     </div>
                     <p className="font-semi-bold truncate">{item.name}</p>
                   </HashLink>
