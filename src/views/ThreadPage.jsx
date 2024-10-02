@@ -122,7 +122,8 @@ export const ThreadPage = ({
             tmp.push(items)
           })
 
-          setRenderedMessage((prevMessages) => [...prevMessages, ...tmp])
+          setRenderedMessage([...tmp])
+          // setRenderedMessage((prevMessages) => [...prevMessages, ...tmp])
         } catch (err) {
           console.error('Parsing error', err)
         }
@@ -266,7 +267,7 @@ export const ThreadPage = ({
   const handleAddChat = async (e) => {
     let encryptMessage = ''
     try {
-      encryptMessage = await encryptAESGCM(e.message, 'tpidberjayahoras')
+      encryptMessage = await encryptAESGCM(e.message, currKey)
     } catch (error) {
       notifyError('Encryption failed:', error)
     }
@@ -302,6 +303,7 @@ export const ThreadPage = ({
   const handleNextPage = () => {
     if (hasNextPage && !isFetchingNextPage) {
       console.log('ayo fetching')
+
       // fetchNextPage()
     }
   }
