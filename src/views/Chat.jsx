@@ -400,12 +400,10 @@ export const Chat = () => {
   const handleAddChat = async (e) => {
     let encryptMessage = ''
     try {
-      encryptMessage = await encryptAESGCM(encryptKey, e.message)
+      encryptMessage = await encryptAESGCM(e.message, encryptKey)
     } catch (error) {
       notifyError('Encryption failed:', error)
     }
-
-    console.log(encryptMessage)
 
     const dataMessage = {
       message: encryptMessage,

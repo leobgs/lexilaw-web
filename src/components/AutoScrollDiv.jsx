@@ -12,6 +12,7 @@ export const AutoScrollingDiv = ({
     const [target] = entries
     if (target.isIntersecting) {
       onNextScroll()
+      // console.log('first')
     }
   }, [])
 
