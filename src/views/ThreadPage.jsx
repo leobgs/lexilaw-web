@@ -9,7 +9,7 @@ import { useGlobalContext } from 'hooks/context'
 import { decryptAESGCM, encryptAESGCM } from 'hooks/useEncryptDecryption'
 import { getData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   useInfiniteQuery,
@@ -46,8 +46,6 @@ export const ThreadPage = ({
   const [messageUUID, setMessageUUID] = useState(null)
   const [isScrolled, setScrolled] = useState(true)
   const { setIsFirstTime } = useGlobalContext()
-  const intersectionRef = useRef(null)
-  const containerParentRef = useRef(null)
 
   useEffect(() => {
     if (params.uuid === '63926537') {
@@ -102,7 +100,7 @@ export const ThreadPage = ({
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['thread_detail', params.uuid],
-    () => getData(`${API.THREAD_DETAIL + params.uuid}?limit=1000`),
+    () => getData(`${API.THREAD_DETAIL + params.uuid}?limit=1200`),
     {
       onSettled: async (datas) => {
         let tmp = []
@@ -112,20 +110,23 @@ export const ThreadPage = ({
             return decrypted
           })
         )
+        try {
+          const parsedArray = JSON.parse(decryptedArray)
 
-        const parsedArray = decryptedArray && JSON.parse(decryptedArray)
+          parsedArray?.forEach((items) => {
+            const isSchdule = isScheduleFn(items.message)
+            if (isSchdule) {
+              items.lawyer_uuid = isSchdule
+              items.type = 'schedule'
+            }
+            tmp.push(items)
+          })
 
-        parsedArray?.forEach((items) => {
-          const isSchdule = isScheduleFn(items.message)
-          if (isSchdule) {
-            items.lawyer_uuid = isSchdule
-            items.type = 'schedule'
-          }
-          tmp.push(items)
-        })
-
-        setRenderedMessage((prevMessages) => [...prevMessages, ...tmp])
-        setRenderedMessage(tmp)
+          setRenderedMessage([...tmp])
+          // setRenderedMessage((prevMessages) => [...prevMessages, ...tmp])
+        } catch (err) {
+          console.error('Parsing error', err)
+        }
       },
       getNextPageParam: (lastpage) => {
         const nextPage = parseInt(lastpage?.meta?.page) + 1
@@ -135,44 +136,11 @@ export const ThreadPage = ({
     }
   )
 
-  // const callbackObserver = useCallback(
-  //   (entries) => {
-  //     const [target] = entries
-  //     console.log(target.isIntersecting, hasNextPage, isFetchingNextPage)
-
-  //     if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
-  //       // fetchNextPage()
-  //     }
-  //   },
-  //   [hasNextPage, isFetchingNextPage]
-  // )
-
-  // useEffect(() => {
-  //   const containerRef = containerParentRef.current
-  //   const intersection = intersectionRef.current
-
-  //   if (!intersection || !containerRef) return
-  //   const observer = new IntersectionObserver(callbackObserver, {
-  //     threshold: 1,
-  //     root: containerRef,
-  //   })
-
-  //   if (intersection) {
-  //     observer.observe(intersection)
-  //   }
-
-  //   return () => {
-  //     if (intersection) {
-  //       observer.unobserve(intersection)
-  //     }
-  //   }
-  // }, [callbackObserver])
-
   const { mutate: sendReaction } = useMutation(
     ({ params, reaction }) =>
       getData(`${API.MESSAGE_THUMBS}${params}/thumbs`, { reaction }),
     {
-      onSettled: (respond, err, variables) => {
+      onSettled: () => {
         queryClient.invalidateQueries('thread_detail')
       },
     }
@@ -299,7 +267,7 @@ export const ThreadPage = ({
   const handleAddChat = async (e) => {
     let encryptMessage = ''
     try {
-      encryptMessage = await encryptAESGCM(currKey, e.message)
+      encryptMessage = await encryptAESGCM(e.message, currKey)
     } catch (error) {
       notifyError('Encryption failed:', error)
     }
@@ -332,6 +300,14 @@ export const ThreadPage = ({
     sendReaction({ params: uuid, reaction })
   }
 
+  const handleNextPage = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      console.log('ayo fetching')
+
+      // fetchNextPage()
+    }
+  }
+
   return (
     <div
       className={clsx(
@@ -339,8 +315,7 @@ export const ThreadPage = ({
         className
       )}
     >
-      <AutoScrollingDiv shouldScrol={isScrolled}>
-        <div ref={intersectionRef} style={{ height: '2px' }} />
+      <AutoScrollingDiv shouldScrol={isScrolled} onNextScroll={handleNextPage}>
         {renderedMessage?.length !== 0 &&
           renderedMessage?.map((itms, index) => (
             <ChatCard

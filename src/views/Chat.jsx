@@ -93,7 +93,9 @@ export const Chat = () => {
 
   const [showConnectedWA, setShowConnectedWA] = useState(false)
 
-  const threadDetail = queryClient.getQueryData(['thread_detail', uuid])
+  const threadDetail = queryClient.getQueryData(['thread_detail', uuid], {
+    active: !uuid,
+  })
   const lawyerUUID = extractLawyerUUID(threadDetail)
   const { dataDocument, isPendingDocument } = useGetDocument(uuid)
 
@@ -398,7 +400,7 @@ export const Chat = () => {
   const handleAddChat = async (e) => {
     let encryptMessage = ''
     try {
-      encryptMessage = await encryptAESGCM(encryptKey, e.message)
+      encryptMessage = await encryptAESGCM(e.message, encryptKey)
     } catch (error) {
       notifyError('Encryption failed:', error)
     }
