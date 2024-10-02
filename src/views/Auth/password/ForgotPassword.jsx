@@ -58,9 +58,11 @@ export const ForgotPassword = () => {
             })}
           </div>
           <div className="text-neutral-40 text-xl">
-            {t('text', {
-              keyPrefix: 'auth.set_password',
-            })}{' '}
+            <p>
+              {t('text', {
+                keyPrefix: 'auth.set_password',
+              })}
+            </p>
             <span className="font-semi-bold">{email}</span>
           </div>
 
