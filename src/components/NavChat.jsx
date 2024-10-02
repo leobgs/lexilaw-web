@@ -667,7 +667,8 @@ export const NavChat = ({
             >
               <div
                 className={`px-4 mb-1 text-black-darker text-[14px] text-base ${
-                  userDetail?.connect_whatsapp_status === 'CONNECTED'
+                  userDetail?.connect_whatsapp_status === 'CONNECTED' ||
+                  userDetail?.connect_whatsapp_status === 'PENDING'
                     ? 'font-light'
                     : 'font-medium'
                 }`}

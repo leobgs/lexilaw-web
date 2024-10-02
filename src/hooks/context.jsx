@@ -1,6 +1,22 @@
-import { actionType, alertState, colectionState, colectionType } from 'config/state'
-import { alertReducer, colectionReducer, lawyerCardReducer, whatsappActivationReducer } from 'helpers/dataReducer'
-import React, { useCallback, useContext, useEffect, useReducer, useState } from 'react'
+import {
+  actionType,
+  alertState,
+  colectionState,
+  colectionType,
+} from 'config/state'
+import {
+  alertReducer,
+  colectionReducer,
+  lawyerCardReducer,
+  whatsappActivationReducer,
+} from 'helpers/dataReducer'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react'
 import Reducer from 'utils/reducer'
 import { localServerData } from './useLocalServerData'
 
@@ -30,27 +46,48 @@ export const AppContext = React.createContext({
   phoneNumberObj: {
     maskedPhoneNumber: '',
     phoneNumber: '',
+    countryCode: {
+      name: 'Indonesia',
+      flag: '🇮🇩',
+      code: 'ID',
+      dial_code: '+62',
+    },
   },
   resetPhoneNumber: () => {},
   setMaskedPhoneNumber: (arg) => {},
   setPhoneNumber: (arg) => {},
+  setCountryCode: (arg) => {},
+  resetCountryCode: () => {},
 })
 
 export const AppProvider = ({ children }) => {
   const [alert, dispatchAlert] = useReducer(alertReducer, alertState)
-  const [collection, dispatchColection] = useReducer(colectionReducer, colectionState)
+  const [collection, dispatchColection] = useReducer(
+    colectionReducer,
+    colectionState
+  )
   const [authLoader, dispatchAuthLoader] = useReducer(alertReducer, alertState)
   const [currentLanguage, setLanguage] = useState(() => {
     const { CURRENT_LANGUAGE } = localServerData()
     return CURRENT_LANGUAGE || 'id'
   })
 
-  const [lawyerRecommendationButton, dispatchLaywerRecommendationButton] = useReducer(lawyerCardReducer, { show: true })
+  const [lawyerRecommendationButton, dispatchLaywerRecommendationButton] =
+    useReducer(lawyerCardReducer, { show: true })
 
-  const [whatsappState, whatsappDispatch] = useReducer(whatsappActivationReducer, {
-    maskedPhoneNumber: '',
-    phoneNumber: '',
-  })
+  const [whatsappState, whatsappDispatch] = useReducer(
+    whatsappActivationReducer,
+    {
+      maskedPhoneNumber: '',
+      phoneNumber: '',
+      countryCode: {
+        name: 'Indonesia',
+        flag: '🇮🇩',
+        code: 'ID',
+        dial_code: '+62',
+      },
+    }
+  )
 
   const setMaskedPhoneNumber = (arg) => {
     whatsappDispatch({
@@ -69,6 +106,19 @@ export const AppProvider = ({ children }) => {
   const resetPhoneNumber = () => {
     whatsappDispatch({
       type: 'resetPhoneNumber',
+    })
+  }
+
+  const setCountryCode = (arg) => {
+    whatsappDispatch({
+      type: 'setCountryCode',
+      payload: arg,
+    })
+  }
+
+  const resetCountryCode = () => {
+    whatsappDispatch({
+      type: 'resetCountryCode',
     })
   }
 
@@ -242,6 +292,8 @@ export const AppProvider = ({ children }) => {
         setMaskedPhoneNumber,
         setPhoneNumber,
         phoneNumberObj: whatsappState,
+        resetCountryCode,
+        setCountryCode,
       }}
     >
       {children}
