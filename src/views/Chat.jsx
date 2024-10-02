@@ -195,7 +195,7 @@ export const Chat = () => {
     }
   )
 
-  useQuery(['newest_thread'], () => getData(`${API.THREAD_LIST}?limit=100`), {
+  useQuery(['newest_thread'], () => getData(`${API.THREAD_LIST}?limit=1000`), {
     onSettled: (datas) => {
       refetch()
       if (datas?.status === 'Success') {

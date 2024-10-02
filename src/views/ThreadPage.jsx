@@ -100,7 +100,7 @@ export const ThreadPage = ({
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['thread_detail', params.uuid],
-    () => getData(`${API.THREAD_DETAIL + params.uuid}?limit=1200`),
+    () => getData(`${API.THREAD_DETAIL + params.uuid}?limit=9999`),
     {
       onSettled: async (datas) => {
         let tmp = []

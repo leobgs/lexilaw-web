@@ -3,7 +3,7 @@ import { TextSelectionPopup } from './TextSelectionPopup'
 
 export const AutoScrollingDiv = ({
   children,
-  shouldScrol,
+  shouldScrol = true,
   onNextScroll = () => {},
 }) => {
   const divRef = useRef(null)
@@ -37,12 +37,13 @@ export const AutoScrollingDiv = ({
       }
     }
   }, [callbackObserver])
+
   useEffect(() => {
     const timer = setTimeout(() => {
       if (shouldScrol && divRef.current && !window.location.hash) {
         divRef.current.scrollTop = divRef.current.scrollHeight
       }
-    }, 10)
+    }, 99)
 
     return () => clearTimeout(timer)
   }, [children, shouldScrol])
