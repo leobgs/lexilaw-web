@@ -664,9 +664,12 @@ export const Chat = () => {
                   <div className="flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2">
                     <div
                       className={`px-4 text-black-darker text-xs  ${
-                        userDetail?.connect_whatsapp_status !== 'CONNECTED'
+                        userDetail?.connect_whatsapp_status === 'DISCONNECTED'
                           ? 'cursor-pointer font-semi-bold'
-                          : 'font-light'
+                          : `font-light ${
+                              userDetail?.connect_whatsapp_status ===
+                              'PENDING' && 'cursor-pointer'
+                            }`
                       }`}
                       onClick={() => {
                         switch (userDetail?.connect_whatsapp_status) {
