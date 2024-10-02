@@ -18,7 +18,7 @@ const RegisterOTP = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const storage = new LocalStorage()
-  const { fullName, email, user_uuid } = location.state
+  const { email, user_uuid } = location.state
   const { openAlert, closeAlert } = useGlobalContext()
   const { t } = useTranslation()
   const [otp, setOTP] = useState('')
@@ -26,6 +26,15 @@ const RegisterOTP = () => {
   const [isNotValidOtp, setIsNotValidOtp] = useState(false)
   const [timesUpTimer, setTimesUpTimer] = useState(false)
   const [errorMessage, setErrorMessage] = useState('Unknown')
+  const [showFirstNotif, setFirstNotif] = useState(false)
+
+  useEffect(() => {
+    if (location.state?.isFromLogin) {
+      otpResend({ user_uuid })
+    } else {
+      setFirstNotif(true)
+    }
+  }, [])
 
   const { mutate: otpCeck } = useMutation(
     (form) => getData(API.OTP_CHECK, form),
@@ -60,13 +69,17 @@ const RegisterOTP = () => {
     {
       onSettled: (data) => {
         if (data?.status === 'Success') {
-          notifySuccess(data?.message)
           setTimesUpTimer(false)
           setOtpTime(30)
+          setFirstNotif(true)
+          if (showFirstNotif) {
+            notifySuccess(data?.message)
+          }
         } else {
           notifyError(data?.message)
         }
       },
+      retry: false,
     }
   )
 
@@ -80,28 +93,20 @@ const RegisterOTP = () => {
     }
   }, [otp])
 
-  const showWelcomePopup = () => {
-    openAlert({
-      title: 'Selamat bergabung 👋 ',
-      messages: fullName,
-      icon: images.ai_profile_thumbnail,
-    })
-  }
-
   const handleOtpChanged = (newValue) => {
     setOTP(newValue)
   }
 
   return (
     <AuthCard>
-      <div className='grid grid-cols-1 gap-y-4 h-fit'>
-        <h1 className='text-[32px] text-dark-50 font-futura-bold tracking-tight'>
+      <div className="grid grid-cols-1 gap-y-4 h-fit">
+        <h1 className="text-[32px] text-dark-50 font-futura-bold tracking-tight">
           {t('heading', { keyPrefix: 'auth.register.otp' })}
         </h1>
 
-        <h3 className='text-xl font-regular tracking-wide text-gray-700'>
+        <h3 className="text-xl font-regular tracking-wide text-gray-700">
           {t('send_to', { keyPrefix: 'auth.register.otp' })}
-          <span className='block font-bold'>{email}</span>
+          <span className="block font-bold">{email}</span>
         </h3>
 
         <InputOTP
@@ -112,8 +117,8 @@ const RegisterOTP = () => {
           textErr={errorMessage}
         />
 
-        <div className='text-base font-regular tracking-wide text-gray-700 flex'>
-          <div className='flex'>
+        <div className="text-base font-regular tracking-wide text-gray-700 flex">
+          <div className="flex">
             {t('countdownbefore', {
               keyPrefix: 'auth.register.otp',
             })}
@@ -124,8 +129,8 @@ const RegisterOTP = () => {
                 timesUp={(e) => {
                   setTimesUpTimer(e)
                 }}
-                format='second'
-                className='mx-1'
+                format="second"
+                className="mx-1"
               />
             ) : (
               ' 00 '
