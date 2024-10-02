@@ -1,6 +1,8 @@
 import { useQuery } from 'react-query'
 import { getData } from './useRequest'
 import { API } from 'config/api'
+import { useEncryptKey } from './useEncryptKey'
+import { decryptAESGCM } from './useEncryptDecryption'
 
 /**
  * @typedef {Object} IChatResponse
@@ -56,6 +58,8 @@ import { API } from 'config/api'
  * }}
  */
 const useGetDocument = (thread_uuid, isEnabled) => {
+  const { message } = useEncryptKey()
+
   const {
     data: dataDocument,
     isLoading: isPendingDocument,
@@ -63,8 +67,15 @@ const useGetDocument = (thread_uuid, isEnabled) => {
     error: errorDocument,
   } = useQuery({
     queryKey: ['chat_document', thread_uuid],
-    queryFn: () => getData(API.CHAT_DOCUMENT + '/' + thread_uuid),
-    // enabled: isEnabled,
+    queryFn: async () => {
+      const data = await getData(API.CHAT_DOCUMENT + '/' + thread_uuid)
+      const decryptedData = await decryptAESGCM(data.data, message)
+      return {
+        ...data,
+        data: JSON.parse(decryptedData),
+      }
+    },
+    enabled: Boolean(message),
   })
 
   return {

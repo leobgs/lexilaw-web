@@ -2,8 +2,6 @@ import images from 'assets/images'
 import { useTranslation } from 'react-i18next'
 import { CardDocument } from './CardDocument'
 import clsx from 'clsx'
-import { useGlobalContext } from 'hooks/context'
-import { useNavigate } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
 
 /**
@@ -38,8 +36,6 @@ export const CardFileDocument = ({
   system_data,
 }) => {
   const { t } = useTranslation()
-  const { collectionClick } = useGlobalContext()
-  const navigate = useNavigate()
 
   return (
     <div
