@@ -31,6 +31,8 @@ const RegisterOTP = () => {
   useEffect(() => {
     if (location.state?.isFromLogin) {
       otpResend({ user_uuid })
+    } else {
+      setFirstNotif(true)
     }
   }, [])
 
@@ -94,10 +96,6 @@ const RegisterOTP = () => {
   const handleOtpChanged = (newValue) => {
     setOTP(newValue)
   }
-
-  // const otpResend = (e) => {
-  //   console.log(e, 'fired once')
-  // }
 
   return (
     <AuthCard>
