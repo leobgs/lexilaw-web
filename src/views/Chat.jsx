@@ -93,7 +93,9 @@ export const Chat = () => {
 
   const [showConnectedWA, setShowConnectedWA] = useState(false)
 
-  const threadDetail = queryClient.getQueryData(['thread_detail', uuid])
+  const threadDetail = queryClient.getQueryData(['thread_detail', uuid], {
+    active: !uuid,
+  })
   const lawyerUUID = extractLawyerUUID(threadDetail)
   const { dataDocument, isPendingDocument } = useGetDocument(uuid)
 
@@ -402,6 +404,8 @@ export const Chat = () => {
     } catch (error) {
       notifyError('Encryption failed:', error)
     }
+
+    console.log(encryptMessage)
 
     const dataMessage = {
       message: encryptMessage,

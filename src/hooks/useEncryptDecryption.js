@@ -1,4 +1,4 @@
-export async function encryptAESGCM(key, plaintext) {
+export async function encryptAESGCM(plaintext, key) {
   const enc = new TextEncoder()
   const keyBuffer = enc.encode(key).slice(0, 32)
 
@@ -9,7 +9,7 @@ export async function encryptAESGCM(key, plaintext) {
     false,
     ['encrypt']
   )
-  const nonce = crypto.getRandomValues(new Uint8Array(32))
+  const nonce = crypto.getRandomValues(new Uint8Array(12))
 
   const ciphertext = await crypto.subtle.encrypt(
     { name: 'AES-GCM', iv: nonce },
@@ -25,18 +25,15 @@ export async function encryptAESGCM(key, plaintext) {
 
 export async function decryptAESGCM(encodedCiphertext, key) {
   const dec = new TextDecoder()
-  const keyBuffer = new TextEncoder().encode(key).slice(0, 32) // AES-256 needs 32-byte key
+  const keyBuffer = new TextEncoder().encode(key).slice(0, 32)
 
-  // Decode base64 encoded ciphertext
   const combined = Uint8Array.from(atob(encodedCiphertext), (c) =>
     c.charCodeAt(0)
   )
 
-  // Extract nonce and ciphertext
   const nonce = combined.slice(0, 12)
   const ciphertext = combined.slice(12)
 
-  // Generate a CryptoKey from the key buffer
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     keyBuffer,
