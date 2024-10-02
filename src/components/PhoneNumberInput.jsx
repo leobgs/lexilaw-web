@@ -28,7 +28,8 @@ const formatPhoneNumber = (input) => {
 
 const PhoneNumberInput = () => {
   const [startWithZero, setStartWithZero] = useState(false)
-  const { setMaskedPhoneNumber, setPhoneNumber, phoneNumberObj } = useGlobalContext()
+  const { setMaskedPhoneNumber, setPhoneNumber, phoneNumberObj } =
+    useGlobalContext()
 
   const handleOnChange = (e) => {
     const input = e.target.value
@@ -37,7 +38,7 @@ const PhoneNumberInput = () => {
     } else {
       setStartWithZero(false)
     }
-    const maskedNUmber = formatPhoneNumber(input)
+    const maskedNUmber = formatPhoneNumber(input?.replace(/^0/, ''))
     setMaskedPhoneNumber(maskedNUmber)
     setPhoneNumber(maskedNUmber.replaceAll(' ', ''))
   }
@@ -50,7 +51,7 @@ const PhoneNumberInput = () => {
       </div>
 
       {/* garis */}
-      <div className='absolute h-6 top-3 left-[4.5rem] w-[2px] bg-gray-100'/>
+      <div className="absolute h-6 top-3 left-[4.5rem] w-[2px] bg-gray-100" />
       <input
         onChange={handleOnChange}
         value={phoneNumberObj.maskedPhoneNumber}

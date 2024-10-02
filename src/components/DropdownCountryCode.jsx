@@ -1,19 +1,17 @@
+import { useGlobalContext } from 'hooks/context'
 import { useEffect, useRef, useState } from 'react'
 import { countryCodeData } from 'utils/country-code-data'
 
 export const DropdownCountryCode = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCountry, setSelectedCountry] = useState({
-    name: 'Indonesia',
-    flag: '🇮🇩',
-    code: 'ID',
-    dial_code: '+62',
-  })
+  const { setCountryCode, phoneNumberObj } = useGlobalContext()
+  const [selectedCountry, setSelectedCountry] = useState(phoneNumberObj?.countryCode)
 
   const dropdownRef = useRef(null)
   const inputRef = useRef(null)
   const listRef = useRef(null)
+
 
   const filteredCountries = countryCodeData.filter((item) => {
     return (
@@ -43,10 +41,15 @@ export const DropdownCountryCode = () => {
     }
   }, [isOpen])
 
+  useEffect(() => {
+    setSelectedCountry(phoneNumberObj?.countryCode)
+  }, [phoneNumberObj?.countryCode])
+
   const handleCountrySelect = (country) => {
     setSelectedCountry(country)
     setIsOpen(false)
     setSearchTerm('')
+    setCountryCode(country)
   }
 
   const handleInputChange = (e) => {
@@ -92,8 +95,7 @@ export const DropdownCountryCode = () => {
             overflowY: 'auto',
           }}
         >
-          {
-          filteredCountries.length === 0 ? (
+          {filteredCountries.length === 0 ? (
             <p className="m-2 text-center">
               <span className="font-bold">"{searchTerm}"</span> Tidak Ditemukan
             </p>
@@ -107,8 +109,7 @@ export const DropdownCountryCode = () => {
                 {country.name} ({country.dial_code})
               </div>
             ))
-          )
-          }
+          )}
         </div>
       )}
     </div>

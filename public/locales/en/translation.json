@@ -238,7 +238,7 @@
   "connect_whatsapp": {
     "whatsapp_activation_header": "WhatsApp Activation",
     "whatsapp_activation_description": "You can access Lexi AI anytime with your smartphone.",
-    "whatsapp_activation_send_otp": "Send OTP",
+    "whatsapp_activation_send_otp": "Submit",
 
     "whatsapp_otp_header": "OTP Has Been Sent to",
     "whatsapp_otp_change_button": "Change",

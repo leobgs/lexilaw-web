@@ -178,9 +178,18 @@ export const lawyerCardReducer = (state, action) => {
 }
 
 /**
+ * @typedef {Object} CountryCode
+ * @property {string} name
+ * @property {string} flag
+ * @property {string} code
+ * @property {string} dial_code
+ */
+
+/**
  * @typedef {Object} WhatsappActivationState
  * @property {string} maskedPhoneNumber
  * @property {string} phoneNumber
+ * @property {CountryCode} countryCode
  */
 
 /**
@@ -206,8 +215,18 @@ export const lawyerCardReducer = (state, action) => {
  */
 
 /**
- * @typedef {SetMaskedPhoneNumber | ResetMaskedPhoneNumber | SetPhoneNumber | ResetPhoneNumber} WhatsappActivationAction
- * @property {SetMaskedPhoneNumber | ResetMaskedPhoneNumber | SetPhoneNumber | ResetPhoneNumber} action
+ * @typedef {Object} SetCountryCode
+ * @property {'setCountryCode'} type
+ * @property {CountryCode} payload
+ */
+
+/**
+ * @typedef {Object} ResetCountryCode
+ * @property {'resetCountryCode'} type
+ */
+
+/**
+ * @typedef {SetMaskedPhoneNumber | ResetMaskedPhoneNumber | SetPhoneNumber | ResetPhoneNumber | SetCountryCode | ResetCountryCode} WhatsappActivationAction
  */
 
 /**
@@ -229,6 +248,19 @@ export const whatsappActivationReducer = (state, action) => {
 
     case 'setPhoneNumber':
       return { ...state, phoneNumber: action.payload }
+    case 'setCountryCode':
+      return { ...state, countryCode: action.payload }
+    case 'resetCountryCode': {
+      return {
+        ...state,
+        countryCode: {
+          name: 'Indonesia',
+          flag: '🇮🇩',
+          code: 'ID',
+          dial_code: '+62',
+        },
+      }
+    }
     default:
       return state
   }
