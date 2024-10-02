@@ -44,7 +44,17 @@ export const Login = () => {
           }, 800)
           return () => clearTimeout(timeOut)
         } else {
-          setErrorText(data?.message)
+          if (data?.message === 'unverified user') {
+            navigate('/auth/register/otp', {
+              state: {
+                isFromLogin: true,
+                email: form.email,
+                user_uuid: data?.data?.uuid,
+              },
+            })
+          } else {
+            setErrorText(data?.message)
+          }
         }
       },
     }
