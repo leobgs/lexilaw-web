@@ -2,9 +2,7 @@ import clsx from 'clsx'
 import './Toggle.scss'
 import { useTranslation } from 'react-i18next'
 import { useGlobalContext } from 'hooks/context'
-import { useEffect, useState } from 'react'
 import './Toggle.scss'
-import { localServerData } from '../../hooks/useLocalServerData'
 
 export const Toggle = ({ className, labelClassName, hideText }) => {
   const { currentLanguage, setLanguage } = useGlobalContext()
@@ -23,7 +21,6 @@ export const Toggle = ({ className, labelClassName, hideText }) => {
   }
 
   return (
-    // <div className="my-4 flex justify-end align-center"
     <div
       className={clsx(
         'my-4 flex justify-end align-center items-center font-semi-bold',
@@ -31,7 +28,7 @@ export const Toggle = ({ className, labelClassName, hideText }) => {
       )}
     >
       {!hideText && (
-        <p className="text-white font-semi-bold me-2 text-xs">
+        <p className="text-white me-2 text-xs">
           {isEnglish ? 'English (EN)' : 'Indonesia (ID)'}
         </p>
       )}

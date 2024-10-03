@@ -50,15 +50,15 @@
   font-weight: bold;
   text-align: center;
   line-height: 1;
-  padding: 5px 2px;
+  padding: 5px 4px;
   background-color: #00153f;
-  border-radius: 45%;
+  border-radius: 40%;
   transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
 }
 
 #button-1 .checkbox:checked + .knobs:before {
   content: 'EN';
-  left: 28px;
+  left: 27px;
   background-color: #00153f;
 }
 
@@ -70,19 +70,4 @@
 #button-1 .knobs:before,
 #button-1 .layer {
   transition: 0.3s ease all;
-}
-
-#ytd-url {
-  display: block;
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  padding: 10px 14px;
-  margin: 20px;
-  color: #fff;
-  font-size: 14px;
-  text-decoration: none;
-  background-color: #143240;
-  border-radius: 4px;
-  box-shadow: 0 10px 20px -5px rgba(20, 50, 64, 0.76);
 }
