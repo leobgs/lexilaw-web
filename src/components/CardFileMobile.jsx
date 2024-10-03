@@ -158,7 +158,7 @@ export const CardFileMobile = ({
                     }}
                   >
                     {/* icon files */}
-                    <div className="border-2 border-[#000] shadow-card-file flex justify-center items-center h-[72px] w-[72px] rounded-md bg-white">
+                    <div className="border-2 border-[#000] shadow-card-file flex justify-center items-center h-[72px] w-[72px] rounded-md bg-white flex-shrink-0">
                       <img
                         src={images.ic_files}
                         alt="ic_files"

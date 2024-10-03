@@ -32,8 +32,6 @@ export const WhatsappActivation = ({ onHandleSubmit, onClose }) => {
           {/* Header */}
           <h1 className="font-futura-bold mb-1 text-dark-50">
             {t('connect_whatsapp.whatsapp_activation_header')}{' '}
-            {phoneNumberObj?.countryCode.dial_code?.replace('+', '')}{''}
-            {phoneNumberObj?.phoneNumber}
           </h1>
           {/* Keterangan */}
           <div className="md:w-[316px] flex">

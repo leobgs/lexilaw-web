@@ -9,6 +9,10 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQueryClient } from 'react-query'
 
+/**
+ *
+ * @deprecated Komponent ini sudah tidak digunakan lagi, gunakan komponen `WhatsAppFitBit`
+ */
 export const WhatsappOtp = ({ onClickButtonChange, onSuccessOTP }) => {
   const { phoneNumberObj } = useGlobalContext()
   const [second, setSecond] = useState(45)
@@ -19,7 +23,8 @@ export const WhatsappOtp = ({ onClickButtonChange, onSuccessOTP }) => {
   const isEnglish = CURRENT_LANGUAGE === 'en'
 
   const queryClient = useQueryClient()
-  const { mutateAsyncWAOTP, isPendingWAOTP, isErrorWAOTP } = usePostWhatsAppOTP()
+  const { mutateAsyncWAOTP, isPendingWAOTP, isErrorWAOTP } =
+    usePostWhatsAppOTP()
   const { mutateAsyncWAConnect } = usePostWhatsAppConnect()
   const isDisabled = second !== 0 || isPendingWAOTP
   const isError = otp.length === 6 && isErrorWAOTP
@@ -117,19 +122,24 @@ export const WhatsappOtp = ({ onClickButtonChange, onSuccessOTP }) => {
             />
           </div>
           {isError && (
-            <p className="font-medium text-[#DB0000] text-center">{t('connect_whatsapp.whatsapp_otp_invalid')}</p>
+            <p className="font-medium text-[#DB0000] text-center">
+              {t('connect_whatsapp.whatsapp_otp_invalid')}
+            </p>
           )}
         </form>
 
         {/* footer */}
         <div className="mt-3 flex flex-col items-center md:items-start md:flex-row md:justify-center md:space-x-1">
           <p className="text-center font-medium text-gray-700">
-            {isEnglish ? 'Please wait ' : 'Tunggu '} {second.toString().length <= 1 ? '0' + second : second}{' '}
+            {isEnglish ? 'Please wait ' : 'Tunggu '}{' '}
+            {second.toString().length <= 1 ? '0' + second : second}{' '}
             {t('connect_whatsapp.whatsapp_otp_waiting')}{' '}
           </p>
           <span
             className={`font-bold border-b-2 border-blue-dark ${
-              !isDisabled ? 'hover:cursor-pointer text-blue-dark opacity-100' : 'hover:cursor-not-allowed opacity-50'
+              !isDisabled
+                ? 'hover:cursor-pointer text-blue-dark opacity-100'
+                : 'hover:cursor-not-allowed opacity-50'
             }`}
             onClick={async () => {
               if (!isDisabled) {
@@ -137,7 +147,8 @@ export const WhatsappOtp = ({ onClickButtonChange, onSuccessOTP }) => {
                   await mutateAsyncWAConnect(phoneNumberObj.phoneNumber)
                   setSecond(45)
                 } catch (e) {
-                  const message = e instanceof Error ? e.message : 'Unknown Error'
+                  const message =
+                    e instanceof Error ? e.message : 'Unknown Error'
                   notifyError(message)
                 }
               }

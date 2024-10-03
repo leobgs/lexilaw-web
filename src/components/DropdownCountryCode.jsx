@@ -1,17 +1,20 @@
 import { useGlobalContext } from 'hooks/context'
 import { useEffect, useRef, useState } from 'react'
 import { countryCodeData } from 'utils/country-code-data'
+import { useTranslation } from 'react-i18next'
 
 export const DropdownCountryCode = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const { setCountryCode, phoneNumberObj } = useGlobalContext()
-  const [selectedCountry, setSelectedCountry] = useState(phoneNumberObj?.countryCode)
+  const [selectedCountry, setSelectedCountry] = useState(
+    phoneNumberObj?.countryCode
+  )
+  const { i18n } = useTranslation()
 
   const dropdownRef = useRef(null)
   const inputRef = useRef(null)
   const listRef = useRef(null)
-
 
   const filteredCountries = countryCodeData.filter((item) => {
     return (
@@ -89,7 +92,7 @@ export const DropdownCountryCode = () => {
       {isOpen && (
         <div
           ref={listRef}
-          className="absolute mt-1 w-[300px] max-h-[400px] overflow-auto border rounded bg-white shadow-lg"
+          className="absolute mt-1 w-[300px] max-h-[400px] overflow-auto border rounded bg-white shadow-lg z-10"
           style={{
             maxHeight: '300px',
             overflowY: 'auto',
@@ -97,7 +100,7 @@ export const DropdownCountryCode = () => {
         >
           {filteredCountries.length === 0 ? (
             <p className="m-2 text-center">
-              <span className="font-bold">"{searchTerm}"</span> Tidak Ditemukan
+              <span className="font-bold">"{searchTerm}"</span> {i18n.language === 'en' ? 'Not Found' : 'Tidak Ditemukan'}
             </p>
           ) : (
             filteredCountries.map((country, index) => (

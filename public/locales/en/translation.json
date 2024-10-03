@@ -248,5 +248,8 @@
   },
   "copy_doc": "Copy document success",
   "text_copy": "Copy",
-  "text_save": "Save"
+  "text_save": "Save",
+  "whatsapp_fitbit": {
+    "your_number": "Your Phone Number"
+  }
 }

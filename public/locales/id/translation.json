@@ -248,5 +248,8 @@
   },
   "copy_doc": "Salin dokumen sukses",
   "text_copy": "Salin",
-  "text_save": "Simpan"
+  "text_save": "Simpan",
+  "whatsapp_fitbit": {
+    "your_number": "Nomor Telepon Anda"
+  }
 }
