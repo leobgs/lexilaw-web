@@ -217,15 +217,13 @@ export default function AuthLayout() {
       )}
 
       <div className="container mx-auto py-3 relative z-1 px-4 md:px-0 my-auto lg:px-[2rem]">
-        {!isOnMobileSize && (
-          <img
-            src={images.lexilaw_logo}
-            alt=""
-            className="md:!block pb-[2rem] mx-auto md:mx-0 w-[120px] md:w-[160px] lg:w-[200px] md:ms-[-20px] lg:ms-0 mt-28"
-          />
-        )}
+        <img
+          src={images.lexilaw_logo}
+          alt=""
+          className="md:!block pb-[2rem] mx-auto md:mx-0 w-[120px] md:w-[160px] lg:w-[200px] md:ms-[-20px] lg:ms-0 md:mt-28 mt-14"
+        />
 
-        <div className="grid md:grid-cols-2 md:gap-5 xl:gap-12 2xl:gap-32">
+        <div className="grid mt-4 md:grid-cols-2 md:gap-5 xl:gap-12 2xl:gap-32">
           {(!isOnMobileSize ||
             (isOnMobileSize && location.pathname === '/auth')) && (
             <div className="desc flex md:!flex flex-col justify-center">
@@ -233,7 +231,7 @@ export default function AuthLayout() {
                 {t('tagline')}
               </h1>
 
-              <p className="pt-[0.5rem] text-white text-center md:text-start font-light text-sm">
+              <p className="pt-[0.5rem] text-white text-center md:text-start font-light text-sm my-6">
                 {t('sub_tagline')}
               </p>
             </div>
