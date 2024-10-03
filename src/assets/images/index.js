@@ -199,8 +199,6 @@ const images = {
   ic_circle_cross,
   ic_save,
   ic_files,
-<<<<<<< HEAD
-=======
   ic_sand_time_mobile,
 
   // ======= AKAN DIHAPUS JIKA API SUDAH JADI =========
@@ -212,7 +210,6 @@ const images = {
   img_qrcode_dummy,
   ic_download,
   // ======= AKAN DIHAPUS JIKA API SUDAH JADI =========
->>>>>>> development
 }
 
 export default images
