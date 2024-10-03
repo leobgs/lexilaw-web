@@ -25,7 +25,14 @@ export const ScheduleVariant = ({ item }) => {
           data.status === 'Success' ||
           (data.status === 'Bad Request' && data.message === 'Done')
         ) {
-          setSchedules(data?.data)
+          const updatedResponse = data?.data?.availability_schedules?.map(
+            (item) => ({
+              ...item,
+              start_time_formatted_eng: convertTimeToUserTimezone(item.start_time),
+              start_time_formatted_ind: convertTimeToUserTimezone(item.start_time, 'id-ID'),
+            })
+          )
+          setSchedules({...data?.data, availability_schedules: updatedResponse})
         } else {
           notifyError(data?.message)
         }
@@ -103,4 +110,16 @@ const ScheduleItem = ({ schedule, lawyer_uuid, thread_uuid }) => {
       </span>
     </div>
   )
+}
+
+const convertTimeToUserTimezone = (utcTime, locale) => {
+  const date = new Date(utcTime)
+  const userLocale = locale || navigator.language // Mendapatkan locale otomatis dari browser
+
+  return new Intl.DateTimeFormat(userLocale, {
+    weekday: 'long', 
+    hour: 'numeric', 
+    minute: 'numeric',
+    hour12: true
+  }).format(date)
 }
