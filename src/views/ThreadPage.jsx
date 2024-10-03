@@ -54,7 +54,7 @@ export const ThreadPage = ({
       )
       setRenderedMessage(dataFiltered?.chat)
     } else {
-      setRenderedMessage([])
+      // setRenderedMessage([])
     }
 
     if (state) {
