@@ -1,5 +1,8 @@
 .btn-primary {
   @apply bg-primary-base hover:bg-primary-light text-neutral-20 text-sm;
+  box-shadow: -10px 17px 20px 1px rgba(19, 123, 230, 1);
+  -webkit-box-shadow: -10px 17px 20px 1px rgba(19, 123, 230, 1);
+  -moz-box-shadow: -10px 17px 20px 1px rgba(19, 123, 230, 1);
   .btn-spinner {
     @apply border-white;
   }
