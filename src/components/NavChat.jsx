@@ -24,6 +24,7 @@ import { EmptySearchResult } from './SearchCard/EmptySearchResult'
 import { Modal } from './Modal'
 import { WhatsappOtp } from './WhatsappOtp'
 import { WhatsappActivation } from './WhatsappActivation'
+import { WhatsAppFitBIt } from './WhatsAppFitBit'
 
 export const NavChat = ({
   onHeaderClick,
@@ -667,8 +668,7 @@ export const NavChat = ({
             >
               <div
                 className={`px-4 mb-1 text-black-darker text-[14px] text-base ${
-                  userDetail?.connect_whatsapp_status === 'CONNECTED' ||
-                  userDetail?.connect_whatsapp_status === 'PENDING'
+                  userDetail?.connect_whatsapp_status === 'CONNECTED'
                     ? 'font-light'
                     : 'font-medium'
                 }`}
@@ -734,44 +734,6 @@ export const NavChat = ({
         </div>
       )}
 
-      {showPendingWA && (
-        <div className="md:hidden absolute w-full h-full bg-white p-4 pt-4 z-50">
-          <div className="flex justify-start gap-3 items-center shadow-md -mx-4 px-4 pb-4">
-            <img
-              src={images.ic_chevron_left}
-              alt="back"
-              onClick={() => {
-                setShowPendingWA(false)
-                setShowSetting(true)
-              }}
-              className="h-6"
-            />
-            <div className="font-futura-bold text-[20px] text-blue-dark">
-              {t('chat.profile_menu.connecting_whatsapp')}
-            </div>
-          </div>
-
-          {/* Card */}
-          <div className="border-2 border-neutral-70 rounded-md my-4 px-2 py-4">
-            {/* Header */}
-            <div className="flex flex-col justify-center items-center px-4">
-              {/* Icon Sand Time */}
-              <img alt="sand-time" src={images.ic_sand_time_big} />
-
-              <h1 className="font-futura-bold text-[24px] text-center text-dark-50">
-                {t('chat.profile_menu.pending_whatsapp_heading')}
-              </h1>
-              <p
-                className="text-center my-2 text-dark-50"
-                dangerouslySetInnerHTML={{
-                  __html: t('chat.profile_menu.pending_whatsapp_description'),
-                }}
-              ></p>
-            </div>
-          </div>
-        </div>
-      )}
-
       <ModalSearch
         show={showSearchNav}
         onHide={() => setShowSearchNav(false)}
@@ -802,20 +764,18 @@ export const NavChat = ({
 
       <Modal
         classNameBox={'bg-gray-700/70'}
-        contentClassName={'px-4'}
-        show={showWhatsappOtp}
+        contentClassName={''}
+        show={showPendingWA}
         onHide={closeModalWaOtp}
       >
-        {showWhatsappOtp && (
-          <WhatsappOtp
-            onClickButtonChange={() => {
-              closeModalWaOtp()
+        {showPendingWA && (
+          <WhatsAppFitBIt
+            onChangeNumber={() => {
+              setShowPendingWA(false)
               openModalWAActivation()
-              resetPhoneNumber()
             }}
-            onSuccessOTP={() => {
-              closeModalWaOtp()
-              resetPhoneNumber()
+            onCloseButton={() => {
+              setShowPendingWA(false)
             }}
           />
         )}
