@@ -77,7 +77,7 @@ export default function AuthLayout() {
     switch (pathname) {
       case '/auth/login':
         return (
-          <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
+          <div className="grid lg:grid-cols-2 lg:gap-5 px-3">
             <GoogleSignInButton
               className={
                 'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
@@ -106,11 +106,11 @@ export default function AuthLayout() {
               }
             />
 
-            <p className='text-center text-gray-400 font-medium md:hidden'>
+            <p className="text-center text-gray-400 font-medium md:hidden">
               {t('not_have_account', { keyPrefix: 'auth.login' })}
               <NavLink
-                className='font-bold text-white underline ms-1'
-                to='/auth/register'
+                className="font-bold text-white underline ms-1"
+                to="/auth/register"
               >
                 {t('register', { keyPrefix: 'auth.login' })}
               </NavLink>
@@ -120,7 +120,7 @@ export default function AuthLayout() {
 
       case '/auth':
         return (
-          <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
+          <div className="grid lg:grid-cols-2 lg:gap-5 px-3">
             <GoogleSignInButton
               className={
                 'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
@@ -149,11 +149,11 @@ export default function AuthLayout() {
               }
             />
 
-            <p className='text-center text-gray-400 font-medium md:hidden'>
+            <p className="text-center text-gray-400 font-medium md:hidden">
               {t('not_have_account', { keyPrefix: 'auth.login' })}
               <NavLink
-                className='font-bold text-white underline ms-1'
-                to='/auth/register'
+                className="font-bold text-white underline ms-1"
+                to="/auth/register"
               >
                 {t('register', { keyPrefix: 'auth.login' })}
               </NavLink>
@@ -163,7 +163,7 @@ export default function AuthLayout() {
 
       case '/auth/register':
         return (
-          <div className='grid lg:grid-cols-2 lg:gap-5 px-3'>
+          <div className="grid lg:grid-cols-2 lg:gap-5 px-3">
             <GoogleSignInButton
               className={
                 'whitespace-nowrap bg-outline-transparent text-white w-full mt-[2rem] mb-[1rem] rounded-full md:rounded-md text-sm md:text-xs'
@@ -200,43 +200,40 @@ export default function AuthLayout() {
   }
 
   return (
-    <div
-      className={`bg_auth flex items-center flex-col relative bg-[#001a0f] ${
-        location?.pathname === '/auth/register' ? 'xl:h-full' : 'h-screen'
-      }`}
-    >
+    <div className="relative">
+      <div className="bg_auth bg-[#001a0f] fixed" />
       <AuthLoader />
 
       {isOnMobileSize && isOnAuthPage && (
-        <div className='navBar border-b-2 border-green-900 md: w-full'>
+        <div className="navBar border-b-2 border-green-900 md: w-full">
           <Button
             label={handleLabelHeader(location.pathname)}
             iconLeft={images.chevron_left}
-            iconClassName='w-[20px] h-[20px] me-2'
+            iconClassName="w-[20px] h-[20px] me-2"
             onClick={handleBackLogin}
-            className='text-white bg-transparent cursor-default'
+            className="text-white bg-transparent cursor-default"
           />
         </div>
       )}
 
-      <div className='container mx-auto py-3 relative z-1 px-4 md:px-0 my-auto lg:px-[2rem]'>
+      <div className="container mx-auto py-3 relative z-1 px-4 md:px-0 my-auto lg:px-[2rem]">
         {!isOnMobileSize && (
           <img
             src={images.lexilaw_logo}
-            alt=''
-            className='logo md:!block pb-[2rem] mx-auto md:mx-0 w-[120px] md:w-[160px] lg:w-[200px] md:ms-[-20px] lg:ms-0'
+            alt=""
+            className="md:!block pb-[2rem] mx-auto md:mx-0 w-[120px] md:w-[160px] lg:w-[200px] md:ms-[-20px] lg:ms-0 mt-28"
           />
         )}
 
-        <div className='grid md:grid-cols-2 md:gap-5 xl:gap-12 2xl:gap-32'>
+        <div className="grid md:grid-cols-2 md:gap-5 xl:gap-12 2xl:gap-32">
           {(!isOnMobileSize ||
             (isOnMobileSize && location.pathname === '/auth')) && (
-            <div className='desc flex md:!flex flex-col justify-center'>
-              <h1 className='font-bold text-5xl md:text-7xl text-white text-center md:text-start font-futura-bold'>
+            <div className="desc flex md:!flex flex-col justify-center">
+              <h1 className="font-bold text-5xl md:text-7xl text-white text-center md:text-start font-futura-bold">
                 {t('tagline')}
               </h1>
 
-              <p className='pt-[0.5rem] text-white text-center md:text-start font-light text-sm'>
+              <p className="pt-[0.5rem] text-white text-center md:text-start font-light text-sm">
                 {t('sub_tagline')}
               </p>
             </div>
@@ -245,7 +242,7 @@ export default function AuthLayout() {
           <div>
             {(isOnAuthPage && isOnMobileSize) || !isOnMobileSize ? (
               <>
-                <Toggle className='togglelanguage md:flex' />
+                <Toggle className="togglelanguage md:flex" />
                 <Outlet />
               </>
             ) : null}
