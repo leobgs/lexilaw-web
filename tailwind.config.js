@@ -86,6 +86,9 @@ module.exports = {
         50: '#E0DBD1',
         300: '#f1c232',
       },
+      slate: {
+        10: '#CBCBCB'
+      }
     },
     fontFamily: {
       light: 'Inter Light',
