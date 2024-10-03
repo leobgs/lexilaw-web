@@ -34,6 +34,7 @@ import { useGetAvailableSchedule } from 'hooks/useGetAvailableSchedule'
 import { useWindowWidth } from 'hooks/useWindowWidth'
 import { useEncryptKey } from 'hooks/useEncryptKey'
 import { encryptAESGCM } from 'hooks/useEncryptDecryption'
+import { WhatsAppFitBIt } from 'components/WhatsAppFitBit'
 
 export const Chat = () => {
   const { t } = useTranslation()
@@ -630,7 +631,7 @@ export const Chat = () => {
               children={
                 <div className="text-neutral-40 -mx-4">
                   <div className="bg-blue-dark w-full h-2 -mt-2 rounded-t-md" />
-                  <div className="px-4 my-2 text-xxs">
+                  <div className="px-4 my-2 text-xxs font-semi-bold">
                     {t('main_menu', {
                       keyPrefix: 'chat.profile_menu',
                     })}
@@ -656,7 +657,7 @@ export const Chat = () => {
                     </div>
                   </div>
 
-                  <div className="px-4 mb-2 mt-2 text-xxs ">
+                  <div className="px-4 mb-2 mt-2 text-xxs font-semi-bold">
                     {t('connected', {
                       keyPrefix: 'chat.profile_menu',
                     })}
@@ -664,16 +665,19 @@ export const Chat = () => {
                   <div className="flex justify-between items-center border-b border-b-neutral-20 pr-4 pb-2">
                     <div
                       className={`px-4 text-black-darker text-xs  ${
-                        userDetail?.connect_whatsapp_status !== 'CONNECTED'
+                        userDetail?.connect_whatsapp_status === 'DISCONNECTED'
                           ? 'cursor-pointer font-semi-bold'
-                          : 'font-light'
+                          : `font-light ${
+                              userDetail?.connect_whatsapp_status ===
+                                'PENDING' && 'cursor-pointer'
+                            }`
                       }`}
                       onClick={() => {
                         switch (userDetail?.connect_whatsapp_status) {
                           case 'CONNECTED':
                             break
                           case 'PENDING':
-                            navigate('/pending-whatsapp')
+                            openModalWaOTP()
                             break
                           default:
                             openModalWAActivation()
@@ -716,7 +720,7 @@ export const Chat = () => {
                     />
                   </div>
 
-                  <div className="px-4 my-2 text-xxs">
+                  <div className="px-4 my-2 text-xxs font-semi-bold">
                     {t('configure', {
                       keyPrefix: 'chat.profile_menu',
                     })}
@@ -843,19 +847,14 @@ export const Chat = () => {
         show={showWhatsappOtp}
         onHide={closeModalWaOtp}
       >
-        {showWhatsappOtp && (
-          <WhatsappOtp
-            onClickButtonChange={() => {
-              closeModalWaOtp()
-              openModalWAActivation()
-              resetPhoneNumber()
-            }}
-            onSuccessOTP={() => {
-              closeModalWaOtp()
-              resetPhoneNumber()
-            }}
-          />
-        )}
+        {showWhatsappOtp && <WhatsAppFitBIt onCloseButton={() => {
+          closeModalWaOtp()
+        }}
+        onChangeNumber={() => {
+          closeModalWaOtp()
+          openModalWAActivation()
+        }}
+        />}
       </Modal>
 
       {/* Modal Disconnect WA */}

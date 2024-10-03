@@ -238,7 +238,7 @@
   "connect_whatsapp": {
     "whatsapp_activation_header": "Aktivasi WhatsApp",
     "whatsapp_activation_description": "Kamu dapat mengakses Lexi AI kapanpun dengan smartphone Kamu.",
-    "whatsapp_activation_send_otp": "Kirim OTP",
+    "whatsapp_activation_send_otp": "Kirim",
 
     "whatsapp_otp_header": "OTP Terkirim Ke",
     "whatsapp_otp_change_button": "Ganti",
@@ -248,5 +248,8 @@
   },
   "copy_doc": "Salin dokumen sukses",
   "text_copy": "Salin",
-  "text_save": "Simpan"
+  "text_save": "Simpan",
+  "whatsapp_fitbit": {
+    "your_number": "Nomor Telepon Anda"
+  }
 }

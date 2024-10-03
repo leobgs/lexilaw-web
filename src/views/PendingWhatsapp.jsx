@@ -1,13 +1,24 @@
 import images from 'assets/images'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router-dom'
 
+/**
+ *
+ * @deprecated sudah tidak digunakan, gunakan komponent WhatsappFitBit
+ *
+ * @returns {React.ReactNode}
+ */
 export const PendingWhatsapp = () => {
   const { t } = useTranslation()
   return (
     <div className="bg-primary-base p-4 md:h-screen md:p-4">
       <NavLink className="flex items-center w-fit" to="/">
-        <img className="me-2 h-[18px]" src={images.ic_chevron_left} alt="back" />
+        <img
+          className="me-2 h-[18px]"
+          src={images.ic_chevron_left}
+          alt="back"
+        />
         <div className="font-futura-bold font-bold text-xl text-dark-50 ">
           {t('chat.profile_menu.connecting_whatsapp')}
         </div>

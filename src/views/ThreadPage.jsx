@@ -302,8 +302,6 @@ export const ThreadPage = ({
 
   const handleNextPage = () => {
     if (hasNextPage && !isFetchingNextPage) {
-      console.log('ayo fetching')
-
       // fetchNextPage()
     }
   }

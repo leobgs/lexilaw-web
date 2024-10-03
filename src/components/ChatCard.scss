@@ -71,6 +71,10 @@
     margin-left: 0;
     margin-right: 0;
     padding-left: 40px;
+
+     @media (max-width: 500px) {
+      padding-left: 20px;
+    }
   }
 
   ol {
@@ -81,6 +85,10 @@
     margin-left: 0;
     margin-right: 0;
     padding-left: 40px;
+
+     @media (max-width: 500px) {
+      padding-left: 16px;
+    }
   }
 
   p {
@@ -106,7 +114,7 @@
   }
 
   .style-card-chat {
-    inline-size: 200px;
+    // inline-size: 200px;
     overflow-wrap: break-word;
   }
 }

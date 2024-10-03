@@ -2,8 +2,6 @@ import images from 'assets/images'
 import { useTranslation } from 'react-i18next'
 import { CardDocument } from './CardDocument'
 import clsx from 'clsx'
-import { useGlobalContext } from 'hooks/context'
-import { useNavigate } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
 
 /**
@@ -38,8 +36,6 @@ export const CardFileDocument = ({
   system_data,
 }) => {
   const { t } = useTranslation()
-  const { collectionClick } = useGlobalContext()
-  const navigate = useNavigate()
 
   return (
     <div
@@ -71,20 +67,13 @@ export const CardFileDocument = ({
           <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-x-2 gap-y-1">
             {system_data?.map((item) => (
               <HashLink
-              smooth
+                smooth
                 key={item.thread_chat_uuid}
                 className="hover:cursor-pointer"
-                // onClick={() => {
-                //   // collectionClick({
-                //   //   uuid: item.thread_uuid,
-                //   //   clicked_uuid: item.thread_chat_uuid,
-                //   // })
-                //   navigate('thread/' + item.thread_uuid + '#' + item.thread_chat_uuid)
-                // }}
                 to={`thread/${item.thread_uuid}#${item.thread_chat_uuid}`}
               >
                 {/* Icon */}
-                <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md bg-white">
+                <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md bg-white flex-shrink-0">
                   <img src={images.ic_files} alt="ic_files" />
                 </div>
                 <p className="text-xs font-medium mt-2 truncate">{item.name}</p>
@@ -103,7 +92,7 @@ export const CardFileDocument = ({
             </p>
           )}
 
-          <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-x-2 gap-y-1">
             {lawyer_data?.map((item) => (
               <CardDocument key={item.uuid} item={item} />
             ))}

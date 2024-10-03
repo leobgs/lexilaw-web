@@ -23,7 +23,7 @@ export const MyDocMD = ({ children, handleCopyClick, handleSaveClick }) => {
     <div className="bg-white rounded-md shadow-lg my-4">
       {/* header */}
       <div className="border-b-1 shadow mb-4 flex flex-row justify-between items-center px-4 py-2 bg-neutral-80/50 select-none flex-wrap">
-        <span className="px-2 py-1 font-bold">DOC</span>
+        <span className="px-2 py-1 font-bold">DRAFT</span>
 
         {/* Action Button */}
         <div className="flex space-x-4">
@@ -86,7 +86,7 @@ export const MyDocMD = ({ children, handleCopyClick, handleSaveClick }) => {
             <div className="mt-4 mb-2 flex justify-end">
               <button
                 className="rounded-full px-4 py-2 btn-secondary-otp disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={title === ''}
+                disabled={title?.trim() === ''}
               >
                 {t('chat.save_document.button')}
               </button>
