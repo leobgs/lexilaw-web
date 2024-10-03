@@ -75,7 +75,7 @@ const useGetDocument = (thread_uuid, isEnabled) => {
         data: JSON.parse(decryptedData),
       }
     },
-    enabled: Boolean(message),
+    enabled: Boolean(thread_uuid) && Boolean(message),
   })
 
   return {
