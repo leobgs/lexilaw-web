@@ -72,7 +72,7 @@ export const InputPassword = ({
         />
         <img
           className={`absolute translate-y-1/2 right-4 cursor-pointer bottom-1/2 ${
-            isPINVisible ? 'w-5 h-4' : 'w-4 h-3'
+            isPINVisible ? 'w-6 h-5' : 'w-6 h-4'
           }`}
           src={isPINVisible ? images.ic_eye : images.ic_eye_strike}
           alt=""

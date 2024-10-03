@@ -110,7 +110,7 @@ export const ChangePassword = () => {
             disabled={
               !form.confirm_password || form.confirm_password !== form.password
             }
-            className="btn-secondary-hover w-full rounded-full font-medium relative mt-6"
+            className="btn-secondary-hover w-full rounded-full relative mt-6 !text-[#ffffff]/70 !font-medium"
           />
         </>
       )}
