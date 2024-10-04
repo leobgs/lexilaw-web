@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import './Toggle.scss'
 import { useTranslation } from 'react-i18next'
 import { useGlobalContext } from 'hooks/context'
+import './Toggle.scss'
 
 export const Toggle = ({ className, labelClassName, hideText }) => {
   const { currentLanguage, setLanguage } = useGlobalContext()
@@ -20,28 +21,29 @@ export const Toggle = ({ className, labelClassName, hideText }) => {
   }
 
   return (
-    // <div className="my-4 flex justify-end align-center"
-    <div className={clsx('my-4 flex justify-end align-center', className)}>
+    <div
+      className={clsx(
+        'my-4 flex justify-end align-center items-center font-semi-bold',
+        className
+      )}
+    >
       {!hideText && (
-        <p className='text-white font-light me-2'>
+        <p className="text-white me-2 text-xs">
           {isEnglish ? 'English (EN)' : 'Indonesia (ID)'}
         </p>
       )}
-      <div className='toggle'>
-        <input
-          id='check1'
-          className='toggle-checkbox hidden'
-          type='checkbox'
-          onChange={handleToggle}
-          checked={isEnglish}
-        />
-        <label
-          htmlFor='check1'
-          className={clsx(
-            'toggle-label block w-[53px] h-6 rounded-full transition-color duration-150 ease-out cursor-pointer',
-            labelClassName
-          )}
-        />
+
+      <div className="flex mt-5 bg-transparent w-fit">
+        <div className="button r" id="button-1">
+          <input
+            type="checkbox"
+            className="checkbox"
+            onChange={handleToggle}
+            checked={isEnglish}
+          />
+          <div className={`knobs before:content-['ID']`} />
+          <div className="layer !bg-neutral-20" />
+        </div>
       </div>
     </div>
   )

@@ -18,6 +18,7 @@ export const actionType = {
   CLOSE: 'CLOSE',
   RESOLVE: 'RESOLVE',
   OPEN_SELF_CLOSED: 'OPEN_SELF_CLOSED',
+  AGUNG: 'AGUNG',
 }
 
 export const alertState = {

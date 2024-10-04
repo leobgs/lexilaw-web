@@ -1,62 +1,73 @@
-.toggle-label {
+/* CSS rules are kept repetitive so that you can get CSS rules for each button easily :) */
+
+.knobs,
+.layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.button {
   position: relative;
-  background: #f0ede8;
-
-  &:before {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 1.8rem;
-    height: 1.2rem;
-
-    border-radius: 30px;
-    background: #00153f;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: #f0ede8;
-    font-size: 12px;
-    background-size: 40%;
-    content: 'ID';
-    transition: transform 0.15s cubic-bezier(0, 0, 0.2, 1);
-
-    transform: translateX(0);
-
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  }
+  top: 50%;
+  width: 60px;
+  height: 28px;
+  margin: -20px auto 0 auto;
+  overflow: hidden;
 }
 
-.toggle-checkbox:checked + .toggle-label:before {
-  transform: translateX(21px);
+.button.r,
+.button.r .layer {
+  border-radius: 100px;
+}
+
+.checkbox {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.knobs {
+  z-index: 2;
+}
+
+/* Button 1 */
+#button-1 .knobs:before {
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  width: 28px;
+  height: 20px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1;
+  padding: 5px 4px;
+  background-color: #00153f;
+  border-radius: 40%;
+  transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
+}
+
+#button-1 .checkbox:checked + .knobs:before {
   content: 'EN';
-  color: #f0ede8;
+  left: 27px;
+  background-color: #00153f;
 }
 
-.toggle {
-  &.slim {
-    .toggle-label:before {
-      top: -0.15rem;
+#button-1 .checkbox:checked ~ .layer {
+  background-color: #f0ede8;
+}
 
-      left: 0;
-    }
-
-    .toggle-checkbox:checked + .toggle-label:before {
-      transform: translateX(1.75rem);
-    }
-  }
-
-  &.colour {
-    .toggle-label {
-      background-color: #feb2b2;
-    }
-
-    .toggle-checkbox:checked + .toggle-label {
-      background-color: #9ae6b4;
-    }
-  }
+#button-1 .knobs,
+#button-1 .knobs:before,
+#button-1 .layer {
+  transition: 0.3s ease all;
 }

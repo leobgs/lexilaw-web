@@ -2,7 +2,7 @@ import bg_register_login from './bg_register_login.png'
 import logo_lexilaw from './logo_lexilaw.png'
 
 import ic_right_vector from './ic_right_vector.png'
-import ic_eye_strike from './ic_eye_strike.png'
+import ic_eye_strike from './ic_eye_strike.svg'
 import ic_vector_right from './ic_vector_right.png'
 import ic_chat_bubbles from './ic_chat_bubbles.png'
 import ic_chat_blue from './ic_chat_blue.png'
