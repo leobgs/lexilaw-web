@@ -15,7 +15,7 @@ import { StorageKey } from 'config/storage'
 import { useGlobalContext } from 'hooks/context'
 import { deleteData, getData } from 'hooks/useRequest'
 import { notifyError, notifyInfo } from 'hooks/useToas'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -29,7 +29,6 @@ import { extractLawyerList } from 'utils/extractLawyerList'
 import { useGetDocument } from 'hooks/useGetDocument'
 import { CardFileDocument } from 'components/CardFileDocument'
 import { WhatsappActivation } from 'components/WhatsappActivation'
-import { WhatsappOtp } from 'components/WhatsappOtp'
 import { useGetAvailableSchedule } from 'hooks/useGetAvailableSchedule'
 import { useWindowWidth } from 'hooks/useWindowWidth'
 import { useEncryptKey } from 'hooks/useEncryptKey'
@@ -114,6 +113,14 @@ export const Chat = () => {
 
   const { windowWidth } = useWindowWidth()
   const isMobile = windowWidth < 768
+
+  const phoneNumberRef = useRef(null)
+
+  useEffect(() => {
+    if(showWhatsAppActivation && phoneNumberRef.current) {
+      phoneNumberRef.current.focus()
+    }
+  }, [showWhatsAppActivation])
 
   useEffect(() => {
     if (uuid) {
@@ -839,6 +846,7 @@ export const Chat = () => {
             closeModalWAActivation()
             openModalWaOTP()
           }}
+          ref={phoneNumberRef}
         />
       </Modal>
 

@@ -1,5 +1,5 @@
 import images from 'assets/images'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavComponent } from './NavComponent'
 import { useTranslation } from 'react-i18next'
 import { Toggle } from './Toggle/Toggle'
@@ -73,6 +73,8 @@ export const NavChat = ({
 
   const { isPendingSearch, searchData } = useSearch(debounceSearch)
 
+  const phoneNumberRef = useRef(null)
+
   const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
     onSettled: (data) => {
       if (data?.status === 'Success') {
@@ -123,6 +125,12 @@ export const NavChat = ({
       })
     })
   }, [search])
+
+  useEffect(() => {
+    if(showWhatsAppActivation && phoneNumberRef.current) {
+      phoneNumberRef.current.focus()
+    }
+  }, [showWhatsAppActivation])
 
   return (
     <nav
@@ -759,6 +767,7 @@ export const NavChat = ({
           onClose={() => {
             closeModalWAActivation()
           }}
+          ref={phoneNumberRef}
         />
       </Modal>
 
