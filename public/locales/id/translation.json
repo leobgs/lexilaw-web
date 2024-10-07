@@ -251,5 +251,9 @@
   "text_save": "Simpan",
   "whatsapp_fitbit": {
     "your_number": "Nomor Telepon Anda"
+  },
+  "system_document": {
+    "delete_confirmation": "Apakah yakin anda mau menghapus dokument ini?",
+    "delete_success_message": "Dokumen berhasil dihapus"
   }
 }

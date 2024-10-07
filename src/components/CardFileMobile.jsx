@@ -6,6 +6,9 @@ import { useParams } from 'react-router-dom'
 import { CardDocument } from './CardDocument'
 import { HashLink } from 'react-router-hash-link'
 import { notifyInfo } from 'hooks/useToas'
+import { Modal } from './Modal'
+import { useDeleteDocument } from 'hooks/useDeleteDocument'
+import { useState } from 'react'
 
 /**
  * @typedef {Object} System
@@ -39,8 +42,23 @@ export const CardFileMobile = ({
   lawyer,
   system_data,
 }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { uuid } = useParams()
+
+  const { mutateAsyncDeleteDocument } = useDeleteDocument()
+
+  const [showModal, setShowModal] = useState(false)
+  const [doc, setDoc] = useState(null)
+  const openModal = (doc) => {
+    setShowModal(true)
+    setDoc(doc)
+  }
+  const closeModal = () => {
+    setShowModal(false)
+    setDoc(null)
+  }
+
+  const isEnglish = i18n.language === 'en'
 
   return (
     <SwipeableDiv
@@ -167,8 +185,7 @@ export const CardFileMobile = ({
                           e.stopPropagation()
                           e.preventDefault()
 
-                          // alert('Hapus Doc')
-                          notifyInfo('hapus doc')
+                          openModal(item)
                         }}
                       >
                         <img
@@ -240,6 +257,60 @@ export const CardFileMobile = ({
           </div>
         </div>
       )}
+
+      {/* Modal Delete Document confirmation */}
+      <Modal show={showModal} onHide={closeModal} contentClassName={'h-full'}>
+        <div className="w-[400px] mx-auto bg-white mt-48">
+          {/* Header */}
+          <div className="border-b-1 shadow mb-4 flex justify-between items-center px-4 py-2 bg-neutral-80">
+            <span className="px-2 py-1 font-bold text-base">
+              {i18n.language === 'en' ? 'Confirm' : 'Konfirmasi'}
+            </span>
+
+            {/* Action Button */}
+            <div
+              className="flex items-center space-x-1 px-2 py-1 hover:cursor-pointer"
+              onClick={closeModal}
+            >
+              <img src={images.ic_cross} alt="ic_cross" className="h-4 w-4" />
+            </div>
+          </div>
+
+          {/* Content / Form */}
+          <div className="bg-white px-4 py-2">
+            {/* text */}
+            <p className="text-center text-sm">
+              {t('system_document.delete_confirmation')}
+            </p>
+            <p className="truncate font-bold my-2 text-center text-sm">
+              "{doc?.name}"
+            </p>
+
+            {/* Action Button */}
+            <div className="mt-4 mb-2 flex justify-center items-center gap-x-4">
+              <button
+                className="rounded-full px-4 py-2 border  disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={closeModal}
+              >
+                {isEnglish ? 'Cancel' : 'Batal'}
+              </button>
+              <button
+                className="rounded-full px-4 py-2 btn-secondary-otp disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={async () => {
+                  mutateAsyncDeleteDocument({
+                    thread_chat_id: doc?.thread_chat_uuid,
+                    thread_id: doc?.thread_uuid,
+                  })
+
+                  closeModal()
+                }}
+              >
+                {isEnglish ? 'Delete' : 'Hapus'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </SwipeableDiv>
   )
 }
