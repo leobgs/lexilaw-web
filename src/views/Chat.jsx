@@ -29,12 +29,12 @@ import { extractLawyerList } from 'utils/extractLawyerList'
 import { useGetDocument } from 'hooks/useGetDocument'
 import { CardFileDocument } from 'components/CardFileDocument'
 import { WhatsappActivation } from 'components/WhatsappActivation'
-import { WhatsappOtp } from 'components/WhatsappOtp'
 import { useGetAvailableSchedule } from 'hooks/useGetAvailableSchedule'
 import { useWindowWidth } from 'hooks/useWindowWidth'
-import { useEncryptKey } from 'hooks/useEncryptKey'
+import { useGetEncryptKey } from 'hooks/useGetEncryptKey'
 import { encryptAESGCM } from 'hooks/useEncryptDecryption'
 import { WhatsAppFitBIt } from 'components/WhatsAppFitBit'
+import { useDocumentEncryptor } from 'hooks/useDocumentEncryptor'
 
 export const Chat = () => {
   const { t } = useTranslation()
@@ -70,7 +70,7 @@ export const Chat = () => {
   const [messageUUID, setMessageUUID] = useState(null)
   const { setIsFirstTime } = useGlobalContext()
   const [hasKoleksiData, setHasKoleksiData] = useState(false)
-
+  const { encryptFile } = useDocumentEncryptor()
   const { pathname } = useLocation()
   const [isFirstTimeChat, setIsFirstTimeChat] = useState(false)
 
@@ -104,7 +104,7 @@ export const Chat = () => {
   const lawyer = lawyerList?.find((item) => item.uuid === lawyerUUID)
 
   const { dataAvailableSchedule } = useGetAvailableSchedule(lawyer?.uuid, uuid)
-  const { message: encryptKey, refetch } = useEncryptKey()
+  const { message: encryptKey, refetch } = useGetEncryptKey()
 
   const showChatDocument =
     (!isHeader &&
@@ -400,27 +400,36 @@ export const Chat = () => {
 
   const handleAddChat = async (e) => {
     let encryptMessage = ''
+    let encryptedFile = ''
     try {
       encryptMessage = await encryptAESGCM(e.message, encryptKey)
     } catch (error) {
       notifyError('Encryption failed:', error)
     }
 
+    if (e.file && encryptKey) {
+      try {
+        encryptedFile = await encryptFile(e.file, encryptKey)
+      } catch (error) {
+        notifyError(error.message)
+      }
+    } else {
+      notifyError('Please select a file and enter a password.')
+    }
+
     const dataMessage = {
       message: encryptMessage,
-      document: e.file,
+      document: encryptedFile,
+      filename: e.file?.name,
     }
+
     let texts = t('new_chat', {
       keyPrefix: 'chat',
     })
-    const bodyFormData = new FormData()
-    for (const [key, value] of Object.entries(dataMessage)) {
-      bodyFormData.append(key, value)
-    }
-    sendMessage(bodyFormData)
+
+    sendMessage(dataMessage)
     if (pathname === '/') {
       setIsFirstTimeChat((prev) => !prev)
-      // setIsFirstTime(true)
     } else {
       texts = e?.message
     }
@@ -847,14 +856,17 @@ export const Chat = () => {
         show={showWhatsappOtp}
         onHide={closeModalWaOtp}
       >
-        {showWhatsappOtp && <WhatsAppFitBIt onCloseButton={() => {
-          closeModalWaOtp()
-        }}
-        onChangeNumber={() => {
-          closeModalWaOtp()
-          openModalWAActivation()
-        }}
-        />}
+        {showWhatsappOtp && (
+          <WhatsAppFitBIt
+            onCloseButton={() => {
+              closeModalWaOtp()
+            }}
+            onChangeNumber={() => {
+              closeModalWaOtp()
+              openModalWAActivation()
+            }}
+          />
+        )}
       </Modal>
 
       {/* Modal Disconnect WA */}

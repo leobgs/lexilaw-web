@@ -6,6 +6,7 @@ import { ChatCard } from 'components/ChatCard'
 import { API } from 'config/api'
 import { apiURLQuery } from 'config/app'
 import { useGlobalContext } from 'hooks/context'
+import { useDocumentEncryptor } from 'hooks/useDocumentEncryptor'
 import { decryptAESGCM, encryptAESGCM } from 'hooks/useEncryptDecryption'
 import { getData } from 'hooks/useRequest'
 import { notifyError } from 'hooks/useToas'
@@ -46,6 +47,7 @@ export const ThreadPage = ({
   const [messageUUID, setMessageUUID] = useState(null)
   const [isScrolled, setScrolled] = useState(true)
   const { setIsFirstTime } = useGlobalContext()
+  const { encryptFile } = useDocumentEncryptor()
 
   useEffect(() => {
     if (params.uuid === '63926537') {
@@ -266,10 +268,21 @@ export const ThreadPage = ({
 
   const handleAddChat = async (e) => {
     let encryptMessage = ''
+    let encryptedFile = ''
     try {
       encryptMessage = await encryptAESGCM(e.message, currKey)
     } catch (error) {
       notifyError('Encryption failed:', error)
+    }
+
+    if (e.file && currKey) {
+      try {
+        encryptedFile = await encryptFile(e.file, currKey)
+      } catch (error) {
+        notifyError(error.message)
+      }
+    } else {
+      notifyError('Please select a file and enter a password.')
     }
 
     setScrolled(true)
@@ -281,15 +294,12 @@ export const ThreadPage = ({
     const dataMessage = {
       message: encryptMessage,
       thread_uuid: params.uuid,
-      document: e.file,
+      document: encryptedFile,
+      filename: e.file?.name,
     }
+    console.log(dataMessage)
 
-    const bodyFormData = new FormData()
-    for (const [key, value] of Object.entries(dataMessage)) {
-      bodyFormData.append(key, value)
-    }
-
-    sendMessage(bodyFormData)
+    sendMessage(dataMessage)
     setDisableInput(true)
     setMessageUUID(null)
     setMessageUUIDtoRespond(null)
