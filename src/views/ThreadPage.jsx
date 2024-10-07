@@ -53,8 +53,6 @@ export const ThreadPage = ({
         (item) => item.uuid === '63926537'
       )
       setRenderedMessage(dataFiltered?.chat)
-    } else {
-      setRenderedMessage([])
     }
 
     if (state) {

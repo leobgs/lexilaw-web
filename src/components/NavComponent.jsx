@@ -1,6 +1,6 @@
 import images from 'assets/images'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Modal } from './Modal'
 import { Input } from './Input'
 import { Button } from './Button/Button'
@@ -36,6 +36,21 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
     useState(false)
   const { t } = useTranslation()
   const { uuid } = useParams()
+
+  const inputRef = useRef(null)
+  const collectionInputRef = useRef(null)
+
+  useEffect(() => {
+    if (showModal && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [showModal])
+
+  useEffect(() => {
+    if(showModalCreateCollection && collectionInputRef.current) {
+      collectionInputRef.current.focus()
+    }
+  }, [showModalCreateCollection])
 
   const { mutate: updateTitle } = useMutation(
     (text) =>
@@ -336,6 +351,7 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
             className="!w-full text-neutral-40"
             inputClass="!py-2 bg-white !w-full !rounded-lg"
             rowed="w-full"
+            ref={inputRef}
           />
           <div className="self-end flex gap-2 mt-4 mb-6">
             <Button
@@ -371,6 +387,7 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
             })}
             inputClass="!py-2 bg-white !w-full !rounded-lg"
             rowed="w-full"
+            ref={collectionInputRef}
           />
           <div className="self-end flex gap-2 mt-4 mb-6">
             <Button

@@ -1,5 +1,5 @@
 import { useGlobalContext } from 'hooks/context'
-import { useState } from 'react'
+import { forwardRef, useState } from 'react'
 import { DropdownCountryCode } from './DropdownCountryCode'
 
 /**
@@ -26,7 +26,7 @@ const formatPhoneNumber = (input) => {
   return formattedNumber.trim()
 }
 
-const PhoneNumberInput = () => {
+const PhoneNumberInput = forwardRef((props, ref) => {
   const [startWithZero, setStartWithZero] = useState(false)
   const { setMaskedPhoneNumber, setPhoneNumber, phoneNumberObj } =
     useGlobalContext()
@@ -59,9 +59,10 @@ const PhoneNumberInput = () => {
         id="phone-number"
         type="tel"
         className="pl-[5rem] pr-2 py-3 rounded-full bg-white focus:outline-none w-full font-semi-bold border border-gray-100"
+        ref={ref}
       />
     </div>
   )
-}
+})
 
 export { PhoneNumberInput }
