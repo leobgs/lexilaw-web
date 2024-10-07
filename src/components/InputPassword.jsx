@@ -43,8 +43,6 @@ export const InputPassword = ({
     }
   }
 
-  console.log(s_type, value.length)
-
   return (
     <div className={clsx('text-sm', className)}>
       {label && (
