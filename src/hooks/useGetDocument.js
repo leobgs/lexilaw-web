@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query'
 import { getData } from './useRequest'
 import { API } from 'config/api'
-import { useEncryptKey } from './useEncryptKey'
+import { useGetEncryptKey } from './useGetEncryptKey'
 import { decryptAESGCM } from './useEncryptDecryption'
 
 /**
@@ -58,7 +58,7 @@ import { decryptAESGCM } from './useEncryptDecryption'
  * }}
  */
 const useGetDocument = (thread_uuid, isEnabled) => {
-  const { message } = useEncryptKey()
+  const { message } = useGetEncryptKey()
 
   const {
     data: dataDocument,
