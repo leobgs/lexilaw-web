@@ -38,3 +38,14 @@ export const padWithZeroes = (number, length = 1) => {
  */
 export const separator = (x, sp = '.') =>
   x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, sp)
+
+export function formatPrice(amount, ratePerSymbol, rateSymbol = '') {
+  const symbolCount = Math.max(1, Math.floor(amount / ratePerSymbol))
+  const maxSymbols = 25
+
+  if (symbolCount > maxSymbols) {
+    const remainingSymbols = symbolCount - maxSymbols
+    return `${rateSymbol.repeat(maxSymbols)}(${remainingSymbols}+)`
+  }
+  return `${rateSymbol?.repeat(symbolCount)}`
+}

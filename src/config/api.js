@@ -67,4 +67,6 @@ export const API = {
   WHATSAPP_OTP: '/user/app/v1.0.0/user/whatsapp/otp/check',
 
   ENCRYPT_KEY: '/api/app/v1.0.0/user/key',
+
+  PRICE_SYMBOL: '/user/app/v1.0.0/setting/lawyer/price/symbol',
 }
