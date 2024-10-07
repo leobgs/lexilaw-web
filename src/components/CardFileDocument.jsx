@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { CardDocument } from './CardDocument'
 import clsx from 'clsx'
 import { HashLink } from 'react-router-hash-link'
+import { notifyInfo } from 'hooks/useToas'
 
 /**
  * @typedef {Object} System
@@ -73,8 +74,25 @@ export const CardFileDocument = ({
                 to={`thread/${item.thread_uuid}#${item.thread_chat_uuid}`}
               >
                 {/* Icon */}
-                <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md bg-white flex-shrink-0">
+                <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md bg-white flex-shrink-0 relative">
                   <img src={images.ic_files} alt="ic_files" />
+                  {/* Icon Delete */}
+                  <div
+                    className="absolute top-1 right-2"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      e.preventDefault()
+
+                      // alert('Hapus Doc')
+                      notifyInfo('hapus doc')
+                    }}
+                  >
+                    <img
+                      src={images.ic_cross}
+                      alt="ic_cross"
+                      className="w-4 h-4"
+                    />
+                  </div>
                 </div>
                 <p className="text-xs font-medium mt-2 truncate">{item.name}</p>
               </HashLink>

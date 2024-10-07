@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { CardDocument } from './CardDocument'
 import { HashLink } from 'react-router-hash-link'
+import { notifyInfo } from 'hooks/useToas'
 
 /**
  * @typedef {Object} System
@@ -158,7 +159,24 @@ export const CardFileMobile = ({
                     }}
                   >
                     {/* icon files */}
-                    <div className="border-2 border-[#000] shadow-card-file flex justify-center items-center h-[72px] w-[72px] rounded-md bg-white flex-shrink-0">
+                    <div className="border-2 border-[#000] shadow-card-file flex justify-center items-center h-[72px] w-[72px] rounded-md bg-white flex-shrink-0 relative">
+                      {/* Icon Delete */}
+                      <div
+                        className="absolute top-1 right-1"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          e.preventDefault()
+
+                          // alert('Hapus Doc')
+                          notifyInfo('hapus doc')
+                        }}
+                      >
+                        <img
+                          src={images.ic_cross}
+                          alt="ic_cross"
+                          className="w-4 h-4"
+                        />
+                      </div>
                       <img
                         src={images.ic_files}
                         alt="ic_files"
