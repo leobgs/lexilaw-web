@@ -1,5 +1,5 @@
 import images from 'assets/images'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { Button } from './Button/Button'
@@ -23,6 +23,14 @@ export const NavCollection = ({
   const [text, setText] = useState('')
   const [showModalCreateCollection, setShowModalCreateCollection] =
     useState(false)
+
+  const inputRef = useRef(null)
+
+  useEffect(() => {
+    if (showModalCreateCollection && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [showModalCreateCollection])
 
   useEffect(() => {
     handleResize()
@@ -67,7 +75,7 @@ export const NavCollection = ({
       }`}
     >
       <div
-        className='justify-start flex items-center gap-2 w-10/12'
+        className="justify-start flex items-center gap-2 w-10/12"
         onClick={() => onExpand(items.uuid)}
       >
         <img
@@ -76,21 +84,21 @@ export const NavCollection = ({
               ? images.ic_folder_colection_active
               : images.ic_folder_colection
           }
-          alt='ic_folder_colection'
-          className='h-7 w-7'
+          alt="ic_folder_colection"
+          className="h-7 w-7"
         />
         <div>{items.name}</div>
       </div>
 
       {items.isExpand && (
         <div
-          className='flex justify-end w-2/12'
+          className="flex justify-end w-2/12"
           onClick={() => setShow1st(true)}
         >
           <img
             src={images.ic_dots_white}
-            alt='dots_white'
-            className='h-3.5 w-3.5'
+            alt="dots_white"
+            className="h-3.5 w-3.5"
             data-tooltip-id={`tool-tips-${items.uuid}`}
           />
         </div>
@@ -113,10 +121,10 @@ export const NavCollection = ({
         }}
         clickable={true}
         offset={tooltipOffset}
-        className='shadow-md !bg-white !text-black-lightest font-semi-bold !w-2/3 !rounded-lg mr-2 !mb-2 md:mb-0 md:!w-52 z-50'
+        className="shadow-md !bg-white !text-black-lightest font-semi-bold !w-2/3 !rounded-lg mr-2 !mb-2 md:mb-0 md:!w-52 z-50"
       >
         <div
-          className='border-b border-neutral-20 -mx-4 px-4 py-1 md:hidden'
+          className="border-b border-neutral-20 -mx-4 px-4 py-1 md:hidden"
           onClick={() => {
             setShow1st(false)
             setShowModalCreateCollection(true)
@@ -127,7 +135,7 @@ export const NavCollection = ({
         </div>
 
         <div
-          className='border-b border-neutral-50 -mx-4 px-4 py-1 hidden md:inline-block w-52'
+          className="border-b border-neutral-50 -mx-4 px-4 py-1 hidden md:inline-block w-52"
           onClick={() => {
             setShow1st(false)
             setShowModalCreateCollection(true)
@@ -138,7 +146,7 @@ export const NavCollection = ({
         </div>
 
         <div
-          className='text-error-base bg-neutral-60 -mx-4 px-4 -mb-2.5 py-1 rounded-b-lg'
+          className="text-error-base bg-neutral-60 -mx-4 px-4 -mb-2.5 py-1 rounded-b-lg"
           onClick={() => onDeleteCollection()}
         >
           {t('delete', { keyPrefix: 'nav_component' })}
@@ -147,25 +155,29 @@ export const NavCollection = ({
 
       <Modal
         show={showModalCreateCollection}
-        onHide={() => setShowModalCreateCollection(false)}
-        dialogClassName='w-11/12 md:w-1/2 lg:w-1/3'
+        onHide={() => {
+          setShowModalCreateCollection(false)
+          setText('')
+        }}
+        dialogClassName="w-11/12 md:w-1/2 lg:w-1/3"
       >
-        <div className='bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full'>
+        <div className="bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full">
           <Input
-            name='text'
+            name="text"
             onChange={(e) => setText(e.value)}
             value={text}
-            className='!w-full text-neutral-40'
+            className="!w-full text-neutral-40"
             placeholder={t('placeholder_create', {
               keyPrefix: 'nav_component',
             })}
-            inputClass='!py-2 bg-white !w-full !rounded-lg'
-            rowed='w-full'
+            inputClass="!py-2 bg-white !w-full !rounded-lg"
+            rowed="w-full"
+            ref={inputRef}
           />
-          <div className='self-end flex gap-2 mt-4 mb-6'>
+          <div className="self-end flex gap-2 mt-4 mb-6">
             <Button
               label={t('cancel', { keyPrefix: 'nav_component' })}
-              className='text-black-dark !h-10'
+              className="text-black-dark !h-10"
               onClick={() => setShowModalCreateCollection(false)}
             />
             <Button
