@@ -81,7 +81,7 @@ export const ChangePassword = () => {
       ) : (
         <>
           <div className="text-center font-futura-bold text-3xl text-secondary-base">
-            Masukkan kata sandi baru
+            {t('header', { keyPrefix: 'auth.reset_password' })}
           </div>
           <>
             <InputPassword

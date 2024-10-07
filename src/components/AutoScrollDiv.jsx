@@ -13,7 +13,6 @@ export const AutoScrollingDiv = ({
     const [target] = entries
     if (target.isIntersecting) {
       onNextScroll()
-      // console.log('first')
     }
   }, [])
 
@@ -49,7 +48,10 @@ export const AutoScrollingDiv = ({
   }, [children, shouldScrol])
 
   return (
-    <div ref={divRef} className="flex-1 overflow-y-auto h-fit sm:w-full relative">
+    <div
+      ref={divRef}
+      className="flex-1 overflow-y-auto h-fit sm:w-full relative"
+    >
       <div ref={intersectionRef} style={{ height: '2px' }} />
       {children}
       <TextSelectionPopup />
