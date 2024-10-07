@@ -93,13 +93,13 @@ export const Chat = () => {
 
   const [showConnectedWA, setShowConnectedWA] = useState(false)
 
-  const threadDetail = queryClient.getQueryData(['thread_detail', uuid], {
-    active: !uuid,
-  })
-  const lawyerUUID = extractLawyerUUID(threadDetail)
+  const [responseThreadDetail, setResponseThreadDetail] = useState([])
+
+  const lawyerUUID = extractLawyerUUID(responseThreadDetail)
+
   const { dataDocument, isPendingDocument } = useGetDocument(uuid)
 
-  const lawyerList = extractLawyerList(threadDetail)
+  const lawyerList = extractLawyerList(responseThreadDetail)
   const lawyer = lawyerList?.find((item) => item.uuid === lawyerUUID)
 
   const { dataAvailableSchedule } = useGetAvailableSchedule(lawyer?.uuid, uuid)
@@ -117,7 +117,7 @@ export const Chat = () => {
   const phoneNumberRef = useRef(null)
 
   useEffect(() => {
-    if(showWhatsAppActivation && phoneNumberRef.current) {
+    if (showWhatsAppActivation && phoneNumberRef.current) {
       phoneNumberRef.current.focus()
     }
   }, [showWhatsAppActivation])
@@ -788,6 +788,7 @@ export const Chat = () => {
                 isFirstTimeChat={isFirstTimeChat}
                 onFirstTimeChat={() => setIsFirstTimeChat((prev) => !prev)}
                 currKey={encryptKey}
+                setResponseThreadDetail={setResponseThreadDetail}
               />
 
               {/* TAMPILKAN DOC CHAT KETIKA */}
@@ -855,14 +856,17 @@ export const Chat = () => {
         show={showWhatsappOtp}
         onHide={closeModalWaOtp}
       >
-        {showWhatsappOtp && <WhatsAppFitBIt onCloseButton={() => {
-          closeModalWaOtp()
-        }}
-        onChangeNumber={() => {
-          closeModalWaOtp()
-          openModalWAActivation()
-        }}
-        />}
+        {showWhatsappOtp && (
+          <WhatsAppFitBIt
+            onCloseButton={() => {
+              closeModalWaOtp()
+            }}
+            onChangeNumber={() => {
+              closeModalWaOtp()
+              openModalWAActivation()
+            }}
+          />
+        )}
       </Modal>
 
       {/* Modal Disconnect WA */}

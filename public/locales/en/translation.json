@@ -251,5 +251,9 @@
   "text_save": "Save",
   "whatsapp_fitbit": {
     "your_number": "Your Phone Number"
+  },
+  "system_document": {
+    "delete_confirmation": "Are you sure want to delete this document?",
+    "delete_success_message": "Document has been deleted"
   }
 }

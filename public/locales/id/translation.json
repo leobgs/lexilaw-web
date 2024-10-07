@@ -80,7 +80,7 @@
       "my_account": "Akun Saya",
       "my_lawyer": "Pengacara Saya",
       "wa_activation": "Aktivasi WhatsApp",
-      "wa_pending": "Status Pending...",
+      "wa_pending": "Status Tertunda...",
       "wa_connected": "WA Telah Terhubung",
       "menu_language": "Bahasa Menu",
       "logout": "Keluar"
@@ -251,5 +251,9 @@
   "text_save": "Simpan",
   "whatsapp_fitbit": {
     "your_number": "Nomor Telepon Anda"
+  },
+  "system_document": {
+    "delete_confirmation": "Apakah yakin anda mau menghapus dokument ini?",
+    "delete_success_message": "Dokumen berhasil dihapus"
   }
 }

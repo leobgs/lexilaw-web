@@ -47,7 +47,7 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
   }, [showModal])
 
   useEffect(() => {
-    if(showModalCreateCollection && collectionInputRef.current) {
+    if (showModalCreateCollection && collectionInputRef.current) {
       collectionInputRef.current.focus()
     }
   }, [showModalCreateCollection])
@@ -340,7 +340,10 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
 
       <Modal
         show={showModal}
-        onHide={() => setShowModal(false)}
+        onHide={() => {
+          setShowModal(false)
+          setText('')
+        }}
         dialogClassName="w-11/12 md:w-1/2 lg:w-1/3"
       >
         <div className="bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full">
@@ -373,10 +376,20 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
 
       <Modal
         show={showModalCreateCollection}
-        onHide={() => setShowModalCreateCollection(false)}
+        onHide={() => {
+          setShowModalCreateCollection(false)
+          setText('')
+        }}
         dialogClassName="w-11/12 md:w-1/2 lg:w-1/3"
       >
-        <div className="bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full">
+        <form
+          className="bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full"
+          onSubmit={(e) => {
+            e.preventDefault()
+
+            createCollection({ name: text, threadId: item.uuid })
+          }}
+        >
           <Input
             name="text"
             onChange={(e) => setText(e.value)}
@@ -406,7 +419,7 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
               }
             />
           </div>
-        </div>
+        </form>
       </Modal>
     </>
   )
