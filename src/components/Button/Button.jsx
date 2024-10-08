@@ -28,7 +28,7 @@ export const Button = ({
       )}
       onClick={(e) => {
         handleOnClick(e)
-        onClick()
+        onClick(e)
       }}
       type={type}
       disabled={disabled}

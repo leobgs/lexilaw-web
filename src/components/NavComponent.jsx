@@ -1,6 +1,6 @@
 import images from 'assets/images'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Modal } from './Modal'
 import { Input } from './Input'
 import { Button } from './Button/Button'
@@ -36,6 +36,21 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
     useState(false)
   const { t } = useTranslation()
   const { uuid } = useParams()
+
+  const inputRef = useRef(null)
+  const collectionInputRef = useRef(null)
+
+  useEffect(() => {
+    if (showModal && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [showModal])
+
+  useEffect(() => {
+    if (showModalCreateCollection && collectionInputRef.current) {
+      collectionInputRef.current.focus()
+    }
+  }, [showModalCreateCollection])
 
   const { mutate: updateTitle } = useMutation(
     (text) =>
@@ -117,6 +132,26 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
       },
     }
   )
+
+  useEffect(() => {
+    const currentRef = collectionInputRef.current
+    if (collectionInputRef.current) {
+      const onKeyEnter = (e) => {
+        if (e?.key === 'Enter') {
+          createCollection({
+            name: collectionInputRef.current.value,
+            threadId: item.uuid,
+          })
+        }
+      }
+
+      collectionInputRef.current?.addEventListener('keypress', onKeyEnter)
+
+      return () => {
+        currentRef?.removeEventListener('keypress', onKeyEnter)
+      }
+    }
+  }, [createCollection, item.uuid])
 
   useEffect(() => {
     handleResize()
@@ -362,7 +397,10 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
 
       <Modal
         show={showModal}
-        onHide={() => setShowModal(false)}
+        onHide={() => {
+          setShowModal(false)
+          setText('')
+        }}
         dialogClassName="w-11/12 md:w-1/2 lg:w-1/3"
       >
         <div className="bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full">
@@ -373,6 +411,7 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
             className="!w-full text-neutral-40"
             inputClass="!py-2 bg-white !w-full !rounded-lg"
             rowed="w-full"
+            ref={inputRef}
           />
           <div className="self-end flex gap-2 mt-4 mb-6">
             <Button
@@ -394,10 +433,20 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
 
       <Modal
         show={showModalCreateCollection}
-        onHide={() => setShowModalCreateCollection(false)}
+        onHide={() => {
+          setShowModalCreateCollection(false)
+          setText('')
+        }}
         dialogClassName="w-11/12 md:w-1/2 lg:w-1/3"
       >
-        <div className="bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full">
+        <form
+          className="bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full"
+          onSubmit={(e) => {
+            e.preventDefault()
+            createCollection({ name: text, threadId: item.uuid })
+            setText('')
+          }}
+        >
           <Input
             name="text"
             onChange={(e) => setText(e.value)}
@@ -408,12 +457,18 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
             })}
             inputClass="!py-2 bg-white !w-full !rounded-lg"
             rowed="w-full"
+            ref={collectionInputRef}
+            createCollection
           />
           <div className="self-end flex gap-2 mt-4 mb-6">
             <Button
               label={t('cancel', { keyPrefix: 'nav_component' })}
               className="text-black-dark !h-10"
-              onClick={() => setShowModalCreateCollection(false)}
+              onClick={(e) => {
+                e.preventDefault()
+                setText('')
+                setShowModalCreateCollection(false)
+              }}
             />
             <Button
               label={t('create', { keyPrefix: 'nav_component' })}
@@ -421,12 +476,13 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
                 text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
               } rounded-3xl !h-10 text-white`}
               disabled={!text}
-              onClick={() =>
+              onClick={(e) => {
+                e.preventDefault()
                 createCollection({ name: text, threadId: item.uuid })
-              }
+              }}
             />
           </div>
-        </div>
+        </form>
       </Modal>
     </>
   )

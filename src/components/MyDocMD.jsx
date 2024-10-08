@@ -1,5 +1,5 @@
 import images from 'assets/images'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Modal } from './Modal'
 import { localServerData } from 'hooks/useLocalServerData'
@@ -9,8 +9,9 @@ export const MyDocMD = ({ children, handleCopyClick, handleSaveClick }) => {
   const { CURRENT_LANGUAGE } = localServerData()
 
   const [title, setTitle] = useState('')
-
   const [showModal, setShowModal] = useState(false)
+  const inputRef = useRef(null)
+
   const closeModal = () => {
     setShowModal(false)
     setTitle('')
@@ -18,6 +19,12 @@ export const MyDocMD = ({ children, handleCopyClick, handleSaveClick }) => {
   const openModal = () => {
     setShowModal(true)
   }
+
+  useEffect(() => {
+    if (showModal && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [showModal])
 
   return (
     <div className="bg-white rounded-md shadow-lg my-4">
@@ -76,6 +83,7 @@ export const MyDocMD = ({ children, handleCopyClick, handleSaveClick }) => {
           >
             <div className="flex flex-col space-y-2">
               <input
+                ref={inputRef}
                 className="border rounded-full px-4 py-2"
                 placeholder={t('chat.save_document.placeholder')}
                 value={title}

@@ -1,5 +1,5 @@
 import images from 'assets/images'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavComponent } from './NavComponent'
 import { useTranslation } from 'react-i18next'
 import { Toggle } from './Toggle/Toggle'
@@ -14,8 +14,6 @@ import { useGlobalContext } from 'hooks/context'
 import { ModalSearch } from './ModalSearch'
 import { NavCollection } from './NavCollection'
 import { SearchCard } from './SearchCard/SearchCard'
-import { ObrolanCard } from './SearchCard/ObrolanCard'
-import { DokumenCard } from './SearchCard/DokumenCard'
 import { TopicObrolan } from './SearchCard/TopikObrolan'
 import { SearchCardSpinner } from './SearchCard/SearchCardSpinner'
 import { useDebounce } from 'hooks/useDebounce'
@@ -37,7 +35,7 @@ export const NavChat = ({
 }) => {
   const queryClient = useQueryClient()
   const { collection, collectionClick, resetPhoneNumber } = useGlobalContext()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [search, setSearch] = useState('')
   const [showNav, setShowNav] = useState(false)
   const [showSearchNav, setShowSearchNav] = useState(false)
@@ -45,18 +43,16 @@ export const NavChat = ({
   const [showColetion, setShowColetion] = useState(false)
   const [showPendingWA, setShowPendingWA] = useState(false)
   const [showConnectedWA, setShowConnectedWA] = useState(false)
+  const isEng = i18n.language === 'en'
 
   const [showWhatsAppActivation, setShowWhatsAppActivation] = useState(false)
   const openModalWAActivation = () => {
     setShowWhatsAppActivation(true)
+    resetPhoneNumber()
   }
 
   const closeModalWAActivation = () => {
     setShowWhatsAppActivation(false)
-  }
-
-  const closeModalWaOtp = () => {
-    resetPhoneNumber()
   }
 
   const storage = new LocalStorage()
@@ -66,6 +62,8 @@ export const NavChat = ({
   const debounceSearch = search.length > 0 ? debounceText : ''
 
   const { isPendingSearch, searchData } = useSearch(debounceSearch)
+
+  const phoneNumberRef = useRef(null)
 
   const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
     onSettled: (data) => {
@@ -117,6 +115,12 @@ export const NavChat = ({
       })
     })
   }, [search])
+
+  useEffect(() => {
+    if (showWhatsAppActivation && phoneNumberRef.current) {
+      phoneNumberRef.current.focus()
+    }
+  }, [showWhatsAppActivation])
 
   return (
     <nav
@@ -196,7 +200,7 @@ export const NavChat = ({
         />
         <div className="flex w-full justify-between items-center h-10">
           <div className="font-futura-bold font-bold text-xl line-clamp-1 text-[#00153F] basis-10/12">
-            {t('chat.new_chat')}
+            {headerText === '' ? t('chat.new_chat') : headerText}
           </div>
           <div className="mx-auto basis-2/12">
             <div
@@ -225,62 +229,30 @@ export const NavChat = ({
             <SearchCardSpinner isPending={isPendingSearch} />
 
             {/* Jika hasil search kosong */}
-            {!searchData?.data?.document &&
-              !searchData?.data?.thread &&
-              !searchData?.data?.thread_chat &&
-              !isPendingSearch && (
-                <EmptySearchResult
-                  searchText={debounceSearch}
-                  onHeaderClick={() => {
-                    onHeaderClick()
-                    setSearch('')
-                  }}
-                />
-              )}
-
-            {/* Thread Chat Obrolan */}
-            {searchData?.data?.thread_chat && (
-              <SearchCard title={'Obrolan'} isPending={isPendingSearch}>
-                {searchData?.data?.thread_chat &&
-                  searchData.data.thread_chat.map((item) => (
-                    <ObrolanCard
-                      key={item.uuid}
-                      message={item.message}
-                      from_display={item.from_display}
-                      thread_uuid={item.thread_uuid}
-                      searchText={debounceSearch}
-                      search_uuid={item.uuid}
-                    />
-                  ))}
-              </SearchCard>
-            )}
-
-            {/* Document */}
-            {searchData?.data?.document && (
-              <SearchCard title={'Dokumen'} isPending={isPendingSearch}>
-                {searchData?.data?.document &&
-                  searchData.data.document.map((item) => (
-                    <DokumenCard
-                      key={item.uuid}
-                      title={item.filename}
-                      thred_uuid={item.thread_uuid}
-                      searchText={debounceSearch}
-                      file_url={item.file_url}
-                    />
-                  ))}
-              </SearchCard>
+            {!searchData?.data && !isPendingSearch && (
+              <EmptySearchResult
+                searchText={debounceSearch}
+                onHeaderClick={() => {
+                  onHeaderClick()
+                  setSearch('')
+                }}
+              />
             )}
 
             {/* Topik obrolan */}
-            {searchData?.data?.thread && (
-              <SearchCard title={'Topik Obrolan'} isPending={isPendingSearch}>
-                {searchData?.data?.thread &&
-                  searchData.data.thread.map((item) => (
+            {searchData?.data && (
+              <SearchCard
+                title={isEng ? 'Thread Chat' : 'Topik Obrolan'}
+                isPending={isPendingSearch}
+              >
+                {searchData?.data &&
+                  searchData.data.map((item) => (
                     <TopicObrolan
                       title={item.title}
                       uuid={item.uuid}
                       searchText={debounceSearch}
                       search_uuid={item.uuid}
+                      key={item.uuid}
                     />
                   ))}
               </SearchCard>
@@ -754,6 +726,7 @@ export const NavChat = ({
           onClose={() => {
             closeModalWAActivation()
           }}
+          ref={phoneNumberRef}
         />
       </Modal>
 
@@ -761,7 +734,9 @@ export const NavChat = ({
         classNameBox={'bg-gray-700/70'}
         contentClassName={''}
         show={showPendingWA}
-        onHide={closeModalWaOtp}
+        onHide={() => {
+          setShowPendingWA(false)
+        }}
       >
         {showPendingWA && (
           <WhatsAppFitBIt
@@ -772,6 +747,7 @@ export const NavChat = ({
             onCloseButton={() => {
               setShowPendingWA(false)
             }}
+            key="Whatsapp-InfoBip-Mobile"
           />
         )}
       </Modal>

@@ -15,7 +15,7 @@ import { StorageKey } from 'config/storage'
 import { useGlobalContext } from 'hooks/context'
 import { deleteData, getData } from 'hooks/useRequest'
 import { notifyError, notifyInfo } from 'hooks/useToas'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -94,13 +94,13 @@ export const Chat = () => {
 
   const [showConnectedWA, setShowConnectedWA] = useState(false)
 
-  const threadDetail = queryClient.getQueryData(['thread_detail', uuid], {
-    active: !uuid,
-  })
-  const lawyerUUID = extractLawyerUUID(threadDetail)
+  const [responseThreadDetail, setResponseThreadDetail] = useState([])
+
+  const lawyerUUID = extractLawyerUUID(responseThreadDetail)
+
   const { dataDocument, isPendingDocument } = useGetDocument(uuid)
 
-  const lawyerList = extractLawyerList(threadDetail)
+  const lawyerList = extractLawyerList(responseThreadDetail)
   const lawyer = lawyerList?.find((item) => item.uuid === lawyerUUID)
 
   const { dataAvailableSchedule } = useGetAvailableSchedule(lawyer?.uuid, uuid)
@@ -108,12 +108,21 @@ export const Chat = () => {
 
   const showChatDocument =
     (!isHeader &&
+      lawyer?.uuid &&
       (dataAvailableSchedule?.message === 'Done' ||
         dataAvailableSchedule?.message === 'Success get data')) ||
     dataDocument?.data?.system?.length > 0
 
   const { windowWidth } = useWindowWidth()
   const isMobile = windowWidth < 768
+
+  const phoneNumberRef = useRef(null)
+
+  useEffect(() => {
+    if (showWhatsAppActivation && phoneNumberRef.current) {
+      phoneNumberRef.current.focus()
+    }
+  }, [showWhatsAppActivation])
 
   useEffect(() => {
     if (uuid) {
@@ -789,6 +798,7 @@ export const Chat = () => {
                 isFirstTimeChat={isFirstTimeChat}
                 onFirstTimeChat={() => setIsFirstTimeChat((prev) => !prev)}
                 currKey={encryptKey}
+                setResponseThreadDetail={setResponseThreadDetail}
               />
 
               {/* TAMPILKAN DOC CHAT KETIKA */}
@@ -847,6 +857,7 @@ export const Chat = () => {
             closeModalWAActivation()
             openModalWaOTP()
           }}
+          ref={phoneNumberRef}
         />
       </Modal>
 
@@ -864,6 +875,7 @@ export const Chat = () => {
               closeModalWaOtp()
               openModalWAActivation()
             }}
+            key="Whatsapp-Infobip-Desktop"
           />
         )}
       </Modal>

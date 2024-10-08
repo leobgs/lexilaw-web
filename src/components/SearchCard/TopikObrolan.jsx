@@ -1,26 +1,20 @@
-import { useGlobalContext } from 'hooks/context'
 import React from 'react'
-import { highlightFn } from 'utils/highlightFn'
+import { HashLink } from 'react-router-hash-link'
+import { useParams } from 'react-router-dom'
 
 // TODO ADD ONCLICK props to navigate thread
 const TopicObrolan = ({ title, uuid, searchText, search_uuid }) => {
-  const { collectionClick, collection } = useGlobalContext()
-  const highlighText = highlightFn(title, searchText, collection.clicked_uuid === search_uuid)
+  const { uuid: uuidThread } = useParams()
 
   return (
-    <div
+    <HashLink
       className={`flex py-6 px-2 items-center border-b border-black-lighter/10 hover:cursor-pointer hover:bg-black-lightest/20 group ${
-        collection.clicked_uuid === search_uuid && 'bg-green-900 rounded-md'
+        uuid === uuidThread && 'bg-green-900 rounded-md text-white'
       }`}
-      onClick={() => collectionClick({ uuid, clicked_uuid: search_uuid })}
+      to={`thread/${uuid}`}
     >
-      <p
-        className={`text-sm truncate ${
-          collection.clicked_uuid === search_uuid ? 'text-white group-hover:text-secondary-base' : 'text-secondary-base'
-        } `}
-        dangerouslySetInnerHTML={{ __html: highlighText }}
-      />
-    </div>
+      <p className={`text-sm truncate`}>{title}</p>
+    </HashLink>
   )
 }
 

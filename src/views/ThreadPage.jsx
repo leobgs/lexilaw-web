@@ -36,6 +36,7 @@ export const ThreadPage = ({
   isFirstTimeChat,
   onFirstTimeChat,
   currKey,
+  setResponseThreadDetail,
 }) => {
   const params = useParams()
   const { state } = useLocation()
@@ -55,8 +56,6 @@ export const ThreadPage = ({
         (item) => item.uuid === '63926537'
       )
       setRenderedMessage(dataFiltered?.chat)
-    } else {
-      setRenderedMessage([])
     }
 
     if (state) {
@@ -125,6 +124,7 @@ export const ThreadPage = ({
           })
 
           setRenderedMessage([...tmp])
+          setResponseThreadDetail(tmp)
           // setRenderedMessage((prevMessages) => [...prevMessages, ...tmp])
         } catch (err) {
           console.error('Parsing error', err)
