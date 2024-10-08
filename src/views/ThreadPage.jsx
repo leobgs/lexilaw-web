@@ -281,8 +281,6 @@ export const ThreadPage = ({
       } catch (error) {
         notifyError(error.message)
       }
-    } else {
-      notifyError('Please select a file and enter a password.')
     }
 
     setScrolled(true)
@@ -297,7 +295,6 @@ export const ThreadPage = ({
       document: encryptedFile,
       filename: e.file?.name,
     }
-    console.log(dataMessage)
 
     sendMessage(dataMessage)
     setDisableInput(true)

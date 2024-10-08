@@ -104,7 +104,8 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
   )
 
   const { mutate: deleteThreadCollection } = useMutation(
-    (uuid) => deleteData(API.COLLECTION_DELETE_THREAD + uuid),
+    (formDelete) =>
+      deleteData(API.COLLECTION_DELETE_THREAD, { data: formDelete }),
     {
       onSettled: (data) => {
         if (data.status === 'Success') {
@@ -176,10 +177,34 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
   }
 
   const onDeleteClick = () => {
-    collection.activeBy === 'thread'
-      ? deleteThread(item.uuid)
-      : deleteThreadCollection(item.uuid)
+    if (collection.activeBy === 'thread') {
+      deleteThread(item.uuid)
+    } else if (collection.activeBy === null) {
+      deleteThread(item.uuid)
+    } else {
+      const collection_uuid = getCollectionUuid(item.uuid, collectionList?.data)
+
+      deleteThreadCollection({
+        thread_uuid: item.uuid,
+        collection_uuid: collection_uuid,
+      })
+    }
     setShow1st(false)
+  }
+
+  const getCollectionUuid = (itemUuid, data) => {
+    for (const collection of data) {
+      const foundThread = collection.threads.find(
+        (thread) => thread.uuid === itemUuid
+      )
+
+      // Jika ditemukan, return collection_uuid
+      if (foundThread) {
+        return foundThread.collection_uuid
+      }
+    }
+
+    return null
   }
 
   return (
@@ -199,7 +224,6 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
           item.isActive && isActivated
             ? void 0
             : collectionClick({ ...item, activeBy: typeClick })
-
           setIsFirstTime(false)
         }}
       >
@@ -223,8 +247,15 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
               item.title
             )}
           </div>
+
           {item.isActive && isActivated && item.type === collection.activeBy ? (
-            <div className="pl-3 -py-2" onClick={() => setShow1st(true)}>
+            <div
+              className="pl-3 -py-2"
+              onClick={() => {
+                setShow1st(true)
+                collectionClick({ ...item, activeBy: typeClick })
+              }}
+            >
               <img
                 src={images.ic_dots}
                 alt="dots"
@@ -233,7 +264,13 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
               />
             </div>
           ) : item?.uuid === uuid ? (
-            <div className="pl-3 -py-2" onClick={() => setShow1st(true)}>
+            <div
+              className="pl-3 -py-2"
+              onClick={() => {
+                setShow1st(true)
+                collectionClick({ ...item, activeBy: typeClick })
+              }}
+            >
               <img
                 src={images.ic_dots}
                 alt="dots"
