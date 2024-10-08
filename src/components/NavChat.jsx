@@ -779,6 +779,7 @@ export const NavChat = ({
             onCloseButton={() => {
               setShowPendingWA(false)
             }}
+            key="Whatsapp-InfoBip-Mobile"
           />
         )}
       </Modal>
