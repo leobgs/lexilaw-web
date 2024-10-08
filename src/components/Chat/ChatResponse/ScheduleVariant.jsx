@@ -28,11 +28,19 @@ export const ScheduleVariant = ({ item }) => {
           const updatedResponse = data?.data?.availability_schedules?.map(
             (item) => ({
               ...item,
-              start_time_formatted_eng: convertTimeToUserTimezone(item.start_time),
-              start_time_formatted_ind: convertTimeToUserTimezone(item.start_time, 'id-ID'),
+              start_time_formatted_eng: convertTimeToUserTimezone(
+                item.start_time
+              ),
+              start_time_formatted_ind: convertTimeToUserTimezone(
+                item.start_time,
+                'id-ID'
+              ),
             })
           )
-          setSchedules({...data?.data, availability_schedules: updatedResponse})
+          setSchedules({
+            ...data?.data,
+            availability_schedules: updatedResponse,
+          })
         } else {
           notifyError(data?.message)
         }
@@ -64,7 +72,7 @@ export const ScheduleVariant = ({ item }) => {
         ))}
       </div>
 
-      {schedules && (
+      {schedules && schedules?.availability_schedules && (
         <button
           className="border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-sm px-2.5"
           onClick={() => handleSetSchedule(schedules.scheduling_url_event)}
@@ -117,9 +125,9 @@ const convertTimeToUserTimezone = (utcTime, locale) => {
   const userLocale = locale || navigator.language // Mendapatkan locale otomatis dari browser
 
   return new Intl.DateTimeFormat(userLocale, {
-    weekday: 'long', 
-    hour: 'numeric', 
+    weekday: 'long',
+    hour: 'numeric',
     minute: 'numeric',
-    hour12: true
+    hour12: true,
   }).format(date)
 }
