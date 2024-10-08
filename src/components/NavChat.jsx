@@ -50,19 +50,11 @@ export const NavChat = ({
   const [showWhatsAppActivation, setShowWhatsAppActivation] = useState(false)
   const openModalWAActivation = () => {
     setShowWhatsAppActivation(true)
+    resetPhoneNumber()
   }
 
   const closeModalWAActivation = () => {
     setShowWhatsAppActivation(false)
-  }
-
-  const [showWhatsappOtp, setShowWhatsappOtp] = useState(false)
-  const openModalWaOTP = () => {
-    setShowWhatsappOtp(true)
-  }
-  const closeModalWaOtp = () => {
-    setShowWhatsappOtp(false)
-    resetPhoneNumber()
   }
 
   const storage = new LocalStorage()
@@ -762,7 +754,7 @@ export const NavChat = ({
         <WhatsappActivation
           onHandleSubmit={() => {
             closeModalWAActivation()
-            openModalWaOTP()
+            setShowPendingWA(true)
           }}
           onClose={() => {
             closeModalWAActivation()
@@ -775,7 +767,7 @@ export const NavChat = ({
         classNameBox={'bg-gray-700/70'}
         contentClassName={''}
         show={showPendingWA}
-        onHide={closeModalWaOtp}
+        onHide={() => {setShowPendingWA(false)}}
       >
         {showPendingWA && (
           <WhatsAppFitBIt

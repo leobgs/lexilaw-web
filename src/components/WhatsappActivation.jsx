@@ -3,15 +3,15 @@ import images from 'assets/images'
 import { Button } from './Button/Button'
 import { useTranslation } from 'react-i18next'
 import { useGlobalContext } from 'hooks/context'
-import { usePostWhatsAppConnect } from 'hooks/usePostWhatsAppConnect'
 import { useQueryClient } from 'react-query'
 import { forwardRef } from 'react'
+import { usePostWhatsappRequest } from 'hooks/usePostWhatsappRequest'
 
 export const WhatsappActivation = forwardRef(
   ({ onHandleSubmit, onClose }, ref) => {
     const { phoneNumberObj } = useGlobalContext()
-    const { mutateAsyncWAConnect, isPendingWAConnect } =
-      usePostWhatsAppConnect()
+    const { mutateAsyncWARequest, isPendingWARequest } =
+      usePostWhatsappRequest()
     const queryClient = useQueryClient()
 
     const { t } = useTranslation()
@@ -48,7 +48,11 @@ export const WhatsappActivation = forwardRef(
           <form
             onSubmit={async (e) => {
               e.preventDefault()
-              await mutateAsyncWAConnect(phoneNumberObj.phoneNumber)
+              await mutateAsyncWARequest({
+                whatsapp_number:
+                  phoneNumberObj.countryCode.dial_code.replace('+', '') +
+                  phoneNumberObj.phoneNumber,
+              })
               queryClient.invalidateQueries(['user'])
               onHandleSubmit()
             }}
@@ -63,7 +67,7 @@ export const WhatsappActivation = forwardRef(
                 }
                 disabled={
                   phoneNumberObj.maskedPhoneNumber.length < 10 ||
-                  isPendingWAConnect
+                  isPendingWARequest
                 }
               />
             </div>
