@@ -22,7 +22,6 @@ import { useDebounce } from 'hooks/useDebounce'
 import { useSearch } from '../hooks/useSearch'
 import { EmptySearchResult } from './SearchCard/EmptySearchResult'
 import { Modal } from './Modal'
-import { WhatsappOtp } from './WhatsappOtp'
 import { WhatsappActivation } from './WhatsappActivation'
 import { WhatsAppFitBIt } from './WhatsAppFitBit'
 
@@ -119,7 +118,7 @@ export const NavChat = ({
   }, [search])
 
   useEffect(() => {
-    if(showWhatsAppActivation && phoneNumberRef.current) {
+    if (showWhatsAppActivation && phoneNumberRef.current) {
       phoneNumberRef.current.focus()
     }
   }, [showWhatsAppActivation])
@@ -767,7 +766,9 @@ export const NavChat = ({
         classNameBox={'bg-gray-700/70'}
         contentClassName={''}
         show={showPendingWA}
-        onHide={() => {setShowPendingWA(false)}}
+        onHide={() => {
+          setShowPendingWA(false)
+        }}
       >
         {showPendingWA && (
           <WhatsAppFitBIt

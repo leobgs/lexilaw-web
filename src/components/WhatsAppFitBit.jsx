@@ -4,7 +4,7 @@ import { useGetWhatsappTuorial } from 'hooks/useGetWhatsappTutorial'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Storage } from 'utils/LocalStorage'
-import { QRCodeSVG, QRCodeCanvas } from 'qrcode.react'
+import { QRCodeCanvas } from 'qrcode.react'
 
 /**
  *
@@ -124,36 +124,3 @@ export const WhatsAppFitBIt = ({ onCloseButton, onChangeNumber }) => {
     </div>
   )
 }
-
-// Dummy Data
-// #TODO Hapus ketika API sudah ada
-const dummyData = [
-  {
-    msg_ind:
-      'Untuk mengaktifkan Lexi di WhatsApp, scan QR code atau tambahkan nomor <strong>4827466474</strong> ke dalam kontak WhatsApp Anda.',
-    msg_eng:
-      'To activate Lexi on WhatsApp, scan the QR code or add the number <strong>4827466474</strong> to your WhatsApp contacts.',
-    img: images.img_instruction_1,
-  },
-  {
-    msg_ind: 'Kirim pesan yang telah terisi otomatis.',
-    msg_eng: 'Send a pre-filled message.',
-    img: images.img_instruction_2,
-  },
-  {
-    msg_ind: 'Klik Yes untuk mengkonfirmasi aktivasi.',
-    msg_eng: 'Click Yes to confirm the activation.',
-    img: images.img_instruction_3,
-  },
-  {
-    msg_ind: 'Jika aktivasi berhasil maka akan muncul pesan aktivasi berhasil',
-    msg_eng:
-      'If the activation is successful, a message confirming the successful activation will appear.',
-    img: images.img_instruction_4,
-  },
-  {
-    msg_ind: 'Asisten Lexi siap digunakan di WhatsApp Anda.',
-    msg_eng: 'Lexi Assistant is ready to be used on your WhatsApp.',
-    img: images.img_instruction_5,
-  },
-]
