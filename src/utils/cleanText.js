@@ -21,6 +21,7 @@ export const cleanTextFn = (arg) => {
     /【[^】]+】/g,
     /###META-SCHEDULE:([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/,
     /####META-SUMMARY:\s*.*?(\r?\n|$)/gi,
+    /###META-SUMMARY:\s*.*?(\r?\n|$)/gi,
   ]
 
   let cleanedText = arg
