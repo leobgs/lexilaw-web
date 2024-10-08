@@ -88,6 +88,7 @@ export const ModalSearch = ({
                     uuid={item.uuid}
                     searchText={debounceSearch}
                     search_uuid={item.uuid}
+                    key={item.uuid}
                   />
                 ))}
             </SearchCard>

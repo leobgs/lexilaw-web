@@ -202,7 +202,7 @@ export const NavChat = ({
         />
         <div className="flex w-full justify-between items-center h-10">
           <div className="font-futura-bold font-bold text-xl line-clamp-1 text-[#00153F] basis-10/12">
-            {t('chat.new_chat')}
+            {headerText === '' ? t('chat.new_chat') : headerText}
           </div>
           <div className="mx-auto basis-2/12">
             <div
@@ -254,6 +254,7 @@ export const NavChat = ({
                       uuid={item.uuid}
                       searchText={debounceSearch}
                       search_uuid={item.uuid}
+                      key={item.uuid}
                     />
                   ))}
               </SearchCard>
