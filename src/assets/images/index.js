@@ -93,16 +93,8 @@ import ic_circle_cross from './ic_circle_cross.svg'
 import ic_save from './ic_save.svg'
 import ic_files from './ic_files.svg'
 import ic_sand_time_mobile from './ic_sand_time_mobile.svg'
-
-// ======= AKAN DIHAPUS JIKA API SUDAH JADI =========
-import img_instruction_1 from './img_instruction_1.svg'
-import img_instruction_2 from './img_instruction_2.svg'
-import img_instruction_3 from './img_instruction_3.svg'
-import img_instruction_4 from './img_instruction_4.svg'
-import img_instruction_5 from './img_instruction_5.svg'
-import img_qrcode_dummy from './img_qrcode-dummy.svg'
 import ic_download from './ic_download.svg'
-// ======= AKAN DIHAPUS JIKA API SUDAH JADI =========
+
 
 const images = {
   bg_register_login,
@@ -200,16 +192,7 @@ const images = {
   ic_save,
   ic_files,
   ic_sand_time_mobile,
-
-  // ======= AKAN DIHAPUS JIKA API SUDAH JADI =========
-  img_instruction_1,
-  img_instruction_2,
-  img_instruction_3,
-  img_instruction_4,
-  img_instruction_5,
-  img_qrcode_dummy,
   ic_download,
-  // ======= AKAN DIHAPUS JIKA API SUDAH JADI =========
 }
 
 export default images

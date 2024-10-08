@@ -875,6 +875,7 @@ export const Chat = () => {
               closeModalWaOtp()
               openModalWAActivation()
             }}
+            key='Whatsapp-Infobip-Desktop'
           />
         )}
       </Modal>

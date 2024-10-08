@@ -68,6 +68,24 @@ export const NavCollection = ({
     }
   )
 
+    useEffect(() => {
+      const currentRef = inputRef.current
+
+      if (currentRef) {
+        const onKeyEnter = (e) => {
+          if (e?.key === 'Enter') {
+            createCollection({ name: currentRef?.value, threadId: items.uuid })
+          }
+        }
+
+        currentRef.addEventListener('keypress', onKeyEnter)
+
+        return () => {
+          currentRef.removeEventListener('keypress', onKeyEnter)
+        }
+      }
+    }, [createCollection, items?.uuid])
+
   return (
     <div
       className={`flex justify-between gap-2 items-center text-sm text-neutral-40 mb-2 px-2 py-1 cursor-pointer ${

@@ -22,7 +22,6 @@ import { useDebounce } from 'hooks/useDebounce'
 import { useSearch } from '../hooks/useSearch'
 import { EmptySearchResult } from './SearchCard/EmptySearchResult'
 import { Modal } from './Modal'
-import { WhatsappOtp } from './WhatsappOtp'
 import { WhatsappActivation } from './WhatsappActivation'
 import { WhatsAppFitBIt } from './WhatsAppFitBit'
 
@@ -50,19 +49,11 @@ export const NavChat = ({
   const [showWhatsAppActivation, setShowWhatsAppActivation] = useState(false)
   const openModalWAActivation = () => {
     setShowWhatsAppActivation(true)
+    resetPhoneNumber()
   }
 
   const closeModalWAActivation = () => {
     setShowWhatsAppActivation(false)
-  }
-
-  const [showWhatsappOtp, setShowWhatsappOtp] = useState(false)
-  const openModalWaOTP = () => {
-    setShowWhatsappOtp(true)
-  }
-  const closeModalWaOtp = () => {
-    setShowWhatsappOtp(false)
-    resetPhoneNumber()
   }
 
   const storage = new LocalStorage()
@@ -127,7 +118,7 @@ export const NavChat = ({
   }, [search])
 
   useEffect(() => {
-    if(showWhatsAppActivation && phoneNumberRef.current) {
+    if (showWhatsAppActivation && phoneNumberRef.current) {
       phoneNumberRef.current.focus()
     }
   }, [showWhatsAppActivation])
@@ -762,7 +753,7 @@ export const NavChat = ({
         <WhatsappActivation
           onHandleSubmit={() => {
             closeModalWAActivation()
-            openModalWaOTP()
+            setShowPendingWA(true)
           }}
           onClose={() => {
             closeModalWAActivation()
@@ -775,7 +766,9 @@ export const NavChat = ({
         classNameBox={'bg-gray-700/70'}
         contentClassName={''}
         show={showPendingWA}
-        onHide={closeModalWaOtp}
+        onHide={() => {
+          setShowPendingWA(false)
+        }}
       >
         {showPendingWA && (
           <WhatsAppFitBIt
@@ -786,6 +779,7 @@ export const NavChat = ({
             onCloseButton={() => {
               setShowPendingWA(false)
             }}
+            key="Whatsapp-InfoBip-Mobile"
           />
         )}
       </Modal>
