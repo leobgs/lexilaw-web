@@ -77,7 +77,7 @@ export const WhatsAppFitBIt = ({ onCloseButton, onChangeNumber }) => {
       {/* Instruction */}
       {dataWATutorial?.data?.steps?.map((item, index) => (
         <>
-          <div className="py-10 flex flex-col" key={item.description_indonesia}>
+          <div className="py-10 flex flex-col" key={item.description_indonesia + ' ' + index}>
             {/* Text */}
             <div className="flex space-x-2 font-medium text-[14px]">
               <span>{item.order}.</span>
