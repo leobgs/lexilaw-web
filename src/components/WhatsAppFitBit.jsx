@@ -76,7 +76,7 @@ export const WhatsAppFitBIt = ({ onCloseButton, onChangeNumber }) => {
 
       {/* Instruction */}
       {dataWATutorial?.data?.steps?.map((item, index) => (
-        <>
+        <React.Fragment key={item?.uuid}>
           <div className="py-10 flex flex-col" key={item.description_indonesia + ' ' + index}>
             {/* Text */}
             <div className="flex space-x-2 font-medium text-[14px]">
@@ -119,7 +119,7 @@ export const WhatsAppFitBIt = ({ onCloseButton, onChangeNumber }) => {
               </button>
             </div>
           )}
-        </>
+        </React.Fragment>
       ))}
     </div>
   )
