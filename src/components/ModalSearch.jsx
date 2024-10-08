@@ -12,7 +12,13 @@ import { DokumenCard } from './SearchCard/DokumenCard'
 import { TopicObrolan } from './SearchCard/TopikObrolan'
 import { EmptySearchResult } from './SearchCard/EmptySearchResult'
 
-export const ModalSearch = ({ show, onHide = () => {}, searchText, setShowNav, onHeaderClick }) => {
+export const ModalSearch = ({
+  show,
+  onHide = () => {},
+  searchText,
+  setShowNav,
+  onHeaderClick,
+}) => {
   const [search, setSearch] = useState(searchText ?? '')
 
   const debounceText = useDebounce(search)
@@ -53,70 +59,20 @@ export const ModalSearch = ({ show, onHide = () => {}, searchText, setShowNav, o
           <SearchCardSpinner isPending={isPendingSearch} />
 
           {/* Jika hasil search kosong */}
-          {!searchData?.data?.document &&
-            !searchData?.data?.thread &&
-            !searchData?.data?.thread_chat &&
-            !isPendingSearch && (
-              <EmptySearchResult
-                searchText={debounceSearch}
-                onHeaderClick={() => {
-                  onHeaderClick()
-                  onHide()
-                  setShowNav(false)
-                  setSearch('')
-                }}
-              />
-            )}
-
-          {/* Thread Chat Obrolan */}
-          {searchData?.data?.thread_chat && (
-            <SearchCard
-              title={'Obrolan'}
-              isPending={isPendingSearch}
-              onClickHide={() => {
+          {!searchData?.data && !isPendingSearch && (
+            <EmptySearchResult
+              searchText={debounceSearch}
+              onHeaderClick={() => {
+                onHeaderClick()
                 onHide()
-                setShowNav((prev) => !prev)
+                setShowNav(false)
+                setSearch('')
               }}
-            >
-              {searchData?.data?.thread_chat &&
-                searchData.data.thread_chat.map((item) => (
-                  <ObrolanCard
-                    key={item.uuid}
-                    message={item.message}
-                    from_display={item.from_display}
-                    thread_uuid={item.thread_uuid}
-                    searchText={debounceSearch}
-                    search_uuid={item.uuid}
-                  />
-                ))}
-            </SearchCard>
-          )}
-
-          {/* Document */}
-          {searchData?.data?.document && (
-            <SearchCard
-              title={'Document'}
-              isPending={isPendingSearch}
-              onClickHide={() => {
-                onHide()
-                setShowNav((prev) => !prev)
-              }}
-            >
-              {searchData?.data?.document &&
-                searchData.data.document.map((item) => (
-                  <DokumenCard
-                    key={item.uuid}
-                    title={item.filename}
-                    thred_uuid={item.thread_uuid}
-                    searchText={debounceSearch}
-                    file_url={item.file_url}
-                  />
-                ))}
-            </SearchCard>
+            />
           )}
 
           {/* Topik obrolan */}
-          {searchData?.data?.thread && (
+          {searchData?.data && (
             <SearchCard
               title={'Topik Obrolan'}
               isPending={isPendingSearch}
@@ -125,8 +81,8 @@ export const ModalSearch = ({ show, onHide = () => {}, searchText, setShowNav, o
                 setShowNav((prev) => !prev)
               }}
             >
-              {searchData?.data?.thread &&
-                searchData.data.thread.map((item) => (
+              {searchData?.data &&
+                searchData.data.map((item) => (
                   <TopicObrolan
                     title={item.title}
                     uuid={item.uuid}
