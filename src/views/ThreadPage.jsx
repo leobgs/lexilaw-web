@@ -297,7 +297,6 @@ export const ThreadPage = ({
       document: encryptedFile,
       filename: e.file?.name,
     }
-    console.log(dataMessage)
 
     sendMessage(dataMessage)
     setDisableInput(true)
