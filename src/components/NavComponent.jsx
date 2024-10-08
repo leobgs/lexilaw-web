@@ -133,6 +133,26 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
   )
 
   useEffect(() => {
+    const currentRef = collectionInputRef.current
+    if (collectionInputRef.current) {
+      const onKeyEnter = (e) => {
+        if (e?.key === 'Enter') {
+          createCollection({
+            name: collectionInputRef.current.value,
+            threadId: item.uuid,
+          })
+        }
+      }
+
+      collectionInputRef.current?.addEventListener('keypress', onKeyEnter)
+
+      return () => {
+        currentRef?.removeEventListener('keypress', onKeyEnter)
+      }
+    }
+  }, [createCollection, item.uuid])
+
+  useEffect(() => {
     handleResize()
     window.addEventListener('resize', handleResize)
     return () => {
@@ -386,8 +406,8 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
           className="bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full"
           onSubmit={(e) => {
             e.preventDefault()
-
             createCollection({ name: text, threadId: item.uuid })
+            setText('')
           }}
         >
           <Input
@@ -401,12 +421,17 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
             inputClass="!py-2 bg-white !w-full !rounded-lg"
             rowed="w-full"
             ref={collectionInputRef}
+            createCollection
           />
           <div className="self-end flex gap-2 mt-4 mb-6">
             <Button
               label={t('cancel', { keyPrefix: 'nav_component' })}
               className="text-black-dark !h-10"
-              onClick={() => setShowModalCreateCollection(false)}
+              onClick={(e) => {
+                e.preventDefault()
+                setText('')
+                setShowModalCreateCollection(false)
+              }}
             />
             <Button
               label={t('create', { keyPrefix: 'nav_component' })}
@@ -414,9 +439,10 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
                 text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
               } rounded-3xl !h-10 text-white`}
               disabled={!text}
-              onClick={() =>
+              onClick={(e) => {
+                e.preventDefault()
                 createCollection({ name: text, threadId: item.uuid })
-              }
+              }}
             />
           </div>
         </form>
