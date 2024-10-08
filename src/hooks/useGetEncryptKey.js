@@ -2,7 +2,7 @@ import { useQuery } from 'react-query'
 import { getData } from './useRequest'
 import { API } from 'config/api'
 
-export const useEncryptKey = () => {
+export const useGetEncryptKey = () => {
   const { data, refetch } = useQuery(
     ['encrypt-key'],
     () => getData(API.ENCRYPT_KEY),
