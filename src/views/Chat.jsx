@@ -108,6 +108,7 @@ export const Chat = () => {
 
   const showChatDocument =
     (!isHeader &&
+      lawyer?.uuid &&
       (dataAvailableSchedule?.message === 'Done' ||
         dataAvailableSchedule?.message === 'Success get data')) ||
     dataDocument?.data?.system?.length > 0
@@ -875,7 +876,7 @@ export const Chat = () => {
               closeModalWaOtp()
               openModalWAActivation()
             }}
-            key='Whatsapp-Infobip-Desktop'
+            key="Whatsapp-Infobip-Desktop"
           />
         )}
       </Modal>
