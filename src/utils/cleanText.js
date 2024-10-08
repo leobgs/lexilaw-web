@@ -7,6 +7,8 @@
  *
  * `### META-CONTENT`
  *
+ * `####META-SUMMARY`
+ *
  * @param {string} arg
  *
  * @returns {string}
@@ -18,6 +20,7 @@ export const cleanTextFn = (arg) => {
     /###\s*META-LAWYER-HELP:\s*.*?(\r?\n|$)/gi,
     /【[^】]+】/g,
     /###META-SCHEDULE:([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/,
+    /####META-SUMMARY:\s*.*?(\r?\n|$)/gi,
   ]
 
   let cleanedText = arg
