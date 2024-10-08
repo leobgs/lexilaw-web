@@ -22,7 +22,6 @@ import { useDebounce } from 'hooks/useDebounce'
 import { useSearch } from '../hooks/useSearch'
 import { EmptySearchResult } from './SearchCard/EmptySearchResult'
 import { Modal } from './Modal'
-import { WhatsappOtp } from './WhatsappOtp'
 import { WhatsappActivation } from './WhatsappActivation'
 import { WhatsAppFitBIt } from './WhatsAppFitBit'
 
@@ -56,12 +55,7 @@ export const NavChat = ({
     setShowWhatsAppActivation(false)
   }
 
-  const [showWhatsappOtp, setShowWhatsappOtp] = useState(false)
-  const openModalWaOTP = () => {
-    setShowWhatsappOtp(true)
-  }
   const closeModalWaOtp = () => {
-    setShowWhatsappOtp(false)
     resetPhoneNumber()
   }
 
@@ -298,7 +292,7 @@ export const NavChat = ({
           dataLatest?.map((item, index) => {
             if (item.type === 'koleksi') {
               return (
-                <div key={`${index}-k`}>
+                <div key={index + 1}>
                   {item.data?.length !== 0 && (
                     <div className="flex justify-between items-end mr-2 my-4 pl-1">
                       <div className="text-[#AEB3BF] text-sm">
@@ -329,30 +323,31 @@ export const NavChat = ({
                         />
 
                         {items.isExpand &&
-                          items.threads?.map((itms) => (
-                            <div
-                              key={itms.uuid}
-                              className="border-l-2 border-blue-sky ml-5 pl-3 pb-2 text-neutral-40 last:mb-4 text-sm"
-                              onClick={() => {
-                                collectionClick({
-                                  ...itms,
-                                  activeBy: 'collection',
-                                })
-                              }}
-                            >
-                              <NavComponent
-                                item={{
-                                  ...itms,
-                                  title: itms.name,
-                                  type: 'collection',
+                          items.threads?.map((itms, idnx) => {
+                            return (
+                              <div
+                                key={idnx}
+                                className="border-l-2 border-blue-sky ml-5 pl-3 pb-2 text-neutral-40 last:mb-4 text-sm"
+                                onClick={() => {
+                                  collectionClick({
+                                    ...itms,
+                                    activeBy: 'collection',
+                                  })
                                 }}
-                                key={itms.uuid}
-                                typeClick={'collection'}
-                                onDeleted={() => onDeleted()}
-                                isActivated={true}
-                              />
-                            </div>
-                          ))}
+                              >
+                                <NavComponent
+                                  item={{
+                                    ...itms,
+                                    title: itms.name,
+                                    type: 'collection',
+                                  }}
+                                  typeClick={'collection'}
+                                  onDeleted={() => onDeleted()}
+                                  isActivated={true}
+                                />
+                              </div>
+                            )
+                          })}
                       </div>
                     ))}
                 </div>
@@ -360,7 +355,7 @@ export const NavChat = ({
             } else if (item.type === 'terkini') {
               return (
                 <div
-                  key={`${index}-t`}
+                  key={index + 2}
                   className={`${item.data?.length !== 0 ? 'my-4' : ''}`}
                 >
                   {item.data?.length !== 0 && (
@@ -375,7 +370,7 @@ export const NavChat = ({
                     item.data?.map((itms) => (
                       <NavComponent
                         item={{ ...itms, type: 'thread' }}
-                        key={itms.uuid}
+                        key={`${itms.uuid}-terkini`}
                         typeClick={'thread'}
                         onDeleted={() => onDeleted()}
                         isActivated={true}
@@ -383,9 +378,9 @@ export const NavChat = ({
                     ))}
                 </div>
               )
-            } else if (item.type === 'riwayat') {
+            } else {
               return (
-                <div key={`${index}-r`}>
+                <div key={item.uuid + 3}>
                   {item.data?.length !== 0 && (
                     <div className="text-[#AEB3BF] mt-4 text-sm mb-3 pl-1">
                       {t('past_chat', {
@@ -398,7 +393,7 @@ export const NavChat = ({
                     item.data?.map((items) => (
                       <NavComponent
                         item={{ ...items, type: 'thread' }}
-                        key={items.uuid}
+                        key={`${items.uuid}-history`}
                         typeClick={'thread'}
                         onDeleted={() => onDeleted()}
                         isActivated={true}
@@ -490,6 +485,7 @@ export const NavChat = ({
                                   item={{
                                     ...itms,
                                     title: itms.name,
+                                    collection_uuid: items.uuid,
                                     type: 'collection',
                                   }}
                                   key={items.uuid}
@@ -754,7 +750,6 @@ export const NavChat = ({
         <WhatsappActivation
           onHandleSubmit={() => {
             closeModalWAActivation()
-            openModalWaOTP()
           }}
           onClose={() => {
             closeModalWAActivation()

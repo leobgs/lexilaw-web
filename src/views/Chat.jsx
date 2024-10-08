@@ -380,7 +380,6 @@ export const Chat = () => {
               const hasMatchingThread = item.threads?.some(
                 (thread) => thread.uuid === uuid
               )
-
               return {
                 ...item,
                 isExpand: hasMatchingThread,
@@ -390,6 +389,7 @@ export const Chat = () => {
             return item
           }
         })
+
         setThreadList([...dataThreadList])
       } else {
         notifyError(datas?.message)
@@ -413,8 +413,6 @@ export const Chat = () => {
       } catch (error) {
         notifyError(error.message)
       }
-    } else {
-      notifyError('Please select a file and enter a password.')
     }
 
     const dataMessage = {
@@ -452,6 +450,7 @@ export const Chat = () => {
               if (child.uuid === id) {
                 texts = child.title ?? child.name
               }
+              child.collection_uuid = dataItem?.uuid
             })
           }
         })
