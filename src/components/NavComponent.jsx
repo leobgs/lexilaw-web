@@ -368,7 +368,7 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
               onClick={() => {
                 collection.collection_from === null
                   ? assignCollection({
-                      collection_uuid: item.uuid,
+                      collection_uuid_to: items.uuid,
                       thread_uuid: collection.uuid,
                     })
                   : assignCollection({
@@ -376,6 +376,12 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
                       collection_uuid_to: items.uuid,
                       thread_uuid: collection.uuid,
                     })
+
+                // assignCollection({
+                //   collection_uuid_from: collection.collection_from,
+                //   collection_uuid: item.uuid,
+                //   thread_uuid: collection.uuid,
+                // })
               }}
             >
               <img
