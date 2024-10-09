@@ -198,7 +198,6 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
         (thread) => thread.uuid === itemUuid
       )
 
-      // Jika ditemukan, return collection_uuid
       if (foundThread) {
         return foundThread.collection_uuid
       }
@@ -281,6 +280,7 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
           ) : null}
         </>
       </div>
+
       <ReactTooltip
         id={`tool-tips-${item.uuid}`}
         place={tooltipPlace}
@@ -361,15 +361,21 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
         className="shadow-md !bg-white font-semi-bold !w-[70%] !rounded-lg md:mb-0 md:!w-52 z-50 mb-2"
       >
         {collectionList?.data?.length !== 0 &&
-          collectionList?.data?.map((item, index) => (
+          collectionList?.data?.map((items, index) => (
             <div
               key={index}
               className="flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 border-b border-b-neutral-50 -mx-4 px-4 pb-1"
               onClick={() => {
-                assignCollection({
-                  collection_uuid: item.uuid,
-                  thread_uuid: collection.uuid,
-                })
+                collection.collection_from === null
+                  ? assignCollection({
+                      collection_uuid: item.uuid,
+                      thread_uuid: collection.uuid,
+                    })
+                  : assignCollection({
+                      collection_uuid_from: collection.collection_from,
+                      collection_uuid_to: items.uuid,
+                      thread_uuid: collection.uuid,
+                    })
               }}
             >
               <img
@@ -377,7 +383,7 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
                 alt="ic_folder_colection"
                 className="h-3 w-[13.76px]"
               />
-              <div className="text-[#121212] text-xs">{item.name}</div>
+              <div className="text-[#121212] text-xs">{items.name}</div>
             </div>
           ))}
         <div className="flex justify-start gap-2 items-center">

@@ -76,6 +76,8 @@ export const colectionReducer = (state, action) => {
         deleteColection: false,
         setEditColection: false,
         uuid: action.uuid,
+        collection_from:
+          action.activeBy === 'collection' ? action.collection_from : null,
         thread_id: action.open_thread_id ?? action.thread_id,
         clicked_uuid: action.clicked_uuid,
       }
