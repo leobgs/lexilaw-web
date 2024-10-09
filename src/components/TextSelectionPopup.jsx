@@ -41,11 +41,11 @@ export const TextSelectionPopup = () => {
 
           const newPosition = {
             x:
-              lastRect.right -
+              lastRect?.right -
               parentRect.left +
               (offsetParent ? offsetParent.scrollLeft : window.scrollX),
             y:
-              lastRect.bottom -
+              lastRect?.bottom -
               parentRect.top +
               (offsetParent ? offsetParent.scrollTop : window.scrollY),
           }

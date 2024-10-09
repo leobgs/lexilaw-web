@@ -59,4 +59,5 @@ export const colectionState = {
   text: '',
   activeBy: null,
   clicked_uuid: null,
+  collection_from: null,
 }

@@ -261,120 +261,114 @@ export const NavChat = ({
         ) : null}
 
         {debounceSearch.length === 0 &&
-          dataLatest?.map((item, index) => {
-            if (item.type === 'koleksi') {
-              return (
-                <div key={index + 1}>
-                  {item.data?.length !== 0 && (
-                    <div className="flex justify-between items-end mr-2 my-4 pl-1">
-                      <div className="text-[#AEB3BF] text-sm">
-                        {t('collection', {
-                          keyPrefix: 'chat.chat_text',
-                        })}
-                      </div>
-                      <img
-                        src={images.ic_menu_down}
-                        alt="dropdown"
-                        className={`h-6 cursor-pointer ${
-                          showColetion ? '' : 'rotate-180'
-                        }`}
-                        onClick={() => setShowColetion(!showColetion)}
-                      />
+          dataLatest?.map((item, index) =>
+            item.type === 'koleksi' ? (
+              <div key={index + 1}>
+                {item.data?.length !== 0 && (
+                  <div className="flex justify-between items-end mr-2 my-4 pl-1">
+                    <div className="text-[#AEB3BF] text-sm">
+                      {t('collection', {
+                        keyPrefix: 'chat.chat_text',
+                      })}
                     </div>
-                  )}
+                    <img
+                      src={images.ic_menu_down}
+                      alt="dropdown"
+                      className={`h-6 cursor-pointer ${
+                        showColetion ? '' : 'rotate-180'
+                      }`}
+                      onClick={() => setShowColetion(!showColetion)}
+                    />
+                  </div>
+                )}
 
-                  {showColetion &&
-                    item.data?.map((items) => (
-                      <div key={items.uuid}>
-                        <NavCollection
-                          items={items}
-                          onDeleteCollection={() =>
-                            deleteCollection(items.uuid)
-                          }
-                          onExpand={() => onExpand(items.uuid)}
-                        />
+                {showColetion &&
+                  item.data?.map((items) => (
+                    <div key={items.uuid}>
+                      <NavCollection
+                        items={items}
+                        onDeleteCollection={() => deleteCollection(items.uuid)}
+                        onExpand={() => onExpand(items.uuid)}
+                      />
 
-                        {items.isExpand &&
-                          items.threads?.map((itms, idnx) => {
-                            return (
-                              <div
-                                key={idnx}
-                                className="border-l-2 border-blue-sky ml-5 pl-3 pb-2 text-neutral-40 last:mb-4 text-sm"
-                                onClick={() => {
-                                  collectionClick({
-                                    ...itms,
-                                    activeBy: 'collection',
-                                  })
+                      {items.isExpand &&
+                        items.threads?.map((itms, idnx) => {
+                          return (
+                            <div
+                              key={idnx}
+                              className="border-l-2 border-blue-sky ml-5 pl-3 pb-2 text-neutral-40 last:mb-4 text-sm"
+                              onClick={() => {
+                                collectionClick({
+                                  ...itms,
+                                  collection_from: items.uuid,
+                                  activeBy: 'collection',
+                                })
+                              }}
+                            >
+                              <NavComponent
+                                item={{
+                                  ...itms,
+                                  title: itms.name,
+                                  type: 'collection',
                                 }}
-                              >
-                                <NavComponent
-                                  item={{
-                                    ...itms,
-                                    title: itms.name,
-                                    type: 'collection',
-                                  }}
-                                  typeClick={'collection'}
-                                  onDeleted={() => onDeleted()}
-                                  isActivated={true}
-                                />
-                              </div>
-                            )
-                          })}
-                      </div>
-                    ))}
-                </div>
-              )
-            } else if (item.type === 'terkini') {
-              return (
-                <div
-                  key={index + 2}
-                  className={`${item.data?.length !== 0 ? 'my-4' : ''}`}
-                >
-                  {item.data?.length !== 0 && (
-                    <div className="text-[#AEB3BF] mt-4 text-sm mb-3 pl-1">
-                      {t('current', {
-                        keyPrefix: 'chat.chat_text',
-                      })}
+                                key={idnx}
+                                typeClick={'collection'}
+                                onDeleted={() => onDeleted()}
+                                isActivated={true}
+                              />
+                            </div>
+                          )
+                        })}
                     </div>
-                  )}
+                  ))}
+              </div>
+            ) : item.type === 'terkini' ? (
+              <div
+                key={index + 202}
+                className={`${item.data?.length !== 0 ? 'my-4' : ''}`}
+              >
+                {item.data?.length !== 0 && (
+                  <div className="text-[#AEB3BF] mt-4 text-sm mb-3 pl-1">
+                    {t('current', {
+                      keyPrefix: 'chat.chat_text',
+                    })}
+                  </div>
+                )}
 
-                  {item.data?.length !== 0 &&
-                    item.data?.map((itms) => (
-                      <NavComponent
-                        item={{ ...itms, type: 'thread' }}
-                        key={`${itms.uuid}-terkini`}
-                        typeClick={'thread'}
-                        onDeleted={() => onDeleted()}
-                        isActivated={true}
-                      />
-                    ))}
-                </div>
-              )
-            } else {
-              return (
-                <div key={item.uuid + 3}>
-                  {item.data?.length !== 0 && (
-                    <div className="text-[#AEB3BF] mt-4 text-sm mb-3 pl-1">
-                      {t('past_chat', {
-                        keyPrefix: 'chat.chat_text',
-                      })}
-                    </div>
-                  )}
+                {item.data?.length !== 0 &&
+                  item.data?.map((itms, indx) => (
+                    <NavComponent
+                      item={{ ...itms, type: 'threads' }}
+                      key={indx}
+                      typeClick={'thread'}
+                      onDeleted={() => onDeleted()}
+                      isActivated={true}
+                    />
+                  ))}
+              </div>
+            ) : (
+              <div key={index + 303}>
+                {item.data?.length !== 0 && (
+                  <div className="text-[#AEB3BF] mt-4 text-sm mb-3 pl-1">
+                    {t('past_chat', {
+                      keyPrefix: 'chat.chat_text',
+                    })}
+                  </div>
+                )}
 
-                  {item.data?.length !== 0 &&
-                    item.data?.map((items) => (
-                      <NavComponent
-                        item={{ ...items, type: 'thread' }}
-                        key={`${items.uuid}-history`}
-                        typeClick={'thread'}
-                        onDeleted={() => onDeleted()}
-                        isActivated={true}
-                      />
-                    ))}
-                </div>
-              )
-            }
-          })}
+                {item.data?.length !== 0 &&
+                  item.data?.map((items, indx) => (
+                    <NavComponent
+                      item={{ ...items, type: 'thread' }}
+                      key={indx}
+                      typeClick={'thread'}
+                      onDeleted={() => onDeleted()}
+                      isActivated={true}
+                    />
+                  ))}
+              </div>
+            )
+          )}
       </div>
 
       {/* ============================ responsive mobile ============================*/}
