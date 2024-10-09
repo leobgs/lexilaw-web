@@ -9,7 +9,7 @@ const TopicObrolan = ({ title, uuid, searchText, search_uuid }) => {
   return (
     <HashLink
       className={`flex py-6 px-2 items-center border-b border-black-lighter/10 hover:cursor-pointer hover:bg-black-lightest/20 group ${
-        uuid === uuidThread && 'bg-green-900 rounded-md text-white'
+        uuid === uuidThread && 'bg-green-900 rounded-md text-white hover:text-dark-50'
       }`}
       to={`thread/${uuid}`}
     >
