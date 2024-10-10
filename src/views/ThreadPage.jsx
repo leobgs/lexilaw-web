@@ -19,6 +19,7 @@ import {
   useQueryClient,
 } from 'react-query'
 import { useLocation, useParams } from 'react-router-dom'
+import { checkMetaSchedulePattern } from 'utils/checkMetaSchedulePattern'
 import { RIWAYAT_OROLAN } from 'utils/dummy'
 import { isScheduleFn } from 'utils/isScheduleFn'
 
@@ -49,6 +50,8 @@ export const ThreadPage = ({
   const [isScrolled, setScrolled] = useState(true)
   const { setIsFirstTime } = useGlobalContext()
   const { encryptFile } = useDocumentEncryptor()
+
+  const isBooked = checkMetaSchedulePattern(renderedMessage)
 
   useEffect(() => {
     if (params.uuid === '63926537') {
@@ -340,6 +343,7 @@ export const ThreadPage = ({
               onLike={(e) => handleReaction(itms.uuid, e)}
               onDislike={(e) => handleReaction(itms.uuid, e)}
               disableInput={disableInput}
+              isBooked={isBooked}
             />
           ))}
       </AutoScrollingDiv>

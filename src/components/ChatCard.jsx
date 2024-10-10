@@ -27,6 +27,7 @@ export const ChatCard = ({
   onDislike = (e) => {},
   className,
   disableInput,
+  isBooked,
 }) => {
   const queryClient = useQueryClient()
   const cachedData = queryClient.getQueryData('user')
@@ -315,6 +316,7 @@ export const ChatCard = ({
                 onDislike={() => onDislike(0)}
                 disable={disableInput}
                 isButtonYes={consult}
+                isBooked={isBooked}
               />
             )}
           </div>
