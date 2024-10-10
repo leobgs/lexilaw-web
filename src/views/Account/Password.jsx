@@ -18,7 +18,7 @@ export const Password = () => {
   const [errorText, setErrorText] = useState('')
   const [form, setForm] = useState({ old_password: '', new_password: '' })
   const [error, setError] = useState({ old_password: '', new_password: '' })
-  const { openAlert, closeAlert } = useGlobalContext()
+  const { openAlertSelfClosed } = useGlobalContext()
 
   const handleChangeForm = (e) => {
     const { name, value } = e
@@ -70,7 +70,7 @@ export const Password = () => {
     {
       onSettled: (data) => {
         if (data.status === 'Success') {
-          openAlert({
+          openAlertSelfClosed({
             title: t('message_password_success', { keyPrefix: 'my_account' }),
             icon: images.ic_tick,
           })

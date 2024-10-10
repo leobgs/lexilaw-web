@@ -104,7 +104,7 @@ export const Name = ({ userData }) => {
                         name='text'
                         className='w-full mt-[.5rem] mb-[4px]'
                         inputClass='font-medium !text-neutral-30 text-base	'
-                        value={lastName}
+                        value={firstName}
                         rowed="w-full"
                         isDisabled={true}
                     />

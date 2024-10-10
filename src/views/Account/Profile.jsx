@@ -161,7 +161,7 @@ export const Profile = ({ userData }) => {
                 error={error.email}
             />
             <div className="mt-3">
-                <p className='font-bold mb-2'>
+                <p className='font-bold mb-2 capitalize'>
                     {t('city_dropdown_placeholder', { keyPrefix: 'my_account' })}
                 </p>
                 <InputSelect
