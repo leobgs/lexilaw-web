@@ -16,7 +16,7 @@ import { notifyBottomError } from 'hooks/useToas'
 export const ModalDetailLawyer = ({
   data,
   show = false,
-  onHide = () => {},
+  onHide = () => { },
 }) => {
   const { t, i18n } = useTranslation()
   const [currText, setCurrText] = useState(
@@ -138,7 +138,7 @@ export const ModalDetailLawyer = ({
     ({ thread_uuid, lawyer_uuid }) =>
       getData(
         API.AVAILABLE_SCHEDULES +
-          `/${lawyer_uuid}/${thread_uuid}?page=1&limit=1`
+        `/${lawyer_uuid}/${thread_uuid}?page=1&limit=1`
       ),
     {
       onSettled: (data, error, variables) => {
@@ -216,11 +216,10 @@ export const ModalDetailLawyer = ({
         </div>
 
         <div
-          className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${
-            currText === t('results', { keyPrefix: 'my_lawyer' })
-              ? ''
-              : 'hidden'
-          }`}
+          className={`bg-neutral-60 mb-3 -mx-4 px-4 py-4 ${currText === t('results', { keyPrefix: 'my_lawyer' })
+            ? ''
+            : 'hidden'
+            }`}
         >
           <div className="line-clamp-5 text mt-20">{lawyerDescription}</div>
           <div className={`grid grid-cols-10 mt-4 gap-2`}>
@@ -273,11 +272,10 @@ export const ModalDetailLawyer = ({
       </div>
 
       <Tabs
-        className={`${
-          currText === t('results', { keyPrefix: 'my_lawyer' })
-            ? 'md:mt-4'
-            : 'mt-24 md:mt-4 mb-4'
-        } font-semibold text-sm`}
+        className={`${currText === t('results', { keyPrefix: 'my_lawyer' })
+          ? 'md:mt-4'
+          : 'mt-24 md:mt-4 mb-4'
+          } font-semibold text-sm`}
         textArr={[
           t('results', { keyPrefix: 'my_lawyer' }),
           t('schedule', { keyPrefix: 'my_lawyer' }),
@@ -379,92 +377,100 @@ export const ModalDetailLawyer = ({
           {lawyerSchedules &&
             lawyerSchedules.length > 0 &&
             lawyerSchedules.map((item, index) => (
-              <div
-                className="bg-white mb-4 p-4 rounded-2xl shadow-md"
-                key={item.created_at + 11}
-              >
-                <div className="font-bold text-2xl md:text-base md:font-semi-bold mb-3">
-                  {item.thread_name
-                    ? item.thread_name
-                    : dataDocumment[index].name_event}
-                </div>
-
-                {item.join_url ? (
-                  <>
-                    <div className="font-light">
-                      {t('schedule_at', { keyPrefix: 'my_lawyer' })}
+              <>
+                {item && item.thread_name
+                  ? (
+                  <div
+                    className="bg-white mb-4 p-4 rounded-2xl shadow-md"
+                    key={item?.created_at + 11}
+                  >
+                    <div className="font-bold text-2xl md:text-base md:font-semi-bold mb-3">
+                      {item.thread_name
+                        ? item.thread_name
+                        : dataDocumment[index].name_event}
                     </div>
-                    <div className="font-semi-bold">
-                      {formatDate(item.start_time, currentLanguage)} |&nbsp;
-                      {formatTime(item.start_time)} -{' '}
-                      {formatTime(item.end_time)}
-                    </div>
-                  </>
-                ) : (
-                  <div className="font-light">
-                    {t('no_schedule', { keyPrefix: 'my_lawyer' })}
-                  </div>
-                )}
-                <div className="bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4">
-                  {item.join_url ? (
-                    <div className="flex justify-between">
-                      <div>
-                        <p className="text-blue-dark/30 text-sm font-medium">
-                          {t('meeting_room', { keyPrefix: 'my_lawyer' })}
-                        </p>
-                        <div className="flex gap-2 items-center w-fit">
-                          <Link
-                            to={item.join_url}
-                            className="a-link w-[240px] text-ellipsis line-clamp-1 font-medium"
-                          >
-                            {item.join_url}
-                          </Link>
-                          <button
-                            className="w-4 h-4"
-                            onClick={() =>
-                              copyToClipboard({
-                                text: item.join_url,
-                                title: t('copy_to_clipboard'),
-                              })
-                            }
-                          >
-                            <img
-                              src={images.ic_copy_button}
-                              alt="copy"
-                              className="bg-transparent"
-                            />
-                          </button>
+                    {item.join_url ? (
+                      <>
+                        <div className="font-light">
+                          {t('schedule_at', { keyPrefix: 'my_lawyer' })}
                         </div>
+                        <div className="font-semi-bold">
+                          {formatDate(item.start_time, currentLanguage)} |&nbsp;
+                          {formatTime(item.start_time)} -{' '}
+                          {formatTime(item.end_time)}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="font-light">
+                        {t('no_schedule', { keyPrefix: 'my_lawyer' })}
                       </div>
-                        <Button
-                          onClick={() => window.open(item.join_url, '_blank')}
-                          label="Join Call"
-                          iconRight={images.ic_handycam}
-                          iconClassName="!w-4 !h-2.5"
-                          className="bg-blue-sky rounded-full"
-                        />
+                    )}
+                    <div div className="bg-screen -mx-4 -mb-4 px-4 py-4 rounded-b-2xl mt-4" >
+                      {item.join_url ? (
+                        <div className="flex justify-between">
+                          <div>
+                            <p className="text-blue-dark/30 text-sm font-medium">
+                              {t('meeting_room', { keyPrefix: 'my_lawyer' })}
+                            </p>
+                            <div className="flex gap-2 items-center w-fit">
+                              <Link
+                                to={item.join_url}
+                                className="a-link w-[240px] text-ellipsis line-clamp-1 font-medium"
+                              >
+                                {item.join_url}
+                              </Link>
+                              <button
+                                className="w-4 h-4"
+                                onClick={() =>
+                                  copyToClipboard({
+                                    text: item.join_url,
+                                    title: t('copy_to_clipboard'),
+                                  })
+                                }
+                              >
+                                <img
+                                  src={images.ic_copy_button}
+                                  alt="copy"
+                                  className="bg-transparent"
+                                />
+                              </button>
+                            </div>
+                          </div>
+                          <Button
+                            onClick={() => window.open(item.join_url, '_blank')}
+                            label="Join Call"
+                            iconRight={images.ic_handycam}
+                            iconClassName="!w-4 !h-2.5"
+                            className="bg-blue-sky rounded-full"
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex justify-end mt-2">
+                          <Button
+                            onClick={() => {
+                              handleAddSchedule(item.thread_uuid, item.lawyer_uuid)
+                            }}
+                            label={t('add_schedule', { keyPrefix: 'my_lawyer' })}
+                            iconRight={images.ic_calendar_white_outline}
+                            iconClassName="!w-4 !h-4"
+                            className="bg-[#1D6DF6] text-white rounded-full !font-medium"
+                          />
+                        </div>
+                      )}
                     </div>
-                  ) : (
-                    <div className="flex justify-end mt-2">
-                      <Button
-                        onClick={() => {
-                          handleAddSchedule(item.thread_uuid, item.lawyer_uuid)
-                        }}
-                        label={t('add_schedule', { keyPrefix: 'my_lawyer' })}
-                        iconRight={images.ic_calendar_white_outline}
-                        iconClassName="!w-4 !h-4"
-                        className="bg-[#1D6DF6] text-white rounded-full !font-medium"
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
+                  </div>)
+                  : (
+                    <></>)
+                }
+              </>
+            ))
+          }
           <div ref={scheduleRef} className="h-10 bg-red-500">
             {hasNextPage ? '' : ''}
           </div>
-        </div>
-      )}
-    </Modal>
+        </div >
+      )
+      }
+    </Modal >
   )
 }
