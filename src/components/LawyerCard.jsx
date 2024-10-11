@@ -1,3 +1,4 @@
+import images from 'assets/images'
 import clsx from 'clsx'
 import { formatPrice } from 'utils'
 
@@ -34,7 +35,7 @@ export const LawyerCard = ({
     >
       <div className="flex gap-2 h-24 md:flex-col lg:flex-row">
         <img
-          src={data.image_url}
+          src={!data?.image_url ? images.ic_avatar_placeholder : data.image_url}
           alt={`name-${data.first_name}`}
           className="h-10 w-10 rounded-full object-cover aspect-square"
         />
