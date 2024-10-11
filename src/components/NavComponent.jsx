@@ -182,28 +182,12 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
     } else if (collection.activeBy === null) {
       deleteThread(item.uuid)
     } else {
-      const collection_uuid = getCollectionUuid(item.uuid, collectionList?.data)
-
       deleteThreadCollection({
         thread_uuid: item.uuid,
-        collection_uuid: collection_uuid,
+        collection_uuid: collection.collection_from,
       })
     }
     setShow1st(false)
-  }
-
-  const getCollectionUuid = (itemUuid, data) => {
-    for (const collection of data) {
-      const foundThread = collection.threads.find(
-        (thread) => thread.uuid === itemUuid
-      )
-
-      if (foundThread) {
-        return foundThread.collection_uuid
-      }
-    }
-
-    return null
   }
 
   return (
@@ -386,16 +370,16 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
               <div className="text-[#121212] text-xs">{items.name}</div>
             </div>
           ))}
-        <div className="flex justify-start gap-2 items-center">
+        <div
+          className="flex justify-start gap-2 items-center"
+          onClick={() => setShowModalCreateCollection(true)}
+        >
           <img
             src={images.ic_new_collection}
             alt="ic_folder_colection"
             className="h-3.5 w-4"
           />
-          <div
-            className="text-[#121212] text-xs"
-            onClick={() => setShowModalCreateCollection(true)}
-          >
+          <div className="text-[#121212] text-xs">
             {t('new_collection', { keyPrefix: 'nav_component' })}
           </div>
         </div>
