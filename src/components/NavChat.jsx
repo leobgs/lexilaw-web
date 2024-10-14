@@ -690,7 +690,7 @@ export const NavChat = ({
               className="font-semi-bold text-error-base px-6 bg-neutral-60 -mx-1 py-2 text-center rounded-lg text-base mt-8"
               onClick={onLogout}
             >
-              Logout
+              {t('chat.profile_option.logout')}
             </div>
           </div>
         </div>

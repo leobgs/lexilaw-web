@@ -47,6 +47,7 @@ export const ThreadPage = ({
   const { t } = useTranslation()
   const [messageUUIDtoRespond, setMessageUUIDtoRespond] = useState(null)
   const [messageUUID, setMessageUUID] = useState(null)
+  const [resendMessage, setResendMessage] = useState(null)
   const [isScrolled, setScrolled] = useState(true)
   const { setIsFirstTime } = useGlobalContext()
   const { encryptFile } = useDocumentEncryptor()
@@ -99,6 +100,9 @@ export const ThreadPage = ({
           ])
         }
       },
+      onMutate: () => {
+        setDisableInput(true)
+      },
     }
   )
 
@@ -129,6 +133,13 @@ export const ThreadPage = ({
           setRenderedMessage([...tmp])
           setResponseThreadDetail(tmp)
           // setRenderedMessage((prevMessages) => [...prevMessages, ...tmp])
+          if (tmp.length >= 2) {
+            const lastMessage = tmp[tmp.length - 2]
+            setResendMessage({
+              message: lastMessage?.message ?? '',
+              // file: lastMessage?.url_file ?? '', sementara belum nemu solusi untuk menyimpan doc, jadi saya matikan dulu, kalau bisa mendowload lewat S3, mungkin bisa
+            })
+          }
         } catch (err) {
           console.error('Parsing error', err)
         }
@@ -278,7 +289,7 @@ export const ThreadPage = ({
       notifyError('Encryption failed:', error)
     }
 
-    if (e.file && currKey) {
+    if (e?.file && currKey) {
       try {
         encryptedFile = await encryptFile(e.file, currKey)
       } catch (error) {
@@ -316,6 +327,10 @@ export const ThreadPage = ({
     }
   }
 
+  const handleResendChat = () => {
+    handleAddChat(resendMessage)
+  }
+
   return (
     <div
       className={clsx(
@@ -344,13 +359,17 @@ export const ThreadPage = ({
               onDislike={(e) => handleReaction(itms.uuid, e)}
               disableInput={disableInput}
               isBooked={isBooked}
+              handleResendChat={handleResendChat}
             />
           ))}
       </AutoScrollingDiv>
 
       <div>
         <InputChat
-          onChange={(e) => handleAddChat(e)}
+          onChange={(e) => {
+            setResendMessage(e)
+            handleAddChat(e)
+          }}
           className={`${hasFile ? '!md:w-full' : 'md:w-3/4'} w-full md:ml-2`}
           disable={disableInput}
         />
