@@ -99,6 +99,9 @@ export const ThreadPage = ({
           ])
         }
       },
+      onMutate: () => {
+        setDisableInput(true)
+      },
     }
   )
 

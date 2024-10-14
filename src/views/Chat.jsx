@@ -202,6 +202,9 @@ export const Chat = () => {
           notifyError(datas?.message)
         }
       },
+      onMutate: () => {
+        setDisableInput(true)
+      },
     }
   )
 
