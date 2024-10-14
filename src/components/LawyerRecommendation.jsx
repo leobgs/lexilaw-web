@@ -113,7 +113,11 @@ export const LawyerRecommendation = ({
           >
             <div>
               <img
-                src={selectedLawyer?.image_url}
+                src={
+                  selectedLawyer?.image_url
+                    ? selectedLawyer.image_url
+                    : images.ic_avatar_placeholder
+                }
                 alt={`lawyer-${selectedLawyer?.first_name}`}
                 className="rounded-full mx-auto w-24 h-24 mt-28"
               />
@@ -199,7 +203,11 @@ export const LawyerRecommendation = ({
               }}
             />
             <img
-              src={selectedLawyer?.image_url}
+              src={
+                selectedLawyer?.image_url
+                  ? selectedLawyer.image_url
+                  : images.ic_avatar_placeholder
+              }
               alt={`lawyer-${selectedLawyer?.first_name}`}
               className="rounded-full mx-auto w-24 h-24"
             />

@@ -10,7 +10,7 @@ import { notifyError } from 'hooks/useToas'
 import { ScheduleVariant } from './Chat/ChatResponse/ScheduleVariant'
 import { isValidJson } from 'utils/isJsonChec'
 import { useGlobalContext } from 'hooks/context'
-import { json, useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useGetLawyerRecommendation } from 'hooks/useGetLawyerRecommendation'
 
 export const ChatRespond = ({
@@ -37,7 +37,9 @@ export const ChatRespond = ({
   const [isSpecificWords, setSpecificWord] = useState(false)
   const [currLawyer, setLawyer] = useState(null)
   const [allLawyer, setAllLawyer] = useState([])
+  const [lawyerUUIDs, setLawyerUUIDs] = useState([])
   const navigate = useNavigate()
+  const { uuid } = useParams()
 
   const { mutateGetLaywerRecommendation, isPendingGetLawyerRecommendation } =
     useGetLawyerRecommendation(item?.thread_uuid)
@@ -49,8 +51,10 @@ export const ChatRespond = ({
 
     if (isValidJson(possibleJson)) {
       const parsedLawyers = JSON.parse(possibleJson)
-      setLawyer(parsedLawyers[0])
-      setAllLawyer(parsedLawyers)
+      const uuidsLawyer = parsedLawyers?.map((item) => item.uuid) ?? []
+      setLawyerUUIDs(uuidsLawyer)
+      // setLawyer(parsedLawyers[0])
+      // setAllLawyer(parsedLawyers)
       setSpecificWord(true)
     } else {
       setSpecificWord(false)
@@ -66,24 +70,24 @@ export const ChatRespond = ({
   }, [allLawyer, hideButtonLawyerRecomendation, showButtonLawyerRecomendation])
 
   useQuery(
-    ['lawyer_recomendation'],
+    ['lawyer_recomendation', uuid, JSON.stringify(lawyerUUIDs)],
     () =>
       getData(API.LAWYER_RECOMMENDATION, {
-        lawyer_uuid: [
-          '71059093-d800-46d5-89d7-a5f5848a9272',
-          '71059093-d800-46d5-89d7-a5f5848a9271',
-          'ce291454-e0e6-4cff-b78f-81fbc2c80f36',
-        ],
+        lawyer_uuid: lawyerUUIDs,
       }),
     {
-      enabled: item.type === 'recommendation',
+      enabled: lawyerUUIDs.length > 0 && Boolean(uuid),
       onSettled: (data) => {
         if (data.status === 'Success') {
           setDataLawyer(data.data)
+          setAllLawyer(data.data)
+          setLawyer(data.data[0])
         } else {
           notifyError(data?.message)
         }
       },
+      staleTime: 0,
+      keepPreviousData: false,
     }
   )
 
@@ -297,83 +301,93 @@ export const ChatRespond = ({
               </div>
             )}
 
-            {allLawyer?.length !== 0 && (
-              <div className="w-full">
-                <div
-                  className={`bg-[#EFEDE8] p-4 rounded-lg md:w-2/3 flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md cursor-pointer select-none ${
-                    isBooked && 'hover:cursor-not-allowed'
-                  }`}
-                  onClick={() => {
-                    if (!isBooked) {
-                      setLawyerRecommendation(true)
-                    }
-                  }}
-                >
-                  <div className="flex items-center">
-                    <img
-                      src={currLawyer?.image_url ? currLawyer.image_url : images.ic_avatar_placeholder}
-                      alt={'lawyer'}
-                      className="h-9 w-9 rounded-full"
-                    />
-                    <div className="ml-3">
-                      <div className="flex items-center">
-                        <div className="flex flex-col">
-                          <p className="text-secondary-base font-bold">
-                            {currLawyer?.first_name} {currLawyer?.last_name}
-                          </p>
-                          <span className="font-regular text-sm text-[#969090]">
-                            {currLawyer?.city_name}
-                          </span>
+            {isValidJson(
+              item.message.substring(item.message.lastIndexOf('\n') + 1).trim()
+            ) &&
+              allLawyer?.length !== 0 && (
+                <div className="w-full">
+                  <div
+                    className={`bg-[#EFEDE8] p-4 rounded-lg md:w-2/3 flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md cursor-pointer select-none ${
+                      isBooked && 'hover:cursor-not-allowed'
+                    }`}
+                    onClick={() => {
+                      if (!isBooked) {
+                        setLawyerRecommendation(true)
+                      }
+                    }}
+                  >
+                    <div className="flex items-center">
+                      <img
+                        src={
+                          currLawyer?.image_url
+                            ? currLawyer.image_url
+                            : images.ic_avatar_placeholder
+                        }
+                        alt={'lawyer'}
+                        className="h-9 w-9 rounded-full"
+                      />
+                      <div className="ml-3">
+                        <div className="flex items-center">
+                          <div className="flex flex-col">
+                            <p className="text-secondary-base font-bold">
+                              {currLawyer?.first_name} {currLawyer?.last_name}
+                            </p>
+                            <span className="font-regular text-sm text-[#969090]">
+                              {currLawyer?.city_name}
+                            </span>
+                          </div>
+                          {allLawyer?.length > 0 && (
+                            <div className="ml-3 font-bold text-[#5F5E5E] hidden md:inline-block">
+                              +{allLawyer?.length} more
+                            </div>
+                          )}
                         </div>
                         {allLawyer?.length > 0 && (
-                          <div className="ml-3 font-bold text-[#5F5E5E] hidden md:inline-block">
+                          <div className="font-bold text-[#5F5E5E] md:hidden">
                             +{allLawyer?.length} more
                           </div>
                         )}
                       </div>
-                      {allLawyer?.length > 0 && (
-                        <div className="font-bold text-[#5F5E5E] md:hidden">
-                          +{allLawyer?.length} more
+                    </div>
+                    <img src={images.ic_arrow_cornering} alt="" />
+                  </div>
+
+                  <div className="">
+                    <div className="mb-2 mt-4 flex flex-row justi gap-2 border-t border-t-[#D8D8D8] pt-4 md:border-none md:pt-0">
+                      <button
+                        className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-medium !h-[2rem] flex items-center text-xs xs:text-sm px-2 select-none disabled:hover:cursor-not-allowed disabled:opacity-50`}
+                        onClick={() => {
+                          navigate('/book-lawyer', { state: currLawyer })
+                          bookingLawyerReducer(['selected_lawyer'], currLawyer)
+                        }}
+                        disabled={isBooked}
+                      >
+                        <img
+                          src={images.ic_arrow_cornering}
+                          alt="place order"
+                        />
+                        <div>
+                          {t('place_an_order', { keyPrefix: 'chat_respond' })}
                         </div>
-                      )}
+                      </button>
+
+                      <button
+                        className="border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-medium !h-[2rem] flex items-center text-xs xs:text-sm px-2 select-none disabled:hover:cursor-not-allowed disabled:opacity-50"
+                        onClick={() => setLawyerRecommendation(true)}
+                        disabled={isBooked}
+                      >
+                        <img
+                          src={images.ic_change_style_lang}
+                          alt="place order"
+                        />
+                        <div>
+                          {t('another_option', { keyPrefix: 'chat_respond' })}
+                        </div>
+                      </button>
                     </div>
                   </div>
-                  <img src={images.ic_arrow_cornering} alt="" />
                 </div>
-
-                <div className="">
-                  <div className="mb-2 mt-4 flex flex-row justi gap-2 border-t border-t-[#D8D8D8] pt-4 md:border-none md:pt-0">
-                    <button
-                      className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-medium !h-[2rem] flex items-center text-xs xs:text-sm px-2 select-none disabled:hover:cursor-not-allowed disabled:opacity-50`}
-                      onClick={() => {
-                        navigate('/book-lawyer', { state: currLawyer })
-                        bookingLawyerReducer(['selected_lawyer'], currLawyer)
-                      }}
-                      disabled={isBooked}
-                    >
-                      <img src={images.ic_arrow_cornering} alt="place order" />
-                      <div>
-                        {t('place_an_order', { keyPrefix: 'chat_respond' })}
-                      </div>
-                    </button>
-
-                    <button
-                      className="border-[#E0DBD1] bg-white border rounded-3xl gap-2 !py-0 !font-medium !h-[2rem] flex items-center text-xs xs:text-sm px-2 select-none disabled:hover:cursor-not-allowed disabled:opacity-50"
-                      onClick={() => setLawyerRecommendation(true)}
-                      disabled={isBooked}
-                    >
-                      <img
-                        src={images.ic_change_style_lang}
-                        alt="place order"
-                      />
-                      <div>
-                        {t('another_option', { keyPrefix: 'chat_respond' })}
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+              )}
           </div>
         )
     }
