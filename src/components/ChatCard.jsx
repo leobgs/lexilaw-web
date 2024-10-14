@@ -28,6 +28,7 @@ export const ChatCard = ({
   className,
   disableInput,
   isBooked,
+  handleResendChat,
 }) => {
   const queryClient = useQueryClient()
   const cachedData = queryClient.getQueryData('user')
@@ -317,6 +318,7 @@ export const ChatCard = ({
                 disable={disableInput}
                 isButtonYes={consult}
                 isBooked={isBooked}
+                handleResendChat={handleResendChat}
               />
             )}
           </div>

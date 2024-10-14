@@ -23,6 +23,7 @@ export const ChatRespond = ({
   onLike = () => {},
   onDislike = () => {},
   isBooked,
+  handleResendChat,
 }) => {
   const {
     bookingLawyerReducer,
@@ -431,7 +432,14 @@ export const ChatRespond = ({
             </div>
 
             {(isLast || item.type === 'recommendation') && (
-              <div className="bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm cursor-pointer">
+              <div
+                className="bg-neutral-50 rounded-full border border-[#E7E7E7] flex justify-center shadow-sm cursor-pointer"
+                onClick={() => {
+                  // Saya ingin mengirim retry atau pesan ulang dari pesan sebelummnya di sini
+                  // alert('Mengirim ulang pesan sebelumnya')
+                  handleResendChat()
+                }}
+              >
                 <img
                   src={images.ic_redo}
                   alt="redo"
