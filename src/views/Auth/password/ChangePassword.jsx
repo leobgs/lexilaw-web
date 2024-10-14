@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AuthCard from 'components/Card/AuthCard'
 import { InputPassword } from 'components/InputPassword'
 import { Button } from 'components'
@@ -11,13 +11,14 @@ import { API } from 'config/api'
 import { notifyError } from 'hooks/useToas'
 
 export const ChangePassword = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const [form, setForm] = useState({ password: '', confirm_password: '' })
   const [error, setError] = useState({ password: '', confirm_password: '' })
   const [isSuccess, setSuccess] = useState(false)
   const location = useLocation()
   const uuid = location.state
+  const isEn = i18n.language === 'en'
 
   const { mutate: changePassword } = useMutation(
     (form) => putData(`${API.RESET_PASSWORD}/${uuid}`, form),
@@ -33,7 +34,8 @@ export const ChangePassword = () => {
   )
 
   const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[A-Z]).{8,}$/
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/
     return passwordRegex.test(password)
   }
 
@@ -42,9 +44,16 @@ export const ChangePassword = () => {
       case 'password':
         return validatePassword(value)
           ? ''
-          : 'Invalid password must contain at least 1 upper case characters and 8 characters minimum'
+          : t('validate_password', { keyPrefix: 'auth.register' })
       case 'confirm_password':
-        return form.password === value ? '' : 'Password not match'
+        if (!validatePassword(value)) {
+          return t('validate_password', { keyPrefix: 'auth.register' })
+        }
+        return form.password === value
+          ? ''
+          : t('password_match', {
+              keyPrefix: 'auth.register',
+            })
       default:
         return ''
     }
@@ -89,7 +98,7 @@ export const ChangePassword = () => {
               value={form.password}
               error={error.password}
               onChange={handleChangeForm}
-              placeholder="Kata Sandi Baru"
+              placeholder={isEn ? 'New Password' : 'Kata Sandi Baru'}
               className="mb-4 mt-6"
             />
 
@@ -98,7 +107,9 @@ export const ChangePassword = () => {
               value={form.confirm_password}
               error={error.confirm_password}
               onChange={handleChangeForm}
-              placeholder="Konfirmasi Kata Sandi Baru"
+              placeholder={
+                isEn ? 'Confirm New Password' : 'Konfirmasi Kata Sandi Baru'
+              }
             />
           </>
 
@@ -108,7 +119,10 @@ export const ChangePassword = () => {
             iconRight={images.chevron_right}
             iconClassName="absolute right-4"
             disabled={
-              !form.confirm_password || form.confirm_password !== form.password
+              !form.confirm_password ||
+              form.confirm_password !== form.password ||
+              error.confirm_password ||
+              error.password
             }
             className="btn-secondary-hover w-full rounded-full relative mt-6 !text-[#ffffff]/70 !font-medium"
           />
