@@ -10,7 +10,7 @@ import { notifyError } from 'hooks/useToas'
 import { ScheduleVariant } from './Chat/ChatResponse/ScheduleVariant'
 import { isValidJson } from 'utils/isJsonChec'
 import { useGlobalContext } from 'hooks/context'
-import { useNavigate } from 'react-router-dom'
+import { json, useNavigate } from 'react-router-dom'
 import { useGetLawyerRecommendation } from 'hooks/useGetLawyerRecommendation'
 
 export const ChatRespond = ({
@@ -311,8 +311,8 @@ export const ChatRespond = ({
                 >
                   <div className="flex items-center">
                     <img
-                      src={currLawyer?.image_url}
-                      alt="lawyer"
+                      src={currLawyer?.image_url ? currLawyer.image_url : images.ic_avatar_placeholder}
+                      alt={'lawyer'}
                       className="h-9 w-9 rounded-full"
                     />
                     <div className="ml-3">
