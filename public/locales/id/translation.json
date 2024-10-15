@@ -26,6 +26,9 @@
       "input_password_first": "Masukkan kata sandi terlebih dahulu",
       "city_not_found": "Kota tidak dapat ditemukan",
       "error_messages": {
+        "password_characters": "Password Minimum 8 characters",
+        "password_not_empty": "Password tidak boleh kosong",
+        "incorrect_email": "Format Email Tidak sesuai",
         "image_error": "Gambar tidak sesuai"
       },
       "otp": {
@@ -239,7 +242,6 @@
     "whatsapp_activation_header": "Aktivasi WhatsApp",
     "whatsapp_activation_description": "Kamu dapat mengakses Lexi AI kapanpun dengan smartphone Kamu.",
     "whatsapp_activation_send_otp": "Kirim",
-
     "whatsapp_otp_header": "OTP Terkirim Ke",
     "whatsapp_otp_change_button": "Ganti",
     "whatsapp_otp_placeholder": "Masukkan 6 digit angka",

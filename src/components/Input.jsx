@@ -20,6 +20,7 @@ export const Input = forwardRef(
       iconClassName,
       isDisabled,
       onChange,
+      classNameError,
       onKeyEnter,
     },
     ref
@@ -90,7 +91,7 @@ export const Input = forwardRef(
                 className={`!rounded-full border-2 bg-gray-50 !border-gray-100 focus:outline-none focus:ring-none ring-none w-full ${
                   icon ? 'pl-12 pr-3 py-3' : 'p-3'
                 } ${
-                  error ? '!border-[#FF7878] !bg-[#FFF5DB] text-[#DB0000]' : ''
+                  error ? '!border-[#DB0000] !bg-[#FFF5DB] text-[#DB0000]' : ''
                 }
             ${inputClass ? inputClass : ''}
             ${rowed ? 'border bg-white' : 'border-none'}
@@ -111,7 +112,7 @@ export const Input = forwardRef(
         )}
 
         {error && (
-          <div className="flex items-center mt-1 ml-1">
+          <div className={`flex items-center mt-1 ml-1 ${classNameError}`}>
             <div className="text-error-base text-xs ml-1">{error}</div>
           </div>
         )}

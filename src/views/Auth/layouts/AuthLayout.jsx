@@ -49,7 +49,7 @@ export default function AuthLayout() {
 
   const handleBackLogin = () => {
     location.pathname === '/auth/login' ||
-    location.pathname === '/auth/prechanged-password'
+      location.pathname === '/auth/prechanged-password'
       ? navigate('/auth')
       : navigate(-1)
   }
@@ -205,7 +205,7 @@ export default function AuthLayout() {
       <AuthLoader />
 
       {isOnMobileSize && isOnAuthPage && (
-        <div className="navBar border-b-2 border-green-900 md: w-full">
+        <div className="navBar border-b-2 border-green-900 z-10 relative md: w-full">
           <Button
             label={handleLabelHeader(location.pathname)}
             iconLeft={images.chevron_left}
@@ -226,16 +226,16 @@ export default function AuthLayout() {
         <div className="grid mt-4 md:grid-cols-2 md:gap-5 xl:gap-12 2xl:gap-32">
           {(!isOnMobileSize ||
             (isOnMobileSize && location.pathname === '/auth')) && (
-            <div className="desc flex md:!flex flex-col justify-center">
-              <h1 className="font-bold text-5xl md:text-7xl text-white text-center md:text-start font-futura-bold">
-                {t('tagline')}
-              </h1>
+              <div className="desc flex md:!flex flex-col justify-center">
+                <h1 className="font-bold text-5xl md:text-7xl text-white text-center md:text-start font-futura-bold">
+                  {t('tagline')}
+                </h1>
 
-              <p className="pt-[0.5rem] text-white text-center md:text-start font-light text-sm my-6">
-                {t('sub_tagline')}
-              </p>
-            </div>
-          )}
+                <p className="pt-[0.5rem] text-white text-center md:text-start font-light text-sm my-6">
+                  {t('sub_tagline')}
+                </p>
+              </div>
+            )}
 
           <div>
             {(isOnAuthPage && isOnMobileSize) || !isOnMobileSize ? (
