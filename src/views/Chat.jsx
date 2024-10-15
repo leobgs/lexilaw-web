@@ -579,6 +579,7 @@ export const Chat = () => {
           headerText={headerText}
           userDetail={userDetail}
           onExpand={(e) => handleOnExpand(e)}
+          lawyerCount={userDetail?.count_lawyer ?? 0}
         />
 
         <main className="md:h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border border-neutral-20 border-opacity-80 h-[calc(100%-76px)]">
@@ -667,12 +668,19 @@ export const Chat = () => {
                     </NavLink>
                     <div className="flex justify-between items-center my-2">
                       <div
-                        className="px-4 text-black-darker cursor-pointer"
+                        className="px-4 text-black-darker cursor-pointer flex justify-between w-full items-center"
                         onClick={() => navigate('/my-lawyer')}
                       >
-                        {t('my_lawyer', {
-                          keyPrefix: 'chat.profile_option',
-                        })}
+                        <span>
+                          {' '}
+                          {t('my_lawyer', {
+                            keyPrefix: 'chat.profile_option',
+                          })}
+                        </span>
+
+                        <div className="py-0.5 px-2.5 bg-error-light font-semi-bold text-sm mr-2 rounded-full text-white flex items-center justify-center">
+                          {userDetail?.count_lawyer ?? 0}
+                        </div>
                       </div>
                     </div>
                   </div>
