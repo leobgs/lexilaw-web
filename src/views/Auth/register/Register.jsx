@@ -160,12 +160,12 @@ export const Register = () => {
         return validatePassword(value)
           ? setError({ ...error, password: '' })
           : setError({
-              ...error,
-              password_confirm: t('password_match', {
-                keyPrefix: 'auth.register',
-              }),
-              password: t('validate_password', { keyPrefix: 'auth.register' }),
-            })
+            ...error,
+            password_confirm: t('password_match', {
+              keyPrefix: 'auth.register',
+            }),
+            password: t('validate_password', { keyPrefix: 'auth.register' }),
+          })
       }
     } else if (name === 'password_confirm') {
       if (registerForm.password) {
@@ -276,6 +276,7 @@ export const Register = () => {
           rowed
           placeholder={t('email', { keyPrefix: 'auth.register' })}
           error={error.email}
+          classNameError="!ms-auto"
         />
 
         <div className="flex flex-wrap md:flex-nowrap gap-4 align-top items-start">
@@ -307,6 +308,7 @@ export const Register = () => {
             value={registerForm.password_confirm}
             onChange={handleChangeForm}
             error={error.password_confirm}
+            classNameError="!justify-end"
           />
         </div>
 

@@ -113,8 +113,9 @@ export const ForgotPassword = () => {
             value={email}
             onChange={handleChangeForm}
             className="w-full rounded-full flex-wrap"
+            classNameError="!mx-auto"
             inputClass={clsx(
-              '!border-secondary-logo focus:outline-secondary-logo text-base'
+              '!border-secondary-logo focus:outline-secondary-logo text-base '
             )}
             rowed
             placeholder={t('email', { keyPrefix: 'auth.register' })}

@@ -21,6 +21,8 @@ export const Login = () => {
   const [errorText, setErrorText] = useState('')
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState({ email: '', password: '' })
+  const [errorInput, setErrorInput] = useState('')
+  const [errorEmail, setErrorEmail] = useState('')
 
   const { mutate: loginInput, isLoading: loadingLogin } = useMutation(
     (form) => getData(API.LOGIN, form),
@@ -33,9 +35,8 @@ export const Login = () => {
           })
           storage.setItem(StorageKey.IS_LOGIN, true)
           openAlert({
-            title: `${t('auth.login.welcome_message')},${
-              data?.message?.split(',')[1]
-            }`,
+            title: `${t('auth.login.welcome_message')},${data?.message?.split(',')[1]
+              }`,
             icon: images.ai_profile_thumbnail,
           })
           let timeOut = setTimeout(() => {
@@ -54,6 +55,7 @@ export const Login = () => {
             })
           } else {
             setErrorText(data?.message)
+            setErrorInput(true)
           }
         }
       },
@@ -64,11 +66,11 @@ export const Login = () => {
     const newError = { ...error }
 
     if (form.password.length < 7) {
-      newError.password = 'Minimal Password 8 karakter'
+      newError.password = t('auth.register.error_messages.password_characters')
     } else if (!form.password) {
-      newError.password = 'Password tidak boleh kosong'
+      newError.password = t('auth.register.error_messages.password_not_empty')
     } else if (!validateEmail(form.email)) {
-      newError.email = 'Format Email Tidak sesuai'
+      newError.email = t('auth.register.error_messages.incorrect_email')
     }
     return newError
   }
@@ -78,6 +80,7 @@ export const Login = () => {
     return regex.test(email)
   }
 
+
   const onSubmit = () => {
     const findErrors = validationForm()
     if (Object.values(findErrors).some((err) => err !== '')) {
@@ -86,14 +89,23 @@ export const Login = () => {
       loginInput(form)
     }
     setErrorText('')
+    setErrorInput('')
   }
 
   const handleChangeForm = (e) => {
     const { name, value } = e
     setErrorText('')
+    setErrorInput('')
     if (name) {
       setForm({ ...form, [name]: value })
       setError({ email: '', password: '' })
+    }
+    if (name === 'email') {
+      if (!validateEmail(form.email)) {
+        setErrorEmail(t('auth.register.error_messages.incorrect_email'));
+      } else {
+        setErrorEmail('');
+      }
     }
   }
 
@@ -108,28 +120,34 @@ export const Login = () => {
         value={form.email}
         onChange={handleChangeForm}
         className="w-full rounded-full flex flex-col !items-start"
-        inputClass="!border-secondary-logo focus:outline-secondary-logo font-medium"
+        inputClass={`!border-secondary-logo focus:outline-secondary-logo font-medium  ${errorInput || errorEmail ? '!border-[#DB0000] !bg-[#FFF5DB] text-[#DB0000]' : ''} `}
         rowed
         placeholder={t('email', { keyPrefix: 'auth.register' })}
-        error={error.email}
+        error={error.email || errorEmail}
+        classNameError="!ms-auto"
       />
 
       <InputPassword
         name="password"
-        className="w-full mt-[1.5rem] mb-[4px]"
-        inputClassName="!border-secondary-logo focus:outline-secondary-logo font-medium"
+        className="w-full mt-[1.5rem] mb-[4px] justify-end"
+        inputClassName={`!border-secondary-logo focus:outline-secondary-logo font-medium  ${errorInput ? '!border-[#DB0000] !bg-[#FFF5DB] text-[#DB0000]' : ''}`}
         placeholder={t('password', { keyPrefix: 'auth.register' })}
         value={form.password}
         onChange={handleChangeForm}
         error={error.password}
+        classNameError="!justify-end"
       />
 
       <div
-        className="font-bold text-gray-900 ms-[16px] cursor-pointer text-sm"
+        className="font-bold text-gray-900 ms-[16px] mb-3 cursor-pointer text-sm"
         onClick={() => navigate('/auth/forgot-password')}
       >
         {t('forgot_password', { keyPrefix: 'auth.register' })}
       </div>
+
+      {errorText && (
+        <div className="text-error-base mt-3 text-xs text-center mb-1">{errorText}</div>
+      )}
 
       <Button
         label={'Login'}
@@ -139,19 +157,15 @@ export const Login = () => {
         disabled={
           !form.password ||
           !form.email ||
-          !validateEmail(form.email) ||
-          loadingLogin
+          errorEmail ||
+          loadingLogin || errorText
         }
         className={
-          'btn-secondary-hover w-full mt-[2rem] mb-[1rem] rounded-full font-medium relative'
+          'btn-secondary-hover w-full mb-[1rem] rounded-full font-medium relative'
         }
       />
 
-      {errorText && (
-        <div className="bg-error-base bg-opacity-20 border-1 border-error-base border rounded-lg w-fit mb-4">
-          <p className="font-semi-bold text-error-base px-2">{errorText}</p>
-        </div>
-      )}
+
 
       <p className="text-center font-medium text-sm hidden md:inline-block">
         {t('dont_have_an_account_yet', { keyPrefix: 'auth.register' })}

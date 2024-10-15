@@ -26,6 +26,9 @@
       "input_password_first": "Input password first",
       "city_not_found": "The city could not be found",
       "error_messages": {
+        "password_characters": "Password Minimum 8 characters",
+        "password_not_empty": "The password cannot be empty",
+        "incorrect_email": "Incorrect Email Format",
         "image_error": "Incorrect image format"
       },
       "otp": {
@@ -239,7 +242,6 @@
     "whatsapp_activation_header": "WhatsApp Activation",
     "whatsapp_activation_description": "You can access Lexi AI anytime with your smartphone.",
     "whatsapp_activation_send_otp": "Submit",
-
     "whatsapp_otp_header": "OTP Has Been Sent to",
     "whatsapp_otp_change_button": "Change",
     "whatsapp_otp_placeholder": "Enter the 6 digit code",
