@@ -37,7 +37,7 @@ import { WhatsAppFitBIt } from 'components/WhatsAppFitBit'
 import { useDocumentEncryptor } from 'hooks/useDocumentEncryptor'
 
 export const Chat = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const storage = new LocalStorage()
   const navigate = useNavigate()
   const {
@@ -545,7 +545,7 @@ export const Chat = () => {
   }
 
   return (
-    <div className="bg-primary-base w-full h-screen flex flex-col">
+    <div className="bg-primary-base w-full h-[100dvh] flex flex-col">
       <div className="md:pr-4 md:pl-2 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1">
         <NavChat
           isDisable={!showChatDocument}
@@ -779,12 +779,13 @@ export const Chat = () => {
               <QuestionCard
                 data={defaultQuestion}
                 onClick={(e) => handleAddChat(e)}
-                className="mt-20"
+                className="md:mt-20 mt-auto"
               />
               <div className="relative select-text mb-2 mt-1 justify-center">
                 <InputChat
                   onChange={(e) => handleAddChat(e)}
                   disable={disableInput}
+                  key={i18n.language}
                 />
               </div>
             </div>
