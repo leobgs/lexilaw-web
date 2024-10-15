@@ -64,7 +64,7 @@ export const AppleSignInButton = ({ className, callback }) => {
     <Button
       label={t('social_apple', { keyPrefix: 'auth' })}
       iconLeft={images.apple}
-      iconClassName={'w-[20px] h-[20px] me-2'}
+      iconClassName={' me-2'}
       className={className}
       onClick={handleAppleSignIn}
     />
