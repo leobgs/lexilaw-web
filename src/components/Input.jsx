@@ -20,6 +20,7 @@ export const Input = forwardRef(
       iconClassName,
       isDisabled,
       onChange,
+      onKeyEnter,
       classNameError,
       onKeyEnter,
     },
