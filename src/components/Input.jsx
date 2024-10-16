@@ -22,7 +22,6 @@ export const Input = forwardRef(
       onChange,
       onKeyEnter,
       classNameError,
-      onKeyEnter,
     },
     ref
   ) => {
