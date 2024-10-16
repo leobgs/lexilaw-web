@@ -105,7 +105,7 @@ body {
 }
 
 .content {
-  @apply overflow-scroll bg-screen h-screen;
+  @apply overflow-scroll bg-screen h-[100dvh];
 }
 
 .bg-selected-lawyer {

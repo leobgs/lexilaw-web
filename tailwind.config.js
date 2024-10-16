@@ -65,7 +65,7 @@ module.exports = {
         80: '#EFEDE8',
       },
       active: '#178EE9',
-      error: { base: '#DB0707', lighter: '#CF1C1C' },
+      error: { base: '#DB0707', lighter: '#CF1C1C', light: '#CC6060' },
       success: '#06B73A',
       screen: '#F8F7F6',
       green: {
@@ -87,8 +87,8 @@ module.exports = {
         300: '#f1c232',
       },
       slate: {
-        10: '#CBCBCB'
-      }
+        10: '#CBCBCB',
+      },
     },
     fontFamily: {
       light: 'Inter Light',

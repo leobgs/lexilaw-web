@@ -44,7 +44,7 @@ export const ThreadPage = ({
   const queryClient = useQueryClient()
   const [disableInput, setDisableInput] = useState(false)
   const [renderedMessage, setRenderedMessage] = useState(null)
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [messageUUIDtoRespond, setMessageUUIDtoRespond] = useState(null)
   const [messageUUID, setMessageUUID] = useState(null)
   const [resendMessage, setResendMessage] = useState(null)
@@ -372,6 +372,7 @@ export const ThreadPage = ({
           }}
           className={`${hasFile ? '!md:w-full' : 'md:w-3/4'} w-full md:ml-2`}
           disable={disableInput}
+          key={i18n.language}
         />
       </div>
     </div>

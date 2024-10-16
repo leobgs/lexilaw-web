@@ -172,7 +172,7 @@ export const InputChat = ({ onChange, className, disable }) => {
             }}
             onSubmit={handleSubmitButton}
             disable={disable}
-            className="max-h-20 w-full focus:outline-none bg-[#FCFAF7] md:bg-opacity-0 text-sm"
+            className="max-h-28 w-full focus:outline-none bg-[#FCFAF7] md:bg-opacity-0 text-sm"
             placeholder={`${
               disable
                 ? t('Wait_for_lexi_to_answer', { keyPrefix: 'input_chat' })
