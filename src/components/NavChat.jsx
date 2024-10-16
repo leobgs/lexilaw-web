@@ -604,7 +604,7 @@ export const NavChat = ({
                     keyPrefix: 'chat.profile_option',
                   })}
                 </div>
-                <div className="py-0.5 px-4 bg-error-light text-base mr-2 rounded-full text-white flex items-center justify-center">
+                <div className="py-0.5 px-4 bg-error-light mr-2 rounded-full text-white flex items-center justify-center">
                   {lawyerCount}
                 </div>
               </div>
