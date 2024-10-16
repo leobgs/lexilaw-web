@@ -53,7 +53,7 @@ const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className,
         onChange={handleChange}
         placeholder={placeholder}
         disabled={disable}
-        className={`max-h-20 w-full focus:outline-none md:bg-opacity-0 bg-[#FCFAF7] text-sm ${
+        className={`max-h-28 w-full focus:outline-none md:bg-opacity-0 bg-[#FCFAF7] text-sm ${
           disable ? 'md:bg-neutral-10' : ''
         }`}
         rows={1}

@@ -32,6 +32,7 @@ export const NavChat = ({
   onDeleted = () => {},
   onExpand = () => {},
   onClickFile = () => {},
+  lawyerCount,
 }) => {
   const queryClient = useQueryClient()
   const { collection, collectionClick, resetPhoneNumber } = useGlobalContext()
@@ -602,8 +603,8 @@ export const NavChat = ({
                     keyPrefix: 'chat.profile_option',
                   })}
                 </div>
-                <div className="py-0.5 px-2.5 bg-error-lighter text-base mr-2 rounded-full text-white flex items-center justify-center">
-                  1
+                <div className="py-0.5 px-2.5 bg-error-light text-base mr-2 rounded-full text-white flex items-center justify-center">
+                  {lawyerCount}
                 </div>
               </div>
             </div>
