@@ -30,7 +30,7 @@ export const QuestionCard = ({ data, onClick, className }) => {
         {data?.right?.map((item, index) => (
           <div
             key={index}
-            className={`text-black-lightest px-2 py-5 rounded-xl border  mb-2 text-sm my-auto h-full flex items-center text-center break-all lg:break-keep text-xs`}
+            className={`text-black-lightest px-2 py-5 rounded-xl border mb-2 md:text-sm my-auto h-full flex items-center text-center break-all lg:break-keep text-xs`}
             // onClick={() =>
             //   onClick({
             //     message: item.question,
