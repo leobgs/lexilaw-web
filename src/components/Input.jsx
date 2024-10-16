@@ -50,9 +50,8 @@ export const Input = forwardRef(
       >
         {label && (
           <div
-            className={`text-black-dark mb-2 ${
-              rowed ? 'w-full' : 'w-1/3'
-            } ${labeblClassName}`}
+            className={`text-black-dark mb-2 ${rowed ? 'w-full' : 'w-1/3'
+              } ${labeblClassName}`}
           >
             {label}
           </div>
@@ -61,9 +60,8 @@ export const Input = forwardRef(
         {type === 'text-area' ? (
           <textarea
             ref={ref}
-            className={`resize-none appearance-none focus:outline-none w-full rounded-md bg-neutral-0 focus:outline-black-lightest ${
-              icon ? 'pl-12 pr-3 py-3' : 'p-3'
-            } ${error ? '!border-error' : ''}
+            className={`resize-none appearance-none focus:outline-none w-full rounded-md bg-neutral-0 focus:outline-black-lightest ${icon ? 'pl-12 pr-3 py-3' : 'p-3'
+              } ${error ? '!border-error' : ''}
           ${inputClass ? inputClass : ''}
           ${rowed ? 'outline-1 outline bg-white' : 'border-none'}
           ${isDisabled ? 'bg-white opacity-60' : ''}
@@ -88,11 +86,9 @@ export const Input = forwardRef(
               )}
               <input
                 ref={ref}
-                className={`!rounded-full border-2 bg-gray-50 !border-gray-100 focus:outline-none focus:ring-none ring-none w-full ${
-                  icon ? 'pl-12 pr-3 py-3' : 'p-3'
-                } ${
-                  error ? '!border-[#DB0000] !bg-[#FFF5DB] text-[#DB0000]' : ''
-                }
+                className={`!rounded-full border-2 bg-gray-50 !border-gray-100 focus:outline-none focus:ring-none ring-none w-full ${icon ? 'pl-12 pr-3 py-3' : 'p-3'
+                  } ${error ? '!border-[#DB0000] !bg-[#FFF5DB] text-[#DB0000]' : ''
+                  }
             ${inputClass ? inputClass : ''}
             ${rowed ? 'border bg-white' : 'border-none'}
             ${isDisabled ? 'bg-white opacity-60' : ''}
