@@ -31,9 +31,13 @@ export const InputChat = ({ onChange, className, disable }) => {
   const handleSubmitButton = (e) => {
     onChange({ ...form, message: e?.replace(/\n+$/, '').trim() })
     setInputValue('')
+    setForm({
+      message: '',
+      file: null,
+    })
 
-     const url = window.location.href.split('#')[0]
-     window.history.replaceState(null, null, url)
+    const url = window.location.href.split('#')[0]
+    window.history.replaceState(null, null, url)
   }
 
   const changeHandler = (e) => {
@@ -121,13 +125,20 @@ export const InputChat = ({ onChange, className, disable }) => {
   return (
     <>
       <div
-        className={clsx('border border-neutral-30 py-2 rounded-3xl bg-[#FCFAF7] bg-opacity-35 pr-1.5 mt-2', className)}
+        className={clsx(
+          'border border-neutral-30 py-2 rounded-3xl bg-[#FCFAF7] bg-opacity-35 pr-1.5 mt-2',
+          className
+        )}
       >
         {displayImage && (
           <div className="flex top-0 mx-2 mb-4">
             <div className="w-full md:w-1/3 bg-white rounded-l-xl rounded-br-xl border border-neutral-60 flex items-center shadow-md">
               {form.content_type === 'IMAGE' ? (
-                <img src={displayImage} alt="displayed file" className="w-12 h-12 aspect-auto m-2 rounded-lg shadow" />
+                <img
+                  src={displayImage}
+                  alt="displayed file"
+                  className="w-12 h-12 aspect-auto m-2 rounded-lg shadow"
+                />
               ) : (
                 <div className="px-2 max-w-12 h-12 text-sm bg-secondary-base bg-opacity-90 text-white font-futura-bold items-center flex justify-center m-2 shadow rounded-sm">
                   {displayExt}
@@ -137,7 +148,9 @@ export const InputChat = ({ onChange, className, disable }) => {
                 <p className="text-sm font-semi-bold text-secondary-base break-words size max-w-[60%]">
                   {form.caption}
                 </p>
-                <p className="text-neutral-40">{byteConversion(form.file?.size)}</p>
+                <p className="text-neutral-40">
+                  {byteConversion(form.file?.size)}
+                </p>
               </div>
             </div>
 
@@ -158,10 +171,21 @@ export const InputChat = ({ onChange, className, disable }) => {
                   alt="attach"
                   className="w-3 h-4 hidden md:inline-block m-2 cursor-pointer"
                 />
-                <img src={images.ic_attach_black} alt="attach" className="w-3 h-4 md:hidden m-2" />
+                <img
+                  src={images.ic_attach_black}
+                  alt="attach"
+                  className="w-3 h-4 md:hidden m-2"
+                />
               </div>
             </div>
-            <input accept="*" type="file" name="file" onChange={changeHandler} style={{ display: 'none' }} id="file" />
+            <input
+              accept="*"
+              type="file"
+              name="file"
+              onChange={changeHandler}
+              style={{ display: 'none' }}
+              id="file"
+            />
           </label>
 
           <AutoResizeTextarea
