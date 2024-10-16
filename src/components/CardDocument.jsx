@@ -2,6 +2,7 @@ import images from 'assets/images'
 import { useGlobalContext } from 'hooks/context'
 import { useWindowWidth } from 'hooks/useWindowWidth'
 import { useEffect, useState } from 'react'
+import { FilePreview } from './FilePreview'
 
 export const CardDocument = ({ item }) => {
   const [fileCategory, setFileCategory] = useState('UNKNOWN')
@@ -20,8 +21,8 @@ export const CardDocument = ({ item }) => {
   useEffect(() => {
     if (item.url) {
       const extension = item.url.split('.').pop().toLowerCase()
-      const imageExtensions = ['png', 'jpeg', 'jpg']
-      const documentExtensions = ['pdf', 'xls', 'doc']
+      const imageExtensions = ['png', 'jpeg', 'jpg', 'gif', 'webp']
+      const documentExtensions = ['pdf', 'xls', 'doc', 'docx', 'xlsx']
 
       if (imageExtensions.includes(extension)) {
         setFileCategory('IMAGE')
@@ -72,10 +73,11 @@ export const CardDocument = ({ item }) => {
               isMobile && 'shadow-card-file'
             } border-2 md:border rounded-md aspect-square border-secondary-base md:border-[#0042251a]`}
           >
-            <iframe
-              src={googleViewer}
-              title={itemName}
-              className="w-full h-full border rounded-md border-[#0042251a]"
+            <FilePreview
+            fileCategory={fileCategory}
+            isMobile={isMobile}
+            itemName={itemName}
+            url={item?.url}
             />
             <div className="absolute inset-0 bg-transparent select-none rounded-md" />
           </div>
