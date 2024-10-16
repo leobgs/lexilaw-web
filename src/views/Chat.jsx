@@ -37,7 +37,7 @@ import { WhatsAppFitBIt } from 'components/WhatsAppFitBit'
 import { useDocumentEncryptor } from 'hooks/useDocumentEncryptor'
 
 export const Chat = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const storage = new LocalStorage()
   const navigate = useNavigate()
   const {
@@ -545,7 +545,7 @@ export const Chat = () => {
   }
 
   return (
-    <div className="bg-primary-base w-full h-screen flex flex-col">
+    <div className="bg-primary-base w-full h-[100dvh] flex flex-col">
       <div className="md:pr-4 md:pl-2 md:flex md:justify-between md:mt-12 md:gap-4 md:mb-2 w-full h-[calc(100%-56px)] flex-1">
         <NavChat
           isDisable={!showChatDocument}
@@ -579,6 +579,7 @@ export const Chat = () => {
           headerText={headerText}
           userDetail={userDetail}
           onExpand={(e) => handleOnExpand(e)}
+          lawyerCount={userDetail?.count_lawyer ?? 0}
         />
 
         <main className="md:h-full p-4 md:rounded-xl md:w-10/12 md:bg-white border border-neutral-20 border-opacity-80 h-[calc(100%-76px)]">
@@ -667,12 +668,19 @@ export const Chat = () => {
                     </NavLink>
                     <div className="flex justify-between items-center my-2">
                       <div
-                        className="px-4 text-black-darker cursor-pointer"
+                        className="px-4 text-black-darker cursor-pointer flex justify-between w-full items-center"
                         onClick={() => navigate('/my-lawyer')}
                       >
-                        {t('my_lawyer', {
-                          keyPrefix: 'chat.profile_option',
-                        })}
+                        <span>
+                          {' '}
+                          {t('my_lawyer', {
+                            keyPrefix: 'chat.profile_option',
+                          })}
+                        </span>
+
+                        <div className="py-0.5 px-2.5 bg-error-light font-semi-bold text-sm mr-2 rounded-full text-white flex items-center justify-center">
+                          {userDetail?.count_lawyer ?? 0}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -779,12 +787,13 @@ export const Chat = () => {
               <QuestionCard
                 data={defaultQuestion}
                 onClick={(e) => handleAddChat(e)}
-                className="mt-20"
+                className="md:mt-20 mt-auto"
               />
               <div className="relative select-text mb-2 mt-1 justify-center">
                 <InputChat
                   onChange={(e) => handleAddChat(e)}
                   disable={disableInput}
+                  key={i18n.language}
                 />
               </div>
             </div>
