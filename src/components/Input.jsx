@@ -20,6 +20,7 @@ export const Input = forwardRef(
       iconClassName,
       isDisabled,
       onChange,
+      onKeyEnter,
     },
     ref
   ) => {
@@ -35,6 +36,10 @@ export const Input = forwardRef(
         type === 'number'
       ) {
         e.preventDefault()
+      }
+
+      if (e.key === 'Enter' && onKeyEnter) {
+        onKeyEnter(e)
       }
     }
 

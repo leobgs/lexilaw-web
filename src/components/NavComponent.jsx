@@ -402,6 +402,11 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
             inputClass="!py-2 bg-white !w-full !rounded-lg"
             rowed="w-full"
             ref={inputRef}
+            onKeyEnter={(e) => {
+              if (e.key === 'Enter' && text) {
+                updateTitle(text)
+              }
+            }}
           />
           <div className="self-end flex gap-2 mt-4 mb-6">
             <Button
