@@ -545,12 +545,12 @@ export const NavChat = ({
               <div className="font-futura-bold">
                 {userDetail.first_name} {userDetail.last_name}
               </div>
-              <div className="items-center pt-5">
+              <div className="items-center pt-5"
+                   onClick={() => setShowSetting(true)}>
                 <img
                   className="size-10 rounded-full ring-1 ring-[#2E2C2B]"
                   src={userDetail.image_url}
                   alt="profile"
-                  onClick={() => setShowSetting(true)}
                   onError={({ currentTarget }) => {
                     currentTarget.onerror = null
                     currentTarget.src = images.ic_avatar_placeholder
@@ -558,7 +558,7 @@ export const NavChat = ({
                 />
                 <div
                   className="-translate-y-3.5 translate-x-6 border-[#DFDFDF]">
-                  <img src={images.ic_profile_option} />
+                  <img src={images.ic_profile_option} alt="Profile Menu" />
                 </div>
               </div>
             </div>
