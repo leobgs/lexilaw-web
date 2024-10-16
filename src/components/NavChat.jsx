@@ -420,24 +420,20 @@ export const NavChat = ({
                           <img
                             src={images.ic_menu_down}
                             alt="dropdown"
-                            className={`h-6 ${
-                              showColetion ? 'rotate-180' : ''
-                            }`}
-                            onClick={() => setShowColetion(!showColetion)}
+                            className="h-6"
                           />
                         </div>
                       )}
 
-                      {showColetion &&
-                        item.data?.map((items) => (
-                          <div key={items.uuid}>
-                            <NavCollection
-                              items={items}
-                              onDeleteCollection={() =>
-                                deleteCollection(items.uuid)
-                              }
-                              onExpand={() => onExpand(items.uuid)}
-                            />
+                      {item.data?.map((items) => (
+                        <div key={items.uuid}>
+                          <NavCollection
+                            items={items}
+                            onDeleteCollection={() =>
+                              deleteCollection(items.uuid)
+                            }
+                            onExpand={() => onExpand(items.uuid)}
+                          />
 
                             {/* ==========================Mobile========================== */}
                             {items.isExpand &&
