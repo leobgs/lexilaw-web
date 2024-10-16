@@ -445,6 +445,7 @@ export const NavChat = ({
                                   collectionClick({
                                     ...itms,
                                     activeBy: 'collection',
+                                    collection_from: items.uuid,
                                   })
                                 }}
                               >
