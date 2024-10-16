@@ -420,60 +420,65 @@ export const NavChat = ({
                           <img
                             src={images.ic_menu_down}
                             alt="dropdown"
-                            className="h-6"
+                            className={`h-6 ${
+                              showColetion ? 'rotate-180' : ''
+                            }`}
+                            onClick={() => setShowColetion(!showColetion)}
                           />
                         </div>
                       )}
 
-                      {item.data?.map((items) => (
-                        <div key={items.uuid}>
-                          <NavCollection
-                            items={items}
-                            onDeleteCollection={() =>
-                              deleteCollection(items.uuid)
-                            }
-                            onExpand={() => onExpand(items.uuid)}
-                          />
+                      {showColetion &&
+                        item.data?.map((items) => (
+                          <div key={items.uuid}>
+                            <NavCollection
+                              items={items}
+                              onDeleteCollection={() =>
+                                deleteCollection(items.uuid)
+                              }
+                              onExpand={() => onExpand(items.uuid)}
+                            />
 
-                          {/* ==========================Mobile========================== */}
-                          {items.isExpand &&
-                            items.threads?.map((itms) => (
-                              <div
-                                key={itms.uuid}
-                                className="border-l-2 border-blue-sky ml-5 pl-2.5 pb-2 text-neutral-40 last:mb-4 text-sm"
-                                onClick={() => {
-                                  collectionClick({
-                                    ...itms,
-                                    activeBy: 'collection',
-                                  })
-                                }}
-                              >
-                                <NavComponent
-                                  item={{
-                                    ...itms,
-                                    title: itms.name,
-                                    collection_uuid: items.uuid,
-                                    type: 'collection',
-                                  }}
-                                  key={items.uuid}
-                                  typeClick={'collection'}
+                            {/* ==========================Mobile========================== */}
+                            {items.isExpand &&
+                              items.threads?.map((itms) => (
+                                <div
+                                  key={itms.uuid}
+                                  className="border-l-2 border-blue-sky ml-5 pl-2.5 pb-2 text-neutral-40 last:mb-4 text-sm"
                                   onClick={() => {
-                                    setShowNav(false)
                                     collectionClick({
                                       ...itms,
                                       activeBy: 'collection',
+                                      collection_from: items.uuid,
                                     })
                                   }}
-                                  onDeleted={() => onDeleted()}
-                                  isActivated={
-                                    collection.activeBy === 'collection' ||
-                                    (collection.uuid && !collection.activeBy)
-                                  }
-                                />
-                              </div>
-                            ))}
-                        </div>
-                      ))}
+                                >
+                                  <NavComponent
+                                    item={{
+                                      ...itms,
+                                      title: itms.name,
+                                      collection_uuid: items.uuid,
+                                      type: 'collection',
+                                    }}
+                                    key={items.uuid}
+                                    typeClick={'collection'}
+                                    onClick={() => {
+                                      setShowNav(false)
+                                      collectionClick({
+                                        ...itms,
+                                        activeBy: 'collection',
+                                      })
+                                    }}
+                                    onDeleted={() => onDeleted()}
+                                    isActivated={
+                                      collection.activeBy === 'collection' ||
+                                      (collection.uuid && !collection.activeBy)
+                                    }
+                                  />
+                                </div>
+                              ))}
+                          </div>
+                        ))}
                     </div>
                   )
                 } else if (item.type === 'terkini') {
