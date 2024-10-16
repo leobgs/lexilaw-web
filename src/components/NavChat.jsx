@@ -420,7 +420,9 @@ export const NavChat = ({
                           <img
                             src={images.ic_menu_down}
                             alt="dropdown"
-                            className="h-6"
+                            className={`h-6 ${
+                              showColetion ? 'rotate-180' : ''
+                            }`}
                             onClick={() => setShowColetion(!showColetion)}
                           />
                         </div>
