@@ -13,7 +13,13 @@ import { useTranslation } from 'react-i18next'
 import { Typewriter } from './Typewriter'
 import { useParams } from 'react-router-dom'
 
-export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
+export const NavComponent = ({
+  item,
+  onDeleted,
+  isActivated,
+  typeClick,
+  onClick,
+}) => {
   const queryClient = useQueryClient()
   const collectionList = queryClient.getQueryData('collection')
   const {
@@ -208,6 +214,10 @@ export const NavComponent = ({ item, onDeleted, isActivated, typeClick }) => {
             ? void 0
             : collectionClick({ ...item, activeBy: typeClick })
           setIsFirstTime(false)
+
+          if (onClick) {
+            onClick()
+          }
         }}
       >
         <>

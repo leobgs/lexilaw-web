@@ -95,6 +95,11 @@ import ic_files from './ic_files.svg'
 import ic_sand_time_mobile from './ic_sand_time_mobile.svg'
 import ic_download from './ic_download.svg'
 import ic_profile_option from './ic_profile_option.svg'
+import ic_clip from './ic_clip.svg'
+import ic_arrow_back_mobile from './ic_arrow_back_mobile.svg'
+import ic_magbifying_glass from './ic_magnifying_glass.svg'
+import ic_menu_up_svg from './ic_menu_up_svg.svg'
+import ic_lexilaw_logo_mobile from './ic_lexilaw_logo_mobile.svg'
 
 const images = {
   bg_register_login,
@@ -193,7 +198,12 @@ const images = {
   ic_files,
   ic_sand_time_mobile,
   ic_download,
-  ic_profile_option
+  ic_profile_option,
+  ic_clip,
+  ic_arrow_back_mobile,
+  ic_magbifying_glass,
+  ic_menu_up_svg,
+  ic_lexilaw_logo_mobile,
 }
 
 export default images

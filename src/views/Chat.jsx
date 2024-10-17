@@ -36,6 +36,7 @@ import { encryptAESGCM } from 'hooks/useEncryptDecryption'
 import { WhatsAppFitBIt } from 'components/WhatsAppFitBit'
 import { useDocumentEncryptor } from 'hooks/useDocumentEncryptor'
 import clsx from 'clsx'
+import { AutoScrollingDiv } from 'components/AutoScrollDiv'
 
 export const Chat = () => {
   const { t, i18n } = useTranslation()
@@ -785,11 +786,13 @@ export const Chat = () => {
 
           {isHeader ? (
             <div className="md:h-[calc(100%-56px)] h-full w-full xl:w-3/4 flex flex-col justify-between">
-              <QuestionCard
-                data={defaultQuestion}
-                onClick={(e) => handleAddChat(e)}
-                className="md:mt-20 mt-auto"
-              />
+              <AutoScrollingDiv>
+                <QuestionCard
+                  data={defaultQuestion}
+                  onClick={(e) => handleAddChat(e)}
+                  className="mt-20"
+                />
+              </AutoScrollingDiv>
               <div className="relative select-text mb-2 mt-1 justify-center">
                 <InputChat
                   onChange={(e) => handleAddChat(e)}
@@ -804,7 +807,7 @@ export const Chat = () => {
                 className={clsx(
                   !isHeader && uuid === '63926537' ? 'md:w-9/12 relative' : '',
                   'w-full',
-                  (showChatDocument) && 'md:max-w-[75%]'
+                  showChatDocument && 'md:max-w-[75%]'
                 )}
                 hasFile={
                   (!isHeader && uuid === '63926537') ||

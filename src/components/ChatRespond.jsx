@@ -133,7 +133,7 @@ export const ChatRespond = ({
             </div>
 
             <div className="">
-              <div className="mb-2 mt-4 flex flex-row justi gap-2 border-t border-t-[#D8D8D8] pt-4 md:border-none md:pt-0">
+              <div className="mb-2 mt-4 flex flex-row flex-wrap justi gap-2 border-t border-t-[#D8D8D8] pt-4 md:border-none md:pt-0">
                 <button
                   className="border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-regular !h-[2rem] flex items-center text-xs xs:text-sm px-2 select-none"
                   onClick={() => {
@@ -307,7 +307,7 @@ export const ChatRespond = ({
               allLawyer?.length !== 0 && (
                 <div className="w-full">
                   <div
-                    className={`bg-[#EFEDE8] p-4 rounded-lg md:w-2/3 flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md cursor-pointer select-none ${
+                    className={`bg-[#EFEDE8] p-4 rounded-lg flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md cursor-pointer select-none ${
                       isBooked && 'hover:cursor-not-allowed'
                     }`}
                     onClick={() => {
@@ -353,7 +353,7 @@ export const ChatRespond = ({
                   </div>
 
                   <div className="">
-                    <div className="mb-2 mt-4 flex flex-row justi gap-2 border-t border-t-[#D8D8D8] pt-4 md:border-none md:pt-0">
+                    <div className="mb-2 mt-4 flex flex-row flex-wrap justi gap-2 border-t border-t-[#D8D8D8] pt-4 md:border-none md:pt-0">
                       <button
                         className={`border-blue-dark border rounded-3xl bg-blue-sky gap-2 !py-0 !font-medium !h-[2rem] flex items-center text-xs xs:text-sm px-2 select-none disabled:hover:cursor-not-allowed disabled:opacity-50`}
                         onClick={() => {
