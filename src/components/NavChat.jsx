@@ -512,6 +512,9 @@ export const NavChat = ({
                               collection.activeBy === 'thread' ||
                               (collection.uuid && !collection.activeBy)
                             }
+                            onClick={() => {
+                              setShowNav(false)
+                            }}
                           />
                         ))}
                     </div>
@@ -538,6 +541,9 @@ export const NavChat = ({
                               collection.activeBy === 'thread' ||
                               (collection.uuid && !collection.activeBy)
                             }
+                            onClick={() => {
+                              setShowNav(false)
+                            }}
                           />
                         ))}
                     </div>
