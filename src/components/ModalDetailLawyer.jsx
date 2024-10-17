@@ -314,7 +314,7 @@ export const ModalDetailLawyer = ({
                               onClick={() => {
                                 if (itm.file_url.endsWith('.pdf') || itm.file_url.endsWith('.docx')) {
                                   window.open(`https://docs.google.com/gview?url=${itm.file_url}`, '_blank');
-                                } else if (itm.file_url.endsWith('.png') || itm.file_url.endsWith('.jpg') || itm.file_url.endsWith('.jpeg')) {
+                                } else if (itm.file_url.endsWith('.png') || itm.file_url.endsWith('.jpg') || itm.file_url.endsWith('.jpeg') || itm.file_url.endsWith('.PNG') || itm.file_url.endsWith('.JPG') || itm.file_url.endsWith('.JPEG')) {
                                   window.open(itm.file_url, '_blank');
                                 }
                               }}
@@ -328,7 +328,7 @@ export const ModalDetailLawyer = ({
                                   className="w-full rounded-md aspect-square"
                                   title="Document Viewer"
                                 ></iframe>
-                              ) : itm.file_url.endsWith('.png') || itm.file_url.endsWith('.jpg') || itm.file_url.endsWith('.jpeg') ? (
+                              ) : itm.file_url.endsWith('.png') || itm.file_url.endsWith('.jpg') || itm.file_url.endsWith('.jpeg') || itm.file_url.endsWith('.PNG') || itm.file_url.endsWith('.JPG') || itm.file_url.endsWith('.JPEG') ? (
                                 <img
                                   src={itm.file_url}
                                   alt="Default Image"
@@ -349,7 +349,7 @@ export const ModalDetailLawyer = ({
                             onClick={() => {
                               if (itm.file_url.endsWith('.pdf') || itm.file_url.endsWith('.docx')) {
                                 window.open(`https://docs.google.com/gview?url=${itm.file_url}`, '_blank');
-                              } else if (itm.file_url.endsWith('.png') || itm.file_url.endsWith('.jpg') || itm.file_url.endsWith('.jpeg')) {
+                              } else if (itm.file_url.endsWith('.png') || itm.file_url.endsWith('.jpg') || itm.file_url.endsWith('.jpeg') || itm.file_url.endsWith('.PNG') || itm.file_url.endsWith('.JPG') || itm.file_url.endsWith('.JPEG')) {
                                 window.open(itm.file_url, '_blank');
                               }
                             }}
