@@ -1,10 +1,13 @@
 .bg_auth {
-  background-image: url('/../src/assets/images/bg_register_login.png');
+  background-image: url("/../src/assets/images/bg-login-mobile.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   min-width: 100vw;
   min-height: 100vh;
+  @media (min-width: 768px) {
+    background-image: url("/../src/assets/images/bg_register_login.png");
+  }
 }
 
 .card {

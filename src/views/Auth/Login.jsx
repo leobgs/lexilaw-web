@@ -70,7 +70,7 @@ export const Login = () => {
     } else if (!form.password) {
       newError.password = t('auth.register.error_messages.password_not_empty')
     } else if (!validateEmail(form.email)) {
-      newError.email = t('auth.register.error_messages.incorrect_email')
+      newError.email = t('auth.register.validate_email_format')
     }
     return newError
   }
@@ -102,7 +102,7 @@ export const Login = () => {
     }
     if (name === 'email') {
       if (!validateEmail(form.email)) {
-        setErrorEmail(t('auth.register.error_messages.incorrect_email'));
+        setErrorEmail(t('auth.register.validate_email_format'));
       } else {
         setErrorEmail('');
       }

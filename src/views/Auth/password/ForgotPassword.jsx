@@ -63,10 +63,10 @@ export const ForgotPassword = () => {
                 keyPrefix: 'auth.set_password',
               })}
             </p>
-            <span className="font-semi-bold">{email}</span>
+            <span className="font-medium">{email}</span>
           </div>
 
-          <div className="text-base font-regular tracking-wide text-gray-700 flex mt-14">
+          <div className="text-base font-regular tracking-wide text-gray-700 md:flex mt-14 flex-row">
             <div className="flex">
               {t('countdownbefore', {
                 keyPrefix: 'auth.register.otp',
@@ -112,8 +112,8 @@ export const ForgotPassword = () => {
             name="email"
             value={email}
             onChange={handleChangeForm}
-            className="w-full rounded-full flex-wrap"
-            classNameError="!mx-auto"
+            className="w-full rounded-full flex-wrap mb-6"
+            classNameError="hidden"
             inputClass={clsx(
               '!border-secondary-logo focus:outline-secondary-logo text-base '
             )}
@@ -122,6 +122,10 @@ export const ForgotPassword = () => {
             error={error}
           />
 
+          {error && (
+            <div className="text-error-base text-xs text-center mb-1">{error}</div>
+          )}
+
           <Button
             label={t('submit_button', { keyPrefix: 'auth.register' })}
             onClick={onSubmit}
@@ -129,7 +133,7 @@ export const ForgotPassword = () => {
             iconClassName={'absolute right-4'}
             disabled={!email || error}
             className={
-              'btn-secondary-hover w-full rounded-full font-medium relative mt-12 !font-regular'
+              'btn-secondary-hover w-full rounded-full font-medium relative !font-regular'
             }
           />
         </>

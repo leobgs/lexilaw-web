@@ -205,13 +205,13 @@ export default function AuthLayout() {
       <AuthLoader />
 
       {isOnMobileSize && isOnAuthPage && (
-        <div className="navBar border-b-2 border-green-900 z-10 relative md: w-full">
+        <div className="navBar border-b-2 border-green-900 z-10 relative md: w-full ">
           <Button
             label={handleLabelHeader(location.pathname)}
             iconLeft={images.chevron_left}
             iconClassName="w-[20px] h-[20px] me-2"
             onClick={handleBackLogin}
-            className="text-white bg-transparent cursor-default"
+            className="text-white bg-transparent cursor-default !font-futura-bold"
           />
         </div>
       )}
