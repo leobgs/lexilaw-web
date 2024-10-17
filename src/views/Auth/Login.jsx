@@ -2,7 +2,7 @@ import images from 'assets/images'
 import { Button } from 'components/Button/Button'
 import { InputPassword } from 'components/InputPassword'
 import { Input } from 'components/Input'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useGlobalContext } from 'hooks/context'
 import AuthCard from 'components/Card/AuthCard'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +12,7 @@ import { StorageKey } from 'config/storage'
 import { useMutation } from 'react-query'
 import { getData } from 'hooks/useRequest'
 import { API } from 'config/api'
+import { useDebounce } from 'hooks/useDebounce'
 
 export const Login = () => {
   const { t } = useTranslation()
@@ -23,6 +24,18 @@ export const Login = () => {
   const [error, setError] = useState({ email: '', password: '' })
   const [errorInput, setErrorInput] = useState('')
   const [errorEmail, setErrorEmail] = useState('')
+  const debauncedEmail = useDebounce(form.email, 200)
+
+  useEffect(() => {
+    if (debauncedEmail) {
+      setErrorEmail('')
+      if (!validateEmail(form.email)) {
+        setErrorEmail(t('auth.register.validate_email_format'))
+      } else {
+        setErrorEmail('')
+      }
+    }
+  }, [debauncedEmail])
 
   const { mutate: loginInput, isLoading: loadingLogin } = useMutation(
     (form) => getData(API.LOGIN, form),
@@ -35,8 +48,9 @@ export const Login = () => {
           })
           storage.setItem(StorageKey.IS_LOGIN, true)
           openAlert({
-            title: `${t('auth.login.welcome_message')},${data?.message?.split(',')[1]
-              }`,
+            title: `${t('auth.login.welcome_message')},${
+              data?.message?.split(',')[1]
+            }`,
             icon: images.ai_profile_thumbnail,
           })
           let timeOut = setTimeout(() => {
@@ -80,7 +94,6 @@ export const Login = () => {
     return regex.test(email)
   }
 
-
   const onSubmit = () => {
     const findErrors = validationForm()
     if (Object.values(findErrors).some((err) => err !== '')) {
@@ -100,13 +113,6 @@ export const Login = () => {
       setForm({ ...form, [name]: value })
       setError({ email: '', password: '' })
     }
-    if (name === 'email') {
-      if (!validateEmail(form.email)) {
-        setErrorEmail(t('auth.register.validate_email_format'));
-      } else {
-        setErrorEmail('');
-      }
-    }
   }
 
   return (
@@ -120,7 +126,11 @@ export const Login = () => {
         value={form.email}
         onChange={handleChangeForm}
         className="w-full rounded-full flex flex-col !items-start"
-        inputClass={`!border-secondary-logo focus:outline-secondary-logo font-medium  ${errorInput || errorEmail ? '!border-[#DB0000] !bg-[#FFF5DB] text-[#DB0000]' : ''} `}
+        inputClass={`!border-secondary-logo focus:outline-secondary-logo font-medium  ${
+          errorInput || errorEmail
+            ? '!border-[#DB0000] !bg-[#FFF5DB] text-[#DB0000]'
+            : ''
+        } `}
         rowed
         placeholder={t('email', { keyPrefix: 'auth.register' })}
         error={error.email || errorEmail}
@@ -130,7 +140,9 @@ export const Login = () => {
       <InputPassword
         name="password"
         className="w-full mt-[1.5rem] mb-[4px] justify-end"
-        inputClassName={`!border-secondary-logo focus:outline-secondary-logo font-medium  ${errorInput ? '!border-[#DB0000] !bg-[#FFF5DB] text-[#DB0000]' : ''}`}
+        inputClassName={`!border-secondary-logo focus:outline-secondary-logo font-medium  ${
+          errorInput ? '!border-[#DB0000] !bg-[#FFF5DB] text-[#DB0000]' : ''
+        }`}
         placeholder={t('password', { keyPrefix: 'auth.register' })}
         value={form.password}
         onChange={handleChangeForm}
@@ -146,7 +158,9 @@ export const Login = () => {
       </div>
 
       {errorText && (
-        <div className="text-error-base mt-3 text-xs text-center mb-1">{errorText}</div>
+        <div className="text-error-base mb-4 text-xs text-center">
+          {errorText}
+        </div>
       )}
 
       <Button
@@ -158,14 +172,13 @@ export const Login = () => {
           !form.password ||
           !form.email ||
           errorEmail ||
-          loadingLogin || errorText
+          loadingLogin ||
+          errorText
         }
         className={
           'btn-secondary-hover w-full mb-[1rem] rounded-full font-medium relative'
         }
       />
-
-
 
       <p className="text-center font-medium text-sm hidden md:inline-block">
         {t('dont_have_an_account_yet', { keyPrefix: 'auth.register' })}

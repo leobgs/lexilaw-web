@@ -8,7 +8,7 @@ const SearchCard = ({ title, children, isPending, onClickHide }) => {
 
   return (
     <div
-      className="my-4 shadow-lg border border-black-lighter/10 rounded-md"
+      className="my-4 shadow-lg border border-black-lighter/10 rounded-md bg-[#F8F7F6]"
       onClick={() => {
         onClickHide && onClickHide()
       }}
