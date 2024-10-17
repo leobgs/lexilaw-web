@@ -82,16 +82,16 @@ export const CardFileDocument = ({
             </p>
           )}
 
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-x-2 gap-y-1">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-1">
             {system_data?.map((item) => (
               <HashLink
                 smooth
                 key={item.thread_chat_uuid}
-                className="hover:cursor-pointer"
+                className="hover:cursor-pointer w-full"
                 to={`thread/${item.thread_uuid}#${item.thread_chat_uuid}`}
               >
                 {/* Icon */}
-                <div className="border-2 border-[#000] flex justify-center items-center h-24 w-24 rounded-md bg-white flex-shrink-0 relative">
+                <div className="border-2 border-[#000] flex justify-center items-center w-full aspect-square rounded-md bg-white flex-shrink-0 relative">
                   <img src={images.ic_files} alt="ic_files" />
                   {/* Icon Delete */}
                   <div
