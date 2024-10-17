@@ -95,6 +95,7 @@ import ic_files from './ic_files.svg'
 import ic_sand_time_mobile from './ic_sand_time_mobile.svg'
 import ic_download from './ic_download.svg'
 import ic_profile_option from './ic_profile_option.svg'
+import ic_clip from './ic_clip.svg'
 
 const images = {
   bg_register_login,
@@ -193,7 +194,8 @@ const images = {
   ic_files,
   ic_sand_time_mobile,
   ic_download,
-  ic_profile_option
+  ic_profile_option,
+  ic_clip
 }
 
 export default images

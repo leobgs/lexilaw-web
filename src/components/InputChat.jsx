@@ -167,12 +167,12 @@ export const InputChat = ({ onChange, className, disable }) => {
             <div className="w-full flex justify-center">
               <div className="bg-[#F8F5F1] rounded-full ml-1.5 md:ml-0">
                 <img
-                  src={images.ic_attach_black}
+                  src={images.ic_clip}
                   alt="attach"
                   className="w-3 h-4 hidden md:inline-block m-2 cursor-pointer"
                 />
                 <img
-                  src={images.ic_attach_black}
+                  src={images.ic_clip}
                   alt="attach"
                   className="w-3 h-4 md:hidden m-2"
                 />
