@@ -349,7 +349,7 @@ export const ChatCard = ({
 
               <div className="whitespace-pre-line text-sm">{item.message}</div>
 
-              {item.url_file && (
+              {(item.url_file || item.filename) && (
                 <>
                   <p className="text-xs mt-2 mb-0.5 text-neutral-40 hidden md:inline-block">
                     {t('attached', { keyPrefix: 'chat_respond' })}
@@ -357,7 +357,7 @@ export const ChatCard = ({
                   <div className="w-10/12 xs:w-8/12 md:w-3/4 lg:w-1/3 bg-secondary-lightest bg-opacity-60 rounded-xl border border-secondary-lighter flex items-center mt-1 md:mt-0">
                     {fileCategory === 'IMAGE' ? (
                       <img
-                        src={item.url_file}
+                        src={item.url_file ?? item?.images}
                         alt="displayed file"
                         className="w-12 h-12 aspect-auto m-2 rounded-lg shadow"
                       />

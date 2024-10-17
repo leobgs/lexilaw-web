@@ -297,10 +297,17 @@ export const ThreadPage = ({
       }
     }
 
+    console.log(e)
+
     setScrolled(true)
     setRenderedMessage((prevArray) => [
       ...prevArray,
-      { from: '', message: e.message },
+      {
+        from: '',
+        message: e.message,
+        filename: e?.file?.name,
+        images: e?.images,
+      },
     ])
 
     const dataMessage = {
