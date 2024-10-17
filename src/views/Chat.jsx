@@ -35,6 +35,7 @@ import { useGetEncryptKey } from 'hooks/useGetEncryptKey'
 import { encryptAESGCM } from 'hooks/useEncryptDecryption'
 import { WhatsAppFitBIt } from 'components/WhatsAppFitBit'
 import { useDocumentEncryptor } from 'hooks/useDocumentEncryptor'
+import clsx from 'clsx'
 
 export const Chat = () => {
   const { t, i18n } = useTranslation()
@@ -800,9 +801,11 @@ export const Chat = () => {
           ) : (
             <div className="md:h-[calc(100%-56px)] h-full w-full flex gap-x-7">
               <ThreadPage
-                className={`${
-                  !isHeader && uuid === '63926537' ? 'md:w-9/12 relative' : ''
-                } w-full`}
+                className={clsx(
+                  !isHeader && uuid === '63926537' ? 'md:w-9/12 relative' : '',
+                  'w-full',
+                  (showChatDocument) && 'md:max-w-[75%]'
+                )}
                 hasFile={
                   (!isHeader && uuid === '63926537') ||
                   (showChatDocument && !isPendingDocument)
