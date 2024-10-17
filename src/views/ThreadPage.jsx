@@ -297,8 +297,6 @@ export const ThreadPage = ({
       }
     }
 
-    console.log(e)
-
     setScrolled(true)
     setRenderedMessage((prevArray) => [
       ...prevArray,

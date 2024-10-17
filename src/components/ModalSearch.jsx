@@ -49,6 +49,7 @@ export const ModalSearch = ({
             name="search"
             className="w-full !outline-none ml-2"
             placeholder={t('chat.chat_text.search')}
+            autoComplete="off"
           />
         </div>
       </div>
