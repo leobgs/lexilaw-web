@@ -82,7 +82,7 @@ export const CardFileDocument = ({
             </p>
           )}
 
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-1">
+          <div className="grid grid-cols-2 gap-x-2 gap-y-1">
             {system_data?.map((item) => (
               <HashLink
                 smooth
@@ -126,7 +126,7 @@ export const CardFileDocument = ({
             </p>
           )}
 
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-x-2 gap-y-1">
+          <div className="grid grid-cols-2 gap-x-2 gap-y-1">
             {lawyer_data?.map((item) => (
               <CardDocument key={item.uuid} item={item} />
             ))}
