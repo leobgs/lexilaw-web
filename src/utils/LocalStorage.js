@@ -57,3 +57,57 @@ export class Storage {
     }
   }
 }
+
+/**
+ * @typedef {Object} MessageData
+ * @property {string} message
+ * @property {string} [document]
+ * @property {string} [filename]
+ * @property {string} [thread_uuid]
+ */
+
+/**
+ * @typedef {Object} LocalStorageType
+ * @property {Record<string, MessageData>} lastMessage
+ */
+
+/**
+ * @template {keyof LocalStorageType} K
+ * @param {K} key
+ * @returns {LocalStorageType[K] | null}
+ */
+export const getFromLocalStorage = (key) => {
+  const item = localStorage.getItem(key)
+
+  if (!item) {
+    return null
+  }
+
+  const parsedItem = JSON.parse(item)
+  return parsedItem
+}
+
+/**
+ * @template {keyof LocalStorageType} K
+ * @param {K} key
+ * @param {LocalStorageType[K]} data
+ */
+export const saveToLocalStorage = (key, data) => {
+  let stringifyData
+  const oldData = getFromLocalStorage('lastMessage')
+  if (oldData) {
+    stringifyData = JSON.stringify({...oldData, ...data})
+  } else {
+    stringifyData = JSON.stringify(data)
+  }
+
+  localStorage.setItem(key, stringifyData)
+}
+
+/**
+ * @template {keyof LocalStorageType} K
+ * @param {K} key
+ */
+export const removeFromLocalStorage = (key) => {
+  localStorage.removeItem(key)
+}
