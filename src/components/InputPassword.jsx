@@ -51,7 +51,7 @@ export const InputPassword = ({
       )}
       <div className="relative">
         <input
-          className={`!rounded-full border-2 bg-gray-50 !border-gray-100 focus:outline-none focus:ring-none w-full bg-neutral-0 placeholder:text-sm ${inputClassName ? inputClassName : ''
+          className={`!rounded-full border-2 bg-gray-50 border-gray-100 focus:outline-none focus:ring-none w-full bg-neutral-0 placeholder:text-sm ${inputClassName ? inputClassName : ''
             } ${error ? '!bg-[#FFF5DB] !border-[#DB0000] text-[#DB0000]' : ''} ${s_type === 'password'
               ? value?.length === 0
                 ? 'text-sm px-4 py-2.5'
