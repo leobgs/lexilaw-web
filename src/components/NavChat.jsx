@@ -194,7 +194,7 @@ export const NavChat = ({
         }`}
       >
         <img
-          src={images.ic_navbar_hidden}
+          src={images.ic_arrow_back_mobile}
           alt="navbar hide"
           className="h-4 w-5"
           onClick={() => setShowNav(!showNav)}
@@ -273,7 +273,7 @@ export const NavChat = ({
                       })}
                     </div>
                     <img
-                      src={images.ic_menu_down}
+                      src={images.ic_menu_up_svg}
                       alt="dropdown"
                       className={`h-6 cursor-pointer ${
                         showColetion ? '' : 'rotate-180'
@@ -379,7 +379,7 @@ export const NavChat = ({
             <div className="h-[92%] overflow-y-auto pb-4 no-scrollbar">
               <div className="flex justify-between items-center">
                 <img
-                  src={images.logo_lexilaw}
+                  src={images.ic_lexilaw_logo_mobile}
                   alt="LexiLaw"
                   className="my-4 w-1/2"
                 />
@@ -388,7 +388,11 @@ export const NavChat = ({
                     className="p-2 bg-white rounded-full flex justify-center border border-neutral-20 w-1/2"
                     onClick={() => setShowSearchNav(!showSearchNav)}
                   >
-                    <img src={images.ic_search} alt="search" className="h-4" />
+                    <img
+                      src={images.ic_magbifying_glass}
+                      alt="search"
+                      className="h-4"
+                    />
                   </div>
                   <div
                     className="p-2 bg-[#F0EDE8] rounded-full flex justify-center border border-neutral-20 w-1/2"
@@ -418,7 +422,7 @@ export const NavChat = ({
                             })}
                           </div>
                           <img
-                            src={images.ic_menu_down}
+                            src={images.ic_menu_up_svg}
                             alt="dropdown"
                             className={`h-6 ${
                               showColetion ? 'rotate-180' : ''
