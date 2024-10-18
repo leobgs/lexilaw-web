@@ -2,6 +2,7 @@ import images from 'assets/images'
 import clsx from 'clsx'
 import { useWindowWidth } from 'hooks/useWindowWidth'
 import React, { useState, useRef, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className, disable }) => {
   const textareaRef = useRef(null)
@@ -10,6 +11,14 @@ const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className,
 
   const { windowWidth } = useWindowWidth()
   const isMobile = windowWidth <= 767
+
+  const {uuid} = useParams()
+
+  useEffect(() => {
+    if(uuid) {
+      setTextareaValue('')
+    }
+  }, [uuid])
 
   const handleOnKeyPress = (e) => {
    if (e.key === 'Enter' && !e.shiftKey) {
