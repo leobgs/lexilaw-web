@@ -355,31 +355,40 @@ export const NavComponent = ({
         className="shadow-md !bg-white font-semi-bold !w-[70%] !rounded-lg md:mb-0 md:!w-52 z-50 mb-2"
       >
         {collectionList?.data?.length !== 0 &&
-          collectionList?.data?.map((items, index) => (
-            <div
-              key={index}
-              className="flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 border-b border-b-neutral-50 -mx-4 px-4 pb-1"
-              onClick={() => {
-                collection.collection_from === null
-                  ? assignCollection({
-                      collection_uuid_to: items.uuid,
-                      thread_uuid: collection.uuid,
-                    })
-                  : assignCollection({
-                      collection_uuid_from: collection.collection_from,
-                      collection_uuid_to: items.uuid,
-                      thread_uuid: collection.uuid,
-                    })
-              }}
-            >
-              <img
-                src={images.ic_folder_colections}
-                alt="ic_folder_colection"
-                className="h-3 w-[13.76px]"
-              />
-              <div className="text-[#121212] text-xs">{items.name}</div>
-            </div>
-          ))}
+          collectionList?.data?.map((items, index) => {
+            const exist = items.threads.find(
+              (thread) => thread.uuid === item.uuid
+            )
+            if (!exist) {
+              return (
+                <div
+                  key={index}
+                  className="flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 border-b border-b-neutral-50 -mx-4 px-4 pb-1"
+                  onClick={() => {
+                    collection.collection_from === null
+                      ? assignCollection({
+                          collection_uuid_to: items.uuid,
+                          thread_uuid: collection.uuid,
+                        })
+                      : assignCollection({
+                          collection_uuid_from: collection.collection_from,
+                          collection_uuid_to: items.uuid,
+                          thread_uuid: collection.uuid,
+                        })
+                  }}
+                >
+                  <img
+                    src={images.ic_folder_colections}
+                    alt="ic_folder_colection"
+                    className="h-3 w-[13.76px]"
+                  />
+                  <div className="text-[#121212] text-xs">{items.name}</div>
+                </div>
+              )
+            } else {
+              return null
+            }
+          })}
         <div
           className="flex justify-start gap-2 items-center"
           onClick={() => setShowModalCreateCollection(true)}
