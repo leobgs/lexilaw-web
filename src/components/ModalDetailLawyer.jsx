@@ -322,9 +322,7 @@ export const ModalDetailLawyer = ({
                               <div className="absolute top-0 left-0 w-full h-full z-10 bg-transparent"></div>
                               {itm.file_url.endsWith('.pdf') || itm.file_url.endsWith('.docx') ? (
                                 <iframe
-                                  src={`https://docs.google.com/gview?url=${encodeURIComponent(
-                                    item?.url
-                                  )}&embedded=true&rm=minimal`}
+                                  src={`https://docs.google.com/gview?url=${encodeURIComponent(itm.file_url)}&embedded=true&rm=minimal`}
                                   className="w-full rounded-md aspect-square"
                                   title="Document Viewer"
                                 ></iframe>
