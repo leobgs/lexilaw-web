@@ -24,19 +24,16 @@ import { WhatsappActivation } from './WhatsappActivation'
 import { WhatsAppFitBIt } from './WhatsAppFitBit'
 
 export const NavChat = ({
-                          onHeaderClick,
-                          dataLatest = [],
-                          headerText,
-                          userDetail,
-                          isDisable,
-                          onDeleted = () => {
-                          },
-                          onExpand = () => {
-                          },
-                          onClickFile = () => {
-                          },
-                          lawyerCount
-                        }) => {
+  onHeaderClick,
+  dataLatest = [],
+  headerText,
+  userDetail,
+  isDisable,
+  onDeleted = () => {},
+  onExpand = () => {},
+  onClickFile = () => {},
+  lawyerCount,
+}) => {
   const queryClient = useQueryClient()
   const { collection, collectionClick, resetPhoneNumber } = useGlobalContext()
   const { t, i18n } = useTranslation()
@@ -78,7 +75,7 @@ export const NavChat = ({
       } else {
         notifyError(data?.message)
       }
-    }
+    },
   })
 
   const { mutate: deleteCollection } = useMutation(
@@ -92,7 +89,7 @@ export const NavChat = ({
         } else {
           notifyError(data?.message)
         }
-      }
+      },
     }
   )
 
@@ -136,8 +133,7 @@ export const NavChat = ({
       <div className="hidden md:inline">
         <img src={images.logo_lexilaw} alt="LexiLaw" className="mb-8" />
         <div className="flex gap-2">
-          <div
-            className="!rounded-full !border-gray-100 focus:outline-none py-2.5 border-2 bg-white flex items-center gap-2 px-4 basis-10/12 relative">
+          <div className="!rounded-full !border-gray-100 focus:outline-none py-2.5 border-2 bg-white flex items-center gap-2 px-4 basis-10/12 relative">
             <img
               className="!w-[13.81px] !h-[13.81px] aspect-square mt-0.5 left-3"
               src={images.ic_search_black}
@@ -147,7 +143,7 @@ export const NavChat = ({
               className="placeholder:text-sm focus:outline-none w-full pr-4"
               type="text"
               placeholder={t('search', {
-                keyPrefix: 'chat.chat_text'
+                keyPrefix: 'chat.chat_text',
               })}
               onChange={(e) => setSearch(e.target.value)}
               value={search}
@@ -273,7 +269,7 @@ export const NavChat = ({
                   <div className="flex justify-between items-end mr-2 my-4 pl-1">
                     <div className="text-[#AEB3BF] text-sm">
                       {t('collection', {
-                        keyPrefix: 'chat.chat_text'
+                        keyPrefix: 'chat.chat_text',
                       })}
                     </div>
                     <img
@@ -306,7 +302,7 @@ export const NavChat = ({
                                 collectionClick({
                                   ...itms,
                                   collection_from: items.uuid,
-                                  activeBy: 'collection'
+                                  activeBy: 'collection',
                                 })
                               }}
                             >
@@ -314,7 +310,7 @@ export const NavChat = ({
                                 item={{
                                   ...itms,
                                   title: itms.name,
-                                  type: 'collection'
+                                  type: 'collection',
                                 }}
                                 key={idnx}
                                 typeClick={'collection'}
@@ -335,7 +331,7 @@ export const NavChat = ({
                 {item.data?.length !== 0 && (
                   <div className="text-[#AEB3BF] mt-4 text-sm mb-3 pl-1">
                     {t('current', {
-                      keyPrefix: 'chat.chat_text'
+                      keyPrefix: 'chat.chat_text',
                     })}
                   </div>
                 )}
@@ -356,7 +352,7 @@ export const NavChat = ({
                 {item.data?.length !== 0 && (
                   <div className="text-[#AEB3BF] mt-4 text-sm mb-3 pl-1">
                     {t('past_chat', {
-                      keyPrefix: 'chat.chat_text'
+                      keyPrefix: 'chat.chat_text',
                     })}
                   </div>
                 )}
@@ -422,7 +418,7 @@ export const NavChat = ({
                         <div className="flex justify-between items-center mr-2 mt-4">
                           <div className="text-neutral-40 mb-3">
                             {t('collection', {
-                              keyPrefix: 'chat.chat_text'
+                              keyPrefix: 'chat.chat_text',
                             })}
                           </div>
                           <img
@@ -457,7 +453,7 @@ export const NavChat = ({
                                     collectionClick({
                                       ...itms,
                                       activeBy: 'collection',
-                                      collection_from: items.uuid
+                                      collection_from: items.uuid,
                                     })
                                   }}
                                 >
@@ -466,7 +462,7 @@ export const NavChat = ({
                                       ...itms,
                                       title: itms.name,
                                       collection_uuid: items.uuid,
-                                      type: 'collection'
+                                      type: 'collection',
                                     }}
                                     key={items.uuid}
                                     typeClick={'collection'}
@@ -474,7 +470,7 @@ export const NavChat = ({
                                       setShowNav(false)
                                       collectionClick({
                                         ...itms,
-                                        activeBy: 'collection'
+                                        activeBy: 'collection',
                                       })
                                     }}
                                     onDeleted={() => onDeleted()}
@@ -500,7 +496,7 @@ export const NavChat = ({
                       {item.data?.length !== 0 && (
                         <div className="text-neutral-40 mt-4 mb-3">
                           {t('current', {
-                            keyPrefix: 'chat.chat_text'
+                            keyPrefix: 'chat.chat_text',
                           })}
                         </div>
                       )}
@@ -529,7 +525,7 @@ export const NavChat = ({
                       {item.data?.length !== 0 && (
                         <div className="text-neutral-40 mt-4 mb-3">
                           {t('past_chat', {
-                            keyPrefix: 'chat.chat_text'
+                            keyPrefix: 'chat.chat_text',
                           })}
                         </div>
                       )}
@@ -598,7 +594,7 @@ export const NavChat = ({
             />
             <div className="font-futura-bold text-[20px]">
               {t('setting', {
-                keyPrefix: 'chat.profile_menu'
+                keyPrefix: 'chat.profile_menu',
               })}
             </div>
           </div>
@@ -606,7 +602,7 @@ export const NavChat = ({
           <div className="text-neutral-40 mt-8">
             <div className="px-4 my-2">
               {t('main_menu', {
-                keyPrefix: 'chat.profile_menu'
+                keyPrefix: 'chat.profile_menu',
               })}
             </div>
             <div className="border-b border-b-neutral-20 text-sm font-semi-bold">
@@ -615,7 +611,7 @@ export const NavChat = ({
                 onClick={() => navigate('/account')}
               >
                 {t('my_account', {
-                  keyPrefix: 'chat.profile_option'
+                  keyPrefix: 'chat.profile_option',
                 })}
               </div>
               <div className="flex justify-between items-center mb-2">
@@ -624,18 +620,17 @@ export const NavChat = ({
                   onClick={() => navigate('/my-lawyer')}
                 >
                   {t('my_lawyer', {
-                    keyPrefix: 'chat.profile_option'
+                    keyPrefix: 'chat.profile_option',
                   })}
                 </div>
-                <div
-                  className="py-0.5 px-4 bg-error-light mr-2 rounded-full text-white flex items-center justify-center">
+                <div className="py-0.5 px-4 bg-error-light mr-2 rounded-full text-white flex items-center justify-center">
                   {lawyerCount}
                 </div>
               </div>
             </div>
             <div className="px-4 mb-2 mt-2">
               {t('connected', {
-                keyPrefix: 'chat.profile_menu'
+                keyPrefix: 'chat.profile_menu',
               })}
             </div>
             <div
@@ -664,9 +659,9 @@ export const NavChat = ({
                 {userDetail?.connect_whatsapp_status === 'CONNECTED'
                   ? t('chat.profile_option.wa_connected')
                   : userDetail?.connect_whatsapp_status === 'PENDING'
-                    ? t('chat.profile_option.wa_pending')
-                    : t('wa_activation', {
-                      keyPrefix: 'chat.profile_option'
+                  ? t('chat.profile_option.wa_pending')
+                  : t('wa_activation', {
+                      keyPrefix: 'chat.profile_option',
                     })}
               </div>
               <img
@@ -674,8 +669,8 @@ export const NavChat = ({
                   userDetail?.connect_whatsapp_status === 'CONNECTED'
                     ? images.ic_disconnected
                     : userDetail?.connect_whatsapp_status === 'PENDING'
-                      ? images.ic_sand_time_mini
-                      : images.ic_arrow_cornering
+                    ? images.ic_sand_time_mini
+                    : images.ic_arrow_cornering
                 }
                 alt="arrow"
                 className={`md:hidden ${
@@ -698,13 +693,13 @@ export const NavChat = ({
 
             <div className="px-4 my-2">
               {t('configure', {
-                keyPrefix: 'chat.profile_menu'
+                keyPrefix: 'chat.profile_menu',
               })}
             </div>
             <div className="mb-1 flex justify-between items-start">
               <div className="px-4 text-black-darker text-base font-medium">
                 {t('menu_language', {
-                  keyPrefix: 'chat.profile_option'
+                  keyPrefix: 'chat.profile_option',
                 })}
               </div>
               <div className="">
@@ -722,13 +717,15 @@ export const NavChat = ({
         </div>
       )}
 
-      <ModalSearch
-        show={showSearchNav}
-        onHide={() => setShowSearchNav(false)}
-        searchText={debounceSearch}
-        setShowNav={setShowNav}
-        onHeaderClick={onHeaderClick}
-      />
+      {showSearchNav && (
+        <ModalSearch
+          show={showSearchNav}
+          onHide={() => setShowSearchNav(false)}
+          searchText={debounceSearch}
+          setShowNav={setShowNav}
+          onHeaderClick={onHeaderClick}
+        />
+      )}
 
       <Modal
         classNameBox={'bg-gray-700/70'}

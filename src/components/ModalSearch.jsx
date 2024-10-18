@@ -1,7 +1,7 @@
 import images from 'assets/images'
 
 import { Modal } from './Modal'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { t } from 'i18next'
 import { useDebounce } from 'hooks/useDebounce'
 import { useSearch } from 'hooks/useSearch'
@@ -20,11 +20,20 @@ export const ModalSearch = ({
   onHeaderClick,
 }) => {
   const [search, setSearch] = useState(searchText ?? '')
+  const searchRef = useRef(null)
 
   const debounceText = useDebounce(search)
   const debounceSearch = search.length > 0 ? debounceText : ''
 
   const { isPendingSearch, searchData } = useSearch(debounceSearch, true)
+
+  useEffect(() => {
+    const current = searchRef.current
+
+    if (current) {
+      current.focus()
+    }
+  }, [])
 
   return (
     <Modal
@@ -50,6 +59,7 @@ export const ModalSearch = ({
             className="w-full !outline-none ml-2"
             placeholder={t('chat.chat_text.search')}
             autoComplete="off"
+            ref={searchRef}
           />
         </div>
       </div>
