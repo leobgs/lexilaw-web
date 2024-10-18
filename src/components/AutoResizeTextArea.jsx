@@ -4,7 +4,7 @@ import { useWindowWidth } from 'hooks/useWindowWidth'
 import React, { useState, useRef, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className, disable }) => {
+const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className, disable, toHomePath }) => {
   const textareaRef = useRef(null)
   const [textareaValue, setTextareaValue] = useState(value || '')
   const [form, setForm] = useState('')
@@ -43,6 +43,13 @@ const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className,
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
     }
   }, [textareaValue])
+
+  useEffect(() => {
+    const current = textareaRef.current
+    if (current && !isMobile) {
+      current.focus()
+    }
+  }, [isMobile, toHomePath])
 
   const handleChange = (e) => {
     setTextareaValue(e.target.value)
