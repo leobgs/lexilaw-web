@@ -18,10 +18,11 @@ import {
   useQuery,
   useQueryClient,
 } from 'react-query'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import { checkMetaSchedulePattern } from 'utils/checkMetaSchedulePattern'
 import { RIWAYAT_OROLAN } from 'utils/dummy'
 import { isScheduleFn } from 'utils/isScheduleFn'
+import { getFromLocalStorage, saveToLocalStorage } from 'utils/LocalStorage'
 
 export const fetchMessage = async ({ pageParam }, URL) => {
   const respond = await axios
@@ -51,6 +52,7 @@ export const ThreadPage = ({
   const [isScrolled, setScrolled] = useState(true)
   const { setIsFirstTime } = useGlobalContext()
   const { encryptFile } = useDocumentEncryptor()
+  const navigate = useNavigate()
 
   const isBooked = checkMetaSchedulePattern(renderedMessage)
 
@@ -315,7 +317,13 @@ export const ThreadPage = ({
       filename: e.file?.name,
     }
 
-    sendMessage(dataMessage)
+    sendMessage(dataMessage, {
+      onSettled: () => {
+        saveToLocalStorage('lastMessage', {
+          [params?.uuid]: dataMessage,
+        })
+      },
+    })
     setDisableInput(true)
     setMessageUUID(null)
     setMessageUUIDtoRespond(null)
@@ -333,7 +341,29 @@ export const ThreadPage = ({
   }
 
   const handleResendChat = () => {
-    handleAddChat(resendMessage)
+    const getLastMessage = getFromLocalStorage('lastMessage')
+    const message = getLastMessage[params?.uuid]
+
+    if (message) {
+      if (!message?.thread_uuid) {
+        message.thread_uuid = params.uuid
+      }
+
+      sendMessage(message, {
+        onSettled: () => {
+          saveToLocalStorage('lastMessage', {
+            [params?.uuid]: message,
+          })
+        },
+      })
+      setDisableInput(true)
+      setMessageUUID(null)
+      setMessageUUIDtoRespond(null)
+    } else if (resendMessage) {
+      handleAddChat(resendMessage)
+    } else {
+      navigate(0)
+    }
   }
 
   return (

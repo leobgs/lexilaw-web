@@ -215,7 +215,7 @@ export const ChatCard = ({
                 'btn-secondary-hover w-1/6 mt-6 mb-[1rem] rounded-full font-medium mx-auto'
               }
               label="Retry"
-              // onClick={}
+              onClick={handleResendChat}
             />
           )}
         </div>

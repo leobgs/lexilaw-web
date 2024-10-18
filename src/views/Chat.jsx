@@ -37,6 +37,7 @@ import { WhatsAppFitBIt } from 'components/WhatsAppFitBit'
 import { useDocumentEncryptor } from 'hooks/useDocumentEncryptor'
 import clsx from 'clsx'
 import { AutoScrollingDiv } from 'components/AutoScrollDiv'
+import { removeFromLocalStorage, saveToLocalStorage } from 'utils/LocalStorage'
 
 export const Chat = () => {
   const { t, i18n } = useTranslation()
@@ -185,6 +186,7 @@ export const Chat = () => {
       if (data?.status === 'Success') {
         storage.remove(StorageKey.ACCESS_TOKEN)
         storage.remove(StorageKey.IS_LOGIN)
+        removeFromLocalStorage('lastMessage')
         navigate('/auth')
       } else {
         notifyError(data?.message)
@@ -439,7 +441,13 @@ export const Chat = () => {
       keyPrefix: 'chat',
     })
 
-    sendMessage(dataMessage)
+    sendMessage(dataMessage, {
+      onSettled: (data) => {
+        saveToLocalStorage('lastMessage', {
+          [data?.data?.thread_uuid]: dataMessage,
+        })
+      },
+    })
     if (pathname === '/') {
       setIsFirstTimeChat((prev) => !prev)
     } else {

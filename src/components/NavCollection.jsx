@@ -99,8 +99,8 @@ export const NavCollection = ({
         <img
           src={
             items.isExpand
-              ? images.ic_folder_colection_active
-              : images.ic_folder_colection
+              ? images.ic_folder_icon_expand
+              : images.ic_folder_icon
           }
           alt="ic_folder_colection"
           className="h-7 w-7"

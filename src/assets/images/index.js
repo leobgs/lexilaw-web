@@ -100,6 +100,8 @@ import ic_arrow_back_mobile from './ic_arrow_back_mobile.svg'
 import ic_magbifying_glass from './ic_magnifying_glass.svg'
 import ic_menu_up_svg from './ic_menu_up_svg.svg'
 import ic_lexilaw_logo_mobile from './ic_lexilaw_logo_mobile.svg'
+import ic_folder_icon from './ic_folder_icon.svg'
+import ic_folder_icon_expand from './ic_folder_icon_expand.svg'
 
 const images = {
   bg_register_login,
@@ -204,6 +206,8 @@ const images = {
   ic_magbifying_glass,
   ic_menu_up_svg,
   ic_lexilaw_logo_mobile,
+  ic_folder_icon,
+  ic_folder_icon_expand,
 }
 
 export default images
