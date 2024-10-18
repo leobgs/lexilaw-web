@@ -5,8 +5,9 @@ import { byteConversion } from 'utils/byteConversion'
 import { useTranslation } from 'react-i18next'
 import AutoResizeTextarea from './AutoResizeTextArea'
 import { useWindowWidth } from 'hooks/useWindowWidth'
+import { useParams } from 'react-router-dom'
 
-export const InputChat = ({ onChange, className, disable }) => {
+export const InputChat = ({ onChange, className, disable, toHomePath }) => {
   const [displayImage, setDisplayImage] = useState()
   const [displayExt, setDisplayExt] = useState()
   const [form, setForm] = useState({
@@ -19,6 +20,14 @@ export const InputChat = ({ onChange, className, disable }) => {
 
   const { windowWidth } = useWindowWidth()
   const isMobile = windowWidth <= 767
+
+  const { uuid } = useParams()
+
+  useEffect(() => {
+    if (uuid) {
+      setInputValue('')
+    }
+  }, [uuid])
 
   useEffect(() => {
     setDisplayImage(null)
@@ -204,6 +213,7 @@ export const InputChat = ({ onChange, className, disable }) => {
                 ? t('input_chat.ask_lexi_mobile')
                 : t('ask_lexi', { keyPrefix: 'input_chat' })
             }`}
+            toHomePath={toHomePath}
           />
         </div>
       </div>

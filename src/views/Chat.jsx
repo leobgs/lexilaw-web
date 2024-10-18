@@ -76,6 +76,11 @@ export const Chat = () => {
   const { encryptFile } = useDocumentEncryptor()
   const { pathname } = useLocation()
   const [isFirstTimeChat, setIsFirstTimeChat] = useState(false)
+  const [toHomePath, setToHomePath] = useState(0)
+
+  const clickedHomePath = () => {
+    setToHomePath((prev) => prev + 1)
+  }
 
   const [showWhatsAppActivation, setShowWhatsAppActivation] = useState(false)
   const openModalWAActivation = () => {
@@ -583,6 +588,7 @@ export const Chat = () => {
               })
             )
             navigate('/')
+            clickedHomePath()
           }}
           dataLatest={dataThreadList}
           onEdit={(e) => onEdit(e)}
@@ -806,6 +812,7 @@ export const Chat = () => {
                   onChange={(e) => handleAddChat(e)}
                   disable={disableInput}
                   key={i18n.language}
+                  toHomePath={toHomePath}
                 />
               </div>
             </div>

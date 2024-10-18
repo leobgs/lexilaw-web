@@ -307,7 +307,7 @@ export const ChatRespond = ({
               allLawyer?.length !== 0 && (
                 <div className="w-full">
                   <div
-                    className={`bg-[#EFEDE8] p-4 rounded-lg flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md cursor-pointer select-none ${
+                    className={`bg-[#EFEDE8] p-4 rounded-lg lg:w-[320px] flex gap-3 items-start justify-between border border-[#E0DCD4] shadow-md cursor-pointer select-none ${
                       isBooked && 'hover:cursor-not-allowed'
                     }`}
                     onClick={() => {

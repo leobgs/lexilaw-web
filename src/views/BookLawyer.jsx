@@ -229,7 +229,12 @@ export const BookLawyer = () => {
 
       <Header
         label={t('booking_lawyer', { keyPrefix: 'lawyer_recommendation' })}
-        onBackClick={() => navigate(-1, { replace: true })}
+        onBackClick={() => {
+          if (getUUID) {
+            navigate(`/thread/${getUUID}`, { replace: true })
+          } else {
+            navigate(-1, { replace: true })}}
+          }
       />
       <div className='m-4 md:flex md:gap-4 md:justify-end'>
         <div className='md:w-3/5'>
