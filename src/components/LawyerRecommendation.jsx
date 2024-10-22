@@ -19,8 +19,7 @@ export const LawyerRecommendation = ({
 }) => {
   const { bookingLawyerReducer } = useGlobalContext()
   const navigate = useNavigate()
-  const {uuid} = useParams()
-  console.log(uuid)
+  const { uuid } = useParams()
   const [selectedLawyer, setSelectedLawyer] = useState(null)
   const currWidth = useWidthSize()
   const { resultData } = useGetPrice()
