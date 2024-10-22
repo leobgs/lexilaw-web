@@ -49,7 +49,7 @@ export const ModalDetailLawyer = ({
     ({ pageParam = 1 }) => {
       if (show) {
         return getData(
-          API.MY_LAWYER_SCHEDULES + show + `?page=${pageParam}&limit=3`
+          API.MY_LAWYER_SCHEDULES + show + `?page=${pageParam}&limit=1000`
         )
       } else {
         return Promise.resolve(null)
