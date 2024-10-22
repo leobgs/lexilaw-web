@@ -16,6 +16,7 @@ import { numberSeparator } from 'utils/numberSeparator'
 import { useTranslation } from 'react-i18next'
 import { PaymentFailedModal } from 'components/PaymentFailedModal'
 import { localServerData } from 'hooks/useLocalServerData'
+import { getFromLocalStorage, removeFromLocalStorage, useStorageCleanup } from 'utils/LocalStorage'
 
 export const BookLawyer = () => {
   const { t } = useTranslation()
@@ -35,6 +36,9 @@ export const BookLawyer = () => {
   const location = useLocation()
   const { currentLanguage } = useGlobalContext()
   const { setLatest_uuid, getUUID } = localServerData()
+  const lastThreadUUID = getFromLocalStorage('lastThreadUUID')
+
+  useStorageCleanup(['lastThreadUUID'])
 
   useEffect(() => {
     if (bookingLawyerPayload?.selected_lawyer) {
@@ -202,7 +206,7 @@ export const BookLawyer = () => {
     (totalServicePriceAndTax || 0) + (totalTransactionPrice || 0)
 
   return (
-    <div className=''>
+    <div className="">
       <PaymentMethodModal
         dataLawyer={dataLawyer}
         isShow={isShowPaymentMethodModal}
@@ -230,51 +234,53 @@ export const BookLawyer = () => {
       <Header
         label={t('booking_lawyer', { keyPrefix: 'lawyer_recommendation' })}
         onBackClick={() => {
-          if (getUUID) {
-            navigate(`/thread/${getUUID}`, { replace: true })
+          if (lastThreadUUID) {
+            navigate(`/thread/${lastThreadUUID}`, { replace: true })
+            removeFromLocalStorage('lastThreadUUID')
           } else {
-            navigate(-1, { replace: true })}}
+            navigate(-1, { replace: true })
           }
+        }}
       />
-      <div className='m-4 md:flex md:gap-4 md:justify-end'>
-        <div className='md:w-3/5'>
+      <div className="m-4 md:flex md:gap-4 md:justify-end">
+        <div className="md:w-3/5">
           <HeaderLawyerCard data={dataLawyer} />
-          <div className='bg-white rounded-2xl p-4 mt-4'>
-            <div className='justify-between flex items-center text-[#ABABAA] font-semi-bold pb-2 border-b-2 border-b-neutral-60 w-full'>
-              <div className='line-clamp-1'>
+          <div className="bg-white rounded-2xl p-4 mt-4">
+            <div className="justify-between flex items-center text-[#ABABAA] font-semi-bold pb-2 border-b-2 border-b-neutral-60 w-full">
+              <div className="line-clamp-1">
                 {t('results_obtained', { keyPrefix: 'booking_lawyer' })}
               </div>
 
               {isEdit ? (
-                <div className='flex items-center justify-between gap-2'>
+                <div className="flex items-center justify-between gap-2">
                   <div
-                    className='w-full text-[#00153F] text-xs'
+                    className="w-full text-[#00153F] text-xs"
                     onClick={handleRefetchServices}
                   >
                     {t('back_to_start', { keyPrefix: 'booking_lawyer' })}
                   </div>
                   <div
-                    className='bg-blue-sky px-4 text-black-dark rounded-2xl md:inline hidden'
+                    className="bg-blue-sky px-4 text-black-dark rounded-2xl md:inline hidden"
                     onClick={handleEditList}
                   >
                     {t('finished', { keyPrefix: 'booking_lawyer' })}
                   </div>
                   <img
                     src={images.ic_check}
-                    alt='done edit'
+                    alt="done edit"
                     onClick={handleEditList}
-                    className='md:hidden'
+                    className="md:hidden"
                   />
                 </div>
               ) : (
                 <div
                   onClick={handleEditList}
-                  className='bg-blue-sky rounded-full flex items-center cursor-pointer'
+                  className="bg-blue-sky rounded-full flex items-center cursor-pointer"
                 >
-                  <div className='text-black-dark hidden md:ml-4 md:inline-block'>
+                  <div className="text-black-dark hidden md:ml-4 md:inline-block">
                     {t('adjust', { keyPrefix: 'booking_lawyer' })}
                   </div>
-                  <img src={images.ic_edit} alt='edit service' className='' />
+                  <img src={images.ic_edit} alt="edit service" className="" />
                 </div>
               )}
             </div>
@@ -288,25 +294,25 @@ export const BookLawyer = () => {
               />
             ))}
           </div>
-          <div className='bg-white rounded-2xl p-4 mt-4'>
+          <div className="bg-white rounded-2xl p-4 mt-4">
             <PriceItem
               data={{
                 id: 1,
                 service_name: 'Total',
                 price: totalServicePrice,
               }}
-              classNameText='text-opacity-50'
+              classNameText="text-opacity-50"
             />
           </div>
         </div>
 
-        <div className='md:bg-blue-dark md:text-white md:rounded-2xl md:h-fit bg-selected-lawyer'>
-          <div className='mt-4 pt-8 border-t border-t-neutral-30 mx-4 md:mt-0 md:border-none'>
-            <div className='font-futura md:text-xl md:mb-8 md:-mt-4'>
+        <div className="md:bg-blue-dark md:text-white md:rounded-2xl md:h-fit bg-selected-lawyer">
+          <div className="mt-4 pt-8 border-t border-t-neutral-30 mx-4 md:mt-0 md:border-none">
+            <div className="font-futura md:text-xl md:mb-8 md:-mt-4">
               {t('summary', { keyPrefix: 'booking_lawyer' })}
             </div>
-            <div className=''>
-              <div className='font-futura-bold text-sm my-2'>
+            <div className="">
+              <div className="font-futura-bold text-sm my-2">
                 {t('service_tax', { keyPrefix: 'booking_lawyer' })}
               </div>
               {summaryPrices.jasa_pajak?.map((item, index) =>
@@ -319,8 +325,8 @@ export const BookLawyer = () => {
               )}
             </div>
 
-            <div className='mt-8'>
-              <div className='font-futura-bold text-sm my-2'>
+            <div className="mt-8">
+              <div className="font-futura-bold text-sm my-2">
                 {t('transaction_fee', { keyPrefix: 'booking_lawyer' })}
               </div>
               {summaryPrices?.transaction_price?.map((item, index) =>
@@ -333,17 +339,17 @@ export const BookLawyer = () => {
               )}
             </div>
 
-            <div className='flex justify-between my-8 items-center'>
-              <div className='font-futura-bold text-sm'>
+            <div className="flex justify-between my-8 items-center">
+              <div className="font-futura-bold text-sm">
                 {t('total_bill', { keyPrefix: 'booking_lawyer' })}
               </div>
-              <div className='font-futura-bold text-sm'>
+              <div className="font-futura-bold text-sm">
                 {numberSeparator(totalTransactionAmount, 'Rp')}
               </div>
             </div>
           </div>
 
-          <div className='border-t border-t-neutral-30 md:border-t-blue-sky md:border-opacity-15 py-4 mb-6 md:px-4'>
+          <div className="border-t border-t-neutral-30 md:border-t-blue-sky md:border-opacity-15 py-4 mb-6 md:px-4">
             <div
               className={`w-full mt-1 rounded-full font-medium relative px-8 py-2.5  ${
                 loadingBook
@@ -355,10 +361,10 @@ export const BookLawyer = () => {
                 // setPaymentMethodModal(!isShowPaymentMethodModal);
               }}
             >
-              <span className='pr-1 border-r border-r-neutral-40'>
+              <span className="pr-1 border-r border-r-neutral-40">
                 {t('pay_button', { keyPrefix: 'booking_lawyer' })}
               </span>
-              <span className='pl-1'>
+              <span className="pl-1">
                 {numberSeparator(totalTransactionAmount, 'Rp')}
               </span>
             </div>
@@ -380,27 +386,27 @@ const HeaderLawyerCard = ({ data }) => {
   }, [currWidth])
 
   return (
-    <div className='rounded-2xl bg-neutral-60 p-4 flex md:justify-start justify-between w-full items-center relative'>
-      <div className='flex gap-2 items-center md:flex-col md:items-start md:border-r-2 md:border-neutral-10 md:pr-14 md:ml-4'>
+    <div className="rounded-2xl bg-neutral-60 p-4 flex md:justify-start justify-between w-full items-center relative">
+      <div className="flex gap-2 items-center md:flex-col md:items-start md:border-r-2 md:border-neutral-10 md:pr-14 md:ml-4">
         <img
           src={data?.image_url}
           alt={data?.first_name}
-          className='rounded-full h-10 w-10 md:w-12 md:h-12'
+          className="rounded-full h-10 w-10 md:w-12 md:h-12"
         />
         <div>
-          <div className='font-futura-bold text-secondary-base md:text-black-dark'>
+          <div className="font-futura-bold text-secondary-base md:text-black-dark">
             {data?.first_name} {data?.last_name}
           </div>
-          <div className='text-xs text-neutral-40'>{data?.city_name}</div>
+          <div className="text-xs text-neutral-40">{data?.city_name}</div>
         </div>
       </div>
 
-      <div className='hidden md:flex md:flex-col md:w-9/12 text-sm pl-4'>
+      <div className="hidden md:flex md:flex-col md:w-9/12 text-sm pl-4">
         <div>{data?.description}</div>
         <div className={`grid grid-cols-3 mt-4 gap-2`}>
           {data?.lawyer_filed?.map((item, index) => (
             <div
-              className='bg-[#D9D9D9] rounded-2xl py-1 px-2 text-center text-neutral-40 my-auto line-clamp-1'
+              className="bg-[#D9D9D9] rounded-2xl py-1 px-2 text-center text-neutral-40 my-auto line-clamp-1"
               key={index}
             >
               {item}
@@ -409,15 +415,15 @@ const HeaderLawyerCard = ({ data }) => {
         </div>
       </div>
 
-      <div className='w-2/12' />
+      <div className="w-2/12" />
 
-      <div className='bg-dark-50 rounded-bl-lg rounded-tr-md text-white top-0 absolute right-0 py-4 px-2 hidden md:inline-block'>
-        <div className='flex items-center gap-1'>
-          <div className='flex'>
-            <div className='text-3xl'>{data?.experience}</div>
+      <div className="bg-dark-50 rounded-bl-lg rounded-tr-md text-white top-0 absolute right-0 py-4 px-2 hidden md:inline-block">
+        <div className="flex items-center gap-1">
+          <div className="flex">
+            <div className="text-3xl">{data?.experience}</div>
             <div>+</div>
           </div>
-          <div className='text-xs font-light'>
+          <div className="text-xs font-light">
             <div>YEARS</div>
             <div>EXP</div>
           </div>
@@ -426,40 +432,40 @@ const HeaderLawyerCard = ({ data }) => {
 
       <img
         src={images.ic_arrow_cornering}
-        alt='arrow'
-        className='h-2.5 w-2.5 md:hidden'
+        alt="arrow"
+        className="h-2.5 w-2.5 md:hidden"
         onClick={() => setShowModa(true)}
       />
 
       <Modal
         show={showModa}
         onHide={() => setShowModa(false)}
-        contentClassName='mx-4'
-        className='!bg-neutral-40'
+        contentClassName="mx-4"
+        className="!bg-neutral-40"
       >
-        <div className=' px-4 py-8 rounded-xl bg-neutral-60'>
-          <div className='flex justify-between'>
-            <div className='flex gap-2 items-center md:flex-col md:items-start md:border-r-2 md:border-neutral-10 md:pr-14'>
+        <div className=" px-4 py-8 rounded-xl bg-neutral-60">
+          <div className="flex justify-between">
+            <div className="flex gap-2 items-center md:flex-col md:items-start md:border-r-2 md:border-neutral-10 md:pr-14">
               <img
                 src={data?.image_url}
                 alt={data?.first_name}
-                className='rounded-full h-10 w-10 md:w-12 md:h-12'
+                className="rounded-full h-10 w-10 md:w-12 md:h-12"
               />
               <div>
-                <div className='font-semi-bold text-secondary-base md:text-black-dark'>
+                <div className="font-semi-bold text-secondary-base md:text-black-dark">
                   {data?.first_name} {data?.last_name}
                 </div>
-                <div className='text-xs text-neutral-40'>{data?.city}</div>
+                <div className="text-xs text-neutral-40">{data?.city}</div>
               </div>
             </div>
 
-            <div className='bg-dark-50 rounded-bl-lg rounded-tr-xl text-white py-4 px-2 -mr-4 -mt-8'>
-              <div className='flex items-center gap-1 text-yellow-50'>
-                <div className='flex'>
-                  <div className='text-3xl font-bold'>{data?.experience}</div>
+            <div className="bg-dark-50 rounded-bl-lg rounded-tr-xl text-white py-4 px-2 -mr-4 -mt-8">
+              <div className="flex items-center gap-1 text-yellow-50">
+                <div className="flex">
+                  <div className="text-3xl font-bold">{data?.experience}</div>
                   <div>+</div>
                 </div>
-                <div className='text-xs font-light'>
+                <div className="text-xs font-light">
                   <div>YEARS</div>
                   <div>EXP</div>
                 </div>
@@ -467,12 +473,12 @@ const HeaderLawyerCard = ({ data }) => {
             </div>
           </div>
 
-          <div className='text-sm mt-8'>
+          <div className="text-sm mt-8">
             <div>{data?.description}</div>
-            <div className='grid grid-cols-2 mt-4 gap-2'>
+            <div className="grid grid-cols-2 mt-4 gap-2">
               {data?.lawyer_filed?.map((item, index) => (
                 <div
-                  className='bg-[#D9D9D9] rounded-lg py-1 px-2 text-center text-neutral-40 my-auto'
+                  className="bg-[#D9D9D9] rounded-lg py-1 px-2 text-center text-neutral-40 my-auto"
                   key={index}
                 >
                   {item}
