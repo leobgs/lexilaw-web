@@ -199,7 +199,7 @@ export const NavComponent = ({
   return (
     <>
       <div
-        className={`h-9 rounded-lg flex justify-between items-center text-sm pl-2 cursor-pointer
+        className={`h-9 rounded-lg flex gap-3 justify-between items-center text-sm pl-2 cursor-pointer w-full
       ${
         item.isActive
           ? isActivated && item.type === collection.activeBy
@@ -209,19 +209,21 @@ export const NavComponent = ({
             : 'border-blue-dark border pl-2'
           : ''
       }`}
-        onClick={() => {
-          item.isActive && isActivated
-            ? void 0
-            : collectionClick({ ...item, activeBy: typeClick })
-          setIsFirstTime(false)
-
-          if (onClick) {
-            onClick()
-          }
-        }}
       >
         <>
-          <div className={`line-clamp-1 w-full`}>
+          <div
+            className={`truncate w-full`}
+            onClick={() => {
+              item.isActive && isActivated
+                ? void 0
+                : collectionClick({ ...item, activeBy: typeClick })
+              setIsFirstTime(false)
+
+              if (onClick) {
+                onClick()
+              }
+            }}
+          >
             {item.isActive && isActivated && isFirstTime ? (
               <Typewriter
                 text={
@@ -244,7 +246,7 @@ export const NavComponent = ({
           {item.isActive && isActivated && item.type === collection.activeBy ? (
             <div
               className="pl-3 -py-2"
-              onClick={() => {
+              onClick={(e) => {
                 setShow1st(true)
                 collectionClick({ ...item, activeBy: typeClick })
               }}
