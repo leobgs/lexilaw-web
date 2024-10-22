@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react'
 import { Button } from './Button/Button'
 import { useWidthSize } from 'hooks/useWidthSize'
 import './LawyerRecommendation.scss'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useGlobalContext } from 'hooks/context'
 import { useGetPrice } from 'hooks/useGetPrice'
+import { saveToLocalStorage } from 'utils/LocalStorage'
 
 export const LawyerRecommendation = ({
   isShow,
@@ -18,6 +19,8 @@ export const LawyerRecommendation = ({
 }) => {
   const { bookingLawyerReducer } = useGlobalContext()
   const navigate = useNavigate()
+  const {uuid} = useParams()
+  console.log(uuid)
   const [selectedLawyer, setSelectedLawyer] = useState(null)
   const currWidth = useWidthSize()
   const { resultData } = useGetPrice()
@@ -146,9 +149,10 @@ export const LawyerRecommendation = ({
             </div>
             <div className="mx-4">
               <Button
-                onClick={() =>
+                onClick={() => {
                   navigate('/book-lawyer', { state: selectedLawyer })
-                }
+                  saveToLocalStorage('lastThreadUUID', uuid)
+                }}
                 label={t('booking_lawyer', {
                   keyPrefix: 'lawyer_recommendation',
                 })}

@@ -69,6 +69,7 @@ export class Storage {
 /**
  * @typedef {Object} LocalStorageType
  * @property {Record<string, MessageData>} lastMessage
+ * @property {string} lastThreadUUID
  */
 
 /**
@@ -95,8 +96,8 @@ export const getFromLocalStorage = (key) => {
 export const saveToLocalStorage = (key, data) => {
   let stringifyData
   const oldData = getFromLocalStorage('lastMessage')
-  if (oldData) {
-    stringifyData = JSON.stringify({...oldData, ...data})
+  if (oldData && key === 'lastMessage') {
+    stringifyData = JSON.stringify({ ...oldData, ...data })
   } else {
     stringifyData = JSON.stringify(data)
   }

@@ -16,6 +16,7 @@ import { numberSeparator } from 'utils/numberSeparator'
 import { useTranslation } from 'react-i18next'
 import { PaymentFailedModal } from 'components/PaymentFailedModal'
 import { localServerData } from 'hooks/useLocalServerData'
+import { getFromLocalStorage, removeFromLocalStorage } from 'utils/LocalStorage'
 
 export const BookLawyer = () => {
   const { t } = useTranslation()
@@ -35,6 +36,7 @@ export const BookLawyer = () => {
   const location = useLocation()
   const { currentLanguage } = useGlobalContext()
   const { setLatest_uuid, getUUID } = localServerData()
+  const lastThreadUUID = getFromLocalStorage('lastThreadUUID')
 
   useEffect(() => {
     if (bookingLawyerPayload?.selected_lawyer) {
@@ -230,8 +232,9 @@ export const BookLawyer = () => {
       <Header
         label={t('booking_lawyer', { keyPrefix: 'lawyer_recommendation' })}
         onBackClick={() => {
-          if (getUUID) {
-            navigate(`/thread/${getUUID}`, { replace: true })
+          if (lastThreadUUID) {
+            navigate(`/thread/${lastThreadUUID}`, { replace: true })
+            removeFromLocalStorage('lastThreadUUID')
           } else {
             navigate(-1, { replace: true })}}
           }
