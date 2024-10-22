@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 export class LocalStorage {
   getItem(key, init) {
     return Storage.getItem(key, init)
@@ -69,6 +71,7 @@ export class Storage {
 /**
  * @typedef {Object} LocalStorageType
  * @property {Record<string, MessageData>} lastMessage
+ * @property {string} lastThreadUUID
  */
 
 /**
@@ -95,8 +98,8 @@ export const getFromLocalStorage = (key) => {
 export const saveToLocalStorage = (key, data) => {
   let stringifyData
   const oldData = getFromLocalStorage('lastMessage')
-  if (oldData) {
-    stringifyData = JSON.stringify({...oldData, ...data})
+  if (oldData && key === 'lastMessage') {
+    stringifyData = JSON.stringify({ ...oldData, ...data })
   } else {
     stringifyData = JSON.stringify(data)
   }
@@ -110,4 +113,24 @@ export const saveToLocalStorage = (key, data) => {
  */
 export const removeFromLocalStorage = (key) => {
   localStorage.removeItem(key)
+}
+
+/**
+ * @template {keyof LocalStorageType} K
+ * @param {K[]} keysToRemove
+ */
+export const useStorageCleanup = (keysToRemove) => {
+  useEffect(() => {
+    const handleTabClose = () => {
+      keysToRemove.forEach((key) => {
+        removeFromLocalStorage(key)
+      })
+    }
+
+    window.addEventListener('beforeunload', handleTabClose)
+
+    return () => {
+      window.removeEventListener('beforeunload', handleTabClose)
+    }
+  }, [keysToRemove])
 }
