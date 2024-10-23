@@ -80,12 +80,40 @@ export const NavComponent = ({
     {
       onSettled: (data) => {
         if (data.status === 'Success') {
-          queryClient.invalidateQueries('collection')
-          queryClient.invalidateQueries('newest_thread')
+          if (collection.collection_from) {
+            assignCollection({
+              collection_uuid_from: collection.collection_from,
+              collection_uuid_to: data?.data?.uuid,
+              thread_uuid: collection.uuid,
+            })
+          } else {
+            queryClient.invalidateQueries('collection')
+            queryClient.invalidateQueries('newest_thread')
+            setShowModalCreateCollection(false)
+            setText('')
+          }
+        } else {
+          setText('')
+          notifyError(data?.message)
+        }
+      },
+    }
+  )
+
+  const { mutate: assignCollection } = useMutation(
+    (form) => putData(API.COLLECTION_CREATE_ASSIGN, form),
+    {
+      onSettled: (data) => {
+        if (data?.status === 'Success') {
+          if (collection.collection_from) {
+            queryClient.invalidateQueries('collection')
+          } else {
+            queryClient.invalidateQueries('collection')
+            queryClient.invalidateQueries('newest_thread')
+          }
           setShowModalCreateCollection(false)
           setText('')
         } else {
-          setText('')
           notifyError(data?.message)
         }
       },
@@ -126,33 +154,30 @@ export const NavComponent = ({
     }
   )
 
-  const { mutate: assignCollection } = useMutation(
-    (form) => putData(API.COLLECTION_CREATE_ASSIGN, form),
-    {
-      onSettled: (data) => {
-        if (data?.status === 'Success') {
-          queryClient.invalidateQueries('collection')
-        } else {
-          notifyError(data?.message)
-        }
-      },
-    }
-  )
-
   useEffect(() => {
     const currentRef = collectionInputRef.current
     if (collectionInputRef.current) {
       const onKeyEnter = (e) => {
         if (e?.key === 'Enter') {
-          createCollection({
-            name: collectionInputRef.current.value,
-            threadId: item.uuid,
-          })
+          const sameName = collectionList?.data?.find(
+            (coll) => coll.name === collectionInputRef.current.value
+          )
+          if (sameName) {
+            assignCollection({
+              collection_uuid_from: collection.collection_from,
+              collection_uuid_to: sameName.uuid,
+              thread_uuid: item.uuid,
+            })
+          } else {
+            createCollection({
+              name: collectionInputRef.current.value,
+              threadId: item.uuid,
+            })
+          }
         }
       }
 
       collectionInputRef.current?.addEventListener('keypress', onKeyEnter)
-
       return () => {
         currentRef?.removeEventListener('keypress', onKeyEnter)
       }
@@ -368,7 +393,9 @@ export const NavComponent = ({
                   className="flex justify-start gap-2 items-center text-base text-neutral-40 mb-2 border-b border-b-neutral-50 -mx-4 px-4 pb-1"
                   onClick={() => {
                     collection.collection_from === null
-                      ? assignCollection({
+                      ? // kalo disini mau assigncollection baru tetep cek formnya
+                        assignCollection({
+                          collection_uuid_from: collection.collection_from,
                           collection_uuid_to: items.uuid,
                           thread_uuid: collection.uuid,
                         })
@@ -459,7 +486,23 @@ export const NavComponent = ({
           className="bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full"
           onSubmit={(e) => {
             e.preventDefault()
-            createCollection({ name: text, threadId: item.uuid })
+            const sameName = collectionList?.data?.find(
+              (coll) => coll.name === text
+            )
+            if (sameName) {
+              assignCollection({
+                collection_uuid_from: collection.collection_from,
+                collection_uuid_to: sameName.uuid,
+                thread_uuid: item.uuid,
+              })
+            } else {
+              createCollection({
+                name: text,
+                threadId: item.uuid,
+              })
+            }
+
+            // createCollection({ name: text, threadId: item.uuid })
             setText('')
           }}
         >
@@ -494,7 +537,22 @@ export const NavComponent = ({
               disabled={!text}
               onClick={(e) => {
                 e.preventDefault()
-                createCollection({ name: text, threadId: item.uuid })
+
+                const sameName = collectionList?.data?.find(
+                  (coll) => coll.name === text
+                )
+                if (sameName) {
+                  assignCollection({
+                    collection_uuid_from: collection.collection_from,
+                    collection_uuid_to: sameName.uuid,
+                    thread_uuid: item.uuid,
+                  })
+                } else {
+                  createCollection({
+                    name: text,
+                    threadId: item.uuid,
+                  })
+                }
               }}
             />
           </div>

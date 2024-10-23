@@ -27,8 +27,10 @@ export async function decryptAESGCM(encodedCiphertext, key) {
   const dec = new TextDecoder()
   const keyBuffer = new TextEncoder().encode(key).slice(0, 32)
 
-  const combined = Uint8Array.from(atob(encodedCiphertext), (c) =>
-    c.charCodeAt(0)
+  const combined = new Uint8Array(
+    atob(encodedCiphertext)
+      .split('')
+      .map((c) => c.charCodeAt(0))
   )
 
   const nonce = combined.slice(0, 12)
