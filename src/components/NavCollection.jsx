@@ -8,7 +8,7 @@ import { Input } from './Input'
 import { putData } from 'hooks/useRequest'
 import { API } from 'config/api'
 import { useMutation, useQueryClient } from 'react-query'
-import { notifyError } from 'hooks/useToas'
+import { notifyBottomError, notifyError } from 'hooks/useToas'
 
 export const NavCollection = ({
   items,
@@ -17,6 +17,7 @@ export const NavCollection = ({
 }) => {
   const queryClient = useQueryClient()
   const { t } = useTranslation()
+  const collectionList = queryClient.getQueryData('collection')
   const [tooltipPlace, setTooltipPlace] = useState('right')
   const [tooltipOffset, setToolOffset] = useState(10)
   const [show1st, setShow1st] = useState(false)
@@ -51,7 +52,7 @@ export const NavCollection = ({
     }
   }
 
-  const { mutate: createCollection } = useMutation(
+  const { mutate: changeNameCollection } = useMutation(
     (form) =>
       putData(API.COLLECTION_CHANGE_NAME + form?.threadId, {
         name: form?.name,
@@ -68,23 +69,35 @@ export const NavCollection = ({
     }
   )
 
-    useEffect(() => {
-      const currentRef = inputRef.current
+  useEffect(() => {
+    const currentRef = inputRef.current
 
-      if (currentRef) {
-        const onKeyEnter = (e) => {
-          if (e?.key === 'Enter') {
-            createCollection({ name: currentRef?.value, threadId: items.uuid })
-          }
-        }
-
-        currentRef.addEventListener('keypress', onKeyEnter)
-
-        return () => {
-          currentRef.removeEventListener('keypress', onKeyEnter)
+    if (currentRef) {
+      const onKeyEnter = (e) => {
+        if (e?.key === 'Enter') {
+          handleCheckCollection(currentRef?.value)
         }
       }
-    }, [createCollection, items?.uuid])
+
+      currentRef.addEventListener('keypress', onKeyEnter)
+
+      return () => {
+        currentRef.removeEventListener('keypress', onKeyEnter)
+      }
+    }
+  }, [changeNameCollection, items?.uuid])
+
+  const handleCheckCollection = (texts) => {
+    const isCollectionExists = collectionList?.data?.some(
+      (collection) => collection.name.toLowerCase() === texts.toLowerCase()
+    )
+
+    if (isCollectionExists) {
+      notifyBottomError('Koleksi dengan nama tersebut sudah ada.')
+    } else {
+      changeNameCollection({ name: texts, threadId: items.uuid })
+    }
+  }
 
   return (
     <div
@@ -204,9 +217,7 @@ export const NavCollection = ({
                 text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
               } rounded-3xl !h-10 text-white`}
               disabled={!text}
-              onClick={() =>
-                createCollection({ name: text, threadId: items.uuid })
-              }
+              onClick={() => handleCheckCollection(text)}
             />
           </div>
         </div>
