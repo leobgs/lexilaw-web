@@ -1,70 +1,28 @@
 import { API } from 'config/api'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
-import { Button, Input, InputSelect } from 'components'
-import { getData, putformData } from 'hooks/useRequest'
+import { Button, Input } from 'components'
+import { putformData } from 'hooks/useRequest'
 import InputImage from 'components/InputImage'
 import images from 'assets/images'
 import { useGlobalContext } from 'hooks/context'
 import { useMutation } from 'react-query'
-import { useNavigate } from 'react-router-dom'
 
 export const Profile = ({ userData }) => {
     const { t } = useTranslation()
     const { openAlert, closeAlert } = useGlobalContext()
-    const [optionCity, setOptionCity] = useState([])
-    const [selectedCity, setSelectedCity] = useState(null);
     const [errorText, setErrorText] = useState('')
-    const [cityId, setCityId] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [form, setForm] = useState({ email: '', city_id: '', company_name: '', image: '' })
     const [error, setError] = useState({ email: '', city_id: '', company_name: '', image: '' })
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate()
 
     useEffect(() => {
         if (userData) {
             setForm({ email: userData.email || '', city_id: userData.city_id || '', company_name: userData.company_name || '' });
             setImageUrl(userData.image_url);
-            setCityId(userData.city_id);
         }
     }, [userData]);
-
-    useQuery(['city_list'], () => getData(API.LIST_CITY), {
-        onSettled: (datas) => {
-            if (datas.status === 'Success') {
-                const { data } = datas;
-                let tmp = [];
-                data?.forEach((item) => {
-                    tmp.push({ label: item.name, value: item.id });
-                });
-                setOptionCity(tmp);
-
-                const matchedCity = tmp.find(city => city.value === cityId);
-                if (matchedCity) {
-                    setSelectedCity(matchedCity);
-                }
-            } else {
-                setOptionCity([{ label: 'Kota tidak dapat ditemukan', value: 0 }]);
-            }
-        },
-    });
-
-    useEffect(() => {
-        if (optionCity.length > 0 && cityId !== null) {
-            const matchedCity = optionCity.find(city => city.value === cityId);
-            if (matchedCity) {
-                setSelectedCity(matchedCity);
-            }
-        }
-    }, [cityId, optionCity]);
-
-    const handleChangeCity = (selectedOption) => {
-        setSelectedCity(selectedOption);
-        setForm({ ...form, city_id: selectedOption.value });
-        setError({ ...error, city_id: '' });
-    };
 
     const validationForm = () => {
         const newError = { ...error }
@@ -102,7 +60,6 @@ export const Profile = ({ userData }) => {
         (form) => {
             const formData = new FormData();
             formData.append('email', form.email)
-            formData.append('city_id', form.city_id)
             formData.append('company_name', form.company_name)
             formData.append('image_url', imageUrl)
             return putformData(API.UPDATE_PROFIL, formData);
@@ -160,21 +117,6 @@ export const Profile = ({ userData }) => {
                 rowed="w-full"
                 error={error.email}
             />
-            <div className="mt-3">
-                <p className='font-bold mb-2 capitalize'>
-                    {t('city_dropdown_placeholder', { keyPrefix: 'my_account' })}
-                </p>
-                <InputSelect
-                    name="city_id"
-                    placeholder={t('city_dropdown_placeholder', { keyPrefix: 'my_account' })}
-                    onChange={handleChangeCity}
-                    className="font-medium !text-base"
-                    options={optionCity}
-                    value={selectedCity}
-                    isSearchable
-                    error={error.city_id}
-                />
-            </div>
             <Input
                 label={t('firm_name', { keyPrefix: 'my_account' })}
                 labeblClassName='font-bold text-base'
