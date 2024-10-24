@@ -14,9 +14,6 @@ export const CardDocument = ({ item }) => {
     currentLanguage === 'id'
       ? item.service_name_indonesia
       : item.service_name_english
-  const googleViewer = `https://docs.google.com/gview?url=${encodeURIComponent(
-    item?.url
-  )}&embedded=true&rm=minimal`
 
   useEffect(() => {
     if (item.url) {
@@ -74,10 +71,11 @@ export const CardDocument = ({ item }) => {
             } border-2 md:border rounded-md aspect-square border-secondary-base md:border-[#0042251a]`}
           >
             <FilePreview
-            fileCategory={fileCategory}
-            isMobile={isMobile}
-            itemName={itemName}
-            url={item?.url}
+              fileCategory={fileCategory}
+              isMobile={isMobile}
+              itemName={itemName}
+              url={item?.url}
+              key={item?.uuid + fileCategory}
             />
             <div className="absolute inset-0 bg-transparent select-none rounded-md" />
           </div>
