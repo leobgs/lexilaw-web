@@ -340,9 +340,24 @@ export const ThreadPage = ({
     }
   }
 
-  const handleResendChat = () => {
+  const handleResendChat = async () => {
     const getLastMessage = getFromLocalStorage('lastMessage')
-    const message = getLastMessage[params?.uuid]
+    let message
+    if (!getLastMessage) {
+      try {
+        const encryptMessage = await encryptAESGCM(
+          resendMessage.message,
+          currKey
+        )
+        message = {
+          message: encryptMessage,
+        }
+      } catch (error) {
+        notifyError('Encryption failed:', error)
+      }
+    } else {
+      message = getLastMessage[params?.uuid]
+    }
 
     if (message) {
       if (!message?.thread_uuid) {
@@ -350,7 +365,7 @@ export const ThreadPage = ({
       }
 
       sendMessage(message, {
-        onSettled: () => {
+        onSuccess: () => {
           saveToLocalStorage('lastMessage', {
             [params?.uuid]: message,
           })

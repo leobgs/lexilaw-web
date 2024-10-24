@@ -1,3 +1,4 @@
+import { notifyInfo } from 'hooks/useToas'
 import { useEffect } from 'react'
 
 export class LocalStorage {
@@ -104,7 +105,11 @@ export const saveToLocalStorage = (key, data) => {
     stringifyData = JSON.stringify(data)
   }
 
-  localStorage.setItem(key, stringifyData)
+  try {
+    localStorage.setItem(key, stringifyData)
+  } catch (e) {
+    removeFromLocalStorage(key)
+  }
 }
 
 /**
