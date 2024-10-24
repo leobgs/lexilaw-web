@@ -173,7 +173,7 @@ export const ChatRespond = ({
 
       default:
         return (
-          <div className="mb-1 -mx-4 -ml-20 px-4 md:border-t-0 md:-mx-4 mt-2 flex justify-between flex-col md:flex-row md:w-full md:justify-start">
+          <div className="mb-1 -mx-4 -ml-[68px] px-4 md:border-t-0 md:-mx-4 mt-2 flex justify-between flex-col md:flex-row md:w-full md:justify-start">
             {allLawyer?.length !== 0 && (
               <div className="border-t border-neutral-30 px-2 md:hidden pb-1.5" />
             )}
