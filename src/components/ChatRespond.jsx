@@ -231,7 +231,7 @@ export const ChatRespond = ({
             ) : index === 4 && allLawyer?.length === 0 ? (
               <div className="my-4 flex gap-2 no-scrollbar overflow-x-auto w-full flex-col md:flex-row">
                 <div
-                  className="border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center sm:basis-1/3 cursor-pointer select-none"
+                  className="border-blue-dark border rounded-3xl bg-blue-sky gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center sm:basis-1/3 cursor-pointer select-none w-fit"
                   onClick={() =>
                     onClickChangeLangStyle(
                       t('more_detail', {
@@ -251,7 +251,7 @@ export const ChatRespond = ({
                 </div>
 
                 <div
-                  className="border-[#E0DBD1] border rounded-3xl bg-white gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center cursor-pointer"
+                  className="border-[#E0DBD1] border rounded-3xl bg-white gap-2 py-1.5 font-regular text-sm flex items-center px-2 text-center cursor-pointer w-fit"
                   onClick={() =>
                     onClickChangeLangStyle(
                       t('fit_lang', {
