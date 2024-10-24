@@ -486,7 +486,6 @@ export const NavComponent = ({
           className="bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full"
           onSubmit={(e) => {
             e.preventDefault()
-            debugger
             const sameName = collectionList?.data?.find(
               (coll) => coll.name === text
             )
@@ -522,7 +521,7 @@ export const NavComponent = ({
           />
           <div className="self-end flex gap-2 mt-4 mb-6">
             <Button
-            type={'button'}
+              type={'button'}
               label={t('cancel', { keyPrefix: 'nav_component' })}
               className="text-black-dark !h-10"
               onClick={(e) => {
