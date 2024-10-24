@@ -90,13 +90,13 @@ export const MyLawyer = () => {
           ))}
       </div>
 
-      <ModalDetailLawyer
+      {showModal && <ModalDetailLawyer
         show={showModal && currentUUID}
         onHide={() => {
           setShowModal(!showModal)
           setCurrentUUID(null)
         }}
-      />
+      />}
     </div>
   )
 }
