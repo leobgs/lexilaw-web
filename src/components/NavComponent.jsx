@@ -8,7 +8,7 @@ import { useGlobalContext } from 'hooks/context'
 import { useMutation, useQueryClient } from 'react-query'
 import { API } from 'config/api'
 import { deleteData, getData, patchData, putData } from 'hooks/useRequest'
-import { notifyError } from 'hooks/useToas'
+import { notifyError, notifyInfo } from 'hooks/useToas'
 import { useTranslation } from 'react-i18next'
 import { Typewriter } from './Typewriter'
 import { useParams } from 'react-router-dom'
@@ -158,7 +158,7 @@ export const NavComponent = ({
     const currentRef = collectionInputRef.current
     if (collectionInputRef.current) {
       const onKeyEnter = (e) => {
-        if (e?.key === 'Enter' && text) {
+        if (e?.key === 'Enter' && text.trim().length > 0) {
           const sameName = collectionList?.data?.find(
             (coll) => coll.name === collectionInputRef.current.value
           )
@@ -486,6 +486,9 @@ export const NavComponent = ({
           className="bg-neutral-10 bg-opacity-95 !rounded-xl flex flex-col px-4 pt-6 w-full"
           onSubmit={(e) => {
             e.preventDefault()
+            if (!text.trim().length) {
+              return
+            }
             const sameName = collectionList?.data?.find(
               (coll) => coll.name === text
             )
@@ -531,11 +534,12 @@ export const NavComponent = ({
               }}
             />
             <Button
+              type={'button'}
               label={t('create', { keyPrefix: 'nav_component' })}
               className={`${
-                text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
+                text.trim().length > 0 ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45 cursor-not-allowed'
               } rounded-3xl !h-10 text-white`}
-              disabled={!text}
+              disabled={text.trim().length === 0}
               onClick={(e) => {
                 e.preventDefault()
 
