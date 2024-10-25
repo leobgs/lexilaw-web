@@ -59,7 +59,7 @@ export const ScheduleVariant = ({ item }) => {
   }
 
   return (
-    <div className="-ml-16 px-4 md:border-t-0 md:-mx-4 mt-2 md:flex-row">
+    <div className="md:border-t-0 mt-2 md:flex-row">
       {<div className="border-t border-neutral-30 px-2 md:hidden pb-1.5" />}
       <div className="my-1.5 flex flex-wrap items-start gap-x-3 gap-y-1.5">
         {schedules?.availability_schedules?.map((scheduleItem, index) => (
