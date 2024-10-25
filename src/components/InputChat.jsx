@@ -53,7 +53,14 @@ export const InputChat = ({ onChange, className, disable, toHomePath }) => {
     let file = e.target.files[0]
     let url = URL.createObjectURL(file)
     let type = file.type.substring(0, file.type.lastIndexOf('/')).toUpperCase()
-    const extension = file.name.split('.').pop()
+    const extension = file.name.split('.').pop()?.toLowerCase()
+
+    const namaParts = file.name.split('.')
+    namaParts.pop()
+    const namaFile = namaParts.join('.')
+    const file2 = new File([file], `${namaFile}.${extension}`, {
+      type: file.type,
+    })
     const sizeInMB = file.size / 1024 / 1024
     const allowedExt = [
       'txt',
@@ -104,7 +111,7 @@ export const InputChat = ({ onChange, className, disable, toHomePath }) => {
         setDisplayExt(extension.toUpperCase())
         setForm({
           ...form,
-          file: e.target.files[0],
+          file: file2,
           caption: file.name,
           images: url,
           content_type: type,
