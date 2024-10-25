@@ -38,6 +38,7 @@ import { useDocumentEncryptor } from 'hooks/useDocumentEncryptor'
 import clsx from 'clsx'
 import { AutoScrollingDiv } from 'components/AutoScrollDiv'
 import { removeFromLocalStorage, saveToLocalStorage } from 'utils/LocalStorage'
+import { usePutWhatsappDisconnect } from 'hooks/useWhatsappDisconnect'
 
 export const Chat = () => {
   const { t, i18n } = useTranslation()
@@ -125,6 +126,9 @@ export const Chat = () => {
   const isMobile = windowWidth < 768
 
   const phoneNumberRef = useRef(null)
+
+  const { isPendingWhatsappDisconnect, mutateWhatsappDisconnect } =
+    usePutWhatsappDisconnect()
 
   useEffect(() => {
     if (showWhatsAppActivation && phoneNumberRef.current) {
@@ -949,10 +953,15 @@ export const Chat = () => {
             <div className="px-2 my-2">
               <button
                 className="block rounded-full w-full bg-gray-500 text-center font-bold text-[16px] py-2 border border-[#F3E8D0]/50 text-dark-50"
-                onClick={() => {
-                  notifyInfo('Belum ada Fitur nya')
-                  setShowConnectedWA(false)
+                onClick={async () => {
+                  try {
+                    await mutateWhatsappDisconnect()
+                    setShowConnectedWA(false)
+                  } catch (e) {
+                    // sudah di handle di hook
+                  }
                 }}
+                disabled={isPendingWhatsappDisconnect}
               >
                 {t('chat.profile_menu.connected_whatsapp_button')}
               </button>

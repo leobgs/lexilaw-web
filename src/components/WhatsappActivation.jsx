@@ -6,6 +6,7 @@ import { useGlobalContext } from 'hooks/context'
 import { useQueryClient } from 'react-query'
 import { forwardRef } from 'react'
 import { usePostWhatsappRequest } from 'hooks/usePostWhatsappRequest'
+import { saveToLocalStorage } from 'utils/LocalStorage'
 
 export const WhatsappActivation = forwardRef(
   ({ onHandleSubmit, onClose }, ref) => {
@@ -48,13 +49,19 @@ export const WhatsappActivation = forwardRef(
           <form
             onSubmit={async (e) => {
               e.preventDefault()
-              await mutateAsyncWARequest({
-                whatsapp_number:
-                  phoneNumberObj.countryCode.dial_code.replace('+', '') +
-                  phoneNumberObj.phoneNumber,
-              })
-              queryClient.invalidateQueries(['user'])
-              onHandleSubmit()
+
+              try {
+                await mutateAsyncWARequest({
+                  whatsapp_number:
+                    phoneNumberObj.countryCode.dial_code.replace('+', '') +
+                    phoneNumberObj.phoneNumber,
+                })
+                queryClient.invalidateQueries(['user'])
+                onHandleSubmit()
+                saveToLocalStorage('phoneNumber', phoneNumberObj.phoneNumber)
+              } catch (e) {
+                // sudah di handle di hook
+              }
             }}
           >
             <div className="flex flex-col space-y-2 items-stretch md:space-y-0 md:flex-row gap-x-4 md:items-center">
