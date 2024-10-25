@@ -102,6 +102,7 @@ import ic_menu_up_svg from './ic_menu_up_svg.svg'
 import ic_lexilaw_logo_mobile from './ic_lexilaw_logo_mobile.svg'
 import ic_folder_icon from './ic_folder_icon.svg'
 import ic_folder_icon_expand from './ic_folder_icon_expand.svg'
+import ic_triple_dots from './ic_triple_dots.svg'
 
 const images = {
   bg_register_login,
@@ -208,6 +209,7 @@ const images = {
   ic_lexilaw_logo_mobile,
   ic_folder_icon,
   ic_folder_icon_expand,
+  ic_triple_dots,
 }
 
 export default images
