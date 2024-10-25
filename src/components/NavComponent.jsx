@@ -277,9 +277,9 @@ export const NavComponent = ({
               }}
             >
               <img
-                src={images.ic_dots}
+                src={images.ic_triple_dots}
                 alt="dots"
-                className="h-3 step-2 pr-2"
+                className="h-4 pr-2"
                 data-tooltip-id={`tool-tips-${item.uuid}`}
               />
             </div>
@@ -292,7 +292,7 @@ export const NavComponent = ({
               }}
             >
               <img
-                src={images.ic_dots}
+                src={images.ic_triple_dots}
                 alt="dots"
                 className="h-3 step-2 pr-2"
                 data-tooltip-id={`tool-tips-${item.uuid}`}
@@ -537,7 +537,9 @@ export const NavComponent = ({
               type={'button'}
               label={t('create', { keyPrefix: 'nav_component' })}
               className={`${
-                text.trim().length > 0 ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45 cursor-not-allowed'
+                text.trim().length > 0
+                  ? 'bg-green-900'
+                  : 'bg-dark-50 bg-opacity-45 cursor-not-allowed'
               } rounded-3xl !h-10 text-white`}
               disabled={text.trim().length === 0}
               onClick={(e) => {
