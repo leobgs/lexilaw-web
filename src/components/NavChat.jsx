@@ -22,6 +22,7 @@ import { EmptySearchResult } from './SearchCard/EmptySearchResult'
 import { Modal } from './Modal'
 import { WhatsappActivation } from './WhatsappActivation'
 import { WhatsAppFitBIt } from './WhatsAppFitBit'
+import { usePutWhatsappDisconnect } from 'hooks/useWhatsappDisconnect'
 
 export const NavChat = ({
   onHeaderClick,
@@ -65,6 +66,9 @@ export const NavChat = ({
   const { isPendingSearch, searchData } = useSearch(debounceSearch)
 
   const phoneNumberRef = useRef(null)
+
+  const { isPendingWhatsappDisconnect, mutateWhatsappDisconnect } =
+    usePutWhatsappDisconnect()
 
   const { mutate: onLogout } = useMutation(() => deleteData(API.LOGOUT), {
     onSettled: (data) => {
@@ -849,9 +853,14 @@ export const NavChat = ({
             <div className="px-2 my-2">
               <button
                 className="block rounded-full w-full bg-gray-500 text-center font-medium text-[16px] py-2 border border-[#F3E8D0]/50"
-                onClick={() => {
-                  notifyInfo('Belum ada Fitur nya')
-                  setShowConnectedWA(false)
+                disabled={isPendingWhatsappDisconnect}
+                onClick={async () => {
+                  try {
+                    await mutateWhatsappDisconnect()
+                    setShowConnectedWA(false)
+                  } catch (e) {
+                    //sudah dihandle di hook
+                  }
                 }}
               >
                 {t('chat.profile_menu.connected_whatsapp_button')}

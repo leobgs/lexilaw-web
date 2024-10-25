@@ -67,6 +67,7 @@ export const API = {
   WHATSAPP_OTP: '/user/app/v1.0.0/user/whatsapp/otp/check',
   WHATSAPP_REQUEST: '/user/app/v1.0.0/user/whatsapp/request',
   WHATSAPP_TUTORIAL: '/user/app/v1.0.0/user/whatsapp/tutorial',
+  WHATSAPP_DISCONNECT: '/user/app/v1.0.0/user/whatsapp/disconnect',
 
   ENCRYPT_KEY: '/api/app/v1.0.0/user/key',
 

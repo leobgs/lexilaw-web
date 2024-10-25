@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query'
 import { notifyError, notifyInfo } from './useToas'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { apiURLQuery } from 'config/app'
 import { API } from 'config/api'
 
@@ -12,8 +12,6 @@ import { API } from 'config/api'
  * }}
  */
 export const usePostWhatsappRequest = () => {
-  const queryClient = useQueryClient()
-
   const { mutateAsync: mutateAsyncWARequest, isLoading: isPendingWARequest } =
     useMutation({
       mutationFn: async ({ whatsapp_number }) => {
@@ -23,8 +21,11 @@ export const usePostWhatsappRequest = () => {
           })
         } catch (e) {
           const message =
-            e instanceof Error ? e.message : 'Unknown Error Whatsapp Request'
+            e instanceof AxiosError
+              ? e.response?.data?.message
+              : 'Unknown Error Whatsapp Request'
           notifyError(message)
+          throw e
         }
       },
     })

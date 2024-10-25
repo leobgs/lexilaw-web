@@ -3,7 +3,7 @@ import { useGlobalContext } from 'hooks/context'
 import { useGetWhatsappTuorial } from 'hooks/useGetWhatsappTutorial'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Storage } from 'utils/LocalStorage'
+import { getFromLocalStorage, Storage } from 'utils/LocalStorage'
 import { QRCodeCanvas } from 'qrcode.react'
 
 /**
@@ -62,7 +62,7 @@ export const WhatsAppFitBIt = ({ onCloseButton, onChangeNumber }) => {
         <div className="my-4 flex space-x-4">
           <p className="font-bold text-xl">
             {phoneNumberObj?.countryCode?.dial_code}
-            {Storage.getItem('phone-number', '878745459696')}
+            {getFromLocalStorage('phoneNumber') || '878745459696'}
           </p>
 
           <span
@@ -77,7 +77,10 @@ export const WhatsAppFitBIt = ({ onCloseButton, onChangeNumber }) => {
       {/* Instruction */}
       {dataWATutorial?.data?.steps?.map((item, index) => (
         <React.Fragment key={item?.uuid}>
-          <div className="py-10 flex flex-col" key={item.description_indonesia + ' ' + index}>
+          <div
+            className="py-10 flex flex-col"
+            key={item.description_indonesia + ' ' + index}
+          >
             {/* Text */}
             <div className="flex space-x-2 font-medium text-[14px]">
               <span>{item.order}.</span>

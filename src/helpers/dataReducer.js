@@ -250,8 +250,6 @@ export const whatsappActivationReducer = (state, action) => {
       return { ...state, maskedPhoneNumber: action.payload }
 
     case 'setPhoneNumber':
-      // Hapus ketika API sudah siap
-      Storage.setItem('phone-number', action.payload)
       return { ...state, phoneNumber: action.payload }
     case 'setCountryCode':
       return { ...state, countryCode: action.payload }

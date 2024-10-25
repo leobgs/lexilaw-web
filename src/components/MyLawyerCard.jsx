@@ -15,7 +15,7 @@ export const MyLawyerCard = ({ data, className, onClick = () => {} }) => {
     <div className={clsx('bg-[#F2F1EC] px-3 pt-3 pb-1 rounded-2xl', className)} onClick={() => onClick()}>
       <div className="flex items-start gap-2 h-full justify-between">
         <div className="flex items-start gap-2">
-          <img src={data.image_url} alt={`lawyer-${data.first_name}`} className="rounded-full h-10 w-10" />
+          <img src={data.image_url || images.ic_avatar_placeholder} alt={`lawyer-${data.first_name}`} className="rounded-full h-10 w-10" />
           <div>
             <div className="font-futura-bold text-green-900">
               {data.first_name} {data.last_name && data.last_name}

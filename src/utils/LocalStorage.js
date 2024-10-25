@@ -73,6 +73,7 @@ export class Storage {
  * @typedef {Object} LocalStorageType
  * @property {Record<string, MessageData>} lastMessage
  * @property {string} lastThreadUUID
+ * @property {string} phoneNumber
  */
 
 /**
