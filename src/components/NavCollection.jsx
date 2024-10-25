@@ -74,7 +74,7 @@ export const NavCollection = ({
 
     if (currentRef) {
       const onKeyEnter = (e) => {
-        if (e?.key === 'Enter') {
+        if (e?.key === 'Enter' && text.trim().length > 0) {
           handleCheckCollection(currentRef?.value)
         }
       }
@@ -85,7 +85,7 @@ export const NavCollection = ({
         currentRef.removeEventListener('keypress', onKeyEnter)
       }
     }
-  }, [changeNameCollection, items?.uuid])
+  }, [changeNameCollection, items?.uuid, text])
 
   const handleCheckCollection = (texts) => {
     const isCollectionExists = collectionList?.data?.some(
@@ -214,9 +214,11 @@ export const NavCollection = ({
             <Button
               label={t('save', { keyPrefix: 'nav_component' })}
               className={`${
-                text ? 'bg-green-900' : 'bg-dark-50 bg-opacity-45'
+                text.trim().length > 0
+                  ? 'bg-green-900'
+                  : 'bg-dark-50 bg-opacity-45 cursor-not-allowed'
               } rounded-3xl !h-10 text-white`}
-              disabled={!text}
+              disabled={text.trim().length === 0}
               onClick={() => handleCheckCollection(text)}
             />
           </div>

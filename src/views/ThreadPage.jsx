@@ -322,6 +322,7 @@ export const ThreadPage = ({
         saveToLocalStorage('lastMessage', {
           [params?.uuid]: dataMessage,
         })
+        setDisableInput(false)
       },
     })
     setDisableInput(true)
@@ -369,6 +370,9 @@ export const ThreadPage = ({
           saveToLocalStorage('lastMessage', {
             [params?.uuid]: message,
           })
+        },
+        onSettled: () => {
+          setDisableInput(false)
         },
       })
       setDisableInput(true)

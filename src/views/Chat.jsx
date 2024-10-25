@@ -451,6 +451,7 @@ export const Chat = () => {
         saveToLocalStorage('lastMessage', {
           [data?.data?.thread_uuid]: dataMessage,
         })
+        setDisableInput(false)
       },
     })
     if (pathname === '/') {
