@@ -28,7 +28,7 @@ export const LawyerCard = ({
   return (
     <div
       className={clsx(
-        'w-full rounded-lg p-4 relative bg-[#FBFBFB] cursor-pointer',
+        'w-full rounded-lg p-4 relative bg-[#FBFBFB] cursor-pointer h-fit',
         className
       )}
       onClick={() => onClick()}
