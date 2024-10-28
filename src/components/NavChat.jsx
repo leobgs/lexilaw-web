@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Toggle } from './Toggle/Toggle'
 import { LocalStorage } from 'utils'
 import { StorageKey } from 'config/storage'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from 'react-query'
 import { API } from 'config/api'
 import { notifyError, notifyInfo } from 'hooks/useToas'
@@ -38,10 +38,12 @@ export const NavChat = ({
   const queryClient = useQueryClient()
   const { collection, collectionClick, resetPhoneNumber } = useGlobalContext()
   const { t, i18n } = useTranslation()
+  const location = useLocation()
+  const isShowSetting = location.search.includes('setting')
   const [search, setSearch] = useState('')
   const [showNav, setShowNav] = useState(false)
   const [showSearchNav, setShowSearchNav] = useState(false)
-  const [showSetting, setShowSetting] = useState(false)
+  const [showSetting, setShowSetting] = useState(isShowSetting)
   const [showColetion, setShowColetion] = useState(false)
   const [showPendingWA, setShowPendingWA] = useState(false)
   const [showConnectedWA, setShowConnectedWA] = useState(false)
