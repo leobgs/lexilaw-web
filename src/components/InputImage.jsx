@@ -1,144 +1,161 @@
-import React, { useRef, useState, useEffect } from 'react';
-import images from 'assets/images';
-import { Button } from 'components';
-import clsx from 'clsx';
-import { useTranslation } from 'react-i18next';
+import React, { useRef, useState, useEffect } from 'react'
+import images from 'assets/images'
+import { Button } from 'components'
+import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 
-export default function InputImageFile({ className, name, image, onImageSelect }) {
-  const { t } = useTranslation();
-  const fileInputRef = useRef(null);
-  const [error, setError] = useState('');
-  const [imageUrl, setImageUrl] = useState(images.ic_avatar_placeholder);
+export default function InputImageFile({
+  className,
+  name,
+  image,
+  onImageSelect,
+}) {
+  const { t } = useTranslation()
+  const fileInputRef = useRef(null)
+  const [error, setError] = useState('')
+  const [imageUrl, setImageUrl] = useState(images.ic_avatar_placeholder)
 
   useEffect(() => {
     if (image) {
       if (typeof image === 'string') {
-        setImageUrl(image);
+        setImageUrl(image)
       } else {
-        setImageUrl(URL.createObjectURL(image));
+        setImageUrl(URL.createObjectURL(image))
       }
     } else {
-      setImageUrl(images.ic_avatar_placeholder);
+      setImageUrl(images.ic_avatar_placeholder)
     }
-  }, [image]);
+  }, [image])
 
   const handleImageSelect = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
 
     if (file) {
-      const validExtensions = ['image/png', 'image/jpeg', 'image/jpg'];
+      const validExtensions = ['image/png', 'image/jpeg', 'image/jpg']
       if (!validExtensions.includes(file.type)) {
-        setError('Invalid file type. Only PNG, JPG, and JPEG are allowed.');
-        return;
+        setError('Invalid file type. Only PNG, JPG, and JPEG are allowed.')
+        return
       }
 
       if (file.size > 5 * 1024 * 1024) {
-        setError('File size exceeds the limit of 5MB.');
-        return;
+        setError('File size exceeds the limit of 5MB.')
+        return
       } else {
-        const reader = new FileReader();
+        const reader = new FileReader()
         reader.onload = (e) => {
-          const img = new Image();
-          img.src = e.target.result;
+          const img = new Image()
+          img.src = e.target.result
 
           img.onload = () => {
             if (img.width < 200 || img.height < 200) {
-              setError('Image dimensions must be at least 200px x 200px.');
-              onImageSelect(null);
-              setImageUrl(images.ic_avatar_placeholder);
+              setError('Image dimensions must be at least 200px x 200px.')
+              onImageSelect(null)
+              setImageUrl(images.ic_avatar_placeholder)
             } else {
-              setError('');
-              onImageSelect(file);
-              setImageUrl(URL.createObjectURL(file));
+              setError('')
+              onImageSelect(file)
+              setImageUrl(URL.createObjectURL(file))
             }
-          };
-        };
-        reader.readAsDataURL(file);
+          }
+        }
+        reader.readAsDataURL(file)
       }
     }
-
-  };
+  }
 
   const handleClick = () => {
-    fileInputRef.current.click();
-  };
+    fileInputRef.current.click()
+  }
 
   return (
-    <div className={clsx('text-sm flex flex-wrap items-center justify-stretch', className)}>
-      <div className='flex w-full items-center md:items-start'>
+    <div
+      className={clsx(
+        'text-sm flex flex-wrap items-center justify-stretch',
+        className
+      )}
+    >
+      <div className="flex w-full items-center md:items-start">
         <img
-          className={`h-16 w-16 flex-none rounded-full size-16 ${image === null ? '' : 'ring-[1.6px] ring-[#2E2C2B]'}`}
+          className={`h-16 w-16 flex-none rounded-full size-16 ${
+            image === null ? '' : 'ring-[1.6px] ring-[#2E2C2B]'
+          }`}
           src={imageUrl}
-          alt=''
+          alt=""
           style={{ objectFit: 'cover' }}
         />
-        <div className='pl-2'>
-          <h3 className='font-medium text-base md:text-sm'>
+        <div className="pl-2">
+          <h3 className="font-medium text-base md:text-sm">
             {t('image_picker_hint', { keyPrefix: 'auth.register' })}
           </h3>
 
           <input
-            type='file'
-            accept='image/*'
+            type="file"
+            accept="image/*"
             style={{ display: 'none' }}
             ref={fileInputRef}
             onChange={handleImageSelect}
             name={name}
           />
 
-          <div className='hidden md:block'>
+          <div className="hidden md:block">
             {error ? (
               <InvalidButton onClick={() => setError('')} textError={error} />
             ) : (
-              <UploadButton onClick={handleClick} className='pt-2' />
+              <UploadButton onClick={handleClick} className="pt-2" />
             )}
           </div>
         </div>
       </div>
 
-      <div className='block md:hidden'>
+      <div className="block md:hidden my-4">
         {error ? (
           <InvalidButton onClick={() => setError('')} textError={error} />
         ) : (
-          <UploadButton onClick={handleClick} className='pt-2' />
+          <UploadButton onClick={handleClick} className="pt-2" />
         )}
       </div>
     </div>
-  );
+  )
 }
 
 function UploadButton({ onClick, className }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <div className={className}>
       <Button
         label={t('upload', { keyPrefix: 'common' })}
         onClick={onClick}
         iconRight={images.ic_upload}
-        iconClassName='object-scale-down w-4 h-4 p-1'
-        className='h-8 md:h-7 w-[83px] rounded-full bg-[#DCE7FF] sm:font-bold md:font-regular text-base md:text-xs ring-1 ring-[#032E84]'
+        iconClassName="object-scale-down w-4 h-4 p-1"
+        className="h-8 md:h-7 w-[83px] rounded-full bg-[#DCE7FF] sm:font-bold md:font-regular text-base md:text-xs ring-1 ring-[#032E84]"
       />
     </div>
-  );
+  )
 }
 
 const InvalidButton = ({ onClick, textError }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
-    <div className='h-8 md:h-7 w-full flex items-center pt-2'>
+    <div className="h-8 md:h-7 w-full flex items-center pt-2">
       <div
-        className='flex items-center rounded-md px-2 py-1 bg-[#FFF5DB] ring-2 ring-[#FF9D0B]'
+        className="flex items-center rounded-md px-2 py-1 bg-[#FFF5DB] ring-2 ring-[#FF9D0B]"
         onClick={onClick}
       >
         {textError ? (
-          <p className='inline font-regular text-sm text-[#DB0000]'>{textError}</p>
+          <p className="inline font-regular text-sm text-[#DB0000]">
+            {textError}
+          </p>
         ) : (
-          <p className='inline font-regular text-sm text-[#DB0000]'>
+          <p className="inline font-regular text-sm text-[#DB0000]">
             {t('image_error', { keyPrefix: 'auth.register.error_messages' })}
           </p>
         )}
-        <img className='inline size-[13px]' src={images.ic_close_red} alt='close' />
+        <img
+          className="inline size-[13px]"
+          src={images.ic_close_red}
+          alt="close"
+        />
       </div>
     </div>
-  );
-};
+  )
+}
