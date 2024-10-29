@@ -51,7 +51,7 @@ export const NavChat = ({
   const headerTextTransalation =
     location.pathname === '/' || headerText === ''
       ? isEng
-        ? 'New Cgat'
+        ? 'New Chat'
         : 'Obrolan Baru'
       : headerText
 

@@ -97,7 +97,6 @@ export const InputChat = ({ onChange, className, disable, toHomePath }) => {
         }, 3000)
       }
     } else {
-      console.log(file2)
       setError('Type file tidak didukung')
       setTimeout(() => {
         setError(null)

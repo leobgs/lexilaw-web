@@ -21,7 +21,6 @@ export const useDeleteDocument = () => {
     isLoading: isPendingDeleteDocument,
   } = useMutation({
     mutationFn: async (body) => {
-      console.log(body)
       try {
         await axios.delete(apiURLQuery + API.SAVE_CHAT_DOCUMENT, {
           data: body,
