@@ -63,46 +63,19 @@ export const InputChat = ({ onChange, className, disable, toHomePath }) => {
     })
     const sizeInMB = file.size / 1024 / 1024
     const allowedExt = [
-      'txt',
       'csv',
-      'json',
-      'xml',
-      'md',
       'docx',
-      'doc',
-      'pdf',
-      'rtf',
-      'odt',
-      'xlsx',
-      'jpg',
-      'jpeg',
-      'png',
       'gif',
-      'tiff',
-      'bmp',
-      'mp3',
-      'wav',
-      'aac',
-      'ogg',
-      'mp4',
-      'avi',
-      'mov',
-      'mkv',
-      'zip',
-      'rar',
-      'tar',
-      '7z',
-      'go',
-      'java',
-      'py',
-      'cpp',
-      'class',
-      'exe',
+      'jpeg',
+      'jpg',
+      'json',
+      'md',
+      'png',
+      'pdf',
       'pptx',
-      'odp',
-      'sql',
-      'sqlite',
-      'sqlite3',
+      'txt',
+      'webp',
+      'xlsx',
     ]
 
     if (type && allowedExt.includes(extension)) {
@@ -195,7 +168,7 @@ export const InputChat = ({ onChange, className, disable, toHomePath }) => {
               </div>
             </div>
             <input
-              accept="*"
+              accept=".csv, .docx, .gif, .jpeg, .jpg, .json, .md, .png, .pdf, .pptx, .txt, .webp, .xlsx"
               type="file"
               name="file"
               onChange={changeHandler}

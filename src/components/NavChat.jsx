@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Toggle } from './Toggle/Toggle'
 import { LocalStorage } from 'utils'
 import { StorageKey } from 'config/storage'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from 'react-query'
 import { API } from 'config/api'
 import { notifyError, notifyInfo } from 'hooks/useToas'
@@ -38,14 +38,22 @@ export const NavChat = ({
   const queryClient = useQueryClient()
   const { collection, collectionClick, resetPhoneNumber } = useGlobalContext()
   const { t, i18n } = useTranslation()
+  const location = useLocation()
+  const isShowSetting = location.search.includes('setting')
   const [search, setSearch] = useState('')
   const [showNav, setShowNav] = useState(false)
   const [showSearchNav, setShowSearchNav] = useState(false)
-  const [showSetting, setShowSetting] = useState(false)
+  const [showSetting, setShowSetting] = useState(isShowSetting)
   const [showColetion, setShowColetion] = useState(false)
   const [showPendingWA, setShowPendingWA] = useState(false)
   const [showConnectedWA, setShowConnectedWA] = useState(false)
   const isEng = i18n.language === 'en'
+  const headerTextTransalation =
+    location.pathname === '/' || headerText === ''
+      ? isEng
+        ? 'New Chat'
+        : 'Obrolan Baru'
+      : headerText
 
   const [showWhatsAppActivation, setShowWhatsAppActivation] = useState(false)
   const openModalWAActivation = () => {
@@ -205,7 +213,7 @@ export const NavChat = ({
         />
         <div className="flex w-full justify-between items-center h-10">
           <div className="font-futura-bold font-bold text-xl line-clamp-1 text-[#00153F] basis-10/12">
-            {headerText === '' ? t('chat.new_chat') : headerText}
+            {headerTextTransalation}
           </div>
           <div className="mx-auto basis-2/12">
             <div
