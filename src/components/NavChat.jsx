@@ -48,6 +48,12 @@ export const NavChat = ({
   const [showPendingWA, setShowPendingWA] = useState(false)
   const [showConnectedWA, setShowConnectedWA] = useState(false)
   const isEng = i18n.language === 'en'
+  const headerTextTransalation =
+    location.pathname === '/' || headerText === ''
+      ? isEng
+        ? 'New Cgat'
+        : 'Obrolan Baru'
+      : headerText
 
   const [showWhatsAppActivation, setShowWhatsAppActivation] = useState(false)
   const openModalWAActivation = () => {
@@ -207,7 +213,7 @@ export const NavChat = ({
         />
         <div className="flex w-full justify-between items-center h-10">
           <div className="font-futura-bold font-bold text-xl line-clamp-1 text-[#00153F] basis-10/12">
-            {headerText === '' ? t('chat.new_chat') : headerText}
+            {headerTextTransalation}
           </div>
           <div className="mx-auto basis-2/12">
             <div
