@@ -50,6 +50,7 @@ export const Password = () => {
 
     const symbolRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/
     const digitRegex = /\d/
+    const uppercaseRegex = /[A-Z]/ // Menambahkan validasi huruf kapital
 
     if (!symbolRegex.test(password)) {
       return t('password_format_fail')
@@ -58,6 +59,12 @@ export const Password = () => {
     if (!digitRegex.test(password)) {
       return t('password_format_fail')
     }
+
+    if (!uppercaseRegex.test(password)) {
+      // Mengecek keberadaan huruf kapital
+      return t('password_format_fail')
+    }
+
     return ''
   }
 
@@ -104,10 +111,10 @@ export const Password = () => {
   }
 
   return (
-    <div className='bg-white p-6 md:p-8 rounded-xl mt-6 mb-12 border md:border-0 border-neutral-70'>
+    <div className="bg-white p-6 md:p-8 rounded-xl mt-6 mb-12 border md:border-0 border-neutral-70">
       {!isOpen && (
-        <div className='flex flex-col md:flex-row justify-between'>
-          <p className='font-bold my-auto'>
+        <div className="flex flex-col md:flex-row justify-between">
+          <p className="font-bold my-auto">
             {t('password', { keyPrefix: 'my_account' })}
           </p>
           <Button
@@ -120,15 +127,15 @@ export const Password = () => {
         </div>
       )}
       {isOpen && (
-        <div className=''>
-          <div className='flex flex-col'>
-            <p className='font-bold mb-2 capitalize'>
+        <div className="">
+          <div className="flex flex-col">
+            <p className="font-bold mb-2 capitalize">
               {t('old_password', { keyPrefix: 'my_account' })}
             </p>
             <InputPassword
-              name='old_password'
-              className='w-full'
-              inputClassName='!border-secondary-logo focus:outline-secondary-logo font-medium'
+              name="old_password"
+              className="w-full"
+              inputClassName="!border-secondary-logo focus:outline-secondary-logo font-medium"
               placeholder={t('old_password', { keyPrefix: 'my_account' })}
               error={error.old_password}
               value={form.old_password}
@@ -136,14 +143,14 @@ export const Password = () => {
             />
           </div>
 
-          <div className='flex flex-col mt-3'>
-            <p className='font-bold mb-2 capitalize'>
+          <div className="flex flex-col mt-3">
+            <p className="font-bold mb-2 capitalize">
               {t('new_password', { keyPrefix: 'my_account' })}
             </p>
             <InputPassword
-              name='new_password'
-              className='w-full'
-              inputClassName='!border-secondary-logo focus:outline-secondary-logo font-medium'
+              name="new_password"
+              className="w-full"
+              inputClassName="!border-secondary-logo focus:outline-secondary-logo font-medium"
               placeholder={t('new_password', { keyPrefix: 'my_account' })}
               error={error.new_password}
               value={form.new_password}
