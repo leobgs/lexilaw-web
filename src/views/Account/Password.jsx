@@ -50,7 +50,8 @@ export const Password = () => {
 
     const symbolRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/
     const digitRegex = /\d/
-    const uppercaseRegex = /[A-Z]/ // Menambahkan validasi huruf kapital
+    const uppercaseRegex = /[A-Z]/
+    const lowercaseRegex = /[a-z]/
 
     if (!symbolRegex.test(password)) {
       return t('password_format_fail')
@@ -62,6 +63,10 @@ export const Password = () => {
 
     if (!uppercaseRegex.test(password)) {
       // Mengecek keberadaan huruf kapital
+      return t('password_format_fail')
+    }
+
+    if (!lowercaseRegex.test(password)) {
       return t('password_format_fail')
     }
 

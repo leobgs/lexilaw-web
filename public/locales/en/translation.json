@@ -166,7 +166,7 @@
   },
   "incorrect_name_format": "Incorrect Name Format",
   "min_password": "Minimum password is 8 characters",
-  "password_format_fail": "The password is invalid because it must contain at least one capital letter, one number, one symbol, and have a minimum length of 8 characters.",
+  "password_format_fail": "The password is invalid because it must contain at least one capital letter, one lower letter, one number, one symbol, and have a minimum length of 8 characters.",
   "password_empty": "The password cannot be empty",
   "lawyer_recommendation": {
     "another_option": "Another option",
