@@ -2,9 +2,18 @@ import images from 'assets/images'
 import clsx from 'clsx'
 import { useWindowWidth } from 'hooks/useWindowWidth'
 import React, { useState, useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className, disable, toHomePath }) => {
+const AutoResizeTextarea = ({
+  value,
+  onChange,
+  onSubmit,
+  placeholder,
+  className,
+  disable,
+  toHomePath,
+}) => {
   const textareaRef = useRef(null)
   const [textareaValue, setTextareaValue] = useState(value || '')
   const [form, setForm] = useState('')
@@ -12,29 +21,40 @@ const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className,
   const { windowWidth } = useWindowWidth()
   const isMobile = windowWidth <= 767
 
-  const {uuid} = useParams()
+  const { uuid } = useParams()
+  const { i18n } = useTranslation()
+
+  const [rows, setRows] = useState(1)
 
   useEffect(() => {
-    if(uuid) {
+    if (uuid) {
       setTextareaValue('')
     }
   }, [uuid])
 
-  const handleOnKeyPress = (e) => {
-   if (e.key === 'Enter' && !e.shiftKey) {
-     if (!isMobile && form.trim().length > 0) {
-       e.preventDefault()
-       onSubmit(form)
+  useEffect(() => {
+    if (isMobile && i18n.language === 'id') {
+      setRows(2)
+    } else {
+      setRows(1)
+    }
+  }, [isMobile, i18n.language])
 
-       // Clear text
-       setTimeout(() => {
-         setTextareaValue('')
-         setForm('')
-       }, 600)
-     } else if (form.trim().length === 0) {
-       e.preventDefault()
-     }
-   }
+  const handleOnKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      if (!isMobile && form.trim().length > 0) {
+        e.preventDefault()
+        onSubmit(form)
+
+        // Clear text
+        setTimeout(() => {
+          setTextareaValue('')
+          setForm('')
+        }, 600)
+      } else if (form.trim().length === 0) {
+        e.preventDefault()
+      }
+    }
   }
 
   useEffect(() => {
@@ -62,7 +82,12 @@ const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className,
   }
 
   return (
-    <div className={clsx('w-full text-xs flex justify-center items-center', className)}>
+    <div
+      className={clsx(
+        'w-full text-xs flex justify-center items-center',
+        className
+      )}
+    >
       <textarea
         ref={textareaRef}
         value={textareaValue}
@@ -72,7 +97,7 @@ const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className,
         className={`max-h-28 w-full focus:outline-none md:bg-opacity-0 bg-[#FCFAF7] text-sm ${
           disable ? 'md:bg-neutral-10' : ''
         }`}
-        rows={1}
+        rows={rows}
         style={{
           width: '100%',
           resize: 'none',
@@ -99,7 +124,11 @@ const AutoResizeTextarea = ({ value, onChange, onSubmit, placeholder, className,
             !form ? 'bg-neutral-40 ' : 'bg-blue-dark'
           }`}
         >
-          <img src={images.ic_send} alt="kirim" className="w-[22.5px] h-[18px]" />
+          <img
+            src={images.ic_send}
+            alt="kirim"
+            className="w-[22.5px] h-[18px]"
+          />
         </div>
       )}
     </div>
