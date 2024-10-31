@@ -193,7 +193,8 @@
     "save": "Save",
     "cancel": "Cancel",
     "create": "Create",
-    "placeholder_create": "Colection Name"
+    "placeholder_create": "Colection Name",
+    "collection_message": "Collection with that name already exist."
   },
   "booking_lawyer": {
     "pay_button": "Pay",

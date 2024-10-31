@@ -93,7 +93,7 @@ export const NavCollection = ({
     )
 
     if (isCollectionExists) {
-      notifyBottomError('Koleksi dengan nama tersebut sudah ada.')
+      notifyBottomError(t('nav_component.collection_message'))
     } else {
       changeNameCollection({ name: texts, threadId: items.uuid })
     }
