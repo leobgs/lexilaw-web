@@ -193,7 +193,8 @@
     "save": "Simpan",
     "cancel": "Batal",
     "create": "Buat",
-    "placeholder_create": "Nama Koleksi"
+    "placeholder_create": "Nama Koleksi",
+    "collection_message": "Koleksi dengan nama tersebut sudah ada."
   },
   "booking_lawyer": {
     "pay_button": "Bayar",
