@@ -21,7 +21,7 @@
       "select_city": "Pilih Kota",
       "validate_email_format": "Format email salah",
       "validate_name_format": "Format nama salah",
-      "validate_password": "Kata sandi tidak valid harus mengandung setidaknya satu karakter huruf besar, angka, simbol, dan minimal 8 karakter",
+      "validate_password": "Kata sandi tidak valid harus mengandung setidaknya satu karakter huruf besar, sata huruf kecil, angka, simbol, dan minimal 8 karakter",
       "password_match": "kata sandi tidak cocok",
       "input_password_first": "Masukkan kata sandi terlebih dahulu",
       "city_not_found": "Kota tidak dapat ditemukan",
