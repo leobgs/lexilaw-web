@@ -424,6 +424,7 @@ export const Chat = () => {
   })
 
   const handleAddChat = async (e) => {
+    setDisableInput(true)
     let encryptMessage = ''
     let encryptedFile = ''
     try {
@@ -464,7 +465,6 @@ export const Chat = () => {
       texts = e?.message
     }
     setHeaderText(texts)
-    setDisableInput(true)
   }
 
   const onClickColection = (id) => {
