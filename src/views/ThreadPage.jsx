@@ -283,6 +283,7 @@ export const ThreadPage = ({
   )
 
   const handleAddChat = async (e) => {
+    setDisableInput(true)
     let encryptMessage = ''
     let encryptedFile = ''
     try {
@@ -325,7 +326,6 @@ export const ThreadPage = ({
         setDisableInput(false)
       },
     })
-    setDisableInput(true)
     setMessageUUID(null)
     setMessageUUIDtoRespond(null)
   }
@@ -342,6 +342,7 @@ export const ThreadPage = ({
   }
 
   const handleResendChat = async () => {
+    setDisableInput(true)
     const getLastMessage = getFromLocalStorage('lastMessage')
     let message
     if (!getLastMessage) {
@@ -375,7 +376,6 @@ export const ThreadPage = ({
           setDisableInput(false)
         },
       })
-      setDisableInput(true)
       setMessageUUID(null)
       setMessageUUIDtoRespond(null)
     } else if (resendMessage) {
