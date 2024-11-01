@@ -35,7 +35,7 @@ export const ChangePassword = () => {
 
   const validatePassword = (password) => {
     const passwordRegex =
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/
     return passwordRegex.test(password)
   }
 
