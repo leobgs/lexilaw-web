@@ -11,7 +11,6 @@ export const TextSelectionPopup = () => {
   const popupRef = useRef(null)
   const { t } = useTranslation()
   const location = useLocation()
-  console.log(location.pathname)
 
   useEffect(() => {
     const handleMouseUp = () => {
