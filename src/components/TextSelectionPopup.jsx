@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import images from 'assets/images'
 import { copyToClipboard } from 'utils'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 
 export const TextSelectionPopup = () => {
   const [isVisible, setIsVisible] = useState(false)
@@ -9,6 +10,8 @@ export const TextSelectionPopup = () => {
   const [selectedText, setSelectedText] = useState('')
   const popupRef = useRef(null)
   const { t } = useTranslation()
+  const location = useLocation()
+  console.log(location.pathname)
 
   useEffect(() => {
     const handleMouseUp = () => {
@@ -17,7 +20,22 @@ export const TextSelectionPopup = () => {
         let text = selection?.toString().trim()
         text = text.replace(/\n+/g, '\n')
 
-        if (text.length > 0) {
+        // Check if selection starts in an input or textarea
+        const activeElement = document.activeElement
+        const isInputElement =
+          activeElement.tagName === 'INPUT' ||
+          activeElement.tagName === 'TEXTAREA' ||
+          activeElement.isContentEditable
+
+        // Get the element where selection started
+        const selectionStartElement = selection?.anchorNode?.parentElement
+
+        // Check if selection starts in an input-like element
+        const isSelectionInInput = selectionStartElement?.closest(
+          'input, textarea, [contenteditable="true"]'
+        )
+
+        if (text.length > 0 && !isInputElement && !isSelectionInInput) {
           setSelectedText(text)
 
           const range = selection.getRangeAt(0)
@@ -73,7 +91,7 @@ export const TextSelectionPopup = () => {
     }
   }, [])
 
-  return isVisible ? (
+  return isVisible && location.pathname !== '/' ? (
     <div
       ref={popupRef}
       className="absolute bg-white shadow-lg rounded-lg p-2 z-50"
